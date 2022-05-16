@@ -21,7 +21,7 @@ OUTPUT	:= output
 SRC		:= src
 
 # define include directory
-INCLUDE	:= include ./../vdc/src ./../programme_final/src ./../genetique/src
+INCLUDE	:= include
 
 # define lib directory
 LIB		:= lib

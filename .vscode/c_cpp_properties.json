@@ -8,7 +8,7 @@
             "defines": [],
             "compilerPath": "/usr/bin/g++",
             "cStandard": "c89",
-            "intelliSenseMode": "linux-gcc-arm"
+            "intelliSenseMode": "linux-gcc-x64"
         }
     ],
     "version": 4
