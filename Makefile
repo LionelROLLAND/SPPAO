@@ -7,8 +7,8 @@
 CXX = g++
 
 # define any compile-time flags
-CXXFLAGS	:= -std=c++17 -Wall -Wextra -g
-
+CXXFLAGS	:= -Wall -Wextra -g -Werror -Wfatal-errors -std=c++2a
+#CXXFLAGS	:= -std=c++17 -Wall -Wextra -g
 # define library paths in addition to /usr/lib
 #   if I wanted to include libraries not in /usr/lib I'd specify
 #   their path using -Lpath, something like:
@@ -21,7 +21,7 @@ OUTPUT	:= output
 SRC		:= src
 
 # define include directory
-INCLUDE	:= include
+INCLUDE	:= include ./../vdc/src ./../programme_final/src ./../genetique/src
 
 # define lib directory
 LIB		:= lib
@@ -64,14 +64,15 @@ OBJECTS		:= $(SOURCES:.cpp=.o)
 
 OUTPUTMAIN	:= $(call FIXPATH,$(OUTPUT)/$(MAIN))
 
-all: $(OUTPUT) $(MAIN)
+all: $(OUTPUT) $(DELO) $(MAIN)
 	@echo Executing 'all' complete!
 
 $(OUTPUT):
 	$(MD) $(OUTPUT)
 
 $(MAIN): $(OBJECTS) 
-	$(CXX) $(CXXFLAGS) $(INCLUDES) -o $(OUTPUTMAIN) $(OBJECTS) $(LFLAGS) $(LIBS)
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -o $(OUTPUTMAIN) $(SOURCES) $(LFLAGS) $(LIBS)
+
 
 # this is a suffix replacement rule for building .o's from .c's
 # it uses automatic variables $<: the name of the prerequisite of
