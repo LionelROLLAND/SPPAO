@@ -9,6 +9,7 @@ class Matrix
     public:
         Matrix(int n_lines, int n_cols, T init);
         Matrix(const Matrix& M);
+        Matrix() : n(0), p(0), tab(vector<vector<T>>()) {}
         T& operator() (int i, int j) {return tab[i-1][j-1];}
         T operator() (int i, int j) const {return tab[i-1][j-1];}
         Matrix<T>& operator= (const Matrix& M) {return Matrix<T>(M;)}

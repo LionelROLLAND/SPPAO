@@ -81,4 +81,49 @@ void contract(Node* v1, Node* v2) {
     }
 }
 
+
+list<Node*> clean(list<Node*> l) {
+    list<Node*> new_list = list<Node*>();
+    for (list<Node*>::iterator it = l.begin(); it != l.end(); it++) {
+        for (list<Node*>::iterator v = (*it)->l_adj.begin(); v != (*it)->l_adj.end(); v++) {
+            if (d(**it, **v) == inf_d()) {(*it)->l_adj.erase(v);}
+        }
+        if (!(*it)->l_adj.empty()) {
+            new_list.push_back(*it);
+        }
+    }
+    return new_list;
+}
+
+
+list<Node*> normalize(list<Node*>& l) {
+    int max_num = -1;
+    for (list<Node*>::iterator it = l.begin(); it != l.end(); it++) {
+        if ((*it)->no > max_num) {max_num = (*it)->no;}
+    }
+    if (max_num == -1) {
+        list<Node*> new_list = list<Node*>();
+        return new_list;
+    }
+    int new_n = 0;
+    Matrix<double>& mat = *(l.front()->adj);
+    list<Node*> new_list = list<Node*>();
+    vector<int> new_tab = vector<int>(max_num, -1);
+    for (list<Node*>::iterator it = l.begin(); it != l.end(); it++) {
+        new_n++;
+        new_tab[(*it)->no] = new_n;
+    }
+    Matrix<double>* new_mat = new Matrix<double>(new_n, new_n, inf_d());
+    for (list<Node*>::iterator it = l.begin(); it != l.end(); it ++) {
+        for(list<Node*>::iterator v = (*it)->l_adj.begin(); v != (*it)->l_adj.end(); v++) {
+            (*new_mat)(new_tab[(*it)->no], new_tab[(*v)->no]) = mat((*it)->no, (*v)->no);
+        }
+    }
+    delete l.front()->adj;
+    for (list<Node*>::iterator it = l.begin(); it != l.end(); it ++) {
+        (*it)->no = new_tab[(*it)->no];
+        (*it)->adj = new_mat;
+    }
+}
+
 #endif

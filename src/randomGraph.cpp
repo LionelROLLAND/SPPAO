@@ -84,17 +84,16 @@ list<Node*>* makeGraph(int P, int Q, double prop_square, double prop_merge) {
         int to_merge = rand() % k;
         list<Node*>::iterator first = not_merged.begin();
         for (int l = 0; l < to_merge; l++) {first++;}
-        list<Node*> neighb = (*first)->l_adj;
         int nb_neighb = 0;
-        for (list<Node*>::iterator test = neighb.begin(); test != neighb.end(); test++) {
+        for (list<Node*>::iterator test = (*first)->l_adj.begin(); test != (*first)->l_adj.end(); test++) {
             if (d(**first, **test) == inf_d()) {
-                neighb.erase(test);
+                (*first)->l_adj.erase(test);
             } else {
                 nb_neighb++;
             }
         }
         int to_merge2 = rand() % nb_neighb;
-        list<Node*>::iterator second = neighb.begin();
+        list<Node*>::iterator second = (*first)->l_adj.begin();
         for (int l = 0; l < to_merge2; l++) {second++;}
         contract(*second, *first);
         not_merged.erase(first);
