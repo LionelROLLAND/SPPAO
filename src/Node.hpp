@@ -25,6 +25,13 @@ Node::Node(int n, double absc, double ord, list<Node*> l, Matrix<double>* A) :
         no(n), x(absc), y(ord), l_adj(l), adj(A) {}
 
 
+struct augmentedNode
+{
+    int i;
+    int j;
+    Node* node;
+};
+
 
 bool check_mat(Node v1, Node v2) {
     if (v1.adj == v2.adj) {return true;}
@@ -62,6 +69,16 @@ void disconnect(Node* v1, Node* v2) {
 void sym_dis(Node* v1, Node* v2) {
     disconnect(v1, v2);
     disconnect(v2, v1);
+}
+
+
+void contract(Node* v1, Node* v2) {
+    for (list<Node*>::iterator it = v2->l_adj.begin(); it != v2->l_adj.end(); it++) {
+        if (d(*v2, **it) != inf_d()) {
+            sym_con(v1, *it);
+            sym_dis(v2, *it);
+        }
+    }
 }
 
 #endif
