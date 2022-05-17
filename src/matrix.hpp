@@ -7,7 +7,7 @@ template<typename T>
 class Matrix
 {
     public:
-        Matrix(int dim, T init);
+        Matrix(int n_lines, int n_cols, T init);
         Matrix(const Matrix& M);
         T& operator() (int i, int j) {return tab[i-1][j-1];}
         T operator() (int i, int j) const {return tab[i-1][j-1];}
@@ -16,19 +16,20 @@ class Matrix
         friend ostream& operator<< (ostream& out, const Matrix<U>& M);
     private:
         int n;
+        int p;
         vector<vector<T>> tab;
 };
 
 template<typename T>
-Matrix<T>::Matrix(int dim, T init) : n(dim), tab(vector<vector<T>>(n))
+Matrix<T>::Matrix(int n_lines, int n_cols, T init) : n(n_lines), p(n_cols), tab(vector<vector<T>>(n))
 {
     for (int i = 1; i <= n; i++) {
-        tab[i] = vector<T>(n, init);
+        tab[i] = vector<T>(p, init);
     }
 }
 
 template<typename T>
-Matrix<T>::Matrix(const Matrix<T>& M) : n(M.n), tab()
+Matrix<T>::Matrix(const Matrix<T>& M) : n(M.n), p(M.p), tab(vector<vector<T>>(n))
 {
     for (int i = 1; i <= n; i++) {
         tab[i] = vector<T>(M.tab[i]);
