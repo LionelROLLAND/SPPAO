@@ -12,7 +12,13 @@ list<Node*>* makeGraph(int P, int Q, double prop_square, double prop_merge) {
     Matrix<double>* adjacency = new Matrix<double>(P*Q, P*Q, inf_d());
     for (int i = 1; i <= P; i++) {
         for (int j = 1; j <= Q; j++) {
-            hex(i, j) = new Node((i-1)*Q, j, i, list<Node*>(), adjacency);
+            if (i == 1 && j == 1) {
+                hex(1, 1) = new Node(1, 0, 0, list<Node*>(), adjacency);
+            } else if (i == P && j == Q) {
+                hex(P, Q) = new Node(P*Q, P+1, Q+1, list<Node*>(), adjacency);
+            } else {
+                hex(i, j) = new Node((i-1)*Q + j, j, i, list<Node*>(), adjacency);
+            }
             nodes->push_front(hex(i, j));
         }
     }
@@ -98,5 +104,7 @@ list<Node*>* makeGraph(int P, int Q, double prop_square, double prop_merge) {
         contract(*second, *first);
         not_merged.erase(first);
     }
+    clean(*nodes);
+    normalize(*nodes);
     return nodes;
 }
