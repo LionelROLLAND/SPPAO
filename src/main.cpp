@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <list>
 
 using namespace std;
 
@@ -11,11 +12,34 @@ ostream& operator<<(ostream& out, vector<T> V) {
 	return out;
 }
 
+template<typename T>
+ostream& operator<<(ostream& out, list<T> l) {
+	for (typename list<T>::iterator it = l.begin(); it != l.end(); it++) {
+		out<<*it<<"->";
+	}
+	return out;
+}
+
+
+void test_list() {
+	list<int> test = list<int>();
+	for (int i = 0; i < 10; i++) {
+		test.push_back(i);
+	}
+	for (list<int>::iterator it = test.begin(); it != test.end(); it++) {
+		cout<<*it<<" -> ";
+		if (*it == 7 || *it ==2) {
+			test.erase(it++);
+			it--;
+		}
+		cout<<*it<<endl;
+	}
+	cout<<"\n"<<test;
+}
+
+
 int main(/* int argc, char *argv[] */)
 {
 	std::cout << "Hello world!" << std::endl;
-	vector<int> v(4,0);
-	vector<int> u(v);
-	v[2] = 7;
-	cout<<u;
+	test_list();
 }

@@ -46,9 +46,9 @@ list<Node*>* makeGraph(int P, int Q, double prop_square, double prop_merge) {
     for (int i = 1; i <= P; i++) {
         for (int j = 1; i <= Q; j++) {
             if (j % 2 == 0) {
-                if (i != P) {still_hex.push_front( augmentedNode(i, j, hex(i, j)) );}
+                if (i != P) {still_hex.push_front( augmentedNode({i, j, hex(i, j)}) );}
             } else {
-                if (i != 1) {still_hex.push_front( augmentedNode(i, j, hex(i, j)) );}
+                if (i != 1) {still_hex.push_front( augmentedNode({i, j, hex(i, j)}) );}
             }
         }
     }
@@ -70,15 +70,15 @@ list<Node*>* makeGraph(int P, int Q, double prop_square, double prop_merge) {
     for (int j = 2; j <= expand; j++) {
         sym_con(hex(1, 1), hex(1, j));
     }
-    int expand = (rand() % Q) + 1;
+    expand = (rand() % Q) + 1;
     for (int j = Q-1; j >= Q-expand; j--) {
         sym_con(hex(P, Q), hex(P, j));
     }
-    int expand = (rand() % P) + 1;
+    expand = (rand() % P) + 1;
     for (int i = 2; i <= expand; i++) {
         sym_con(hex(1, 1), hex(i, 1));
     }
-    int expand = (rand() % P) + 1;
+    expand = (rand() % P) + 1;
     for (int i = P-1; i >= P-expand; i--) {
         sym_con(hex(P, Q), hex(i, Q));
     }

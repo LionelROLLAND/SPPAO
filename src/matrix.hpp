@@ -12,7 +12,7 @@ class Matrix
         Matrix() : n(0), p(0), tab(vector<vector<T>>()) {}
         T& operator() (int i, int j) {return tab[i-1][j-1];}
         T operator() (int i, int j) const {return tab[i-1][j-1];}
-        Matrix<T>& operator= (const Matrix& M) {return Matrix<T>(M;)}
+        Matrix<T>& operator= (const Matrix& M) {return Matrix<T>(M);}
         template<typename U>
         friend ostream& operator<< (ostream& out, const Matrix<U>& M);
     private:
@@ -39,8 +39,8 @@ Matrix<T>::Matrix(const Matrix<T>& M) : n(M.n), p(M.p), tab(vector<vector<T>>(n)
 
 template<typename U>
 ostream& operator<< (ostream& out, const Matrix<U>& M) {
-    for (int i = 1; i <= n; i++) {
-        out<<tab[i]<<"\n";
+    for (int i = 1; i <= M.n; i++) {
+        out<<M.tab[i]<<"\n";
     }
     return out;
 }
