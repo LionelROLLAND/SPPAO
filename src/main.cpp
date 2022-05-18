@@ -41,6 +41,10 @@ void test_graph() {
 int main(/* int argc, char *argv[] */)
 {
 	std::cout << "Hello world!" << std::endl;
+	//int seed = time(nullptr);
+	int seed = 1652869031;
+	srand(seed); //1652869031
+	cout<<"seed : "<<seed<<endl;
 	//test_list();
 	test_graph();
 }

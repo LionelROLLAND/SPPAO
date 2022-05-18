@@ -7,6 +7,8 @@
 
 using namespace std;
 
+const auto inf_d = numeric_limits<double>::infinity;
+
 template<typename T>
 ostream& operator<<(ostream& out, const vector<T>& V) {
 	for (typename vector<T>::const_iterator it = V.begin(); it != V.end(); it++) {

@@ -2,8 +2,7 @@
 #define NODE
 
 #include "matrix.hpp"
-
-const auto inf_d = numeric_limits<double>::infinity;
+#include "utils.hpp"
 
 class Node
 {

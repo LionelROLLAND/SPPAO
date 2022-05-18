@@ -1,6 +1,7 @@
 #include <iostream>
 #include <list>
 #include "Node.hpp"
+#include "utils.hpp"
 
 using namespace std;
 
@@ -49,7 +50,7 @@ list<Node*>* makeGraph(int P, int Q, double prop_square, double prop_merge) {
     int rest = (int) (P*(Q-1)*(1-prop_square) + 0.5);
     list<augmentedNode> still_hex = list<augmentedNode>();
     for (int i = 1; i <= P; i++) {
-        for (int j = 1; i <= Q; j++) {
+        for (int j = 1; j <= Q; j++) {
             if (j % 2 == 0) {
                 if (i != P) {still_hex.push_front( augmentedNode({i, j, hex(i, j)}) );}
             } else {
@@ -66,28 +67,28 @@ list<Node*>* makeGraph(int P, int Q, double prop_square, double prop_merge) {
         int i = hex_to_square->i;
         int j = hex_to_square->j;
         int direction = rand() % 2 - (j % 2);
-        if (i > 1) {sym_dis(hex(i, j), hex(i+direction, j-1));}
-        if (i < Q) {sym_dis(hex(i, j), hex(i+direction, j+1));}
+        if (j > 1) {sym_dis(hex(i, j), hex(i+direction, j-1));}
+        if (j < Q) {sym_dis(hex(i, j), hex(i+direction, j+1));}
         still_hex.erase(hex_to_square);
     }
 
     cout<<"\nSTEP 2 finished"<<endl;
 
     //STEP 3
-    int expand = (rand() % Q) + 1;
-    for (int j = 2; j <= expand; j++) {
+    int expand = (rand() % Q);
+    for (int j = 2; j <= 1 + expand; j++) {
         sym_con(hex(1, 1), hex(1, j));
     }
-    expand = (rand() % Q) + 1;
-    for (int j = Q-1; j >= Q-expand; j--) {
+    expand = (rand() % Q);
+    for (int j = Q-1; j >= Q - expand; j--) {
         sym_con(hex(P, Q), hex(P, j));
     }
-    expand = (rand() % P) + 1;
-    for (int i = 2; i <= expand; i++) {
+    expand = (rand() % P);
+    for (int i = 2; i <= 1 + expand; i++) {
         sym_con(hex(1, 1), hex(i, 1));
     }
-    expand = (rand() % P) + 1;
-    for (int i = P-1; i >= P-expand; i--) {
+    expand = (rand() % P);
+    for (int i = P-1; i >= P - expand; i--) {
         sym_con(hex(P, Q), hex(i, Q));
     }
 
@@ -103,7 +104,8 @@ list<Node*>* makeGraph(int P, int Q, double prop_square, double prop_merge) {
         int nb_neighb = 0;
         for (list<Node*>::iterator test = (*first)->l_adj.begin(); test != (*first)->l_adj.end(); test++) {
             if (d(**first, **test) == inf_d()) {
-                (*first)->l_adj.erase(test);
+                (*first)->l_adj.erase(test++);
+                test--;
             } else {
                 nb_neighb++;
             }
@@ -116,7 +118,8 @@ list<Node*>* makeGraph(int P, int Q, double prop_square, double prop_merge) {
     }
     cout<<"\nSTEP 4 finished"<<endl;
     clean(*nodes);
+    cout<<"\ncleaning finished"<<endl;
     normalize(*nodes);
-    cout<<"\ncleaning and normalizing finished"<<endl;
+    cout<<"\nnormalizing finished"<<endl;
     return nodes;
 }

@@ -15,7 +15,7 @@ ostream& operator<< (ostream& out, Node* t) {
         out<<"NULL";
         return out;
     }
-    out<<"Node "<<t->no<<" : ("<<t->x<<","<<t->y<<"),  neighb ="<<endl;
+    out<<"Node "<<t->no<<" : ("<<t->x<<","<<t->y<<"),  neighb =";
     
     if (t->l_adj.empty()) {out<<" <NULL>";}
     for (list<Node*>::iterator it = t->l_adj.begin(); it != t->l_adj.end(); it++) {
@@ -81,17 +81,24 @@ void contract(Node* v1, Node* v2) {
 void clean(list<Node*>& l) {
     for (list<Node*>::iterator it = l.begin(); it != l.end(); it++) {
         for (list<Node*>::iterator v = (*it)->l_adj.begin(); v != (*it)->l_adj.end(); v++) {
-            if (d(**it, **v) == inf_d()) {(*it)->l_adj.erase(v);}
+            if (d(**it, **v) == inf_d()) {
+                (*it)->l_adj.erase(v++);
+                v--;
+            }
         }
+    }
+    for (list<Node*>::iterator it = l.begin(); it != l.end(); it++) {
         if ((*it)->l_adj.empty()) {
             delete *it;
-            l.erase(it);
+            l.erase(it++);
+            it--;
         }
     }
 }
 
 
 void normalize(list<Node*>& l) {
+    //Matrix<double>* new_mat = new Matrix<double>(26, 26, inf_d());
     int max_num = -1;
     for (list<Node*>::iterator it = l.begin(); it != l.end(); it++) {
         if ((*it)->no > max_num) {max_num = (*it)->no;}
@@ -103,19 +110,27 @@ void normalize(list<Node*>& l) {
     Matrix<double>& mat = *(l.front()->adj);
     list<Node*> new_list = list<Node*>();
     vector<int> new_tab = vector<int>(max_num, -1);
+    cout<<"\n#Intilialization passed"<<endl;
     for (list<Node*>::iterator it = l.begin(); it != l.end(); it++) {
         new_n++;
         new_tab[(*it)->no] = new_n;
     }
+    cout<<"#new_n : "<<new_n<<endl;
+    cout<<"\n#new_tab passed"<<endl;
     Matrix<double>* new_mat = new Matrix<double>(new_n, new_n, inf_d());
-    for (list<Node*>::iterator it = l.begin(); it != l.end(); it ++) {
+    cout<<"\nmatrix created"<<endl;
+    for (list<Node*>::iterator it = l.begin(); it != l.end(); it++) {
+        cout<<(*it)->l_adj<<endl;
         for(list<Node*>::iterator v = (*it)->l_adj.begin(); v != (*it)->l_adj.end(); v++) {
+            cout<<"it : "<<(*it)->no<<", v : "<<(*v)->no<<endl;
             (*new_mat)(new_tab[(*it)->no], new_tab[(*v)->no]) = mat((*it)->no, (*v)->no);
         }
     }
+    cout<<"\n#new_mat passed"<<endl;
     delete l.front()->adj;
     for (list<Node*>::iterator it = l.begin(); it != l.end(); it ++) {
         (*it)->no = new_tab[(*it)->no];
         (*it)->adj = new_mat;
     }
+    cout<<"\n#new_no passed"<<endl;
 }
