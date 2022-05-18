@@ -107,7 +107,7 @@ void normalize(list<Node*>& l) {
         return;
     }
     int new_n = 0;
-    Matrix<double>& mat = *(l.front()->adj);
+    Matrix<double> mat = *(l.front()->adj);
     list<Node*> new_list = list<Node*>();
     vector<int> new_tab = vector<int>(max_num, -1);
     cout<<"\n#Intilialization passed"<<endl;
