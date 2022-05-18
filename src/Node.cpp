@@ -89,11 +89,13 @@ void clean(list<Node*>& l) {
     }
     for (list<Node*>::iterator it = l.begin(); it != l.end(); it++) {
         if ((*it)->l_adj.empty()) {
+            //cout<<"*it : "<<(*it)->no<<endl;
             delete *it;
             l.erase(it++);
             it--;
         }
     }
+    cout<<"\n"<<l<<endl;
 }
 
 
@@ -107,7 +109,11 @@ void normalize(list<Node*>& l) {
         return;
     }
     int new_n = 0;
-    Matrix<double> mat = *(l.front()->adj);
+    //cout<<"l.front() : "<<l.front()->no<<endl;
+    //cout<<"l.front()->adj : "<<l.front()->adj<<endl;
+    //cout<<"\n"<<*(l.front()->adj)<<endl;
+    Matrix<double> mat(*(l.front()->adj));
+    //Matrix<double>* mat = l.front()->adj;
     list<Node*> new_list = list<Node*>();
     vector<int> new_tab = vector<int>(max_num, -1);
     cout<<"\n#Intilialization passed"<<endl;
@@ -120,9 +126,7 @@ void normalize(list<Node*>& l) {
     Matrix<double>* new_mat = new Matrix<double>(new_n, new_n, inf_d());
     cout<<"\nmatrix created"<<endl;
     for (list<Node*>::iterator it = l.begin(); it != l.end(); it++) {
-        cout<<(*it)->l_adj<<endl;
         for(list<Node*>::iterator v = (*it)->l_adj.begin(); v != (*it)->l_adj.end(); v++) {
-            cout<<"it : "<<(*it)->no<<", v : "<<(*v)->no<<endl;
             (*new_mat)(new_tab[(*it)->no], new_tab[(*v)->no]) = mat((*it)->no, (*v)->no);
         }
     }

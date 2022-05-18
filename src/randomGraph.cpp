@@ -122,4 +122,4 @@ list<Node*>* makeGraph(int P, int Q, double prop_square, double prop_merge) {
     normalize(*nodes);
     cout<<"\nnormalizing finished"<<endl;
     return nodes;
-}
+} //Idee du bug : Element de la liste supprime, puis j'essaie de mettre une reference dessus

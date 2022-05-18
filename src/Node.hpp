@@ -14,6 +14,7 @@ class Node
         Matrix<double>* adj;
         Node(int n, double absc, double ord, list<Node*> l, Matrix<double>* A);
         Node() : no(0), x(0.), y(0.), l_adj(list<Node*>()), adj(nullptr) {}
+        ~Node() {}
 };
 
 
