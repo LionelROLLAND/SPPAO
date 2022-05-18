@@ -9,10 +9,13 @@ list<Node*>* makeGraph(int P, int Q, double prop_square, double prop_merge) {
     //STEP 1
     list<Node*>* nodes = new list<Node*>();
     Matrix<Node*> hex(P, Q, nullptr);
+    cout<<"\npassed\n";
     Matrix<double>* adjacency = new Matrix<double>(P*Q, P*Q, inf_d());
     for (int i = 1; i <= P; i++) {
         for (int j = 1; j <= Q; j++) {
             if (i == 1 && j == 1) {
+                Node* test = new Node(1, 0, 0, list<Node*>(), adjacency);
+                cout<<"\n"<<test;
                 hex(1, 1) = new Node(1, 0, 0, list<Node*>(), adjacency);
             } else if (i == P && j == Q) {
                 hex(P, Q) = new Node(P*Q, P+1, Q+1, list<Node*>(), adjacency);
@@ -22,6 +25,7 @@ list<Node*>* makeGraph(int P, int Q, double prop_square, double prop_merge) {
             nodes->push_front(hex(i, j));
         }
     }
+    cout<<"\nSTEP 1 half finished"<<endl;
     for (int i = 1; i <= P; i++) {
         for (int j = 1; j <= Q; j++) {
             if (i > 1) {sym_con(hex(i, j), hex(i-1, j));}
@@ -40,6 +44,7 @@ list<Node*>* makeGraph(int P, int Q, double prop_square, double prop_merge) {
         }
     }
 
+    cout<<"\nSTEP 1 finished"<<endl;
     //STEP 2
     int rest = (int) (P*(Q-1)*(1-prop_square) + 0.5);
     list<augmentedNode> still_hex = list<augmentedNode>();
@@ -53,6 +58,7 @@ list<Node*>* makeGraph(int P, int Q, double prop_square, double prop_merge) {
         }
     }
 
+    cout<<"\nSTEP 2 half finished"<<endl;
     for (int k = P*(Q-1); k > rest; k--) {
         int to_square = (rand() % k);
         list<augmentedNode>::iterator hex_to_square = still_hex.begin();
@@ -64,6 +70,8 @@ list<Node*>* makeGraph(int P, int Q, double prop_square, double prop_merge) {
         if (i < Q) {sym_dis(hex(i, j), hex(i+direction, j+1));}
         still_hex.erase(hex_to_square);
     }
+
+    cout<<"\nSTEP 2 finished"<<endl;
 
     //STEP 3
     int expand = (rand() % Q) + 1;
@@ -82,6 +90,8 @@ list<Node*>* makeGraph(int P, int Q, double prop_square, double prop_merge) {
     for (int i = P-1; i >= P-expand; i--) {
         sym_con(hex(P, Q), hex(i, Q));
     }
+
+    cout<<"\nSTEP 3 finished"<<endl;
 
     //STEP 4
     int nb_merge = (int) ((P*Q - 1)*prop_merge + 0.5);
@@ -104,7 +114,9 @@ list<Node*>* makeGraph(int P, int Q, double prop_square, double prop_merge) {
         contract(*second, *first);
         not_merged.erase(first);
     }
+    cout<<"\nSTEP 4 finished"<<endl;
     clean(*nodes);
     normalize(*nodes);
+    cout<<"\ncleaning and normalizing finished"<<endl;
     return nodes;
 }

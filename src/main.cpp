@@ -1,24 +1,10 @@
 #include <iostream>
 #include <vector>
 #include <list>
+#include "randomGraph.hpp"
+#include "utils.hpp"
 
 using namespace std;
-
-template<typename T>
-ostream& operator<<(ostream& out, vector<T> V) {
-	for (typename vector<T>::iterator it = V.begin(); it != V.end(); it++) {
-		out<<*it<<" ";
-	}
-	return out;
-}
-
-template<typename T>
-ostream& operator<<(ostream& out, list<T> l) {
-	for (typename list<T>::iterator it = l.begin(); it != l.end(); it++) {
-		out<<*it<<"->";
-	}
-	return out;
-}
 
 
 void test_list() {
@@ -35,11 +21,26 @@ void test_list() {
 		cout<<*it<<endl;
 	}
 	cout<<"\n"<<test;
+	cout<<"\n#######\n";
+	test = list<int>();
+	for (list<int>::iterator it = test.begin(); it != test.end(); it++) {
+		cout<<" "<<*it;
+	}
+}
+
+void test_graph() {
+	int P = 10;
+	int Q = 5;
+	double prop_square = 0.5;
+	double prop_merge = 0.5;
+	list<Node*>* l = makeGraph(P, Q, prop_square, prop_merge);
+	cout<<*l;
 }
 
 
 int main(/* int argc, char *argv[] */)
 {
 	std::cout << "Hello world!" << std::endl;
-	test_list();
+	//test_list();
+	test_graph();
 }

@@ -1,5 +1,10 @@
+#ifndef MATRIX
+#define MATRIX
+
+
 #include <iostream>
 #include <vector>
+#include "utils.hpp"
 
 using namespace std;
 
@@ -24,7 +29,7 @@ class Matrix
 template<typename T>
 Matrix<T>::Matrix(int n_lines, int n_cols, T init) : n(n_lines), p(n_cols), tab(vector<vector<T>>(n))
 {
-    for (int i = 1; i <= n; i++) {
+    for (int i = 0; i < n; i++) {
         tab[i] = vector<T>(p, init);
     }
 }
@@ -32,15 +37,17 @@ Matrix<T>::Matrix(int n_lines, int n_cols, T init) : n(n_lines), p(n_cols), tab(
 template<typename T>
 Matrix<T>::Matrix(const Matrix<T>& M) : n(M.n), p(M.p), tab(vector<vector<T>>(n))
 {
-    for (int i = 1; i <= n; i++) {
+    for (int i = 0; i < n; i++) {
         tab[i] = vector<T>(M.tab[i]);
     }
 }
 
 template<typename U>
 ostream& operator<< (ostream& out, const Matrix<U>& M) {
-    for (int i = 1; i <= M.n; i++) {
+    for (int i = 0; i < M.n; i++) {
         out<<M.tab[i]<<"\n";
     }
     return out;
 }
+
+#endif
