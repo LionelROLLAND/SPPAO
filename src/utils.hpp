@@ -4,8 +4,10 @@
 #include <iostream>
 #include <vector>
 #include <list>
+#include <functional>
 
 using namespace std;
+
 
 const auto inf_d = numeric_limits<double>::infinity;
 

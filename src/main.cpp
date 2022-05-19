@@ -40,13 +40,15 @@ void breakTheReference() {
 }
 
 void writeNodeList(list<Node*>& l, ofstream& w_stream) {
+	//cout<<"\n"<<l<<endl;
 	for (list<Node*>::iterator it = l.begin(); it != l.end(); it ++) {
 		w_stream<<(*it)->no<<" "<<(*it)->x<<" "<<(*it)->y<<"\n";
 	}
 	w_stream<<"\n";
 	for (list<Node*>::iterator it = l.begin(); it != l.end(); it ++) {
-		for (list<Node*>::iterator v = (*it)->l_adj.begin(); v != (*it)->l_adj.end(); v++) {
-			w_stream<<(*it)->no<<" "<<(*v)->no<<" "<<d(**it, **v)<<"\n";
+		for (list<refNode>::iterator v = (*it)->l_adj.begin(); v != (*it)->l_adj.end(); v++) {
+			//cout<<(*it)->no<<" "<<v->get().no<<" "<<d(**it, *v)<<"\n";
+			w_stream<<(*it)->no<<" "<<v->get().no<<" "<<d(**it, *v)<<"\n";
 		}
 	}
 }
@@ -65,8 +67,21 @@ void test_graph() {
 	double prop_square = 0.5;
 	double prop_merge = 0.5;
 	list<Node*>* l = makeGraph(P, Q, prop_square, prop_merge);
-	cout<<*l;
+	//cout<<"\n\n"<<*l<<endl;
 	writeFileCwd(*l, "data/test.txt");
+}
+
+
+void stack_test() {
+	vector<int> test = vector<int>(8200*1024, 64);
+	cout<<test[8654]<<endl;
+}
+
+void stack_test2() {
+	char test[8200*1024];
+	test[7] = 10;
+	test[8654] = 67;
+	cout<<test[8654]<<endl;
 }
 
 
@@ -80,4 +95,6 @@ int main(/* int argc, char *argv[] */)
 	//breakTheReference();
 	//test_list();
 	test_graph();
+	//stack_test();
+	//stack_test2();
 }
