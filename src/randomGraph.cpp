@@ -162,10 +162,13 @@ list<Node*>* makeGraph(int P, int Q, double prop_square, double prop_merge) {
         int to_merge2 = rand() % nb_neighb;
         list<refNode>::iterator second = first->get().l_adj.begin();
         for (int l = 0; l < to_merge2; l++) {
-            second++;
-            if (second->get().no == critic1 || second->get().no == critic2) {
+            while (second->get().no == critic1 || second->get().no == critic2) {
                 second++;
             }
+            second++;
+        }
+        while (second->get().no == critic1 || second->get().no == critic2) {
+            second++;
         }
         contract(*second, *first);
         newCoord(*second, *first, P, Q);

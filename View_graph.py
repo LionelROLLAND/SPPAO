@@ -70,7 +70,7 @@ def display_graph(tab_points, connections):
 		pos1 = (aX*tab[0]+bX, aY*tab[1]+bY)
 		tab = tab_points[seg[1]-1]
 		pos2 = (aX*tab[0]+bX, aY*tab[1]+bY)
-		pygame.draw.line(screen, color=RED, start_pos=pos1, end_pos=pos2, width=7)
+		pygame.draw.line(screen, color=RED, start_pos=pos1, end_pos=pos2, width=4)
 
 	for point in tab_points:
 		pos = (aX*point[0]+bX, aY*point[1]+bY)
