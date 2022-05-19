@@ -2,7 +2,7 @@
 
 import pygame
 
-filename = "data/test.txt"
+filename = "data/test2.txt"
 
 lines = []
 with open(filename, "r") as fd:
@@ -39,9 +39,9 @@ def get_graph(lines):
 	return tab_points, connections
 
 def display_graph(tab_points, connections):
-	print(tab_points)
-	print(connections)
-	print(len(tab_points))
+	#print(tab_points)
+	#print(connections)
+	#print(len(tab_points))
 	Xmax = max(tab_points, key = lambda x: x[0])[0]
 	Xmin = min(tab_points, key = lambda x: x[0])[0]
 	Ymax = max(tab_points, key = lambda x: x[1])[1]
@@ -53,7 +53,7 @@ def display_graph(tab_points, connections):
 	bX = -Xmin*aX
 
 	aY = height/(Ymax-Ymin)
-	bY = -Ymin*Ymax
+	bY = -Ymin*aY
 
 
 	size = (width, height)

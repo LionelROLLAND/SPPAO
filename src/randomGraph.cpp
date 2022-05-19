@@ -6,9 +6,41 @@
 using namespace std;
 
 
+void newCoord(Node& t1, Node& t2, int P, int Q) {
+    double x1 = t1.x;
+    double y1 = t1.y;
+    double x2 = t2.x;
+    double y2 = t2.y;
+    bool x1AtEdge = (x1 > Q - 0.5 || x1 < 1.5);
+    bool x2AtEdge = (x2 > Q - 0.5 || x2 < 1.5);
+    bool y1AtEdge = (y1 > P - 0.5 || y1 < 1.5);
+    bool y2AtEdge = (y2 > P - 0.5 || y2 < 1.5);
+    double newx;
+    double newy;
+    if ((x1AtEdge && x2AtEdge) || (!x1AtEdge && !x2AtEdge)) {
+        newx = (x1+x2)/2;
+    } else if (x1AtEdge) {
+        newx = x1;
+    } else {
+        newx = x2;
+    }
+    if ((y1AtEdge && y2AtEdge) || (!y1AtEdge && !y2AtEdge)) {
+        newy = (y1+y2)/2;
+    } else if (y1AtEdge) {
+        newy = y1;
+    } else {
+        newy = y2;
+    }
+    t1.x = newx;
+    t1.y = newy;
+    t2.x = newx;
+    t2.y = newy;
+}
+
+
 list<Node*>* makeGraph(int P, int Q, double prop_square, double prop_merge) {
     //STEP 1
-    cout<<"\nSTEP 1 out of 4  [..]";
+    cout<<"\nSTEP 1/4  [..]";
     list<Node*>* nodes = new list<Node*>();
     Matrix<Node*> hex(P, Q, nullptr);
     Matrix<double>* adjacency = new Matrix<double>(P*Q, P*Q, inf_d());
@@ -102,12 +134,19 @@ list<Node*>* makeGraph(int P, int Q, double prop_square, double prop_merge) {
     cout<<"STEP 4/4  [.]";
 
     //STEP 4
-    int nb_merge = (int) ((P*Q - 1)*prop_merge + 0.5);
+    int nb_merge = (int) ((P*Q - 3)*prop_merge + 0.5);
     list<refNode> not_merged = list<refNode>();
+    int critic1 = hex(1,1)->no;
+    int critic2 = hex(P, Q)->no;
     for (list<Node*>::iterator it = nodes->begin(); it != nodes->end(); it++) {
-        not_merged.push_back(ref<Node>(**it));
+        if ((*it)->no != critic1 && (*it)->no != critic2) {
+            not_merged.push_back(ref<Node>(**it));
+        }
     }
-    for (int k = P*Q; k > P*Q - nb_merge; k--) {
+
+
+    //It should hold that not_merged.size() == P*Q-2
+    for (int k = P*Q-2; k > P*Q - nb_merge; k--) {
         int to_merge = rand() % k;
         list<refNode>::iterator first = not_merged.begin();
         for (int l = 0; l < to_merge; l++) {first++;}
@@ -116,14 +155,20 @@ list<Node*>* makeGraph(int P, int Q, double prop_square, double prop_merge) {
             if (d(*first, *test) == inf_d()) {
                 first->get().l_adj.erase(test++);
                 test--;
-            } else {
+            } else if (test->get().no != critic1 && test->get().no != critic2) {
                 nb_neighb++;
             }
         }
         int to_merge2 = rand() % nb_neighb;
         list<refNode>::iterator second = first->get().l_adj.begin();
-        for (int l = 0; l < to_merge2; l++) {second++;}
+        for (int l = 0; l < to_merge2; l++) {
+            second++;
+            if (second->get().no == critic1 || second->get().no == critic2) {
+                second++;
+            }
+        }
         contract(*second, *first);
+        newCoord(*second, *first, P, Q);
         not_merged.erase(first);
     }
     cout<<"\rSTEP 4/4  [#]"<<endl;

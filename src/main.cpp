@@ -62,13 +62,13 @@ void writeFileCwd(list<Node*>& l, string filename) {
 }
 
 void test_graph() {
-	int P = 10;
-	int Q = 5;
+	int P = 80;
+	int Q = 80;
 	double prop_square = 0.5;
 	double prop_merge = 0.5;
 	list<Node*>* l = makeGraph(P, Q, prop_square, prop_merge);
 	//cout<<"\n\n"<<*l<<endl;
-	writeFileCwd(*l, "data/test.txt");
+	writeFileCwd(*l, "data/test2.txt");
 }
 
 
