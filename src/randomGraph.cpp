@@ -97,7 +97,8 @@ list<Node*>* makeGraph(int P, int Q, double prop_square, double prop_merge) {
     for (int k = P*(Q-1); k > rest; k--) {
         int to_square = (rand() % k);
         list<augmentedNode>::iterator hex_to_square = still_hex.begin();
-        for (int l = 0; l < to_square; l++) {hex_to_square++;}
+        //for (int l = 0; l < to_square; l++) {hex_to_square++;}
+        advance(hex_to_square, to_square);
         int i = hex_to_square->i;
         int j = hex_to_square->j;
         int direction = rand() % 2 - (j % 2);
@@ -149,7 +150,8 @@ list<Node*>* makeGraph(int P, int Q, double prop_square, double prop_merge) {
     for (int k = P*Q-2; k > P*Q - nb_merge; k--) {
         int to_merge = rand() % k;
         list<refNode>::iterator first = not_merged.begin();
-        for (int l = 0; l < to_merge; l++) {first++;}
+        //for (int l = 0; l < to_merge; l++) {first++;}
+        advance(first, to_merge);
         int nb_neighb = 0;
         for (list<refNode>::iterator test = first->get().l_adj.begin(); test != first->get().l_adj.end(); test++) {
             if (c(*first, *test) == inf_d()) {

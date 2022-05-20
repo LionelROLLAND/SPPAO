@@ -1,6 +1,10 @@
 #ifndef FIBHEAP
 #define FIBHEAP
 
+#include <cmath>
+#include <list>
+#include <vector>
+#include <functional>
 #include "utils.hpp"
 
 template<typename T>
@@ -12,9 +16,222 @@ class Tree
         double key;
         T content;
         Tree() : parent(nullptr), children(list<Tree<T>*>()), key(inf), content(T()) {}
-        Tree(Tree<T>* par, list<Tree<T>*> childr, double k, T con) :
+        Tree(Tree<T>* par, list<Tree<T>*>& childr, double k, T& con) :
                 parent(par), children(childr), key(k), content(con) {}
+        Tree(const Tree<T>& Tr) :
+                parent(Tr.parent), children(Tr.children), key(Tr.key), content(Tr.content) {}
+        ~Tree() {}
+        Tree<T>& operator=(const Tree<T>& Tr);
+        list<Tree<T>*>::iterator addChild(Tree<T>* Tr);
+        Tree<T>* remChild(list<Tree<T>*>::iterator it);
 };
+
+
+template<typename T>
+Tree<T>& Tree<T>::operator= (const Tree<T>& Tr) {
+    parent(Tr.parent);
+    children(Tr.children);
+    key(Tr.key);
+    content(Tr.content);
+    return *this;
+}
+
+
+template<typename T>
+list<Tree<T>*>::iterator Tree<T>::addChild(Tree<T>* Tr) {
+    children.push_back(Tr);
+    Tr->parent = this;
+    return children.back();
+}
+
+
+template<typename T>
+Tree<T>* Tree<T>::remChild(list<Tree<T>*>::iterator it) {
+    Tree<T>* to_return = *it;
+    it->parent = nullptr;
+    this->children.erase(it);
+    return to_return;
+}
+
+
+template<typename T>
+class markTree : public Tree<T>
+{
+    public:
+        bool marked;
+        list<markTree<T>*>::iterator selfPointer;
+        markTree<T>* remChild(list<markTree<T>*>::iterator it);
+        markTree<T>* addChild(markTree<T>* Tr);
+        markTree() : Tree(), marked(false) {}
+        markTree(markTree<T>* par, list<markTree<T>*>& childr, double k, T& con, bool mark=false) :
+                Tree(par, childr, k, con), marked(mark) {}
+        markTree(const markTree& Tr) : Tree(Tr), marked(Tr.marked) {}
+        ~markTree() {}
+};
+
+
+template<typename T>
+ markTree<T>* remChild(typename list<markTree<T>*>::iterator it) {
+    markTree<T>* to_return = Tree<T>::remChild(it);
+    to_return->marked = false;
+    return to_return;
+}
+
+template<typename T>
+list<markTree<T>*>::iterator addChild(markTree<T>* Tr) {
+    list<markTree<T>*>::iterator to_return = Tree<T>::addChild(Tr);
+    Tr->selfPointer = to_return;
+    return to_return;
+}
+
+template<typename T>
+int nb_nodes(Tree<T> Tr) {
+    if (Tr.children.empty()) {
+        return 1;
+    }
+    int S = 0;
+    for (list<Tree<T>*>::const_iterator it = Tr.children.begin(); it != Tr.children.end(); it++) {
+        S += nb_nodes(**it);
+    }
+    return S;
+}
+
+
+template<typename T>
+class fibHeap
+{
+    public:
+        int n;
+        markTree<T>* min_root;
+        list<markTree<T>*> forest;
+        fibHeap() : n(0), min_root(nullptr), forest(list<markTree<T>*>()) {}
+        fibHeap(list<markTree<T>*>& l);
+        bool is_empty() {return forest.empty();}
+        list<markTree<T>*>::iterator addToForest(markTree<T>* Tr);
+        markTree<T>* remOfForest(list<markTree<T>*>::iterator it);
+        void orderTrees();
+        T deleteMin(); //Penser au cas ou le tas devient vide
+        void cutTree(markTree<T>* Tr);
+        //-> cut the tree and put it as is in the forest (takes care of his parent too)
+        void decreaseKey(markTree<T>* Tr, double newKey);
+        fibHeap<T>& takeAndMerge(fibHeap<T>& fH);
+        void insert(T con, double k);
+};
+
+
+template<typename T>
+list<markTree<T>*>::iterator fibHeap<T>::addToForest(markTree<T>* Tr) {
+    forest.push_back(Tr);
+    Tr->selfPointer = children.back();
+    Tr->marked = false;
+}
+
+
+template<typename T>
+markTree<T>* fibHeap<T>::remOfForest(list<markTree<T>*>::iterator it) {
+    markTree<T>* to_return = *it;
+    forest.erase(it);
+    return to_return;
+}
+
+template<typename T>
+void fibHeap<T>::orderTrees() {
+    if (is_empty()) {
+        min_root = nullptr;
+        return;
+    }
+
+    int max_deg = 1 + (int) (log(n)/log(2));
+    vector<list<markTree<T>*>::iterator> rootVec = vector<markTree<T>*>(max_deg, nullptr);
+    markTree<T>* tree1;
+    markTree<T>* tree2;
+    int deg;
+    min_root = *(forest.front());
+    for (list<markTree<T>*>::iterator it = forest.begin(); it != forest.end(); it++) {
+        tree2 = *it;
+        deg = tree2->children.size();
+        tree1 = rootVec[deg];
+        if (tree1 = nullptr) {
+            rootVec[deg] = tree2;
+            if (tree2->key < new_min->key) {min_root = tree2;}
+        } else {
+            remOfForest(tree1->selfPointer);
+            remOfForest(tree2->selfPointer);
+            rootVec[deg] = nullptr;
+            if (tree1->key <= tree2->key) {
+                tree1->addChild(tree2);
+                addToForest(tree1);
+            } else {
+                tree2->addChild(tree1);
+                addToForest(tree2);
+            }
+        }
+    }
+}
+
+
+template<typename T>
+fibHeap<T>::fibHeap(list<markTree<T>*>& l) : min_root(nullptr), forest(list<markTree<T>*>())
+{
+    forest.splice(forest.begin(), l);
+    orderTrees();
+}
+
+
+template<typename T>
+void fibHeap<T>::cutTree(markTree<T>* Tr) {
+    if (Tr == nullptr) {return;}
+    markTree<T>* par = Tr->parent;
+    if (par == nullptr) {return;}
+    addToForest(par->remChild(Tr->selfPointer));
+    if (par->marked) {
+        cutTree(par);
+    } else {
+        par->marked = true;
+    }
+}
+
+template<typename T>
+T fibHeap<T>::deleteMin() {
+    for (list<markTree<T>*>::iterator it = min_root->children.begin(); it != min_root->children.end(); it++) {
+        cutTree(*it);
+    }
+    remOfForest(min_root->selfPointer);
+    n--;
+    orderTrees();
+    T to_return = min_root->content;
+    delete min_root;
+    return to_return;
+}
+
+template<typename T>
+void fibHeap<T>::decreaseKey(markTree<T>* Tr, double newKey) {
+    if (newKey > Tr->key) {
+        cerr<<"Error : New key = "<<newKey<<" > "<<Tr->key<<" = old key\n";
+        cerr<<"Tree concerned : "<<Tr;
+        return;
+    }
+    Tr->key = newKey;
+    markTree<T>* par = Tr->parent;
+    if (par == nullptr) {return;}
+    if (newKey < par->key) {
+        cutTree(Tr);
+    }
+}
+
+
+template<typename T>
+fibHeap<T>& fibHeap<T>::takeAndMerge(fibHeap<T>& fH) {
+    forest.splice(forest.end(), fH.forest);
+    return *this;
+}
+
+
+template<typename T>
+void fibHeap<T>::insert(T con, double k) {
+    markTree<T>* newTree = new markTree(nullptr, list<markTree<T>*>(), k, con, false);
+    takeAndMerge(newTree);
+}
 
 
 #endif

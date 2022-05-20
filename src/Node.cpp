@@ -112,21 +112,8 @@ void clean(list<Node*>& l) {
     //cout<<"\n\n"<<l<<endl;
 }
 
-/*
-void clean(list<Node*>& l) {
-    for (list<Node*>::iterator it = l.begin(); it != l.end(); it++) {
-        if ((*it)->l_adj.empty()) {
-            //cout<<"*it : "<<(*it)->no<<endl;
-            delete *it;
-            l.erase(it++);
-            it--;
-        }
-    }
-}
-*/
 
 void normalize(list<Node*>& l) {
-    //Matrix<double>* new_mat = new Matrix<double>(26, 26, inf_d());
     int max_num = -1;
     for (list<Node*>::iterator it = l.begin(); it != l.end(); it++) {
         if ((*it)->no > max_num) {max_num = (*it)->no;}
@@ -134,7 +121,6 @@ void normalize(list<Node*>& l) {
     if (max_num == -1) {
         return;
     }
-    //cout<<"\nmax_num :: "<<max_num<<endl;
     int new_n = 0;
     //cout<<"l.front() : "<<l.front()->no<<endl;
     //cout<<"l.front()->adj : "<<l.front()->adj<<endl;
