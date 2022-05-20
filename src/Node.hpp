@@ -1,6 +1,7 @@
 #ifndef NODE
 #define NODE
 
+#include <functional>
 #include "matrix.hpp"
 #include "utils.hpp"
 
@@ -37,7 +38,7 @@ ostream& operator<< (ostream& out, const Node& t);
 
 ostream& operator<< (ostream& out, Node* t);
 
-double& d(Node& v1, Node& v2);
+double& c(Node& v1, Node& v2);
 
 void connect(Node& v1, Node& v2, double weight=1);
 

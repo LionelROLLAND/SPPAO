@@ -48,7 +48,7 @@ void writeNodeList(list<Node*>& l, ofstream& w_stream) {
 	for (list<Node*>::iterator it = l.begin(); it != l.end(); it ++) {
 		for (list<refNode>::iterator v = (*it)->l_adj.begin(); v != (*it)->l_adj.end(); v++) {
 			//cout<<(*it)->no<<" "<<v->get().no<<" "<<d(**it, *v)<<"\n";
-			w_stream<<(*it)->no<<" "<<v->get().no<<" "<<d(**it, *v)<<"\n";
+			w_stream<<(*it)->no<<" "<<v->get().no<<" "<<c(**it, *v)<<"\n";
 		}
 	}
 }

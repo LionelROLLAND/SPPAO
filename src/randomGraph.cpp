@@ -152,7 +152,7 @@ list<Node*>* makeGraph(int P, int Q, double prop_square, double prop_merge) {
         for (int l = 0; l < to_merge; l++) {first++;}
         int nb_neighb = 0;
         for (list<refNode>::iterator test = first->get().l_adj.begin(); test != first->get().l_adj.end(); test++) {
-            if (d(*first, *test) == inf_d()) {
+            if (c(*first, *test) == inf_d()) {
                 first->get().l_adj.erase(test++);
                 test--;
             } else if (test->get().no != critic1 && test->get().no != critic2) {

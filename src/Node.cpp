@@ -2,11 +2,9 @@
 #include <list>
 #include "matrix.hpp"
 #include "Node.hpp"
+#include "utils.hpp"
 
 using namespace std;
-
-double infff = inf_d();
-double min_infff = - infff;
 
 
 Node::Node(int n, double absc, double ord, list<refNode> l, Matrix<double>* A) :
@@ -51,17 +49,17 @@ bool check_mat(const Node& v1, const Node& v2) {
     return false;
 }
 
-double& d(Node& v1, Node& v2) {
-    if (!check_mat(v1, v2)) {return min_infff;}
+double& c(Node& v1, Node& v2) {
+    if (!check_mat(v1, v2)) {return min_inf;}
     return (*v1.adj)(v1.no, v2.no);
 }
 
 
 void connect(Node& v1, Node& v2, double weight) {
     if (check_mat(v1, v2)) {
-        if (d(v1, v2) == inf_d()) {
+        if (c(v1, v2) == inf_d()) {
             v1.l_adj.push_front(ref<Node>(v2));
-            d(v1, v2) = weight;
+            c(v1, v2) = weight;
         }
     }
 }
@@ -74,7 +72,7 @@ void sym_con(Node& v1, Node& v2, double weight) {
 
 
 void disconnect(Node& v1, Node& v2) {
-    if (check_mat(v1, v2)) {d(v1, v2) = inf_d();}
+    if (check_mat(v1, v2)) {c(v1, v2) = inf_d();}
 }
 
 
@@ -86,7 +84,7 @@ void sym_dis(Node& v1, Node& v2) {
 
 void contract(Node& v1, Node& v2) {
     for (list<refNode>::iterator it = v2.l_adj.begin(); it != v2.l_adj.end(); it++) {
-        if (d(v2, *it) != inf_d()) {
+        if (c(v2, *it) != inf_d()) {
             sym_con(v1, *it);
             sym_dis(v2, *it);
         }
@@ -97,7 +95,7 @@ void contract(Node& v1, Node& v2) {
 void clean(list<Node*>& l) {
     for (list<Node*>::iterator it = l.begin(); it != l.end(); it++) {
         for (list<refNode>::iterator v = (*it)->l_adj.begin(); v != (*it)->l_adj.end(); v++) {
-            if (d(**it, *v) == inf_d()) {
+            if (c(**it, *v) == inf_d()) {
                 (*it)->l_adj.erase(v++);
                 v--;
             }
@@ -157,7 +155,7 @@ void normalize(list<Node*>& l) {
         for(list<refNode>::iterator v = (*it)->l_adj.begin(); v != (*it)->l_adj.end(); v++) {
             //cout<<(*it)->no<<"  "<<v->get().no<<endl;
             //cout<<new_tab[(*it)->no-1]<<"  "<<new_tab[v->get().no-1]<<"\n"<<endl;
-            (*new_mat)(new_tab[(*it)->no-1], new_tab[v->get().no-1]) = d(**it, *v);
+            (*new_mat)(new_tab[(*it)->no-1], new_tab[v->get().no-1]) = c(**it, *v);
         }
     }
     //cout<<"\n#new_mat passed"<<endl;

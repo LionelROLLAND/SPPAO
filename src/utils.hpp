@@ -4,9 +4,11 @@
 #include <iostream>
 #include <vector>
 #include <list>
-#include <functional>
 
 using namespace std;
+
+extern double inf;
+extern double min_inf;
 
 
 const auto inf_d = numeric_limits<double>::infinity;
