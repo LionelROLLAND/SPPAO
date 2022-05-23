@@ -6,6 +6,7 @@
 #include "randomGraph.hpp"
 #include "utils.hpp"
 #include "fibonacciHeap.hpp"
+#include "test.hpp"
 
 using namespace std;
 
@@ -86,23 +87,23 @@ void stack_test2() {
 }
 
 
-void testTree() {
-	Tree<int>* test = new Tree<int>(nullptr, list<Tree<int>*>(), 0, -1);
+void testMarkTree() {
+	markTree<int>* test = new markTree<int>(nullptr, list<markTree<int>*>(), 0, -1);
 	for (int i = 1; i <= 3; i++) {
-		Tree<int>* baby = new Tree<int>(test, list<Tree<int>*>(), 10*i, 4*(i-1));
+		markTree<int>* baby = new markTree<int>(test, list<markTree<int>*>(), 10*i, 4*(i-1));
 		test->addChild(baby);
 		for (int j = 1; j <= 3; j++) {
-			Tree<int>* minibaby = new Tree<int>(baby, list<Tree<int>*>(), 10*i + j, 4*(i-1)+j);
+			markTree<int>* minibaby = new markTree<int>(baby, list<markTree<int>*>(), 10*i + j, 4*(i-1)+j);
 			baby->addChild(minibaby);
 		}
 	}
 	cout<<test<<"\n\n\n"<<endl;
-	for (list<Tree<int>*>::iterator child = test->children.begin();
+	for (list<markTree<int>*>::iterator child = test->children.begin();
 	child != test->children.end(); child++) {
-		for (list<Tree<int>*>::iterator baby = (*child)->children.begin();
+		for (list<markTree<int>*>::iterator baby = (*child)->children.begin();
 		baby != (*child)->children.end(); baby++) {
 			if( rand()%3 == 0) {
-				Tree<int>* to_delete = (*child)->remChild(baby++);
+				markTree<int>* to_delete = (*child)->remChild(baby++);
 				baby--;
 				cout<<to_delete<<endl;
 				delete to_delete;
@@ -110,8 +111,25 @@ void testTree() {
 		}
 	}
 	cout<<test<<endl;
-	cout<<"number of nodes : "<<nb_nodes(*test)<<endl;
+	//cout<<"number of nodes : "<<nb_nodes(*test)<<endl;
 }
+
+
+void testFibHeap() {
+	fibHeap<int> test = fibHeap<int>();
+	vector<markTree<int>*> locations = vector<markTree<int>*>(12, nullptr);
+	for (int i = 0; i < 12; i++) {
+		test.insert(rand()%100, i);
+		locations[i] = test.forest.back();
+	}
+	cout<<test<<endl;
+	int my_min = test.deleteMin();
+	cout<<"\nThe min : "<<my_min<<endl;
+	test.decreaseKey(locations[6], 0);
+	test.decreaseKey(locations[7], -1);
+	cout<<test;
+}
+
 
 
 int main(/* int argc, char *argv[] */)
@@ -126,5 +144,6 @@ int main(/* int argc, char *argv[] */)
 	//test_graph();
 	//stack_test();
 	//stack_test2();
-	testTree();
+	//testMarkTree();
+	testFibHeap();
 }
