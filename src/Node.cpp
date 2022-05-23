@@ -12,23 +12,27 @@ Node::Node(int n, double absc, double ord, list<refNode> l, Matrix<double>* A) :
 
 
 ostream& operator<< (ostream& out, const Node& t) {
-    out<<"Node "<<t.no<<" : ("<<t.x<<","<<t.y<<"),  neighb =";
-    
+    out<<"Node "<<t.no<<" : ("<<t.x<<","<<t.y<<")";
+    /*
+    out<<",  neighb =";
     if (t.l_adj.empty()) {out<<" <NULL>";}
     for (list<refNode>::const_iterator it = t.l_adj.begin(); it != t.l_adj.end(); it++) {
         out<<" "<<it->get().no;
     }
+    */
     return out;
 }
 
 
 ostream& operator<< (ostream& out, Node* t) {
-    out<<"Node "<<t->no<<" : ("<<t->x<<","<<t->y<<"),  neighb =";
-    
+    out<<"Node "<<t->no<<" : ("<<t->x<<","<<t->y<<")";
+    /*
+    out<<",  neighb =";
     if (t->l_adj.empty()) {out<<" <NULL>";}
     for (list<refNode>::const_iterator it = t->l_adj.begin(); it != t->l_adj.end(); it++) {
         out<<" "<<it->get().no;
     }
+    */
     return out;
 }
 

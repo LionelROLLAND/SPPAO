@@ -5,6 +5,7 @@
 #include <filesystem>
 #include "randomGraph.hpp"
 #include "utils.hpp"
+#include "fibonacciHeap.hpp"
 
 using namespace std;
 
@@ -85,6 +86,34 @@ void stack_test2() {
 }
 
 
+void testTree() {
+	Tree<int>* test = new Tree<int>(nullptr, list<Tree<int>*>(), 0, -1);
+	for (int i = 1; i <= 3; i++) {
+		Tree<int>* baby = new Tree<int>(test, list<Tree<int>*>(), 10*i, 4*(i-1));
+		test->addChild(baby);
+		for (int j = 1; j <= 3; j++) {
+			Tree<int>* minibaby = new Tree<int>(baby, list<Tree<int>*>(), 10*i + j, 4*(i-1)+j);
+			baby->addChild(minibaby);
+		}
+	}
+	cout<<test<<"\n\n\n"<<endl;
+	for (list<Tree<int>*>::iterator child = test->children.begin();
+	child != test->children.end(); child++) {
+		for (list<Tree<int>*>::iterator baby = (*child)->children.begin();
+		baby != (*child)->children.end(); baby++) {
+			if( rand()%3 == 0) {
+				Tree<int>* to_delete = (*child)->remChild(baby++);
+				baby--;
+				cout<<to_delete<<endl;
+				delete to_delete;
+			}
+		}
+	}
+	cout<<test<<endl;
+	cout<<"number of nodes : "<<nb_nodes(*test)<<endl;
+}
+
+
 int main(/* int argc, char *argv[] */)
 {
 	std::cout << "Hello world!" << std::endl;
@@ -94,7 +123,8 @@ int main(/* int argc, char *argv[] */)
 	cout<<"seed : "<<seed<<endl;
 	//breakTheReference();
 	//test_list();
-	test_graph();
+	//test_graph();
 	//stack_test();
 	//stack_test2();
+	testTree();
 }

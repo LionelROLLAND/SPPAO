@@ -16,41 +16,52 @@ class Tree
         double key;
         T content;
         Tree() : parent(nullptr), children(list<Tree<T>*>()), key(inf), content(T()) {}
-        Tree(Tree<T>* par, list<Tree<T>*>& childr, double k, T& con) :
+        Tree(Tree<T>* par, list<Tree<T>*> childr, double k, T con) :
                 parent(par), children(childr), key(k), content(con) {}
         Tree(const Tree<T>& Tr) :
                 parent(Tr.parent), children(Tr.children), key(Tr.key), content(Tr.content) {}
         ~Tree() {}
         Tree<T>& operator=(const Tree<T>& Tr);
         list<Tree<T>*>::iterator addChild(Tree<T>* Tr);
-        Tree<T>* remChild(list<Tree<T>*>::iterator it);
+        Tree<T>* remChild(typename list<Tree<T>*>::iterator it);
 };
 
 
 template<typename T>
 Tree<T>& Tree<T>::operator= (const Tree<T>& Tr) {
-    parent(Tr.parent);
-    children(Tr.children);
-    key(Tr.key);
-    content(Tr.content);
+    parent = Tr.parent;
+    children = Tr.children;
+    key = Tr.key;
+    content = Tr.content;
     return *this;
 }
 
 
 template<typename T>
-list<Tree<T>*>::iterator Tree<T>::addChild(Tree<T>* Tr) {
+typename list<Tree<T>*>::iterator Tree<T>::addChild(Tree<T>* Tr) {
     children.push_back(Tr);
     Tr->parent = this;
-    return children.back();
+    return --(children.end());
 }
 
 
 template<typename T>
-Tree<T>* Tree<T>::remChild(list<Tree<T>*>::iterator it) {
+Tree<T>* Tree<T>::remChild(typename list<Tree<T>*>::iterator it) {
     Tree<T>* to_return = *it;
-    it->parent = nullptr;
+    (*it)->parent = nullptr;
     this->children.erase(it);
     return to_return;
+}
+
+
+template<typename T>
+int nb_nodes(const Tree<T>& Tr) {
+    int S = 1;
+    for (typename list<Tree<T>*>::const_iterator it = Tr.children.begin();
+    it != Tr.children.end(); it++) {
+        S += nb_nodes(**it);
+    }
+    return S;
 }
 
 
@@ -59,41 +70,53 @@ class markTree : public Tree<T>
 {
     public:
         bool marked;
-        list<markTree<T>*>::iterator selfPointer;
-        markTree<T>* remChild(list<markTree<T>*>::iterator it);
+        typename list<markTree<T>*>::iterator selfPointer;
+        markTree<T>* remChild(typename list<markTree<T>*>::iterator it);
         markTree<T>* addChild(markTree<T>* Tr);
-        markTree() : Tree(), marked(false) {}
-        markTree(markTree<T>* par, list<markTree<T>*>& childr, double k, T& con, bool mark=false) :
-                Tree(par, childr, k, con), marked(mark) {}
-        markTree(const markTree& Tr) : Tree(Tr), marked(Tr.marked) {}
+        markTree() : Tree<T>::Tree(), marked(false) {}
+        markTree(markTree<T>* par, list<markTree<T>*> childr, double k, T con, bool mark=false) :
+                Tree<T>::Tree(par, childr, k, con), marked(mark) {}
+        markTree(const markTree& Tr) : Tree<T>::Tree(Tr), marked(Tr.marked) {}
         ~markTree() {}
 };
 
 
 template<typename T>
- markTree<T>* remChild(typename list<markTree<T>*>::iterator it) {
+markTree<T>* remChild(typename list<markTree<T>*>::iterator it) {
     markTree<T>* to_return = Tree<T>::remChild(it);
     to_return->marked = false;
     return to_return;
 }
 
 template<typename T>
-list<markTree<T>*>::iterator addChild(markTree<T>* Tr) {
-    list<markTree<T>*>::iterator to_return = Tree<T>::addChild(Tr);
+typename list<markTree<T>*>::iterator addChild(markTree<T>* Tr) {
+    typename list<markTree<T>*>::iterator to_return = Tree<T>::addChild(Tr);
     Tr->selfPointer = to_return;
     return to_return;
 }
 
+
 template<typename T>
-int nb_nodes(Tree<T> Tr) {
-    if (Tr.children.empty()) {
-        return 1;
+ostream& printTree(ostream& out, list<Tree<T>*>& l) {
+    if (l.empty()) {return out;}
+    Tree<T>* to_print = l.front();
+    l.erase(l.begin());
+    out<<"content : "<<to_print->content<<", key : "<<to_print->key<<"\n";
+    for (typename list<Tree<T>*>::iterator child = to_print->children.begin();
+    child != to_print->children.end(); child++) {
+        l.push_back(*child);
+        out<<"[content : "<<(*child)->content<<", key : "<<(*child)->key<<"]->";
     }
-    int S = 0;
-    for (list<Tree<T>*>::const_iterator it = Tr.children.begin(); it != Tr.children.end(); it++) {
-        S += nb_nodes(**it);
-    }
-    return S;
+    out<<"\n\n";
+    return printTree(out, l);
+}
+
+
+template<typename T>
+ostream& operator<<(ostream& out, Tree<T>* Tr) {
+    list<Tree<T>*> l = list<Tree<T>*>();
+    l.push_back(Tr);
+    return printTree(out, l);
 }
 
 
@@ -107,8 +130,8 @@ class fibHeap
         fibHeap() : n(0), min_root(nullptr), forest(list<markTree<T>*>()) {}
         fibHeap(list<markTree<T>*>& l);
         bool is_empty() {return forest.empty();}
-        list<markTree<T>*>::iterator addToForest(markTree<T>* Tr);
-        markTree<T>* remOfForest(list<markTree<T>*>::iterator it);
+        typename list<markTree<T>*>::iterator addToForest(markTree<T>* Tr);
+        markTree<T>* remOfForest(typename list<markTree<T>*>::iterator it);
         void orderTrees();
         T deleteMin(); //Penser au cas ou le tas devient vide
         void cutTree(markTree<T>* Tr);
@@ -120,15 +143,15 @@ class fibHeap
 
 
 template<typename T>
-list<markTree<T>*>::iterator fibHeap<T>::addToForest(markTree<T>* Tr) {
+typename list<markTree<T>*>::iterator fibHeap<T>::addToForest(markTree<T>* Tr) {
     forest.push_back(Tr);
-    Tr->selfPointer = children.back();
+    Tr->selfPointer = forest.back();
     Tr->marked = false;
 }
 
 
 template<typename T>
-markTree<T>* fibHeap<T>::remOfForest(list<markTree<T>*>::iterator it) {
+markTree<T>* fibHeap<T>::remOfForest(typename list<markTree<T>*>::iterator it) {
     markTree<T>* to_return = *it;
     forest.erase(it);
     return to_return;
@@ -142,18 +165,18 @@ void fibHeap<T>::orderTrees() {
     }
 
     int max_deg = 1 + (int) (log(n)/log(2));
-    vector<list<markTree<T>*>::iterator> rootVec = vector<markTree<T>*>(max_deg, nullptr);
+    vector<markTree<T>*> rootVec = vector<markTree<T>*>(max_deg, nullptr);
     markTree<T>* tree1;
     markTree<T>* tree2;
     int deg;
-    min_root = *(forest.front());
-    for (list<markTree<T>*>::iterator it = forest.begin(); it != forest.end(); it++) {
+    min_root = forest.front();
+    for (typename list<markTree<T>*>::iterator it = forest.begin(); it != forest.end(); it++) {
         tree2 = *it;
         deg = tree2->children.size();
         tree1 = rootVec[deg];
         if (tree1 = nullptr) {
             rootVec[deg] = tree2;
-            if (tree2->key < new_min->key) {min_root = tree2;}
+            if (tree2->key < min_root->key) {min_root = tree2;}
         } else {
             remOfForest(tree1->selfPointer);
             remOfForest(tree2->selfPointer);
@@ -193,7 +216,7 @@ void fibHeap<T>::cutTree(markTree<T>* Tr) {
 
 template<typename T>
 T fibHeap<T>::deleteMin() {
-    for (list<markTree<T>*>::iterator it = min_root->children.begin(); it != min_root->children.end(); it++) {
+    for (typename list<markTree<T>*>::iterator it = min_root->children.begin(); it != min_root->children.end(); it++) {
         cutTree(*it);
     }
     remOfForest(min_root->selfPointer);
