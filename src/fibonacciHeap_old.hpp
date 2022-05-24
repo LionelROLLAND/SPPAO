@@ -1,3 +1,4 @@
+/*
 #ifndef FIBHEAP
 #define FIBHEAP
 
@@ -303,3 +304,4 @@ void fibHeap<T>::insert(T con, double k) {
 
 
 #endif
+*/

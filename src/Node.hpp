@@ -25,8 +25,10 @@ class Node
         double y;
         list<arcNode> l_adj;
         Matrix<double>* adj;
-        Node(int n, double absc, double ord, list<arcNode> l, Matrix<double>* A);
-        Node() : no(0), x(0.), y(0.), l_adj(list<arcNode>()), adj(nullptr) {}
+        Node* pred;
+        Node(int n=0, double absc=0., double ord=0., list<arcNode> l=list<arcNode>(),
+                Matrix<double>* A=nullptr, Node* pr=nullptr) : no(n), x(absc),
+                y(ord), l_adj(l), adj(A), pred(pr) {}
         ~Node() {}
         Node& operator= (const Node& t);
 };

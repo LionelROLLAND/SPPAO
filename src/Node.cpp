@@ -6,11 +6,6 @@
 
 using namespace std;
 
-
-Node::Node(int n, double absc, double ord, list<arcNode> l, Matrix<double>* A) :
-        no(n), x(absc), y(ord), l_adj(l), adj(A) {}
-
-
 ostream& operator<< (ostream& out, const Node& t) {
     out<<"Node "<<t.no<<" : ("<<t.x<<","<<t.y<<")";
     /*

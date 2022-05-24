@@ -1,3 +1,4 @@
+/*
 #ifndef FIBHEAP
 #define FIBHEAP
 
@@ -276,3 +277,4 @@ ostream& operator<<(ostream& out, fibHeap<T> fH) {
 
 
 #endif
+*/

@@ -5,7 +5,8 @@
 #include <filesystem>
 #include "randomGraph.hpp"
 #include "utils.hpp"
-#include "fibonacciHeap.hpp"
+//#include "fibonacciHeap.hpp"
+#include "newFibHeap.hpp"
 #include "test.hpp"
 
 using namespace std;
@@ -88,16 +89,20 @@ void stack_test2() {
 
 
 void testMarkTree() {
-	markTree<int>* test = new markTree<int>(nullptr, list<markTree<int>*>(), 0, -1);
+	markTree<int>* test = 
+	new markTree<int>(nullptr, list<Tree<infoFib<int>>*>(), infoFib<int>(-1, -1));
 	for (int i = 1; i <= 3; i++) {
-		markTree<int>* baby = new markTree<int>(test, list<markTree<int>*>(), 10*i, 4*(i-1));
+		markTree<int>* baby =
+		new markTree<int>(test, list<Tree<infoFib<int>>*>(), infoFib<int>(10*i, 4*(i-1)));
 		test->addChild(baby);
 		for (int j = 1; j <= 3; j++) {
-			markTree<int>* minibaby = new markTree<int>(baby, list<markTree<int>*>(), 10*i + j, 4*(i-1)+j);
+			markTree<int>* minibaby =
+			new markTree<int>(baby, list<Tree<infoFib<int>>*>(), infoFib<int>(10*i + j, 4*(i-1)+j));
 			baby->addChild(minibaby);
 		}
 	}
 	cout<<test<<"\n\n\n"<<endl;
+	/*
 	for (list<markTree<int>*>::iterator child = test->children.begin();
 	child != test->children.end(); child++) {
 		for (list<markTree<int>*>::iterator baby = (*child)->children.begin();
@@ -112,6 +117,7 @@ void testMarkTree() {
 	}
 	cout<<test<<endl;
 	//cout<<"number of nodes : "<<nb_nodes(*test)<<endl;
+	*/
 }
 
 
@@ -120,11 +126,12 @@ void testFibHeap() {
 	vector<markTree<int>*> locations = vector<markTree<int>*>(12, nullptr);
 	for (int i = 0; i < 12; i++) {
 		test.insert(rand()%100, i);
-		locations[i] = test.forest.back();
+		locations[i] = static_cast<markTree<int>*>(test.forest.back());
 	}
 	cout<<test<<endl;
 	int my_min = test.deleteMin();
-	cout<<"\nThe min : "<<my_min<<endl;
+	cout<<"\nThe min : "<<my_min<<"\n\n"<<endl;
+	cout<<test<<endl;
 	test.decreaseKey(locations[6], 0);
 	test.decreaseKey(locations[7], -1);
 	cout<<test;
@@ -134,17 +141,16 @@ void testFibHeap() {
 
 int main(/* int argc, char *argv[] */)
 {
-	std::cout << "Hello world!" << std::endl;
 	int seed = time(nullptr);
 	//int seed = 1652869031;
 	//int seed = 1653389176; //pb div par 0
 	//srand(seed); //1652869031
-	cout<<"seed : "<<seed<<endl;
+	cout<<"seed : "<<seed<<"\n\n"<<endl;
 	//breakTheReference();
 	//test_list();
-	test_graph();
+	//test_graph();
 	//stack_test();
 	//stack_test2();
 	//testMarkTree();
-	//testFibHeap();
+	testFibHeap();
 }
