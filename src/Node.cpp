@@ -156,3 +156,9 @@ void normalize(list<Node*>& l) {
     }
     //cout<<"\n#new_no passed"<<endl;
 }
+
+
+dijkstraNode::dijkstraNode(int n, double absc, double ord, list<refNode> l,
+        Matrix<double>* A, dijkstraNode* pr, double distance) :
+        Node::Node(n, absc, ord, l, A),
+        pred(pr), d(distance) {}

@@ -1,5 +1,9 @@
 #include <iostream>
+#include <vector>
+#include "Node.hpp"
 #include "dijkstra.hpp"
 
 
-vector<int>* dijkstra()
+vector<dijkstraNode*>* dijkstra(Node& t1, Node& t2) {
+
+}

@@ -16,6 +16,7 @@ class Node
         int no;
         double x;
         double y;
+        
         list<refNode> l_adj;
         Matrix<double>* adj;
         Node(int n, double absc, double ord, list<refNode> l, Matrix<double>* A);
@@ -24,11 +25,25 @@ class Node
         Node& operator= (const Node& t);
 };
 
+
 struct augmentedNode
 {
     int i;
     int j;
     Node& node;
+};
+
+
+class dijkstraNode : public Node
+{
+    public:
+        dijkstraNode* pred;
+        double d;
+        dijkstraNode(int n, double absc, double ord, list<refNode> l,
+        Matrix<double>* A, dijkstraNode* pr, double distance);
+        dijkstraNode() : Node::Node(), pred(nullptr), d(inf) {}
+        ~dijkstraNode() {}
+
 };
 
 bool check_mat(const Node& v1, const Node& v2);
