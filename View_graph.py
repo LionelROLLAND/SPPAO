@@ -2,7 +2,7 @@
 
 import pygame
 
-filename = "data/test2.txt"
+filename = "data/test5.txt"
 
 lines = []
 with open(filename, "r") as fd:

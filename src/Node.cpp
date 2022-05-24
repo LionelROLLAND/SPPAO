@@ -7,7 +7,7 @@
 using namespace std;
 
 
-Node::Node(int n, double absc, double ord, list<refNode> l, Matrix<double>* A) :
+Node::Node(int n, double absc, double ord, list<arcNode> l, Matrix<double>* A) :
         no(n), x(absc), y(ord), l_adj(l), adj(A) {}
 
 
@@ -47,50 +47,73 @@ Node& Node::operator= (const Node& t) {
 }
 
 
-bool check_mat(const Node& v1, const Node& v2) {
-    if (v1.adj == v2.adj) {return true;}
-    cerr<<"Nodes "<<v1.no<<" and "<<v2.no<<" : Adjacency matrix not corresponding. \n";
+bool check_mat(const Node* v1, const Node* v2) {
+    if (v1->adj == v2->adj) {return true;}
+    cerr<<"Nodes "<<v1->no<<" and "<<v2->no<<" : Adjacency matrix not corresponding. \n";
     return false;
 }
 
-double& c(Node& v1, Node& v2) {
+double& c(Node* v1, Node* v2) {
     if (!check_mat(v1, v2)) {return min_inf;}
-    return (*v1.adj)(v1.no, v2.no);
+    return (*v1->adj)(v1->no, v2->no);
 }
 
 
-void connect(Node& v1, Node& v2, double weight) {
+void connect(Node* v1, Node* v2, double weight) {
     if (check_mat(v1, v2)) {
-        if (c(v1, v2) == inf_d()) {
-            v1.l_adj.push_front(ref<Node>(v2));
-            c(v1, v2) = weight;
+        bool isV2In = false;
+        list<arcNode>::iterator it = v1->l_adj.begin();
+        while (it != v1->l_adj.end()) {
+            if (it->node == v2) {
+                isV2In = true;
+                break;
+            }
+            it++;
         }
+        if (isV2In) {
+            it->arc = weight;
+        } else {
+            v1->l_adj.push_front(arcNode({weight, v2}));
+        }
+        c(v1, v2) = weight;
     }
-}
+} //Ca prend quand meme beaucoup de temps -> a cogiter
 
 
-void sym_con(Node& v1, Node& v2, double weight) {
+void sym_con(Node* v1, Node* v2, double weight) {
     connect(v1, v2, weight);
     connect(v2, v1, weight);
 }
 
 
-void disconnect(Node& v1, Node& v2) {
-    if (check_mat(v1, v2)) {c(v1, v2) = inf_d();}
+void disconnect(Node* v1, Node* v2) {
+    if (check_mat(v1, v2)) {
+        for (list<arcNode>::iterator it = v1->l_adj.begin(); it != v1->l_adj.end(); it++) {
+            if (it->node == v2) {
+                v1->l_adj.erase(it++);
+                it--;
+            }
+        }
+        c(v1, v2) = inf;
+    }
+    
 }
 
 
-void sym_dis(Node& v1, Node& v2) {
+void sym_dis(Node* v1, Node* v2) {
     disconnect(v1, v2);
     disconnect(v2, v1);
 }
 
 
-void contract(Node& v1, Node& v2) {
-    for (list<refNode>::iterator it = v2.l_adj.begin(); it != v2.l_adj.end(); it++) {
-        if (c(v2, *it) != inf_d()) {
-            sym_con(v1, *it);
-            sym_dis(v2, *it);
+void contract(Node* v1, Node* v2) {
+    list<arcNode>::iterator saveIt;
+    for (list<arcNode>::iterator it = v2->l_adj.begin(); it != v2->l_adj.end(); it++) {
+        if (c(v2, it->node) != inf_d()) {
+            saveIt = ++it;
+            sym_con(v1, (--it)->node);
+            sym_dis(v2, it->node);
+            it = --saveIt;
         }
     }
 }
@@ -98,8 +121,8 @@ void contract(Node& v1, Node& v2) {
 
 void clean(list<Node*>& l) {
     for (list<Node*>::iterator it = l.begin(); it != l.end(); it++) {
-        for (list<refNode>::iterator v = (*it)->l_adj.begin(); v != (*it)->l_adj.end(); v++) {
-            if (c(**it, *v) == inf_d()) {
+        for (list<arcNode>::iterator v = (*it)->l_adj.begin(); v != (*it)->l_adj.end(); v++) {
+            if (c(*it, v->node) == inf) {
                 (*it)->l_adj.erase(v++);
                 v--;
             }
@@ -142,10 +165,10 @@ void normalize(list<Node*>& l) {
     Matrix<double>* new_mat = new Matrix<double>(new_n, new_n, inf_d());
     //cout<<"\nmatrix created"<<endl;
     for (list<Node*>::iterator it = l.begin(); it != l.end(); it++) {
-        for(list<refNode>::iterator v = (*it)->l_adj.begin(); v != (*it)->l_adj.end(); v++) {
+        for(list<arcNode>::iterator v = (*it)->l_adj.begin(); v != (*it)->l_adj.end(); v++) {
             //cout<<(*it)->no<<"  "<<v->get().no<<endl;
             //cout<<new_tab[(*it)->no-1]<<"  "<<new_tab[v->get().no-1]<<"\n"<<endl;
-            (*new_mat)(new_tab[(*it)->no-1], new_tab[v->get().no-1]) = c(**it, *v);
+            (*new_mat)(new_tab[(*it)->no-1], new_tab[v->node->no-1]) = c(*it, v->node);
         }
     }
     //cout<<"\n#new_mat passed"<<endl;
@@ -156,9 +179,3 @@ void normalize(list<Node*>& l) {
     }
     //cout<<"\n#new_no passed"<<endl;
 }
-
-
-dijkstraNode::dijkstraNode(int n, double absc, double ord, list<refNode> l,
-        Matrix<double>* A, dijkstraNode* pr, double distance) :
-        Node::Node(n, absc, ord, l, A),
-        pred(pr), d(distance) {}

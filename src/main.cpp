@@ -48,9 +48,9 @@ void writeNodeList(list<Node*>& l, ofstream& w_stream) {
 	}
 	w_stream<<"\n";
 	for (list<Node*>::iterator it = l.begin(); it != l.end(); it ++) {
-		for (list<refNode>::iterator v = (*it)->l_adj.begin(); v != (*it)->l_adj.end(); v++) {
+		for (list<arcNode>::iterator v = (*it)->l_adj.begin(); v != (*it)->l_adj.end(); v++) {
 			//cout<<(*it)->no<<" "<<v->get().no<<" "<<d(**it, *v)<<"\n";
-			w_stream<<(*it)->no<<" "<<v->get().no<<" "<<c(**it, *v)<<"\n";
+			w_stream<<(*it)->no<<" "<<v->node->no<<" "<<c(*it, v->node)<<"\n";
 		}
 	}
 }
@@ -64,13 +64,13 @@ void writeFileCwd(list<Node*>& l, string filename) {
 }
 
 void test_graph() {
-	int P = 80;
-	int Q = 80;
+	int P = 100;
+	int Q = 100;
 	double prop_square = 0.5;
 	double prop_merge = 0.5;
 	list<Node*>* l = makeGraph(P, Q, prop_square, prop_merge);
 	//cout<<"\n\n"<<*l<<endl;
-	writeFileCwd(*l, "data/test2.txt");
+	writeFileCwd(*l, "data/test5.txt");
 }
 
 
@@ -135,15 +135,16 @@ void testFibHeap() {
 int main(/* int argc, char *argv[] */)
 {
 	std::cout << "Hello world!" << std::endl;
-	//int seed = time(nullptr);
-	int seed = 1652869031;
-	srand(seed); //1652869031
+	int seed = time(nullptr);
+	//int seed = 1652869031;
+	//int seed = 1653389176; //pb div par 0
+	//srand(seed); //1652869031
 	cout<<"seed : "<<seed<<endl;
 	//breakTheReference();
 	//test_list();
-	//test_graph();
+	test_graph();
 	//stack_test();
 	//stack_test2();
 	//testMarkTree();
-	testFibHeap();
+	//testFibHeap();
 }
