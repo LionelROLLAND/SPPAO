@@ -42,6 +42,27 @@ Node& Node::operator= (const Node& t) {
 }
 
 
+ostream& operator<<(ostream& out, struct cNode cN) {
+    out<<cN.node->no<<" "<<cN.node->x<<" "<<cN.node->y<<" "<<cN.r<<" "<<cN.g<<" "<<cN.b;
+    return out;
+}
+
+
+ostream& operator<<(ostream& out, struct cArc cA) {
+    out<<cA.node1->no<<" "<<cA.node2->no<<" "<<c(cA.node1, cA.node2)<<" ";
+    out<<cA.r<<" "<<cA.g<<" "<<cA.b;
+    return out;
+}
+
+
+
+arcNode& arcNode::operator= (const arcNode& aN) {
+    arc = aN.arc;
+    node = aN.node;
+    return *this;
+}
+
+
 bool check_mat(const Node* v1, const Node* v2) {
     if (v1->adj == v2->adj) {return true;}
     cerr<<"Nodes "<<v1->no<<" and "<<v2->no<<" : Adjacency matrix not corresponding. \n";
@@ -68,7 +89,7 @@ void connect(Node* v1, Node* v2, double weight) {
         if (isV2In) {
             it->arc = weight;
         } else {
-            v1->l_adj.push_front(arcNode({weight, v2}));
+            v1->l_adj.push_front(arcNode(weight, v2));
         }
         c(v1, v2) = weight;
     }

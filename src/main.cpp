@@ -43,18 +43,26 @@ void breakTheReference() {
 }
 
 void writeNodeList(list<Node*>& l, ofstream& w_stream) {
-	//cout<<"\n"<<l<<endl;
 	for (list<Node*>::iterator it = l.begin(); it != l.end(); it ++) {
 		w_stream<<(*it)->no<<" "<<(*it)->x<<" "<<(*it)->y<<"\n";
 	}
 	w_stream<<"\n";
 	for (list<Node*>::iterator it = l.begin(); it != l.end(); it ++) {
 		for (list<arcNode>::iterator v = (*it)->l_adj.begin(); v != (*it)->l_adj.end(); v++) {
-			//cout<<(*it)->no<<" "<<v->get().no<<" "<<d(**it, *v)<<"\n";
 			w_stream<<(*it)->no<<" "<<v->node->no<<" "<<c(*it, v->node)<<"\n";
 		}
 	}
 }
+
+/*
+void writeOptPath(list<cNode>& graph, list<cArc>& path, ofstream& w_stream) {
+
+	for (list<Node*>::iterator it = path.begin(); it != path.end(); it++) {
+
+	}
+}
+*/
+
 
 void writeFileCwd(list<Node*>& l, string filename) {
 	filesystem::path filepath = filesystem::current_path();
@@ -148,7 +156,7 @@ int main(/* int argc, char *argv[] */)
 	cout<<"seed : "<<seed<<"\n\n"<<endl;
 	//breakTheReference();
 	//test_list();
-	//test_graph();
+	test_graph();
 	//stack_test();
 	//stack_test2();
 	//testMarkTree();

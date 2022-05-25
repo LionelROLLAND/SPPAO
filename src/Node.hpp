@@ -4,18 +4,11 @@
 #include <functional>
 #include "matrix.hpp"
 #include "utils.hpp"
+#include "newFibHeap.hpp"
 
 class Node;
 
-using refNode = reference_wrapper<Node>;
-
-
-struct arcNode
-{
-    double arc;
-    Node* node;
-};
-
+class arcNode;
 
 class Node
 {
@@ -25,10 +18,14 @@ class Node
         double y;
         list<arcNode> l_adj;
         Matrix<double>* adj;
+        bool marked;
+        double d;
         Node* pred;
+        markTree<Node*>* tree;
         Node(int n=0, double absc=0., double ord=0., list<arcNode> l=list<arcNode>(),
-                Matrix<double>* A=nullptr, Node* pr=nullptr) : no(n), x(absc),
-                y(ord), l_adj(l), adj(A), pred(pr) {}
+                Matrix<double>* A=nullptr, bool m=false, double dist=inf, Node* pr=nullptr,
+                markTree<Node*>* Tr=nullptr) : no(n), x(absc), y(ord), l_adj(l),
+                adj(A), marked(m), d(dist), pred(pr), tree(Tr) {}
         ~Node() {}
         Node& operator= (const Node& t);
 };
@@ -39,6 +36,40 @@ struct augmentedNode
     int i;
     int j;
     Node* node;
+};
+
+
+struct cNode
+{
+    Node* node;
+    unsigned char r;
+    unsigned char g;
+    unsigned char b;
+};
+
+
+struct cArc
+{
+    Node* node1;
+    Node* node2;
+    unsigned char r;
+    unsigned char g;
+    unsigned char b;
+};
+
+
+class arcNode
+{
+    public:
+        double arc;
+        Node* node;
+        arcNode(double d=inf, Node* v=nullptr) : arc(d), node(v) {}
+        arcNode(const arcNode& aN) : arc(aN.arc), node(aN.node) {}
+        arcNode& operator=(const arcNode& aN);
+        double& d() {return node->d;}
+        bool& marked() {return node->marked;}
+        Node*& pred() {return node->pred;}
+        markTree<Node*>*& tree() {return node->tree;}
 };
 
 bool check_mat(const Node* v1, const Node* v2);

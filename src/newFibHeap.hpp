@@ -14,6 +14,8 @@
 template<typename T>
 class infoFib;
 
+
+//Faire proprement le constructeur par copie
 template<typename T>
 class Tree
 {
@@ -25,7 +27,7 @@ class Tree
                 parent(par), children(childr), get(info) {}
         Tree(const Tree<T>& Tr) :
                 parent(Tr.parent), children(Tr.children), get(Tr.get) {}
-        ~Tree() {}
+        ~Tree();
         Tree<T>& operator=(const Tree<T>& Tr);
         list<Tree<T>*>::iterator addChild(Tree<T>* Tr);
         Tree<T>* remChild(typename list<Tree<T>*>::iterator it);
@@ -38,6 +40,14 @@ Tree<T>& Tree<T>::operator= (const Tree<T>& Tr) {
     children = Tr.children;
     get = Tr.get;
     return *this;
+}
+
+
+template<typename T>
+Tree<T>::~Tree() {
+    for (typename list<Tree<T>*>::iterator child = children.begin(); child != children.end(); child++) {
+        delete *child;
+    }
 }
 
 
@@ -109,6 +119,7 @@ class infoFib
         infoFib(const infoFib& iF) :
         data(iF.data), key(iF.key), marked(iF.marked), selfPointer(iF.selfPointer) {}
         infoFib<T>& operator= (const infoFib<T>& iF);
+        ~infoFib() {}
 };
 
 
@@ -176,7 +187,7 @@ class fibHeap
         //-> cut the tree and put it as is in the forest (takes care of his parent too)
         void decreaseKey(markTree<T>* Tr, double newKey);
         fibHeap<T>& takeAndMerge(fibHeap<T>& fH);
-        void insert(T con, double k);
+        markTree<T>* insert(T con, double k);
 };
 
 
@@ -315,13 +326,14 @@ fibHeap<T>& fibHeap<T>::takeAndMerge(fibHeap<T>& fH) {
 
 
 template<typename T>
-void fibHeap<T>::insert(T content, double k) {
+markTree<T>* fibHeap<T>::insert(T content, double k) {
     markTree<T>* newTree = new markTree<T>(nullptr, list<Tree<infoFib<T>>*>(), infoFib(content, k));
     addToForest(newTree);
     if (min_root) {
         if (k < min_root->get.key) {min_root = newTree;}
     } else {min_root = newTree;}
     n++;
+    return newTree;
 }
 
 
