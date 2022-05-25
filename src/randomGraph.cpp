@@ -39,6 +39,7 @@ void newCoord(Node* t1, Node* t2, int P, int Q) {
 
 
 list<Node*>* makeGraph(int P, int Q, double prop_square, double prop_merge) {
+    //cout<<"prop_merge = "<<prop_merge<<endl;
     //STEP 1
     cout<<"\nSTEP 1/4  [..]";
     list<Node*>* nodes = new list<Node*>();
@@ -133,6 +134,7 @@ list<Node*>* makeGraph(int P, int Q, double prop_square, double prop_merge) {
     }
     cout<<"\rSTEP 3/4  [####]"<<endl;
 
+
     cout<<"STEP 4/4  [.]";
 
     //STEP 4
@@ -148,24 +150,34 @@ list<Node*>* makeGraph(int P, int Q, double prop_square, double prop_merge) {
 
 
     //It should hold that not_merged.size() == P*Q-2
-    for (int k = P*Q-2; k > P*Q - nb_merge; k--) {
+    //cout<<"nb_merge = "<<nb_merge<<", P*Q-2-nb_merge = "<<P*Q-2 - nb_merge<<endl;
+    for (int k = P*Q-2; k > P*Q-2 - nb_merge; k--) {
         int to_merge = rand() % k;
         list<Node*>::iterator first = not_merged.begin();
         //for (int l = 0; l < to_merge; l++) {first++;}
         advance(first, to_merge);
         int nb_neighb = 0;
-        for (list<arcNode>::iterator test = (*first)->l_adj.begin(); test != (*first)->l_adj.end(); test++) {
+        list<arcNode>::iterator test = (*first)->l_adj.begin();
+        while (test != (*first)->l_adj.end()) {
             if (c(*first, test->node) == inf) {
                 (*first)->l_adj.erase(test++);
-                test--;
-            } else if (test->node->no != critic1 && test->node->no != critic2) {
-                nb_neighb++;
+            } else {
+                if (test->node->no != critic1 && test->node->no != critic2) {
+                    nb_neighb++;
+                }
+                test++;
             }
         }
+        /*
         if (nb_neighb == 0) {
             //cout<<"x = "<<(*first)->x<<", y = "<<(*first)->y<<endl;
             cout<<"\nProblem with : "<<*first<<endl;
+            for (list<arcNode>::iterator it = (*first)->l_adj.begin();
+            it != (*first)->l_adj.end(); it++) {
+                cout<<it->node<<endl;
+            }
         }
+        */
         int to_merge2 = rand() % nb_neighb;
         list<arcNode>::iterator second = (*first)->l_adj.begin();
         for (int l = 0; l < to_merge2; l++) {
@@ -177,11 +189,14 @@ list<Node*>* makeGraph(int P, int Q, double prop_square, double prop_merge) {
         while (second->node->no == critic1 || second->node->no == critic2) {
             second++;
         }
+        //cout<<"first = "<<(*first)->no<<", second = "<<second->node->no<<endl;
         contract(second->node, *first);
         newCoord(second->node, *first, P, Q);
         not_merged.erase(first);
     }
     cout<<"\rSTEP 4/4  [#]"<<endl;
+
+    
     cout<<"cleaning and normalizing...  [..]";
     clean(*nodes);
     cout<<"\rcleaning and normalizing...  [#.]";

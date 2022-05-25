@@ -215,36 +215,33 @@ void fibHeap<T>::orderTrees() {
     }
 
     int max_deg = 1 + (int) (log(n)/log(2));
-    vector<markTree<T>*> rootVec = vector<markTree<T>*>(max_deg, nullptr);
+    vector<markTree<T>*> rootVec = vector<markTree<T>*>(max_deg+1, nullptr);
     markTree<T>* tree1;
     markTree<T>* tree2;
     int deg;
     min_root = static_cast<markTree<T>*>(forest.front());
-    for (typename list<Tree<infoFib<T>>*>::iterator it = forest.begin(); it != forest.end(); it++) {
+    typename list<Tree<infoFib<T>>*>::iterator it = forest.begin();
+    while (it != forest.end()) {
         tree2 = static_cast<markTree<T>*>(*it);
         deg = tree2->children.size();
+        //cout<<"max_deg = "<<max_deg<<", deg = "<<deg<<endl;
         tree1 = rootVec[deg];
         if (tree1 == nullptr) {
             rootVec[deg] = tree2;
             if (tree2->get.key < min_root->get.key) {min_root = tree2;}
+            it++;
         } else {
             //cout<<"Before remOfForest"<<endl;
+            //cout<<tree1->get<<endl;
             remOfForest(tree1->get.selfPointer);
-            typename list<Tree<infoFib<T>>*>::iterator saveIt = tree2->get.selfPointer;
-            remOfForest((saveIt)++);
-            it = --saveIt;
-            //cout<<"After remOfForest"<<endl;
+            remOfForest(it++);
             rootVec[deg] = nullptr;
             if (tree1->get.key <= tree2->get.key) {
-                //cout<<"Before adding"<<endl;
                 tree1->addChild(tree2);
                 addToForest(tree1);
-                //cout<<"After adding"<<endl;
             } else {
-                //cout<<"Before adding"<<endl;
                 tree2->addChild(tree1);
                 addToForest(tree2);
-                //cout<<"After adding"<<endl;
             }
         }
     }
@@ -280,10 +277,9 @@ T fibHeap<T>::deleteMin() {
         cerr<<"Error : Trying to delete the min of an empty heap"<<endl;
         return T();
     }
-    for (typename list<Tree<infoFib<T>>*>::iterator it = min_root->children.begin();
-    it != min_root->children.end(); it++) {
+    typename list<Tree<infoFib<T>>*>::iterator it = min_root->children.begin();
+    while (it != min_root->children.end()) {
         cutTree(*(it++));
-        it--;
     }
     remOfForest(min_root->get.selfPointer);
     T to_return = min_root->get.data;

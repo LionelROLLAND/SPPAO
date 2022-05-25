@@ -47,15 +47,28 @@ struct cNode
     unsigned char b;
 };
 
+extern unsigned char rN;
+extern unsigned char gN;
+extern unsigned char bN;
+
 
 struct cArc
 {
     Node* node1;
     Node* node2;
+    double weight;
     unsigned char r;
     unsigned char g;
     unsigned char b;
 };
+
+extern unsigned char rA;
+extern unsigned char gA;
+extern unsigned char bA;
+
+extern unsigned char rAp;
+extern unsigned char gAp;
+extern unsigned char bAp;
 
 
 class arcNode
@@ -71,6 +84,14 @@ class arcNode
         Node*& pred() {return node->pred;}
         markTree<Node*>*& tree() {return node->tree;}
 };
+
+ostream& operator<<(ostream& out, struct cNode& cN);
+
+ostream& operator<<(ostream& out, struct cArc& cA);
+
+list<cNode>* graphToCNode(list<Node*>&graph);
+
+list<cArc>* pathToCArc(list<Node*>& graph, list<Node*>& path);
 
 bool check_mat(const Node* v1, const Node* v2);
 
@@ -93,5 +114,7 @@ void contract(Node* v1, Node* v2);
 void clean(list<Node*>& l);
 
 void normalize(list<Node*>& l);
+
+void naturalWeight(list<Node*>& l);
 
 #endif
