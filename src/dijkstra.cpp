@@ -19,7 +19,7 @@ list<Node*>* makePath(Node* t) {
 list<Node*>* dijkstra(Node* s, Node* t) {
     s->tree = new markTree<Node*>(nullptr, list<Tree<infoFib<Node*>>*>(), infoFib(s, 0));
     s->marked = true;
-    s->d = 0;
+    s->dToS = 0;
     s->pred = nullptr;
     fibHeap<Node*>* heap = new fibHeap<Node*>();
     heap->insert(s, 0);
@@ -33,12 +33,12 @@ list<Node*>* dijkstra(Node* s, Node* t) {
         neighb != to_relax->l_adj.end(); neighb++) {
             if (!neighb->marked()) {
                 if (neighb->tree() == nullptr) {
-                    neighb->d() = to_relax->d + neighb->arc;
-                    neighb->tree() = heap->insert(neighb->node, neighb->d());
+                    neighb->dToS() = to_relax->dToS + neighb->arc_c;
+                    neighb->tree() = heap->insert(neighb->node, neighb->dToS());
                     neighb->pred() = to_relax;
-                } else if (to_relax->d + neighb->arc < neighb->d()) {
-                    neighb->d() = to_relax->d + neighb->arc;
-                    heap->decreaseKey(neighb->tree(), neighb->d());
+                } else if (to_relax->dToS + neighb->arc_c < neighb->dToS()) {
+                    neighb->dToS() = to_relax->dToS + neighb->arc_c;
+                    heap->decreaseKey(neighb->tree(), neighb->dToS());
                     neighb->pred() = to_relax;
                 }
             }

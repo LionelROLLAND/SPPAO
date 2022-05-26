@@ -190,7 +190,7 @@ void testDijkstra() {
 	list<Node*>* optPath = dijkstra(node1, node2);
 	filesystem::path filepath = filesystem::current_path();
 	filepath /= "data";
-	filepath /= "testDijkstra.txt";
+	filepath /= "testDijkstra3615.txt";
 	ofstream writing(filepath, ios::out);
 	writeDijSol(*l, *optPath, writing);
 	writing.close();
@@ -216,8 +216,11 @@ int main(/* int argc, char *argv[] */)
 	//stack_test2();
 	//testMarkTree();
 	//testFibHeap();
-	//testDijkstra();
+	testDijkstra();
 }
+
+
+
 
 
 /*
@@ -225,5 +228,6 @@ TODO :
 - Reimplementer les matrices pour qu'elles soient moins gourmandes en espace
 	-> Reimplementer la facon dont on update la distance dans dijkstra pour que ca soit pas
 		plus couteux en temps
-- Faire une fonction pour charger un graphe en memoire
+- Faire une fonction pour charger un graphe en memoire -> ok ?
+- Fonction pour deconnecter 2 noeuds prenant en argument un noeud et un list<arcNode>::iterator
 */

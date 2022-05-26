@@ -1,5 +1,6 @@
 #include <iostream>
 #include <list>
+#include <random>
 #include "Node.hpp"
 #include "utils.hpp"
 
@@ -106,11 +107,11 @@ list<Node*>* makeGraph(int P, int Q, double prop_square, double prop_merge) {
         int direction = rand() % 2 - (j % 2);
         if (j > 1) {
             sym_dis(hex(i, j), hex(i+direction, j-1));
-            cout<<"disconnecting "<<hex(i, j)<<" and "<<hex(i+direction, j-1)<<endl;
+            //cout<<"disconnecting "<<hex(i, j)<<" and "<<hex(i+direction, j-1)<<endl;
         }
         if (j < Q) {
             sym_dis(hex(i, j), hex(i+direction, j+1));
-            cout<<"disconnecting "<<hex(i, j)<<" and "<<hex(i+direction, j+1)<<"\n"<<endl;
+            //cout<<"disconnecting "<<hex(i, j)<<" and "<<hex(i+direction, j+1)<<"\n"<<endl;
         }
         still_hex.erase(hex_to_square);
     }
@@ -195,7 +196,7 @@ list<Node*>* makeGraph(int P, int Q, double prop_square, double prop_merge) {
         while (second->node->no == critic1 || second->node->no == critic2) {
             second++;
         }
-        cout<<"merging "<<*first<<" and "<<second->node<<endl;
+        //cout<<"merging "<<*first<<" and "<<second->node<<endl;
         contract(second->node, *first);
         newCoord(second->node, *first, P, Q);
         not_merged.erase(first);
@@ -210,3 +211,25 @@ list<Node*>* makeGraph(int P, int Q, double prop_square, double prop_merge) {
     cout<<"\rcleaning and normalizing...  [##]"<<endl;
     return nodes;
 }
+
+
+list<Node*>* createObstacles(double infx, double infy, double supx, double supy, int n=20) {
+    default_random_engine generator;
+    uniform_real_distribution distribx(infx, supx);
+    uniform_real_distribution distriby(infy, supy);
+    double x;
+    double y;
+    list<Node*>* res = new list<Node*>();
+    for (int i = 0; i < n; i++) {
+        x = distribx(generator);
+        y = distriby(generator);
+        res->push_back(new Node(-1, x, y));
+    }
+    return res;
+}
+
+/*
+void computeArcD(list<Node*>& graph, list<Node*>& obstacles) {
+
+}
+*/

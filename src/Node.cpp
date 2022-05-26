@@ -1,6 +1,7 @@
 #include <iostream>
 #include <list>
 #include <cmath>
+#include <string>
 #include "matrix.hpp"
 #include "Node.hpp"
 #include "utils.hpp"
@@ -113,8 +114,9 @@ list<cArc>* pathToCArc(list<Node*>& graph, list<Node*>& path) {
 
 
 arcNode& arcNode::operator= (const arcNode& aN) {
-    arc = aN.arc;
     node = aN.node;
+    arc_c = aN.arc_c;
+    arc_d = aN.arc_d;
     return *this;
 }
 
@@ -143,7 +145,7 @@ void connect(Node* v1, Node* v2, double weight) {
             it++;
         }
         if (isV2In) {
-            it->arc = weight;
+            it->arc_c = weight;
         } else {
             v1->l_adj.push_front(arcNode(v2, weight));
         }
@@ -299,10 +301,17 @@ list<Node*>* graphCopy(list<Node*>& l) {
     for (list<Node*>::const_iterator node = l.begin(); node != l.end(); node++) {
         for (list<arcNode>::iterator child = (*node)->l_adj.begin();
         child != (*node)->l_adj.end(); child++) {
-            locations[(*node)->no]->l_adj.push_back(arcNode(locations[child->no()], child->arc));
+            locations[(*node)->no]->l_adj.push_back(arcNode(locations[child->no()], child->arc_c));
         }
     }
     return res;
+}
+
+
+double d(Node* n1, Node* n2, Node* obs) {
+    double nom = abs((n2->x - n1->x)*(n1->y - obs->y) - (n1->x - obs->x)*(n2->y - n1->y));
+    double den = sqrt((n2->x - n1->x)*(n2->x - n1->x) + (n2->y - n1->y)*(n2->y - n1->y));
+    return nom/den;
 }
 
 
@@ -311,4 +320,75 @@ void deleteGraph(list<Node*>* l) {
         delete *it;
     }
     delete l;
+}
+
+
+istream& operator>>(istream& in, list<Node*>& l) { //Not tested yet
+    string line;
+    string number;
+    Node* newNode;
+    int no1;
+    int no2;
+    double x;
+    double y;
+    double d;
+    int cut;
+    int max_no = -1;
+    istream& state = getline(in, line);
+    while (state && line.compare("\n") != 0) {
+        cut = min(line.find_first_of(" "), line.find_first_of("\n"));
+        number = line.substr(0,cut);
+        line = line.substr(cut+1);
+        no1 = stoi(number);
+
+        if (no1 <= 0) {
+            cerr<<"Error : negative no for the nodes are not allowed"<<endl;
+            return in;
+        }
+        if (no1 > max_no) {max_no = no1;}
+
+        cut = min(line.find_first_of(" "), line.find_first_of("\n"));
+        number = line.substr(0,cut);
+        line = line.substr(cut+1);
+        x = stod(number);
+
+        cut = min(line.find_first_of(" "), line.find_first_of("\n"));
+        number = line.substr(0,cut);
+        line = line.substr(cut+1);
+        y = stod(number);
+
+        newNode = new Node(no1, x, y);
+        l.push_back(newNode);
+        getline(in, line);
+    }
+    if (l.empty()) {return in;}
+
+    Matrix<double>* adjacency = new Matrix<double>(max_no, max_no, inf);
+    vector<Node*> locations = vector<Node*>(max_no, nullptr);
+    for (list<Node*>::iterator it = l.begin(); it != l.end(); it++) {
+        locations[(*it)->no] = *it;
+        (*it)->adj = adjacency;
+    }
+    
+    getline(in, line);
+    while(state) {
+        cut = min(line.find_first_of(" "), line.find_first_of("\n"));
+        number = line.substr(0,cut);
+        line = line.substr(cut+1);
+        no1 = stoi(number);
+
+        cut = min(line.find_first_of(" "), line.find_first_of("\n"));
+        number = line.substr(0,cut);
+        line = line.substr(cut+1);
+        no2 = stoi(number);
+
+        cut = min(line.find_first_of(" "), line.find_first_of("\n"));
+        number = line.substr(0,cut);
+        line = line.substr(cut+1);
+        d = stod(number);
+
+        connect(locations[no1], locations[no2], d);
+        getline(in, line);
+    }
+    return in;
 }

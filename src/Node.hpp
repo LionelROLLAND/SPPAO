@@ -19,13 +19,13 @@ class Node
         list<arcNode> l_adj;
         Matrix<double>* adj;
         bool marked;
-        double d;
+        double dToS;
         Node* pred;
         markTree<Node*>* tree;
         Node(int n=0, double absc=0., double ord=0., list<arcNode> l=list<arcNode>(),
                 Matrix<double>* A=nullptr, bool m=false, double dist=inf, Node* pr=nullptr,
                 markTree<Node*>* Tr=nullptr) : no(n), x(absc), y(ord), l_adj(l),
-                adj(A), marked(m), d(dist), pred(pr), tree(Tr) {}
+                adj(A), marked(m), dToS(dist), pred(pr), tree(Tr) {}
         ~Node() {}
         Node& operator= (const Node& t);
 };
@@ -75,11 +75,12 @@ class arcNode
 {
     public:
         Node* node;
-        double arc;
-        arcNode(Node* v=nullptr, double d=inf) : node(v), arc(d) {}
-        arcNode(const arcNode& aN) : node(aN.node), arc(aN.arc) {}
+        double arc_c;
+        double arc_d;
+        arcNode(Node* v=nullptr, double c=inf, double d=0) : node(v), arc_c(c), arc_d(d) {}
+        arcNode(const arcNode& aN) : node(aN.node), arc_c(aN.arc_c), arc_d(aN.arc_d) {}
         arcNode& operator=(const arcNode& aN);
-        double& d() {return node->d;}
+        double& dToS() {return node->dToS;}
         bool& marked() {return node->marked;}
         Node*& pred() {return node->pred;}
         markTree<Node*>*& tree() {return node->tree;}
