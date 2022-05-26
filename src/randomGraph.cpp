@@ -104,8 +104,14 @@ list<Node*>* makeGraph(int P, int Q, double prop_square, double prop_merge) {
         int i = hex_to_square->i;
         int j = hex_to_square->j;
         int direction = rand() % 2 - (j % 2);
-        if (j > 1) {sym_dis(hex(i, j), hex(i+direction, j-1));}
-        if (j < Q) {sym_dis(hex(i, j), hex(i+direction, j+1));}
+        if (j > 1) {
+            sym_dis(hex(i, j), hex(i+direction, j-1));
+            cout<<"disconnecting "<<hex(i, j)<<" and "<<hex(i+direction, j-1)<<endl;
+        }
+        if (j < Q) {
+            sym_dis(hex(i, j), hex(i+direction, j+1));
+            cout<<"disconnecting "<<hex(i, j)<<" and "<<hex(i+direction, j+1)<<"\n"<<endl;
+        }
         still_hex.erase(hex_to_square);
     }
 
@@ -189,7 +195,7 @@ list<Node*>* makeGraph(int P, int Q, double prop_square, double prop_merge) {
         while (second->node->no == critic1 || second->node->no == critic2) {
             second++;
         }
-        //cout<<"first = "<<(*first)->no<<", second = "<<second->node->no<<endl;
+        cout<<"merging "<<*first<<" and "<<second->node<<endl;
         contract(second->node, *first);
         newCoord(second->node, *first, P, Q);
         not_merged.erase(first);
