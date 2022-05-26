@@ -2,7 +2,7 @@
 
 import pygame
 
-filename = "data/testDijkstra.txt"
+filename = "data/testCopyGraph2.txt"
 
 lines = []
 with open(filename, "r") as fd:

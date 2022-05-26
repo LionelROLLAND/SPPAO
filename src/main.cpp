@@ -87,13 +87,17 @@ void writeFileCwd(list<Node*>& l, string filename) {
 }
 
 void test_graph() {
-	int P = 5;
-	int Q = 5;
+	int P = 10;
+	int Q = 10;
 	double prop_square = 0.5;
 	double prop_merge = 0.5;
 	list<Node*>* l = makeGraph(P, Q, prop_square, prop_merge);
 	//cout<<"\n\n"<<*l<<endl;
-	writeFileCwd(*l, "testDijkstra.txt");
+	writeFileCwd(*l, "testCopyGraph.txt");
+	list<Node*>* test = graphCopy(*l);
+	writeFileCwd(*test, "testCopyGraph2.txt");
+	deleteGraph(l);
+	deleteGraph(test);
 }
 
 
@@ -153,10 +157,12 @@ void testFibHeap() {
 	cout<<test<<endl;
 	int my_min = test.deleteMin();
 	cout<<"\nThe min : "<<my_min<<"\n\n"<<endl;
-	cout<<test<<endl;
+	//cout<<test<<endl;
 	test.decreaseKey(locations[6], 0);
 	test.decreaseKey(locations[7], -1);
-	cout<<test;
+	cout<<"test : "<<test<<endl;
+	fibHeap<int> test2 = fibHeap<int>(test);
+	cout<<"test2 : "<<test2<<endl;
 }
 
 
@@ -204,12 +210,12 @@ int main(/* int argc, char *argv[] */)
 	cout<<"seed : "<<seed<<"\n\n"<<endl;
 	//breakTheReference();
 	//test_list();
-	//test_graph();
+	test_graph();
 	//stack_test();
 	//stack_test2();
 	//testMarkTree();
 	//testFibHeap();
-	testDijkstra();
+	//testDijkstra();
 }
 
 
@@ -219,5 +225,4 @@ TODO :
 	-> Reimplementer la facon dont on update la distance dans dijkstra pour que ca soit pas
 		plus couteux en temps
 - Faire une fonction pour charger un graphe en memoire
-- Faire un destructeur propre pour fibHeap
 */

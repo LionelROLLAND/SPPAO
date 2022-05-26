@@ -1,9 +1,6 @@
 #ifndef NEWFIBHEAP
 #define NEWFIBHEAP
 
-#ifndef FIBHEAP
-#define FIBHEAP
-
 #include <cmath>
 #include <list>
 #include <vector>
@@ -25,13 +22,27 @@ class Tree
         T get;
         Tree(Tree<T>* par=nullptr, list<Tree<T>*> childr=list<Tree<T>*>(), T info=T()) :
                 parent(par), children(childr), get(info) {}
-        Tree(const Tree<T>& Tr) :
-                parent(Tr.parent), children(Tr.children), get(Tr.get) {}
+        Tree(const Tree<T>& Tr);
+        //        parent(Tr.parent), children(Tr.children), get(Tr.get) {}
         ~Tree();
         Tree<T>& operator=(const Tree<T>& Tr);
         list<Tree<T>*>::iterator addChild(Tree<T>* Tr);
         Tree<T>* remChild(typename list<Tree<T>*>::iterator it);
 };
+
+
+template<typename T>
+Tree<T>::Tree(const Tree<T>& Tr) {
+    get = T(Tr.get);
+    Tree<T>* newTree;
+    for (typename list<Tree<T>*>::const_iterator tree = Tr.children.begin();
+    tree != Tr.children.end(); tree++) {
+        newTree = new Tree<T>(**tree);
+        children.push_back(newTree);
+        newTree->parent = this;
+
+    }
+}
 
 
 template<typename T>
@@ -149,10 +160,36 @@ template<typename T>
 class markTree : public Tree<infoFib<T>>
 {
     public:
-        using Tree<infoFib<T>>::Tree;
+        //using Tree<infoFib<T>>::Tree;
+        markTree(Tree<infoFib<T>>* par=nullptr,
+                list<Tree<infoFib<T>>*> childr=list<Tree<T>*>(),
+                infoFib<T> info=infoFib<T>());
+        markTree(const markTree<T>& Tr);
         list<Tree<infoFib<T>>*>::iterator addChild(Tree<infoFib<T>>* Tr);
         Tree<infoFib<T>>* remChild(typename list<Tree<infoFib<T>>*>::iterator it);
 };
+
+
+template<typename T>
+markTree<T>::markTree(Tree<infoFib<T>>* par,
+                list<Tree<infoFib<T>>*> childr,
+                infoFib<T> info) :
+                Tree<infoFib<T>>::Tree(par, childr, info)
+{}
+
+
+template<typename T>
+markTree<T>::markTree(const markTree<T>& Tr) :
+Tree<infoFib<T>>::Tree(static_cast<Tree<infoFib<T>>>(Tr))
+{
+    markTree<T>* child;
+    for (typename list<Tree<infoFib<T>>*>::iterator tree = Tree<infoFib<T>>::children.begin();
+    tree != Tree<infoFib<T>>::children.end(); tree++) {
+        child = static_cast<markTree<T>*>(*tree);
+        child->get.selfPointer = tree;
+    }
+}
+
 
 template<typename T>
 list<Tree<infoFib<T>>*>::iterator markTree<T>::addChild(Tree<infoFib<T>>* Tr) {
@@ -178,6 +215,8 @@ class fibHeap
         list<Tree<infoFib<T>>*> forest;
         fibHeap() : n(0), min_root(nullptr), forest(list<Tree<infoFib<T>>*>()) {}
         fibHeap(list<Tree<infoFib<T>>*>& l);
+        fibHeap(const fibHeap<T>& fH);
+        ~fibHeap();
         bool is_empty() {return forest.empty();}
         typename list<Tree<infoFib<T>>*>::iterator addToForest(Tree<infoFib<T>>* Tr);
         markTree<T>* remOfForest(typename list<Tree<infoFib<T>>*>::iterator it);
@@ -253,6 +292,35 @@ fibHeap<T>::fibHeap(list<Tree<infoFib<T>>*>& l) : min_root(nullptr), forest(list
 {
     forest.splice(forest.begin(), l);
     orderTrees();
+}
+
+
+template<typename T>
+fibHeap<T>::fibHeap(const fibHeap<T>& fH) {
+    n = fH.n;
+    forest = list<Tree<infoFib<T>>*>();
+    markTree<T>* interTree;
+    markTree<T>* newTree;
+    for (typename list<Tree<infoFib<T>>*>::const_iterator tree = fH.forest.begin();
+    tree != fH.forest.end(); tree++) {
+        interTree = static_cast<markTree<T>*>(*tree);
+        newTree = new markTree<T>(*interTree);
+        addToForest(newTree);
+        if (*tree == fH.min_root) {
+            min_root = newTree;
+        }
+    }
+}
+
+
+template<typename T>
+fibHeap<T>::~fibHeap() {
+    markTree<T>* realTree;
+    for (typename list<Tree<infoFib<T>>*>::iterator tree = forest.begin();
+    tree != forest.end(); tree++) {
+        realTree = static_cast<markTree<T>*>(*tree);
+        delete realTree;
+    }
 }
 
 
@@ -341,9 +409,6 @@ ostream& operator<<(ostream& out, fibHeap<T> fH) {
     out<<endl;
     return out;
 }
-
-
-#endif
 
 
 #endif

@@ -145,7 +145,7 @@ void connect(Node* v1, Node* v2, double weight) {
         if (isV2In) {
             it->arc = weight;
         } else {
-            v1->l_adj.push_front(arcNode(weight, v2));
+            v1->l_adj.push_front(arcNode(v2, weight));
         }
         c(v1, v2) = weight;
     }
@@ -271,4 +271,44 @@ void naturalWeight(list<Node*>& l) {
             } 
         }
     }
+}
+
+
+list<Node*>* graphCopy(list<Node*>& l) {
+    if (l.empty()) return new list<Node*>();
+    list<Node*>* res = new list<Node*>();
+    Matrix<double>* newAdjacency = new Matrix<double>(*(l.front()->adj));
+    int max_no = -1;
+    for (list<Node*>::const_iterator node = l.begin(); node != l.end(); node++) {
+        if ((*node)->no > max_no) {max_no = (*node)->no;}
+    }
+    vector<Node*> locations = vector<Node*>(max_no+1, nullptr);
+    for (list<Node*>::const_iterator node = l.begin(); node != l.end(); node++) {
+        locations[(*node)->no] = *node;
+    }
+    Node* newNode;
+    Node* oNode;
+    for (list<Node*>::const_iterator node = l.begin(); node != l.end(); node++) {
+        oNode = *node;
+        //newNode = new Node(no, x, y, l_adj, adj, marked, d, pred, tree);
+        newNode = new Node(oNode->no, oNode->x, oNode->y, list<arcNode>(), newAdjacency,
+                false, inf, nullptr, nullptr);
+        locations[oNode->no] = newNode;
+        res->push_back(newNode);
+    }
+    for (list<Node*>::const_iterator node = l.begin(); node != l.end(); node++) {
+        for (list<arcNode>::iterator child = (*node)->l_adj.begin();
+        child != (*node)->l_adj.end(); child++) {
+            locations[(*node)->no]->l_adj.push_back(arcNode(locations[child->no()], child->arc));
+        }
+    }
+    return res;
+}
+
+
+void deleteGraph(list<Node*>* l) {
+    for (list<Node*>::iterator it = l->begin(); it != l->end(); it++) {
+        delete *it;
+    }
+    delete l;
 }

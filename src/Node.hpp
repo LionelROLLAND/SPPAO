@@ -74,15 +74,16 @@ extern unsigned char bAp;
 class arcNode
 {
     public:
-        double arc;
         Node* node;
-        arcNode(double d=inf, Node* v=nullptr) : arc(d), node(v) {}
-        arcNode(const arcNode& aN) : arc(aN.arc), node(aN.node) {}
+        double arc;
+        arcNode(Node* v=nullptr, double d=inf) : node(v), arc(d) {}
+        arcNode(const arcNode& aN) : node(aN.node), arc(aN.arc) {}
         arcNode& operator=(const arcNode& aN);
         double& d() {return node->d;}
         bool& marked() {return node->marked;}
         Node*& pred() {return node->pred;}
         markTree<Node*>*& tree() {return node->tree;}
+        int& no() {return node->no;}
 };
 
 ostream& operator<<(ostream& out, struct cNode& cN);
@@ -116,5 +117,9 @@ void clean(list<Node*>& l);
 void normalize(list<Node*>& l);
 
 void naturalWeight(list<Node*>& l);
+
+list<Node*>* graphCopy(list<Node*>& l);
+
+void deleteGraph(list<Node*>* l);
 
 #endif
