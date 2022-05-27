@@ -9,6 +9,7 @@
 #include "newFibHeap.hpp"
 #include "test.hpp"
 #include "dijkstra.hpp"
+#include "firstSPPAO.hpp"
 
 using namespace std;
 
@@ -187,13 +188,44 @@ void testDijkstra() {
 			break;
 		}
 	}
-	list<Node*>* optPath = dijkstra(node1, node2);
+	infoPath optPath = dijkstra(node1, node2);
 	filesystem::path filepath = filesystem::current_path();
 	filepath /= "data";
 	filepath /= "testDijkstra3615.txt";
 	ofstream writing(filepath, ios::out);
-	writeDijSol(*l, *optPath, writing);
+	writeDijSol(*l, *(optPath.path), writing);
 	writing.close();
+}
+
+
+void testSPPAO1() {
+	int P = 10;
+	int Q = 10;
+	double prop_square = 0.5;
+	double prop_merge = 0.5;
+	list<Node*>* l = makeGraph(P, Q, prop_square, prop_merge);
+	naturalWeight(*l);
+	Node* node1;
+	Node* node2;
+	for (list<Node*>::iterator it = l->begin(); it != l->end(); it++) {
+		if ((*it)->x <= 2 && (*it)-> y <= 2) {
+			node1 = *it;
+			break;
+		}
+	}
+	for (list<Node*>::iterator it = l->begin(); it != l->end(); it++) {
+		if ((*it)->x >= Q-2 && (*it)-> y >= P-2) {
+			node2 = *it;
+			break;
+		}
+	}
+	list<Node*>* obstacles = createObstacles(1, 1, Q, P, 3);
+	list<infoPath>* res = firstSPPAO(*l, *obstacles, node1, node2);
+	if (res->empty()) {
+		cout<<"Liste vide"<<endl;
+	} else {
+		cout<<*(res->front().path)<<endl;
+	}
 }
 
 
@@ -211,12 +243,13 @@ int main(/* int argc, char *argv[] */)
 	cout<<"seed : "<<seed<<"\n\n"<<endl;
 	//breakTheReference();
 	//test_list();
-	test_graph();
+	//test_graph();
 	//stack_test();
 	//stack_test2();
 	//testMarkTree();
 	//testFibHeap();
-	testDijkstra();
+	//testDijkstra();
+	testSPPAO1();
 }
 
 
@@ -230,4 +263,5 @@ TODO :
 		plus couteux en temps
 - Faire une fonction pour charger un graphe en memoire -> ok ?
 - Fonction pour deconnecter 2 noeuds prenant en argument un noeud et un list<arcNode>::iterator
+- Tracker les fuites de memoire
 */

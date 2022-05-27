@@ -20,12 +20,13 @@ class Node
         Matrix<double>* adj;
         bool marked;
         double dToS;
-        Node* pred;
+        arcNode* pred;
         markTree<Node*>* tree;
         Node(int n=0, double absc=0., double ord=0., list<arcNode> l=list<arcNode>(),
-                Matrix<double>* A=nullptr, bool m=false, double dist=inf, Node* pr=nullptr,
+                Matrix<double>* A=nullptr, bool m=false, double dist=inf, arcNode* pr=nullptr,
                 markTree<Node*>* Tr=nullptr) : no(n), x(absc), y(ord), l_adj(l),
                 adj(A), marked(m), dToS(dist), pred(pr), tree(Tr) {}
+        Node(const Node& n);
         ~Node() {}
         Node& operator= (const Node& t);
 };
@@ -77,12 +78,13 @@ class arcNode
         Node* node;
         double arc_c;
         double arc_d;
-        arcNode(Node* v=nullptr, double c=inf, double d=0) : node(v), arc_c(c), arc_d(d) {}
+        arcNode(Node* v=nullptr, double c=inf, double d=inf) : node(v), arc_c(c), arc_d(d) {}
         arcNode(const arcNode& aN) : node(aN.node), arc_c(aN.arc_c), arc_d(aN.arc_d) {}
+        ~arcNode() {}
         arcNode& operator=(const arcNode& aN);
         double& dToS() {return node->dToS;}
         bool& marked() {return node->marked;}
-        Node*& pred() {return node->pred;}
+        arcNode*& pred() {return node->pred;}
         markTree<Node*>*& tree() {return node->tree;}
         int& no() {return node->no;}
 };
@@ -121,6 +123,10 @@ void naturalWeight(list<Node*>& l);
 
 list<Node*>* graphCopy(list<Node*>& l);
 
+double d(Node* n1, Node* n2, Node* obs);
+
 void deleteGraph(list<Node*>* l);
+
+istream& operator>>(istream& in, list<Node*>& l);
 
 #endif

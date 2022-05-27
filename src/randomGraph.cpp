@@ -3,6 +3,7 @@
 #include <random>
 #include "Node.hpp"
 #include "utils.hpp"
+#include "randomGraph.hpp"
 
 using namespace std;
 
@@ -213,23 +214,40 @@ list<Node*>* makeGraph(int P, int Q, double prop_square, double prop_merge) {
 }
 
 
-list<Node*>* createObstacles(double infx, double infy, double supx, double supy, int n=20) {
+list<Node*>* createObstacles(double infx, double infy, double supx, double supy, int n) {
     default_random_engine generator;
     uniform_real_distribution distribx(infx, supx);
     uniform_real_distribution distriby(infy, supy);
     double x;
     double y;
     list<Node*>* res = new list<Node*>();
-    for (int i = 0; i < n; i++) {
+    for (int i = 1; i <= n; i++) {
         x = distribx(generator);
         y = distriby(generator);
-        res->push_back(new Node(-1, x, y));
+        res->push_back(new Node(-i, x, y));
     }
     return res;
 }
 
-/*
-void computeArcD(list<Node*>& graph, list<Node*>& obstacles) {
 
+void computeArcD(list<Node*>& graph, list<Node*>& obstacles) {
+    for (list<Node*>::iterator n1 = graph.begin(); n1 != graph.end(); n1++) {
+        for (list<arcNode>::iterator n2 = (*n1)->l_adj.begin(); n2 != (*n1)->l_adj.end(); n2++) {
+            n2->arc_d = inf;
+            for (list<Node*>::iterator obs = obstacles.begin(); obs != obstacles.end(); obs++) {
+                if (d(*n1, n2->node, *obs) < n2->arc_d) {n2->arc_d = d(*n1, n2->node, *obs);}
+            }
+        }
+    }
 }
-*/
+
+
+void resetGraph(list<Node*>& graph) {
+    for (list<Node*>::iterator it = graph.begin(); it != graph.end(); it++) {
+        (*it)->marked = false;
+        (*it)->dToS = inf;
+        if ((*it)->pred != nullptr) {delete (*it)->pred;}
+        (*it)->pred = nullptr;
+        (*it)->tree = nullptr;
+    }
+}

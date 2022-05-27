@@ -1,8 +1,17 @@
 #ifndef DIJKSTRA
 #define DIJKSTRA
+#include <list>
+#include "Node.hpp"
 
-list<Node*>* makePath(Node* t);
+struct infoPath
+{
+    list<Node*>* path;
+    double c;
+    double d;
+};
 
-list<Node*>* dijkstra(Node* s, Node* t);
+infoPath makePath(Node* t);
+
+infoPath dijkstra(Node* s, Node* t, double min_d=-1);
 
 #endif

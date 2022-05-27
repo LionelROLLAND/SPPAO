@@ -5,18 +5,25 @@
 #include "newFibHeap.hpp"
 
 
-list<Node*>* makePath(Node* t) {
-    list<Node*>* res = new list<Node*>();
-    Node* pathPred = t;
+
+
+infoPath makePath(Node* t) {
+    list<Node*>* l = new list<Node*>();
+    infoPath res = infoPath({l, t->dToS, inf});
+    l->push_front(t);
+    arcNode* pathPred = t->pred;
     while (pathPred != nullptr) {
-        res->push_front(pathPred);
-        pathPred = res->front()->pred;
+        cout<<"In makePath : "<<pathPred->node<<endl;
+        l->push_front(pathPred->node);
+        if (pathPred->arc_d < res.d) {res.d = pathPred->arc_d;}
+        pathPred = l->front()->pred;
     }
     return res;
 }
 
 
-list<Node*>* dijkstra(Node* s, Node* t) {
+infoPath dijkstra(Node* s, Node* t, double min_d) {
+    cout<<"min_d = "<<min_d<<endl;
     s->tree = new markTree<Node*>(nullptr, list<Tree<infoFib<Node*>>*>(), infoFib(s, 0));
     s->marked = true;
     s->dToS = 0;
@@ -31,18 +38,22 @@ list<Node*>* dijkstra(Node* s, Node* t) {
         if (to_relax == t) {break;}
         for (list<arcNode>::iterator neighb = to_relax->l_adj.begin();
         neighb != to_relax->l_adj.end(); neighb++) {
-            if (!neighb->marked()) {
+            if (!neighb->marked() && neighb->arc_d > min_d) {
+                cout<<"min_d = "<<min_d<<", arc_d = "<<neighb->arc_d<<endl;
                 if (neighb->tree() == nullptr) {
                     neighb->dToS() = to_relax->dToS + neighb->arc_c;
                     neighb->tree() = heap->insert(neighb->node, neighb->dToS());
-                    neighb->pred() = to_relax;
+                    arcNode* pr = new arcNode(to_relax, neighb->arc_c, neighb->arc_d);
+                    neighb->pred() = pr;
                 } else if (to_relax->dToS + neighb->arc_c < neighb->dToS()) {
                     neighb->dToS() = to_relax->dToS + neighb->arc_c;
                     heap->decreaseKey(neighb->tree(), neighb->dToS());
-                    neighb->pred() = to_relax;
+                    arcNode* pr = new arcNode(to_relax, neighb->arc_c, neighb->arc_d);
+                    neighb->pred() = pr;
                 }
             }
         }
     }
+    delete heap;
     return makePath(t);
 }

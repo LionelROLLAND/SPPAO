@@ -47,12 +47,29 @@ ostream& operator<< (ostream& out, Node* t) {
 }
 
 
+Node::Node(const Node& n) {
+    no = n.no;
+    x = n.x;
+    y = n.y;
+    l_adj = n.l_adj;
+    adj = n.adj;
+    marked = n.marked;
+    dToS = n.dToS;
+    pred = n.pred;
+    tree = n.tree;
+}
+
+
 Node& Node::operator= (const Node& t) {
     no = t.no;
     x = t.x;
     y = t.y;
     l_adj = t.l_adj;
     adj = t.adj;
+    marked = t.marked;
+    dToS = t.dToS;
+    pred = t.pred;
+    tree = t.tree;
     return *this;
 }
 
