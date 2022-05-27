@@ -52,6 +52,10 @@ extern unsigned char rN;
 extern unsigned char gN;
 extern unsigned char bN;
 
+extern unsigned char rO;
+extern unsigned char gO;
+extern unsigned char bO;
+
 
 struct cArc
 {
@@ -91,11 +95,17 @@ class arcNode
 
 ostream& operator<<(ostream& out, struct cNode& cN);
 
+void printRCNode(ostream& out, struct cNode& cN);
+
 ostream& operator<<(ostream& out, struct cArc& cA);
 
-list<cNode>* graphToCNode(list<Node*>&graph);
+list<cNode>* graphToCNode(list<Node*>&graph, unsigned char r=rN, unsigned char g=gN, unsigned char b=bN);
 
 list<cArc>* pathToCArc(list<Node*>& graph, list<Node*>& path);
+
+list<cArc>* graphToCArc(list<Node*>& graph);
+
+list<cArc>* simplePathToCArc(list<Node*>& path);
 
 bool check_mat(const Node* v1, const Node* v2);
 

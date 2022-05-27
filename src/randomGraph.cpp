@@ -214,17 +214,17 @@ list<Node*>* makeGraph(int P, int Q, double prop_square, double prop_merge) {
 }
 
 
-list<Node*>* createObstacles(double infx, double infy, double supx, double supy, int n) {
+list<Node*>* createObstacles(double infx, double infy, double supx, double supy, int n_min, int n) {
     default_random_engine generator;
     uniform_real_distribution distribx(infx, supx);
     uniform_real_distribution distriby(infy, supy);
     double x;
     double y;
     list<Node*>* res = new list<Node*>();
-    for (int i = 1; i <= n; i++) {
+    for (int i = n_min; i < n_min+n; i++) {
         x = distribx(generator);
         y = distriby(generator);
-        res->push_back(new Node(-i, x, y));
+        res->push_back(new Node(i, x, y));
     }
     return res;
 }

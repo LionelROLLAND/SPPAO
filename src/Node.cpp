@@ -12,9 +12,14 @@ unsigned char rN = 80;
 unsigned char gN = 80;
 unsigned char bN = 80;
 
-unsigned char rA = 176;
+unsigned char rO = 255;
+unsigned char gO = 0;
+unsigned char bO = 0;
+
+
+unsigned char rA = 5;
 unsigned char gA = 0;
-unsigned char bA = 0;
+unsigned char bA = 71;
 
 unsigned char rAp = 38;
 unsigned char gAp = 255;
@@ -81,6 +86,11 @@ ostream& operator<<(ostream& out, struct cNode& cN) {
 }
 
 
+void printRCNode(ostream& out, struct cNode& cN) {
+    out<<cN.node->no<<" "<<(int) cN.r<<" "<<(int) cN.g<<" "<<(int) cN.b;
+}
+
+
 ostream& operator<<(ostream& out, struct cArc& cA) {
     out<<cA.node1->no<<" "<<cA.node2->no<<" "<<c(cA.node1, cA.node2)<<" ";
     out<<(int) cA.r<<" "<<(int) cA.g<<" "<<(int) cA.b;
@@ -88,10 +98,10 @@ ostream& operator<<(ostream& out, struct cArc& cA) {
 }
 
 
-list<cNode>* graphToCNode(list<Node*>&graph) {
+list<cNode>* graphToCNode(list<Node*>&graph, unsigned char r, unsigned char g, unsigned char b) {
     list<cNode>* res = new list<cNode>();
     for (list<Node*>::iterator it = graph.begin(); it != graph.end(); it++) {
-        res->push_back(cNode({*it, rN, gN, bN}));
+        res->push_back(cNode({*it, r, g, b}));
     }
     return res;
 }
@@ -101,7 +111,6 @@ list<cArc>* pathToCArc(list<Node*>& graph, list<Node*>& path) {
     list<cArc>* res1 = new list<cArc>();
     list<cArc>* recovery = new list<cArc>();
     list<Node*>::iterator next;
-    list<arcNode>::iterator saveChild;
     for (list<Node*>::iterator it = path.begin(); it != --(path.end()); it++) {
         next = it;
         next++;
@@ -128,6 +137,28 @@ list<cArc>* pathToCArc(list<Node*>& graph, list<Node*>& path) {
     return res2;
 }
 
+
+list<cArc>* graphToCArc(list<Node*>& graph) {
+    list<cArc>* res = new list<cArc>();
+    for (list<Node*>::iterator it = graph.begin(); it != graph.end(); it++) {
+        for (list<arcNode>::iterator child = (*it)->l_adj.begin();
+        child != (*it)->l_adj.end(); child++) {
+            res->push_back(cArc({*it, child->node, c(*it, child->node), rA, gA, bA}));
+        }
+    }
+    return res;
+}
+
+list<cArc>* simplePathToCArc(list<Node*>& path) {
+    list<cArc>* res = new list<cArc>();
+    list<Node*>::iterator next;
+    for (list<Node*>::iterator it = path.begin(); it != --(path.end()); it++) {
+        next = it;
+        next++;
+        res->push_back(cArc({*it, *next, c(*it, *next), rAp, gAp, bAp}));
+    }
+    return res;
+}
 
 
 arcNode& arcNode::operator= (const arcNode& aN) {
@@ -326,9 +357,17 @@ list<Node*>* graphCopy(list<Node*>& l) {
 
 
 double d(Node* n1, Node* n2, Node* obs) {
-    double nom = abs((n2->x - n1->x)*(n1->y - obs->y) - (n1->x - obs->x)*(n2->y - n1->y));
-    double den = sqrt((n2->x - n1->x)*(n2->x - n1->x) + (n2->y - n1->y)*(n2->y - n1->y));
-    return nom/den;
+    double Ux = n1->x - obs->x;
+    double Uy = n1->y - obs->y;
+    double Vx = n2->x - obs->x;
+    double Vy = n2->y - obs->y;
+    double Wx = n2->x - n1->x;
+    double Wy = n2->y - n1->y;
+    if (Ux*Wx + Uy*Wy <= 0 && Vx*Wx + Vy*Wy >= 0 && (Wx != 0 || Wy != 0)) {
+        return abs(Wx*Uy - Ux*Wy)/sqrt(Wx*Wx + Wy*Wy);
+    } else {
+        return min(sqrt(Ux*Ux + Uy*Uy), sqrt(Vx*Vx + Vy*Vy));
+    }
 }
 
 

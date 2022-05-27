@@ -68,6 +68,16 @@ void writeOptPath(list<cNode>& graph, list<cArc>& path, ofstream& w_stream) {
 }
 
 
+void writeFileCwd(list<Node*>& l, string filename) {
+	filesystem::path filepath = filesystem::current_path();
+	filepath /= "data";
+	filepath /= filename;
+	ofstream writing(filepath, ios::out);
+	writeNodeList(l, writing);
+	writing.close();
+}
+
+
 void writeDijSol(list<Node*>& graph, list<Node*>& path, ofstream& w_stream) {
 	list<cArc>* cPath = pathToCArc(graph, path);
 	list<cNode>* cGraph = graphToCNode(graph);
@@ -77,15 +87,40 @@ void writeDijSol(list<Node*>& graph, list<Node*>& path, ofstream& w_stream) {
 }
 
 
-
-void writeFileCwd(list<Node*>& l, string filename) {
-	filesystem::path filepath = filesystem::current_path();
-	filepath /= "data";
-	filepath /= filename;
-	ofstream writing(filepath, ios::out);
-	writeNodeList(l, writing);
-	writing.close();
+void writeSolSPPAO(list<Node*>& graph, list<Node*>& obstacles, list<infoPath>& optPaths, ofstream& w_stream) {
+	list<cNode>* cGraph = graphToCNode(graph);
+	list<cNode>* cObst = graphToCNode(obstacles, rO, gO, bO);
+	list<cArc>* cArcGraph = graphToCArc(graph);
+	for (list<Node*>::iterator it = graph.begin(); it != graph.end(); it++) {
+		w_stream<<(*it)->no<<" "<<(*it)->x<<" "<<(*it)->y<<"\n";
+	}
+	for (list<Node*>::iterator it = obstacles.begin(); it != obstacles.end(); it++) {
+		w_stream<<(*it)->no<<" "<<(*it)->x<<" "<<(*it)->y<<"\n";
+	}
+	w_stream<<"\n";
+	for (list<cArc>::iterator it = cArcGraph->begin(); it != cArcGraph->end(); it++) {
+		w_stream<<"arc 0 0 "<<*it<<"\n";
+	}
+	int indPath = 1;
+	for (list<infoPath>::iterator it = optPaths.begin(); it != optPaths.end(); it++) {
+		list<cArc>* currPath = simplePathToCArc(*(it->path));
+		for (list<cArc>::iterator arcPath = currPath->begin(); arcPath != currPath->end(); arcPath++) {
+			w_stream<<"arc "<<4*indPath<<" 1 "<<*arcPath<<"\n";
+		}
+		indPath++;
+	}
+	for (list<cNode>::iterator it = cGraph->begin(); it != cGraph->end(); it++) {
+		w_stream<<"point 0 2 ";
+		printRCNode(w_stream, *it);
+		w_stream<<"\n";
+	}
+	for (list<cNode>::iterator it = cObst->begin(); it != cObst->end(); it++) {
+		w_stream<<"point 0 3 ";
+		printRCNode(w_stream, *it);
+		w_stream<<"\n";
+	}
 }
+
 
 void test_graph() {
 	int P = 10;
@@ -199,8 +234,8 @@ void testDijkstra() {
 
 
 void testSPPAO1() {
-	int P = 10;
-	int Q = 10;
+	int P = 50;
+	int Q = 50;
 	double prop_square = 0.5;
 	double prop_merge = 0.5;
 	list<Node*>* l = makeGraph(P, Q, prop_square, prop_merge);
@@ -219,13 +254,21 @@ void testSPPAO1() {
 			break;
 		}
 	}
-	list<Node*>* obstacles = createObstacles(1, 1, Q, P, 3);
+	list<Node*>* obstacles = createObstacles(1, 1, Q, P, P*Q+1, 20);
 	list<infoPath>* res = firstSPPAO(*l, *obstacles, node1, node2);
+	/*
 	if (res->empty()) {
 		cout<<"Liste vide"<<endl;
 	} else {
 		cout<<*(res->front().path)<<endl;
 	}
+	*/
+	filesystem::path filepath = filesystem::current_path();
+	filepath /= "data";
+	filepath /= "testSPPAO1.txt";
+	ofstream writing(filepath, ios::out);
+	writeSolSPPAO(*l, *obstacles, *res, writing);
+	writing.close();
 }
 
 
