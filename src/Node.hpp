@@ -75,6 +75,10 @@ extern unsigned char rAp;
 extern unsigned char gAp;
 extern unsigned char bAp;
 
+extern unsigned char rAi;
+extern unsigned char gAi;
+extern unsigned char bAi;
+
 
 class arcNode
 {
@@ -122,6 +126,8 @@ void sym_con(Node* v1, Node* v2, double weight=1);
 void disconnect(Node* v1, Node* v2);
 
 void sym_dis(Node* v1, Node* v2);
+
+void disconnect(Node* v1, list<arcNode>::iterator v2);
 
 void contract(Node* v1, Node* v2);
 

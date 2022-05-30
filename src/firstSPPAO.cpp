@@ -19,10 +19,11 @@ list<infoPath>* firstSPPAO(list<Node*>& graph, list<Node*>& obstacles, Node* s, 
     }
     */
     infoPath optPath = dijkstra(s, t);
+    double optC = 0;
     list<infoPath>* res = new list<infoPath>();
-    int i = 0;
     while (optPath.path->size() > 1) {
-        i++;
+        if (optPath.c <= optC) {res->erase( (--res->end()) );}
+        optC = optPath.c;
         //cout<<"d = "<<optPath.d<<endl;
         //cout<<"l = "<<*(optPath.path)<<endl;
         res->push_back(optPath);

@@ -3,15 +3,32 @@
 #include <list>
 #include <fstream>
 #include <filesystem>
+
+
+#include <boost/program_options/cmdline.hpp> //boost not installed by default, to install manually
+#include <boost/program_options/config.hpp>
+#include <boost/program_options/environment_iterator.hpp>
+#include <boost/program_options/eof_iterator.hpp>
+#include <boost/program_options/errors.hpp>
+#include <boost/program_options/option.hpp>
+#include <boost/program_options/options_description.hpp>
+#include <boost/program_options/parsers.hpp>
+#include <boost/program_options/positional_options.hpp>
+#include <boost/program_options/value_semantic.hpp>
+#include <boost/program_options/variables_map.hpp>
+#include <boost/program_options/version.hpp>
+
+
+
 #include "randomGraph.hpp"
 #include "utils.hpp"
-//#include "fibonacciHeap.hpp"
 #include "newFibHeap.hpp"
 #include "test.hpp"
 #include "dijkstra.hpp"
 #include "firstSPPAO.hpp"
 
 using namespace std;
+//namespace po = boost::program_options;
 
 
 void test_list() {
@@ -91,31 +108,50 @@ void writeSolSPPAO(list<Node*>& graph, list<Node*>& obstacles, list<infoPath>& o
 	list<cNode>* cGraph = graphToCNode(graph);
 	list<cNode>* cObst = graphToCNode(obstacles, rO, gO, bO);
 	list<cArc>* cArcGraph = graphToCArc(graph);
+
 	for (list<Node*>::iterator it = graph.begin(); it != graph.end(); it++) {
 		w_stream<<(*it)->no<<" "<<(*it)->x<<" "<<(*it)->y<<"\n";
 	}
+
 	for (list<Node*>::iterator it = obstacles.begin(); it != obstacles.end(); it++) {
 		w_stream<<(*it)->no<<" "<<(*it)->x<<" "<<(*it)->y<<"\n";
 	}
+
 	w_stream<<"\n";
 	for (list<cArc>::iterator it = cArcGraph->begin(); it != cArcGraph->end(); it++) {
-		w_stream<<"arc 0 0 "<<*it<<"\n";
+		w_stream<<"arc 0 1 "<<*it<<"\n";
 	}
+
 	int indPath = 1;
+	double min_d;
 	for (list<infoPath>::iterator it = optPaths.begin(); it != optPaths.end(); it++) {
+
+		min_d = it->d;
+		cArc aN;
+		for (list<Node*>::iterator it = graph.begin(); it != graph.end(); it++) {
+			for (list<arcNode>::iterator child = (*it)->l_adj.begin();
+        	child != (*it)->l_adj.end(); child++) {
+				if (child->arc_d <= min_d) {
+            		aN = cArc({*it, child->node, c(*it, child->node), rAi, gAi, bAi});
+					w_stream<<"arc "<<4*(indPath+1)<<" 2 "<<aN<<"\n"; //changer prio
+				}
+			}
+		}
+
+		for (list<cNode>::iterator it = cObst->begin(); it != cObst->end(); it++) {
+			w_stream<<"point "<<4*(indPath+1)<<" 0 "<<min_d<<" "; //prio ?
+			printRCNode(w_stream, *it);
+			w_stream<<"\n";
+		}
+
 		list<cArc>* currPath = simplePathToCArc(*(it->path));
 		for (list<cArc>::iterator arcPath = currPath->begin(); arcPath != currPath->end(); arcPath++) {
-			w_stream<<"arc "<<4*indPath<<" 1 "<<*arcPath<<"\n";
+			w_stream<<"arc "<<4*indPath<<" 2 "<<*arcPath<<"\n";
 		}
 		indPath++;
 	}
 	for (list<cNode>::iterator it = cGraph->begin(); it != cGraph->end(); it++) {
-		w_stream<<"point 0 2 ";
-		printRCNode(w_stream, *it);
-		w_stream<<"\n";
-	}
-	for (list<cNode>::iterator it = cObst->begin(); it != cObst->end(); it++) {
-		w_stream<<"point 0 3 ";
+		w_stream<<"point 0 3 0.2 ";
 		printRCNode(w_stream, *it);
 		w_stream<<"\n";
 	}
@@ -129,11 +165,11 @@ void test_graph() {
 	double prop_merge = 0.5;
 	list<Node*>* l = makeGraph(P, Q, prop_square, prop_merge);
 	//cout<<"\n\n"<<*l<<endl;
-	writeFileCwd(*l, "testCopyGraph.txt");
-	list<Node*>* test = graphCopy(*l);
-	writeFileCwd(*test, "testCopyGraph2.txt");
+	writeFileCwd(*l, "toCopy.txt");
+	//list<Node*>* test = graphCopy(*l);
+	//writeFileCwd(*test, "testCopyGraph2.txt");
 	deleteGraph(l);
-	deleteGraph(test);
+	//deleteGraph(test);
 }
 
 
@@ -230,12 +266,13 @@ void testDijkstra() {
 	ofstream writing(filepath, ios::out);
 	writeDijSol(*l, *(optPath.path), writing);
 	writing.close();
+	deleteGraph(l);
 }
 
 
 void testSPPAO1() {
-	int P = 50;
-	int Q = 50;
+	int P = 60;
+	int Q = 60;
 	double prop_square = 0.5;
 	double prop_merge = 0.5;
 	list<Node*>* l = makeGraph(P, Q, prop_square, prop_merge);
@@ -268,13 +305,54 @@ void testSPPAO1() {
 	filepath /= "testSPPAO1.txt";
 	ofstream writing(filepath, ios::out);
 	writeSolSPPAO(*l, *obstacles, *res, writing);
+	delete res;
+	delete obstacles;
+	delete l;
 	writing.close();
+}
+
+
+void testLoading() {
+	filesystem::path infilepath = filesystem::current_path();
+	infilepath /= "data";
+	infilepath /= "toCopy.txt";
+	ifstream reading(infilepath, ios::in);
+	list<Node*>* l = new list<Node*>();
+	reading>>*l;
+	reading.close();
+	writeFileCwd(*l, "testLoading.txt");
+	deleteGraph(l);
 }
 
 
 
 int main(/* int argc, char *argv[] */)
-{
+{	/*
+	// Declare the supported options.
+	po::options_description desc("Allowed options");
+	desc.add_options()
+    	("help", "produce help message")
+    	("compression", po::value<int>(), "set compression level")
+	;
+
+	po::variables_map vm;
+	po::store(po::parse_command_line(argc, argv, desc), vm);
+	po::notify(vm);    
+
+	if (vm.count("help")) {
+    	cout << desc << "\n";
+    	return 1;
+	}
+
+	if (vm.count("compression")) {
+    	cout << "Compression level was set to " 
+ 	<< vm["compression"].as<int>() << ".\n";
+	} else {
+    	cout << "Compression level was not set.\n";
+	}
+	*/
+
+
 	//int seed = time(nullptr);
 	//int seed = 1652869031;
 	//int seed = 1653486333; //pb div par 0
@@ -293,6 +371,7 @@ int main(/* int argc, char *argv[] */)
 	//testFibHeap();
 	//testDijkstra();
 	testSPPAO1();
+	//testLoading();
 }
 
 
@@ -304,7 +383,5 @@ TODO :
 - Reimplementer les matrices pour qu'elles soient moins gourmandes en espace
 	-> Reimplementer la facon dont on update la distance dans dijkstra pour que ca soit pas
 		plus couteux en temps
-- Faire une fonction pour charger un graphe en memoire -> ok ?
-- Fonction pour deconnecter 2 noeuds prenant en argument un noeud et un list<arcNode>::iterator
 - Tracker les fuites de memoire
 */

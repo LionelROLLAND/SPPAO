@@ -25,6 +25,10 @@ unsigned char rAp = 38;
 unsigned char gAp = 255;
 unsigned char bAp = 41;
 
+unsigned char rAi = 143;
+unsigned char gAi = 0;
+unsigned char bAi = 155;
+
 
 ostream& operator<< (ostream& out, const Node& t) {
     out<<"Node "<<t.no<<" : ("<<t.x<<","<<t.y<<")";
@@ -40,6 +44,7 @@ ostream& operator<< (ostream& out, const Node& t) {
 
 
 ostream& operator<< (ostream& out, Node* t) {
+    if (t == nullptr) {return out<<"NULL";}
     out<<"Node "<<t->no<<" : ("<<t->x<<","<<t->y<<")";
     /*
     out<<",  neighb =";
@@ -228,6 +233,12 @@ void sym_dis(Node* v1, Node* v2) {
 }
 
 
+void disconnect(Node* v1, list<arcNode>::iterator v2) {
+    c(v1, v2->node) = inf;
+    v1->l_adj.erase(v2);
+}
+
+
 void contract(Node* v1, Node* v2) {
     list<arcNode>::iterator saveIt;
     list<arcNode>::iterator it = v2->l_adj.begin();
@@ -391,10 +402,11 @@ istream& operator>>(istream& in, list<Node*>& l) { //Not tested yet
     int cut;
     int max_no = -1;
     istream& state = getline(in, line);
-    while (state && line.compare("\n") != 0) {
-        cut = min(line.find_first_of(" "), line.find_first_of("\n"));
+    while (state && line.compare("") != 0) {
+        cut = line.find_first_of(" ");
         number = line.substr(0,cut);
         line = line.substr(cut+1);
+        //cout<<number<<endl;
         no1 = stoi(number);
 
         if (no1 <= 0) {
@@ -406,11 +418,13 @@ istream& operator>>(istream& in, list<Node*>& l) { //Not tested yet
         cut = min(line.find_first_of(" "), line.find_first_of("\n"));
         number = line.substr(0,cut);
         line = line.substr(cut+1);
+        //cout<<number<<endl;
         x = stod(number);
 
         cut = min(line.find_first_of(" "), line.find_first_of("\n"));
         number = line.substr(0,cut);
         line = line.substr(cut+1);
+        //cout<<number<<endl;
         y = stod(number);
 
         newNode = new Node(no1, x, y);
@@ -420,27 +434,31 @@ istream& operator>>(istream& in, list<Node*>& l) { //Not tested yet
     if (l.empty()) {return in;}
 
     Matrix<double>* adjacency = new Matrix<double>(max_no, max_no, inf);
-    vector<Node*> locations = vector<Node*>(max_no, nullptr);
+    vector<Node*> locations = vector<Node*>(max_no+1, nullptr);
     for (list<Node*>::iterator it = l.begin(); it != l.end(); it++) {
         locations[(*it)->no] = *it;
         (*it)->adj = adjacency;
     }
+    //cout<<"\n"<<locations<<"\n"<<endl;
     
     getline(in, line);
     while(state) {
-        cut = min(line.find_first_of(" "), line.find_first_of("\n"));
+        cut = line.find_first_of(" ");
         number = line.substr(0,cut);
         line = line.substr(cut+1);
+        //cout<<number<<endl;
         no1 = stoi(number);
 
-        cut = min(line.find_first_of(" "), line.find_first_of("\n"));
+        cut = line.find_first_of(" ");
         number = line.substr(0,cut);
         line = line.substr(cut+1);
+        //cout<<number<<endl;
         no2 = stoi(number);
 
-        cut = min(line.find_first_of(" "), line.find_first_of("\n"));
+        cut = line.find_first_of(" ");
         number = line.substr(0,cut);
         line = line.substr(cut+1);
+        //cout<<number<<endl;
         d = stod(number);
 
         connect(locations[no1], locations[no2], d);

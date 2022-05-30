@@ -3,6 +3,7 @@
 import pygame
 
 filename = "data/testSPPAO1.txt"
+fancy = True
 
 lines = []
 with open(filename, "r") as fd:
@@ -77,8 +78,8 @@ def getBetterGraph(lines):
 	while line != "" and i < len(lines):
 		sep = line.split(" ")
 		if sep[0] == "point":
-			plotings.append(("point", int(sep[1]), int(sep[2]), int(sep[3]), int(sep[4]),
-								int(sep[5]), int(sep[6]) ))
+			plotings.append(("point", int(sep[1]), int(sep[2]), float(sep[3]), int(sep[4]),
+								int(sep[5]), int(sep[6]), int(sep[7]) ))
 		if sep[0] == "arc":
 			plotings.append(( "arc", int(sep[1]), int(sep[2]), int(sep[3]), 
 								int(sep[4]), int(sep[6]), int(sep[7]), int(sep[8]) ))
@@ -209,9 +210,10 @@ def displayBetterGraph(tab_points, plotings):
 				varPlot += 1
 
 			if to_plot[0] == "point":
-				pos = (a*tab_points[to_plot[3]][0]+bX, a*tab_points[to_plot[3]][1]+bY)
-				col = (to_plot[4], to_plot[5], to_plot[6])
-				pygame.draw.circle(screen, col, pos, 7)
+				pos = (a*tab_points[to_plot[4]][0]+bX, a*tab_points[to_plot[4]][1]+bY)
+				col = (to_plot[5], to_plot[6], to_plot[7])
+				scale = a*to_plot[3]
+				pygame.draw.circle(screen, col, pos, scale)
 
 			if to_plot[0] == "arc":
 				pos1 = (a*tab_points[to_plot[3]][0]+bX, a*tab_points[to_plot[3]][1]+bY)
@@ -236,6 +238,9 @@ def displayBetterGraph(tab_points, plotings):
 			pygame.display.flip()
 
 
-
-res = getBetterGraph(lines)
-displayBetterGraph(res[0], res[1])
+if fancy:
+	res = getBetterGraph(lines)
+	displayBetterGraph(res[0], res[1])
+else:
+	res = get_graph(lines)
+	display_graph(res[0], res[1])
