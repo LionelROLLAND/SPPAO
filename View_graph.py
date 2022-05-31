@@ -2,8 +2,10 @@
 
 import pygame
 
+filename = "data/testPathMinD.txt"
 filename = "data/testSPPAO1.txt"
 fancy = True
+animated = False
 
 lines = []
 with open(filename, "r") as fd:
@@ -232,6 +234,10 @@ def displayBetterGraph(tab_points, plotings):
 
 		playing = True
 		clock = pygame.time.Clock()
+
+		change_frame = pygame.event.custom_type()
+		if animated:
+			pygame.time.set_timer(change_frame, 200)
 		
 		while playing :
 			clock.tick(30)
@@ -242,6 +248,8 @@ def displayBetterGraph(tab_points, plotings):
 				elif event.type == pygame.MOUSEBUTTONUP:
 					if event.button == 1:
 						playing = False
+				elif event.type == change_frame:
+					playing = False
 			pygame.display.flip()
 
 

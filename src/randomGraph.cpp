@@ -245,7 +245,8 @@ void computeArcD(list<Node*>& graph, list<Node*>& obstacles) {
 void resetGraph(list<Node*>& graph) {
     for (list<Node*>::iterator it = graph.begin(); it != graph.end(); it++) {
         (*it)->marked = false;
-        (*it)->dToS = inf;
+        (*it)->c_to_s = inf;
+        (*it)->d_to_S = 0;
         if ((*it)->pred != nullptr) {delete (*it)->pred;}
         (*it)->pred = nullptr;
         (*it)->tree = nullptr;

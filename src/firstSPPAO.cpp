@@ -19,16 +19,17 @@ list<infoPath>* firstSPPAO(list<Node*>& graph, list<Node*>& obstacles, Node* s, 
     }
     */
     infoPath optPath = dijkstra(s, t);
-    double optC = 0;
+    //double optC = 0;
     list<infoPath>* res = new list<infoPath>();
     while (optPath.path->size() > 1) {
-        if (optPath.c <= optC) {res->erase( (--res->end()) );}
-        optC = optPath.c;
+        //if (optPath.c <= optC) {res->erase( (--res->end()) );}
+        //optC = optPath.c;
         //cout<<"d = "<<optPath.d<<endl;
         //cout<<"l = "<<*(optPath.path)<<endl;
         res->push_back(optPath);
         resetGraph(graph);
         optPath = dijkstra(s, t, optPath.d);
     }
+    resetGraph(graph);
     return res;
 }

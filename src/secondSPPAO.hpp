@@ -7,6 +7,6 @@
 #include "dijkstra.hpp"
 #include "Node.hpp"
 
-
+infoPath pathOfMaxD(Node* s, Node* t);
 
 #endif

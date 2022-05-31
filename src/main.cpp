@@ -26,6 +26,7 @@
 #include "test.hpp"
 #include "dijkstra.hpp"
 #include "firstSPPAO.hpp"
+#include "secondSPPAO.hpp"
 
 namespace po = boost::program_options;
 using namespace std;
@@ -268,6 +269,7 @@ void testDijkstra() {
 	ofstream writing(filepath, ios::out);
 	writeDijSol(*l, *(optPath.path), writing);
 	writing.close();
+	delete optPath.path;
 	deleteGraph(l);
 }
 
@@ -297,10 +299,68 @@ void testSPPAO1(int P=10, int Q=10, int O=5, double prop_square=0.5, double prop
 	filepath /= "testSPPAO1.txt";
 	ofstream writing(filepath, ios::out);
 	writeSolSPPAO(*l, *obstacles, *res, writing);
-	delete res;
-	delete obstacles;
-	delete l;
 	writing.close();
+	for (list<infoPath>::iterator it = res->begin(); it != res->end(); it++) {
+		delete it->path;
+	}
+	delete res;
+	deleteGraph(obstacles);
+	deleteGraph(l);
+}
+
+
+void testPathMinD(int P=10, int Q=10, int O=5, double prop_square=0.5, double prop_merge=0.5) {
+	list<Node*>* l = makeGraph(P, Q, prop_square, prop_merge);
+	naturalWeight(*l);
+	Node* node1;
+	Node* node2;
+	for (list<Node*>::iterator it = l->begin(); it != l->end(); it++) {
+		if ((*it)->x <= 2 && (*it)-> y <= 2) {
+			node1 = *it;
+			break;
+		}
+	}
+	for (list<Node*>::iterator it = l->begin(); it != l->end(); it++) {
+		if ((*it)->x >= Q-2 && (*it)-> y >= P-2) {
+			node2 = *it;
+			break;
+		}
+	}
+	list<Node*>* obstacles = createObstacles(1, 1, Q, P, P*Q+1, O);
+	computeArcD(*l, *obstacles);
+	infoPath pre_res = pathOfMaxD(node1, node2);
+	resetGraph(*l);
+	infoPath res = dijkstra(node1, node2, -1, pre_res.d);
+	list<infoPath> l_res = list<infoPath>();
+	l_res.push_back(res);
+	filesystem::path filepath = filesystem::current_path();
+	filepath /= "data";
+	filepath /= "testPathMinD.txt";
+	ofstream writing(filepath, ios::out);
+	writeSolSPPAO(*l, *obstacles, l_res, writing);
+	writing.close();
+	resetGraph(*l);
+
+	list<infoPath>* SPPAOres = firstSPPAO(*l, *obstacles, node1, node2);
+
+	filepath = filesystem::current_path();
+	filepath /= "data";
+	filepath /= "testSPPAO1.txt";
+	writing= ofstream(filepath, ios::out);
+	writeSolSPPAO(*l, *obstacles, *SPPAOres, writing);
+	writing.close();
+	for (list<infoPath>::iterator it = SPPAOres->begin(); it != SPPAOres->end(); it++) {
+		delete it->path;
+	}
+	delete SPPAOres;
+
+
+
+
+	//delete pre_res.path;
+	//delete res.path;
+	deleteGraph(obstacles);
+	deleteGraph(l);
 }
 
 
@@ -353,6 +413,7 @@ int main(int argc, char *argv[])
 	//int seed = 1653490732;
 	//int seed = 1653490924;
 	int seed = 1653567294;
+	//int seed = 1654024021;
 	srand(seed); //1652869031
 	cout<<"seed : "<<seed<<"\n\n"<<endl;
 	//breakTheReference();
@@ -363,8 +424,9 @@ int main(int argc, char *argv[])
 	//testMarkTree();
 	//testFibHeap();
 	//testDijkstra();
-	testSPPAO1(P, Q, O, p_square, p_merge);
+	//testSPPAO1(P, Q, O, p_square, p_merge);
 	//testLoading();
+	testPathMinD(P, Q, O, p_square, p_merge);
 }
 
 

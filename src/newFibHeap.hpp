@@ -273,7 +273,6 @@ void fibHeap<T>::orderTrees() {
             //cout<<"Before remOfForest"<<endl;
             //cout<<tree1->get<<endl;
             remOfForest(tree1->get.selfPointer);
-            remOfForest(it++);
             rootVec[deg] = nullptr;
             if (tree1->get.key <= tree2->get.key) {
                 tree1->addChild(tree2);
@@ -282,6 +281,7 @@ void fibHeap<T>::orderTrees() {
                 tree2->addChild(tree1);
                 addToForest(tree2);
             }
+            remOfForest(it++);
         }
     }
 }
@@ -365,6 +365,7 @@ void fibHeap<T>::decreaseKey(markTree<T>* Tr, double newKey) {
         return;
     }
     Tr->get.key = newKey;
+    if (newKey < min_root->get.key) {min_root = Tr;}
     Tree<infoFib<T>>* parInit = Tr->parent;
     markTree<T>* par = static_cast<markTree<T>*>(parInit);
     if (par == nullptr) {return;}

@@ -64,7 +64,8 @@ Node::Node(const Node& n) {
     l_adj = n.l_adj;
     adj = n.adj;
     marked = n.marked;
-    dToS = n.dToS;
+    c_to_s = n.c_to_s;
+    d_to_S = n.d_to_S;
     pred = n.pred;
     tree = n.tree;
 }
@@ -77,7 +78,8 @@ Node& Node::operator= (const Node& t) {
     l_adj = t.l_adj;
     adj = t.adj;
     marked = t.marked;
-    dToS = t.dToS;
+    c_to_s = t.c_to_s;
+    d_to_S = t.d_to_S;
     pred = t.pred;
     tree = t.tree;
     return *this;
@@ -353,7 +355,7 @@ list<Node*>* graphCopy(list<Node*>& l) {
         oNode = *node;
         //newNode = new Node(no, x, y, l_adj, adj, marked, d, pred, tree);
         newNode = new Node(oNode->no, oNode->x, oNode->y, list<arcNode>(), newAdjacency,
-                false, inf, nullptr, nullptr);
+                false, inf, 0, nullptr, nullptr);
         locations[oNode->no] = newNode;
         res->push_back(newNode);
     }
