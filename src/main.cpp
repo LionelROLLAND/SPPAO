@@ -27,6 +27,7 @@
 #include "dijkstra.hpp"
 #include "firstSPPAO.hpp"
 
+namespace po = boost::program_options;
 using namespace std;
 //namespace po = boost::program_options;
 
@@ -148,10 +149,11 @@ void writeSolSPPAO(list<Node*>& graph, list<Node*>& obstacles, list<infoPath>& o
 		for (list<cArc>::iterator arcPath = currPath->begin(); arcPath != currPath->end(); arcPath++) {
 			w_stream<<"arc "<<4*indPath<<" 2 "<<*arcPath<<"\n";
 		}
+		w_stream<<"info "<<4*indPath<<" 0 "<<it->c<<" "<<it->d<<"\n";
 		indPath++;
 	}
 	for (list<cNode>::iterator it = cGraph->begin(); it != cGraph->end(); it++) {
-		w_stream<<"point 0 3 0.2 ";
+		w_stream<<"point 0 3 0.24 ";
 		printRCNode(w_stream, *it);
 		w_stream<<"\n";
 	}
@@ -270,11 +272,7 @@ void testDijkstra() {
 }
 
 
-void testSPPAO1() {
-	int P = 60;
-	int Q = 60;
-	double prop_square = 0.5;
-	double prop_merge = 0.5;
+void testSPPAO1(int P=10, int Q=10, int O=5, double prop_square=0.5, double prop_merge=0.5) {
 	list<Node*>* l = makeGraph(P, Q, prop_square, prop_merge);
 	naturalWeight(*l);
 	Node* node1;
@@ -291,15 +289,9 @@ void testSPPAO1() {
 			break;
 		}
 	}
-	list<Node*>* obstacles = createObstacles(1, 1, Q, P, P*Q+1, 20);
+	list<Node*>* obstacles = createObstacles(1, 1, Q, P, P*Q+1, O);
 	list<infoPath>* res = firstSPPAO(*l, *obstacles, node1, node2);
-	/*
-	if (res->empty()) {
-		cout<<"Liste vide"<<endl;
-	} else {
-		cout<<*(res->front().path)<<endl;
-	}
-	*/
+
 	filesystem::path filepath = filesystem::current_path();
 	filepath /= "data";
 	filepath /= "testSPPAO1.txt";
@@ -326,13 +318,16 @@ void testLoading() {
 
 
 
-int main(/* int argc, char *argv[] */)
-{	/*
-	// Declare the supported options.
+int main(int argc, char *argv[])
+{
 	po::options_description desc("Allowed options");
 	desc.add_options()
     	("help", "produce help message")
-    	("compression", po::value<int>(), "set compression level")
+    	("p_square", po::value<double>()->default_value(0.5), "proportion of hexagons to be turned into squares")
+		("p_merge", po::value<double>()->default_value(0.5), "proportion of nodes to be merged")
+		("P", po::value<int>()->default_value(10), "height of the initial grid")
+		("Q", po::value<int>()->default_value(10), "width of the initial grid")
+		("O", po::value<int>()->default_value(5), "number of obstacles")
 	;
 
 	po::variables_map vm;
@@ -344,13 +339,11 @@ int main(/* int argc, char *argv[] */)
     	return 1;
 	}
 
-	if (vm.count("compression")) {
-    	cout << "Compression level was set to " 
- 	<< vm["compression"].as<int>() << ".\n";
-	} else {
-    	cout << "Compression level was not set.\n";
-	}
-	*/
+	double p_square = vm["p_square"].as<double>();
+	double p_merge = vm["p_merge"].as<double>();
+	int P = vm["P"].as<int>();
+	int Q = vm["Q"].as<int>();
+	int O = vm["O"].as<int>();
 
 
 	//int seed = time(nullptr);
@@ -370,7 +363,7 @@ int main(/* int argc, char *argv[] */)
 	//testMarkTree();
 	//testFibHeap();
 	//testDijkstra();
-	testSPPAO1();
+	testSPPAO1(P, Q, O, p_square, p_merge);
 	//testLoading();
 }
 

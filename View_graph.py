@@ -83,6 +83,8 @@ def getBetterGraph(lines):
 		if sep[0] == "arc":
 			plotings.append(( "arc", int(sep[1]), int(sep[2]), int(sep[3]), 
 								int(sep[4]), int(sep[6]), int(sep[7]), int(sep[8]) ))
+		if sep[0] == "info":
+			plotings.append(( "info", int(sep[1]), int(sep[2]), float(sep[3]), float(sep[4]) ))
 
 
 		i+=1
@@ -213,13 +215,18 @@ def displayBetterGraph(tab_points, plotings):
 				pos = (a*tab_points[to_plot[4]][0]+bX, a*tab_points[to_plot[4]][1]+bY)
 				col = (to_plot[5], to_plot[6], to_plot[7])
 				scale = a*to_plot[3]
-				pygame.draw.circle(screen, col, pos, scale)
+				pygame.draw.circle(screen, col, pos, max(scale,1))
 
 			if to_plot[0] == "arc":
 				pos1 = (a*tab_points[to_plot[3]][0]+bX, a*tab_points[to_plot[3]][1]+bY)
 				pos2 = (a*tab_points[to_plot[4]][0]+bX, a*tab_points[to_plot[4]][1]+bY)
 				col = (to_plot[5], to_plot[6], to_plot[7])
-				pygame.draw.line(screen, color=col, start_pos=pos1, end_pos=pos2, width=4)
+				scale = int(max(0.3*a, 1))
+				pygame.draw.line(screen, color=col, start_pos=pos1,
+					end_pos=pos2, width=scale)
+
+			if to_plot[0] == "info":
+				pygame.display.set_caption("c = " + str(to_plot[3]) + ", d = " + str(to_plot[4]) )
 
 
 
