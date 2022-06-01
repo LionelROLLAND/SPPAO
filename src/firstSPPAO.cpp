@@ -1,14 +1,17 @@
 #include <list>
+#include <iomanip>
+#include <ctime>
+#include <chrono>
+
 #include "Node.hpp"
 #include "randomGraph.hpp"
 #include "dijkstra.hpp"
-
+#include "firstSPPAO.hpp"
 
 using namespace std;
 
 
-list<infoPath>* firstSPPAO(list<Node*>& graph, list<Node*>& obstacles, Node* s, Node* t) {
-    computeArcD(graph, obstacles);
+list<infoPath>* firstSPPAO(list<Node*>& graph, Node* s, Node* t) {
     /*
     for (list<Node*>::iterator it = graph.begin(); it != graph.end(); it++) {
         cout<<*it<<endl;
@@ -18,6 +21,7 @@ list<infoPath>* firstSPPAO(list<Node*>& graph, list<Node*>& obstacles, Node* s, 
         }
     }
     */
+    auto start = chrono::system_clock::now();
     infoPath optPath = dijkstra(s, t);
     //double optC = 0;
     list<infoPath>* res = new list<infoPath>();
@@ -30,6 +34,8 @@ list<infoPath>* firstSPPAO(list<Node*>& graph, list<Node*>& obstacles, Node* s, 
         resetGraph(graph);
         optPath = dijkstra(s, t, optPath.d);
     }
-    resetGraph(graph);
+    auto end = chrono::system_clock::now();
+    chrono::duration<double> elapsed = end-start;
+    cout<<"\nComputation time -- SPPAO 1st approach : "<<setprecision(12)<<elapsed.count()<<endl;
     return res;
 }

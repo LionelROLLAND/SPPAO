@@ -25,7 +25,8 @@ infoPath makePath(Node* t) {
 }
 
 
-infoPath dijkstra(Node* s, Node* t, double strict_min_d, double min_d) {
+infoPath dijkstra(Node* s, Node* t, double strict_min_d, double min_d,
+double strict_max_c) {
     //cout<<"NEW DIJKSTRA"<<endl;
     //cout<<"min_d = "<<min_d<<endl;
     //cout<<"strict_min_d = "<<strict_min_d<<endl;
@@ -36,6 +37,7 @@ infoPath dijkstra(Node* s, Node* t, double strict_min_d, double min_d) {
     fibHeap<Node*>* heap = new fibHeap<Node*>();
     s->tree = heap->insert(s, 0);
     Node* to_relax;
+    double newDist;
     double min_min = 0;
     while (!heap->is_empty()) {
         if (heap->min_root->get.key < min_min) {
@@ -58,18 +60,20 @@ infoPath dijkstra(Node* s, Node* t, double strict_min_d, double min_d) {
             } else {
                 cout<<"unmarked"<<endl;
             }*/
-            if (!neighb->marked() && neighb->arc_d > strict_min_d && neighb->arc_d >= min_d) {
+            newDist = to_relax->c_to_s + neighb->arc_c;
+            if (!neighb->marked() && neighb->arc_d > strict_min_d && neighb->arc_d >= min_d
+            && newDist < strict_max_c) {
                 //cout<<"min_d = "<<min_d<<", arc_d = "<<neighb->arc_d<<endl;
                 if (neighb->tree() == nullptr) {
-                    neighb->c_to_s() = to_relax->c_to_s + neighb->arc_c;
+                    neighb->c_to_s() = newDist;
                     neighb->d_to_S() = min(to_relax->d_to_S, neighb->arc_d);
-                    neighb->tree() = heap->insert(neighb->node, neighb->c_to_s());
+                    neighb->tree() = heap->insert(neighb->node, newDist);
                     arcNode* pr = new arcNode(to_relax, neighb->arc_c, neighb->arc_d);
                     neighb->pred() = pr;
-                } else if (to_relax->c_to_s + neighb->arc_c < neighb->c_to_s()) {
+                } else if (newDist < neighb->c_to_s()) {
                     neighb->d_to_S() = min(to_relax->d_to_S, neighb->arc_d);
-                    neighb->c_to_s() = to_relax->c_to_s + neighb->arc_c;
-                    heap->decreaseKey(neighb->tree(), neighb->c_to_s());
+                    neighb->c_to_s() = newDist;
+                    heap->decreaseKey(neighb->tree(), newDist);
                     arcNode* pr = new arcNode(to_relax, neighb->arc_c, neighb->arc_d);
                     neighb->pred() = pr;
                 }

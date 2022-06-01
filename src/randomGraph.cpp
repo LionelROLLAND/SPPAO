@@ -89,6 +89,8 @@ list<Node*>* makeGraph(int P, int Q, double prop_square, double prop_merge) {
     list<augmentedNode> still_hex = list<augmentedNode>();
     for (int i = 1; i <= P; i++) {
         for (int j = 1; j <= Q; j++) {
+            //cout<<"i = "<<i<<", j = "<<j<<endl;
+            //cout<<hex(i, j)<<endl;
             if (j % 2 == 0) {
                 if (i != P) {still_hex.push_front( augmentedNode({i, j, hex(i, j)}) );}
             } else {
@@ -96,22 +98,29 @@ list<Node*>* makeGraph(int P, int Q, double prop_square, double prop_merge) {
             }
         }
     }
+    //cout<<"list created"<<endl;
 
     cout<<"\rSTEP 2/4  [#.]";
-    for (int k = P*(Q-1); k > rest; k--) {
+    for (int k = Q*(P-1); k > rest; k--) {
         int to_square = (rand() % k);
         list<augmentedNode>::iterator hex_to_square = still_hex.begin();
         //for (int l = 0; l < to_square; l++) {hex_to_square++;}
+        //cout<<"still_hex.size() = "<<still_hex.size()<<", to_square = "<<to_square<<endl;
         advance(hex_to_square, to_square);
         int i = hex_to_square->i;
         int j = hex_to_square->j;
         int direction = rand() % 2 - (j % 2);
+        //cout<<"i = "<<i<<", j = "<<j<<", direction = "<<direction<<endl;
         if (j > 1) {
+            //cout<<"Before sym_dis (j-1)"<<endl;
             sym_dis(hex(i, j), hex(i+direction, j-1));
+            //cout<<"After sym_dis (j-1)"<<endl;
             //cout<<"disconnecting "<<hex(i, j)<<" and "<<hex(i+direction, j-1)<<endl;
         }
         if (j < Q) {
+            //cout<<"Before sym_dis (j+1)"<<endl;
             sym_dis(hex(i, j), hex(i+direction, j+1));
+            //cout<<"After sym_dis (j+1)"<<endl;
             //cout<<"disconnecting "<<hex(i, j)<<" and "<<hex(i+direction, j+1)<<"\n"<<endl;
         }
         still_hex.erase(hex_to_square);

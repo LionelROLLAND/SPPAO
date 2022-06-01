@@ -292,7 +292,8 @@ void testSPPAO1(int P=10, int Q=10, int O=5, double prop_square=0.5, double prop
 		}
 	}
 	list<Node*>* obstacles = createObstacles(1, 1, Q, P, P*Q+1, O);
-	list<infoPath>* res = firstSPPAO(*l, *obstacles, node1, node2);
+	computeArcD(*l, *obstacles);
+	list<infoPath>* res = firstSPPAO(*l, node1, node2);
 
 	filesystem::path filepath = filesystem::current_path();
 	filepath /= "data";
@@ -341,7 +342,7 @@ void testPathMinD(int P=10, int Q=10, int O=5, double prop_square=0.5, double pr
 	writing.close();
 	resetGraph(*l);
 
-	list<infoPath>* SPPAOres = firstSPPAO(*l, *obstacles, node1, node2);
+	list<infoPath>* SPPAOres = firstSPPAO(*l, node1, node2);
 
 	filepath = filesystem::current_path();
 	filepath /= "data";
@@ -375,6 +376,65 @@ void testLoading() {
 	writeFileCwd(*l, "testLoading.txt");
 	deleteGraph(l);
 }
+
+
+void testSPPAO2(int P=10, int Q=10, int O=5, double prop_square=0.5, double prop_merge=0.5) {
+	list<Node*>* l = makeGraph(P, Q, prop_square, prop_merge);
+	naturalWeight(*l);
+	Node* node1;
+	Node* node2;
+	for (list<Node*>::iterator it = l->begin(); it != l->end(); it++) {
+		if ((*it)->x <= 2 && (*it)-> y <= 2) {
+			node1 = *it;
+			break;
+		}
+	}
+	for (list<Node*>::iterator it = l->begin(); it != l->end(); it++) {
+		if ((*it)->x >= Q-2 && (*it)-> y >= P-2) {
+			node2 = *it;
+			break;
+		}
+	}
+	list<Node*>* obstacles = createObstacles(1, 1, Q, P, P*Q+1, O);
+	computeArcD(*l, *obstacles);
+
+	list<infoPath>* l_res = secondSPPAO(*l, node1, node2);
+	filesystem::path filepath = filesystem::current_path();
+	filepath /= "data";
+	filepath /= "testSPPAO2.txt";
+	ofstream writing(filepath, ios::out);
+	writeSolSPPAO(*l, *obstacles, *l_res, writing);
+	writing.close();
+
+	resetGraph(*l);
+
+	list<infoPath>* SPPAOres = firstSPPAO(*l, node1, node2);
+
+	filepath = filesystem::current_path();
+	filepath /= "data";
+	filepath /= "testSPPAO1.txt";
+	writing= ofstream(filepath, ios::out);
+	writeSolSPPAO(*l, *obstacles, *SPPAOres, writing);
+	writing.close();
+	for (list<infoPath>::iterator it = SPPAOres->begin(); it != SPPAOres->end(); it++) {
+		delete it->path;
+	}
+	for (list<infoPath>::iterator it = l_res->begin(); it != l_res->end(); it++) {
+		delete it->path;
+	}
+	delete SPPAOres;
+	delete l_res;
+
+
+
+
+	//delete pre_res.path;
+	//delete res.path;
+	deleteGraph(obstacles);
+	deleteGraph(l);
+}
+
+
 
 
 
@@ -426,7 +486,8 @@ int main(int argc, char *argv[])
 	//testDijkstra();
 	//testSPPAO1(P, Q, O, p_square, p_merge);
 	//testLoading();
-	testPathMinD(P, Q, O, p_square, p_merge);
+	//testPathMinD(P, Q, O, p_square, p_merge);
+	testSPPAO2(P, Q, O, p_square, p_merge);
 }
 
 

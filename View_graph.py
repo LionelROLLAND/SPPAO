@@ -2,8 +2,8 @@
 
 import pygame
 
-filename = "data/testPathMinD.txt"
-filename = "data/testSPPAO1.txt"
+filename = "data/testSPPAO2.txt"
+#filename = "data/testSPPAO1.txt"
 fancy = True
 animated = False
 
@@ -164,16 +164,16 @@ def displayBetterGraph(tab_points, plotings):
 	Xmin = min(tab_points, key = lambda x: x[0])[0]
 	Ymax = max(tab_points, key = lambda x: x[1])[1]
 	Ymin = min(tab_points, key = lambda x: x[1])[1]
-	maxSpan = max(Xmax-Xmin, Ymax-Ymin)
 
-	side = 980
-	a = side/maxSpan
-	bX = 980/2-(Xmin+Xmax)*a/2
+	width = 1800
+	height = 980
+	a = min(width/(Xmax-Xmin), height/(Ymax-Ymin))
+	bX = -a*Xmin
 
-	bY = 980/2-(Ymin+Ymax)*a/2
+	bY = -a*Ymin
 
 
-	size = (side, side)
+	size = ( int(a*(Xmax-Xmin)+1), int(a*(Ymax-Ymin)+1) )
 
 	pygame.init()
 	screen = pygame.display.set_mode(size)

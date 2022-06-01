@@ -12,6 +12,7 @@ struct infoPath
 
 infoPath makePath(Node* t);
 
-infoPath dijkstra(Node* s, Node* t, double strict_min_d = -1, double min_d=-1);
+infoPath dijkstra(Node* s, Node* t, double strict_min_d=-1, double min_d=-1,
+double strict_max_c=inf);
 
 #endif
