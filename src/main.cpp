@@ -466,13 +466,13 @@ int main(int argc, char *argv[])
 	int O = vm["O"].as<int>();
 
 
-	//int seed = time(nullptr);
+	int seed = time(nullptr);
 	//int seed = 1652869031;
 	//int seed = 1653486333; //pb div par 0
 	//int seed = 1653487368;
 	//int seed = 1653490732;
 	//int seed = 1653490924;
-	int seed = 1653567294;
+	//int seed = 1653567294;
 	//int seed = 1654024021;
 	srand(seed); //1652869031
 	cout<<"seed : "<<seed<<"\n\n"<<endl;
