@@ -10,6 +10,7 @@
 
 using namespace std;
 
+bool logs1 = true;
 
 list<infoPath>* firstSPPAO(list<Node*>& graph, Node* s, Node* t) {
     /*
@@ -22,6 +23,7 @@ list<infoPath>* firstSPPAO(list<Node*>& graph, Node* s, Node* t) {
     }
     */
     auto start = chrono::system_clock::now();
+    if (logs1) {cout<<"\nSPPAO1 -- First Dijkstra\n";}
     infoPath optPath = dijkstra(s, t);
     //double optC = 0;
     list<infoPath>* res = new list<infoPath>();
@@ -32,6 +34,7 @@ list<infoPath>* firstSPPAO(list<Node*>& graph, Node* s, Node* t) {
         //cout<<"l = "<<*(optPath.path)<<endl;
         res->push_back(optPath);
         resetGraph(graph);
+        if (logs1) {cout<<"\nSPPAO1 -- Dijkstra, strict_min_d = "<<optPath.d<<"\n";}
         optPath = dijkstra(s, t, optPath.d);
     }
     auto end = chrono::system_clock::now();

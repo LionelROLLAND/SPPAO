@@ -12,6 +12,8 @@
 
 using namespace std;
 
+extern bool logs1;
+
 list<infoPath>* firstSPPAO(list<Node*>& graph, Node* s, Node* t);
 
 #endif
