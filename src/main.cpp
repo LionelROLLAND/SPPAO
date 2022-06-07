@@ -124,7 +124,13 @@ void writeSolSPPAO(list<Node*>& graph, list<Node*>& obstacles, list<infoPath>& o
 		w_stream<<"arc 0 1 "<<*it<<"\n";
 	}
 
-	int indPath = 1;
+	for (list<cNode>::iterator it = cObst->begin(); it != cObst->end(); it++) {
+		w_stream<<"point "<<4<<" 0 0.4 ";
+		printRCNode(w_stream, *it);
+		w_stream<<"\n";
+	}
+
+	int indPath = 2;
 	double min_d;
 	for (list<infoPath>::iterator it = optPaths.begin(); it != optPaths.end(); it++) {
 
@@ -135,13 +141,13 @@ void writeSolSPPAO(list<Node*>& graph, list<Node*>& obstacles, list<infoPath>& o
         	child != (*it)->l_adj.end(); child++) {
 				if (child->arc_d <= min_d) {
             		aN = cArc({*it, child->node, c(*it, child->node), rAi, gAi, bAi});
-					w_stream<<"arc "<<4*(indPath+1)<<" 2 "<<aN<<"\n"; //changer prio
+					w_stream<<"arc "<<4*(indPath+1)<<" 2 "<<aN<<"\n";
 				}
 			}
 		}
 
 		for (list<cNode>::iterator it = cObst->begin(); it != cObst->end(); it++) {
-			w_stream<<"point "<<4*(indPath+1)<<" 0 "<<min_d<<" "; //prio ?
+			w_stream<<"point "<<4*(indPath+1)<<" 0 "<<min_d<<" ";
 			printRCNode(w_stream, *it);
 			w_stream<<"\n";
 		}
@@ -262,7 +268,7 @@ void testDijkstra() {
 			break;
 		}
 	}
-	infoPath optPath = dijkstra(node1, node2);
+	infoPath optPath = genDijkstra(node1, node2);
 	filesystem::path filepath = filesystem::current_path();
 	filepath /= "data";
 	filepath /= "testDijkstra3615.txt";
@@ -331,7 +337,7 @@ void testPathMinD(int P=10, int Q=10, int O=5, double prop_square=0.5, double pr
 	computeArcD(*l, *obstacles);
 	infoPath pre_res = pathOfMaxD(node1, node2);
 	resetGraph(*l);
-	infoPath res = dijkstra(node1, node2, -1, pre_res.d);
+	infoPath res = genDijkstra(node1, node2, -1, pre_res.d);
 	list<infoPath> l_res = list<infoPath>();
 	l_res.push_back(res);
 	filesystem::path filepath = filesystem::current_path();
@@ -435,6 +441,92 @@ void testSPPAO2(int P=10, int Q=10, int O=5, double prop_square=0.5, double prop
 }
 
 
+void compareSPPAOs(int P=10, int Q=10, int O=5, double prop_square=0.5, double prop_merge=0.5) {
+	list<Node*>* l = makeGraph(P, Q, prop_square, prop_merge);
+	naturalWeight(*l);
+	Node* node1;
+	Node* node2;
+	for (list<Node*>::iterator it = l->begin(); it != l->end(); it++) {
+		if ((*it)->x <= 2 && (*it)-> y <= 2) {
+			node1 = *it;
+			break;
+		}
+	}
+	for (list<Node*>::iterator it = l->begin(); it != l->end(); it++) {
+		if ((*it)->x >= Q-2 && (*it)-> y >= P-2) {
+			node2 = *it;
+			break;
+		}
+	}
+	list<Node*>* obstacles = createObstacles(1, 1, Q, P, P*Q+1, O);
+	computeArcD(*l, *obstacles);
+
+	list<infoPath>* l_res = secondSPPAO(*l, node1, node2);
+	filesystem::path filepath = filesystem::current_path();
+	filepath /= "data";
+	filepath /= "testSPPAO2.txt";
+	ofstream writing(filepath, ios::out);
+	writeSolSPPAO(*l, *obstacles, *l_res, writing);
+	writing.close();
+	for (list<infoPath>::iterator it = l_res->begin(); it != l_res->end(); it++) {
+		delete it->path;
+	}
+
+	resetGraph(*l);
+
+	list<infoPath>* SPPAOres = firstSPPAO(*l, node1, node2);
+
+	filepath = filesystem::current_path();
+	filepath /= "data";
+	filepath /= "testSPPAO1.txt";
+	writing= ofstream(filepath, ios::out);
+	writeSolSPPAO(*l, *obstacles, *SPPAOres, writing);
+	writing.close();
+	for (list<infoPath>::iterator it = SPPAOres->begin(); it != SPPAOres->end(); it++) {
+		delete it->path;
+	}
+
+	resetGraph(*l);
+
+	l_res = secondSPPAO_2(*l, node1, node2);
+	
+	filepath = filesystem::current_path();
+	filepath /= "data";
+	filepath /= "testSPPAO2_2.txt";
+	writing = ofstream(filepath, ios::out);
+	writeSolSPPAO(*l, *obstacles, *l_res, writing);
+	writing.close();
+	for (list<infoPath>::iterator it = l_res->begin(); it != l_res->end(); it++) {
+		delete it->path;
+	}
+
+	resetGraph(*l);
+
+	SPPAOres = firstSPPAO_2(*l, node1, node2);
+
+	filepath = filesystem::current_path();
+	filepath /= "data";
+	filepath /= "testSPPAO1_2.txt";
+	writing= ofstream(filepath, ios::out);
+	writeSolSPPAO(*l, *obstacles, *SPPAOres, writing);
+	writing.close();
+	for (list<infoPath>::iterator it = SPPAOres->begin(); it != SPPAOres->end(); it++) {
+		delete it->path;
+	}
+
+	delete SPPAOres;
+	delete l_res;
+
+
+
+
+	//delete pre_res.path;
+	//delete res.path;
+	deleteGraph(obstacles);
+	deleteGraph(l);
+}
+
+
 
 
 
@@ -448,6 +540,7 @@ int main(int argc, char *argv[])
 		("P", po::value<int>()->default_value(10), "height of the initial grid")
 		("Q", po::value<int>()->default_value(10), "width of the initial grid")
 		("O", po::value<int>()->default_value(5), "number of obstacles")
+		("seed", po::value<int>()->default_value(time(nullptr)), "seed of the random generator")
 	;
 
 	po::variables_map vm;
@@ -465,16 +558,16 @@ int main(int argc, char *argv[])
 	int Q = vm["Q"].as<int>();
 	int O = vm["O"].as<int>();
 
-
+	int seed = vm["seed"].as<int>();
 	//int seed = time(nullptr);
 	//int seed = 1652869031;
-	//int seed = 1653486333; //pb div par 0
 	//int seed = 1653487368;
 	//int seed = 1653490732;
 	//int seed = 1653490924;
 	//int seed = 1653567294;
 	//int seed = 1654024021;
-	int seed = 1654519065;
+	//int seed = 1654519065;
+	//int seed = 1654611373; ./output/main --P 30 --Q 30 --O 2 --seed 1654611373 > ./data/logs.log && cat ./data/logs.log | grep "Deleting path"
 	srand(seed); //1652869031
 	cout<<"seed : "<<seed<<"\n\n"<<endl;
 	//breakTheReference();
@@ -488,7 +581,8 @@ int main(int argc, char *argv[])
 	//testSPPAO1(P, Q, O, p_square, p_merge);
 	//testLoading();
 	//testPathMinD(P, Q, O, p_square, p_merge);
-	testSPPAO2(P, Q, O, p_square, p_merge);
+	//testSPPAO2(P, Q, O, p_square, p_merge);
+	compareSPPAOs(P, Q, O, p_square, p_merge);
 }
 
 

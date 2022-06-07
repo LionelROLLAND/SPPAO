@@ -16,4 +16,6 @@ extern bool logs1;
 
 list<infoPath>* firstSPPAO(list<Node*>& graph, Node* s, Node* t);
 
+list<infoPath>* firstSPPAO_2(list<Node*>& graph, Node* s, Node* t);
+
 #endif

@@ -13,7 +13,6 @@
 #include "randomGraph.hpp"
 
 extern bool logs2;
-extern int nbD1;
 
 extern unsigned char RSr;
 extern unsigned char RSg;
@@ -33,8 +32,15 @@ struct Rectangle
 
 infoPath pathOfMaxD(Node* s, Node* t);
 
+infoPath newPathOfMaxD(Node* s, Node* t);
+
+infoPath optiPathOfMaxD(Node* s, Node* t);
+
 bool compare_d(infoPath p1, infoPath p2);
 
 list<infoPath>* secondSPPAO(list<Node*>& graph, Node* s, Node* t);
+
+list<infoPath>* secondSPPAO_2(list<Node*>& graph, Node* s, Node* t);
+
 
 #endif

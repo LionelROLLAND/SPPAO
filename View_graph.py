@@ -1,11 +1,21 @@
 #!/usr/bin/env python
 
 import pygame
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument('--no-fancy', dest='fancy', action='store_const',
+                    const=False, default=True,
+                    help='Fancy mode for the displaying of the graph')
+parser.add_argument('--animated', dest='animated', action='store_const',
+					const=True, default=False)
+parser.add_argument("graph", type=str, help='Graphe a visualiser')
+args = parser.parse_args()
 
-filename = "data/testSPPAO2.txt"
+
+filename = args.graph
 #filename = "data/testSPPAO1.txt"
-fancy = True
-animated = False
+fancy = args.fancy
+animated = args.animated
 
 lines = []
 with open(filename, "r") as fd:

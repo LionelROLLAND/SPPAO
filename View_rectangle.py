@@ -1,8 +1,12 @@
 #!/usr/bin/env python
 
 import pygame
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument("logs", type=str, help='Rectangles a visualiser')
+args = parser.parse_args()
 
-filename = "data/SPPAO2.log"
+filename = args.logs
 
 animated = False
 BLACK = (0,0,0)
