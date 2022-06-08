@@ -148,4 +148,8 @@ void deleteGraph(list<Node*>* l);
 
 istream& operator>>(istream& in, list<Node*>& l);
 
+int nbNodes(const list<Node*>& l);
+
+int nbArcs(const list<Node*>& l);
+
 #endif

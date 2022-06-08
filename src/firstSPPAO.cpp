@@ -10,11 +10,9 @@
 
 using namespace std;
 
-bool logs1 = true;
-
-list<infoPath>* firstSPPAO(list<Node*>& graph, Node* s, Node* t) {
+list<infoPath>* firstSPPAO(list<Node*>& graph, Node* s, Node* t, int* n) {
     auto start = chrono::system_clock::now();
-    if (logs1) {cout<<"\nSPPAO1 -- First Dijkstra\n";}
+    if (logs) {cout<<"\nSPPAO1 -- First Dijkstra\n";}
     infoPath optPath = genDijkstra(s, t);
     double optC = 0;
     list<infoPath>* res = new list<infoPath>();
@@ -23,8 +21,9 @@ list<infoPath>* firstSPPAO(list<Node*>& graph, Node* s, Node* t) {
         optC = optPath.c;
         res->push_back(optPath);
         resetGraph(graph);
-        if (logs1) {cout<<"\nSPPAO1 -- Dijkstra, strict_min_d = "<<optPath.d<<"\n";}
+        if (logs) {cout<<"\nSPPAO1 -- Dijkstra, strict_min_d = "<<optPath.d<<"\n";}
         optPath = genDijkstra(s, t, optPath.d);
+        if (n != nullptr) {(*n)++;}
     }
     auto end = chrono::system_clock::now();
     chrono::duration<double> elapsed = end-start;
@@ -33,9 +32,9 @@ list<infoPath>* firstSPPAO(list<Node*>& graph, Node* s, Node* t) {
 }
 
 
-list<infoPath>* firstSPPAO_2(list<Node*>& graph, Node* s, Node* t) {
+list<infoPath>* firstSPPAO_2(list<Node*>& graph, Node* s, Node* t, int* n) {
     auto start = chrono::system_clock::now();
-    if (logs1) {cout<<"\nSPPAO1 -- First Dijkstra\n";}
+    if (logs) {cout<<"\nSPPAO1 -- First Dijkstra\n";}
     infoPath optPath = simpleDijkstra(s, t);
     double optC = 0;
     list<infoPath>* res = new list<infoPath>();
@@ -44,8 +43,9 @@ list<infoPath>* firstSPPAO_2(list<Node*>& graph, Node* s, Node* t) {
         optC = optPath.c;
         res->push_back(optPath);
         resetGraph(graph);
-        if (logs1) {cout<<"\nSPPAO1 -- Dijkstra, strict_min_d = "<<optPath.d<<"\n";}
+        if (logs) {cout<<"\nSPPAO1 -- Dijkstra, strict_min_d = "<<optPath.d<<"\n";}
         optPath = dijkstraDDistCheck(s, t, optPath.d);
+        if (n != nullptr) {(*n)++;}
     }
     auto end = chrono::system_clock::now();
     chrono::duration<double> elapsed = end-start;

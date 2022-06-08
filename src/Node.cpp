@@ -385,6 +385,9 @@ double d(Node* n1, Node* n2, Node* obs) {
 
 
 void deleteGraph(list<Node*>* l) {
+    if (l->front()->adj != nullptr) {
+        delete l->front()->adj;
+    }
     for (list<Node*>::iterator it = l->begin(); it != l->end(); it++) {
         delete *it;
     }
@@ -467,4 +470,16 @@ istream& operator>>(istream& in, list<Node*>& l) { //Not tested yet
         getline(in, line);
     }
     return in;
+}
+
+
+int nbNodes(const list<Node*>& l) {return l.size();}
+
+
+int nbArcs(const list<Node*>& l) {
+    int S = 0;
+    for (list<Node*>::const_iterator it = l.begin(); it != l.end(); it++) {
+        S += (*it)->l_adj.size();
+    }
+    return div(S,2).quot;
 }

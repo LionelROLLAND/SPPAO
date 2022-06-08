@@ -13,6 +13,7 @@
         "vector": "cpp",
         "initializer_list": "cpp",
         "new": "cpp",
-        "chrono": "cpp"
+        "chrono": "cpp",
+        "ostream": "cpp"
     }
 }

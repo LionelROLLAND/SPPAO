@@ -3,6 +3,7 @@
 #include <list>
 #include <fstream>
 #include <filesystem>
+#include <random>
 
 
 #include <boost/program_options/cmdline.hpp> //boost not installed by default, to install manually
@@ -27,6 +28,8 @@
 #include "dijkstra.hpp"
 #include "firstSPPAO.hpp"
 #include "secondSPPAO.hpp"
+
+bool logs;
 
 namespace po = boost::program_options;
 using namespace std;
@@ -444,6 +447,9 @@ void testSPPAO2(int P=10, int Q=10, int O=5, double prop_square=0.5, double prop
 void compareSPPAOs(int P=10, int Q=10, int O=5, double prop_square=0.5, double prop_merge=0.5) {
 	list<Node*>* l = makeGraph(P, Q, prop_square, prop_merge);
 	naturalWeight(*l);
+	int n_nodes = nbNodes(*l);
+	int n_arcs = nbArcs(*l);
+	cout<<"nodes : "<<n_nodes<<", arcs : "<<n_arcs<<", arcs/nodes : "<<((double) n_arcs)/n_nodes<<endl;
 	Node* node1;
 	Node* node2;
 	for (list<Node*>::iterator it = l->begin(); it != l->end(); it++) {
@@ -527,7 +533,169 @@ void compareSPPAOs(int P=10, int Q=10, int O=5, double prop_square=0.5, double p
 }
 
 
+void testGraph2(int n_points, double prop_square, double prop_expand) {
+	list<Node*>* l = makeGraph2(n_points, prop_square, prop_expand);
+	int n_nodes = nbNodes(*l);
+	int n_arcs = nbArcs(*l);
+	cout<<"nodes : "<<n_nodes<<", arcs : "<<n_arcs<<", arcs/nodes : "<<((double) n_arcs)/n_nodes<<endl;
+	writeFileCwd(*l, "testGraph2.txt");
+	//list<Node*>* test = graphCopy(*l);
+	//writeFileCwd(*test, "testCopyGraph2.txt");
+	deleteGraph(l);
+	//deleteGraph(test);
+}
 
+struct param
+{
+	double prop_square;
+	double prop_expand;
+};
+
+void createDB(list<int>& nbs_points, int n_breaks=5, int n_samp=10, string pref="",
+string suff=".txt", double densityInf=1.5, double densityMax=2.9) {
+	int graphInd = 0;
+	default_random_engine generator;
+    uniform_real_distribution distribUnit(0., 1.);
+    double p_sq;
+    double p_exp;
+	int choice;
+	int n_arcs;
+	list<param>::iterator choice_it;
+	for (list<int>::iterator n_it = nbs_points.begin(); n_it != nbs_points.end(); n_it++) {
+		vector<int> nbs_arcs = vector<int>(n_breaks);
+		vector<list<param>> params = vector<list<param>>(n_breaks);
+		for (int i = 0; i != n_breaks; i++) {
+			nbs_arcs[i] = (int) ( (densityInf + i*(densityMax-densityInf)/(n_breaks-1))*(*n_it) );
+			params[i] = list<param>();
+		}
+		for (int i = 0; i != n_breaks; i++) {
+			while ( (int) params[i].size() != n_samp) {
+				if (params[i].empty()) {
+					p_sq = distribUnit(generator);
+					p_exp = distribUnit(generator);
+				} else {
+					choice = rand() % params[i].size();
+					choice_it = params[i].begin();
+					advance(choice_it, choice);
+					p_sq = choice_it->prop_square;
+					p_exp = choice_it->prop_expand;
+				}
+				list<Node*>* graph = makeGraph2(*n_it, p_sq, p_exp);
+				n_arcs = nbArcs(*graph);
+				for (int j = i; j != n_breaks; j++) {
+					if (n_arcs == nbs_arcs[j] && (int) params[j].size() != n_samp ) {
+						naturalWeight(*graph);
+						writeFileCwd(*graph, pref + to_string(graphInd) + suff);
+						params[j].push_back( param({p_sq, p_exp}) );
+						graphInd++;
+						cout<<"nodes : "<<*n_it<<", arcs : "<<n_arcs<<", arcs/nodes : "<<((double) n_arcs)/ (*n_it)<<endl;
+					}
+				}
+				deleteGraph(graph);
+			}
+		}
+	}
+}
+
+
+void realDB() {
+	list<int> point = list<int>();
+	point.push_back(20);
+	//point.push_back(200);
+	//point.push_back(2000);
+	createDB(point, 5, 5, "realDB/instance_", ".txt", 1.8, 2.6);
+}
+
+
+void manuallyCompletingDB(int n_points, double p_sq, double p_exp, int beginning,
+double density=1.8, int n_samp=10, string pref="", string suff=".txt") {
+	int graphInd = beginning;
+	int nA = (int) (density*n_points);
+	int n_arcs;
+	while ( (int) graphInd != beginning+n_samp) {
+		list<Node*>* graph = makeGraph2(n_points, p_sq, p_exp);
+		n_arcs = nbArcs(*graph);
+		if (n_arcs == nA) {
+			naturalWeight(*graph);
+			writeFileCwd(*graph, pref + to_string(graphInd) + suff);
+			graphInd++;
+			cout<<"nodes : "<<n_points<<", arcs : "<<n_arcs<<", arcs/nodes : "<<((double) n_arcs)/ n_points<<endl;
+		}
+		deleteGraph(graph);
+	}
+}
+
+
+void statSPPAO(string dir, list<int>& obstacles) {
+	int n1;
+	int n2;
+	int n;
+	for (const auto& file : filesystem::directory_iterator(dir)) {
+		filesystem::path infilepath = file.path();
+		ifstream reading(infilepath, ios::in);
+		list<Node*>* l = new list<Node*>();
+		reading>>*l;
+		reading.close();
+		int n_nodes = nbNodes(*l);
+		int n_arcs = nbArcs(*l);
+		cout<<"nodes : "<<n_nodes<<", arcs : "<<n_arcs<<", arcs/nodes : ";
+		cout<<((double) n_arcs)/n_nodes<<endl;
+		double x_min = l->front()->x;
+		double x_max = l->front()->x;
+		double y_min = l->front()->y;
+		double y_max = l->front()->y;
+		int max_no = l->front()->no;
+		for (list<Node*>::iterator point = l->begin(); point != l->end(); point++) {
+			if ((*point)->x < x_min) {x_min = (*point)->x;}
+			if ((*point)->x > x_max) {x_max = (*point)->x;}
+			if ((*point)->y < y_min) {y_min = (*point)->y;}
+			if ((*point)->y > y_max) {y_max = (*point)->y;}
+			if ((*point)->no > max_no) {max_no = (*point)->no;}
+		}
+		Node* node1;
+		Node* node2;
+		for (list<Node*>::iterator it = l->begin(); it != l->end(); it++) {
+			if ((*it)->x <= x_min + 1 && (*it)-> y <= y_min + 1) {
+				node1 = *it;
+				break;
+			}
+		}
+		for (list<Node*>::iterator it = l->begin(); it != l->end(); it++) {
+			if ((*it)->x >= x_max-1 && (*it)-> y >= y_max-1) {
+				node2 = *it;
+				break;
+			}
+		}
+		for (list<int>::iterator n_obs = obstacles.begin(); n_obs != obstacles.end(); n_obs++) {
+			list<Node*>* obsList = createObstacles(x_min, y_min, x_max, y_max, max_no+1, *n_obs);
+			computeArcD(*l, *obsList);
+
+			list<infoPath>* l_res = secondSPPAO_2(*l, node1, node2, &n1, &n2);
+
+			for (list<infoPath>::iterator it = l_res->begin(); it != l_res->end(); it++) {
+				delete it->path;
+			}
+
+			resetGraph(*l);
+
+			cout<<"n1 = "<<n1<<", n2 = "<<n2<<endl;
+
+			list<infoPath>* SPPAOres = firstSPPAO(*l, node1, node2, &n);
+
+			for (list<infoPath>::iterator it = SPPAOres->begin(); it != SPPAOres->end(); it++) {
+				delete it->path;
+			}
+
+			resetGraph(*l);
+
+			cout<<"n = "<<n<<"\n"<<endl;
+
+
+
+
+		}
+	}
+}
 
 
 int main(int argc, char *argv[])
@@ -541,6 +709,7 @@ int main(int argc, char *argv[])
 		("Q", po::value<int>()->default_value(10), "width of the initial grid")
 		("O", po::value<int>()->default_value(5), "number of obstacles")
 		("seed", po::value<int>()->default_value(time(nullptr)), "seed of the random generator")
+		("v", "verbosity mode + records the rectangles")
 	;
 
 	po::variables_map vm;
@@ -552,11 +721,15 @@ int main(int argc, char *argv[])
     	return 1;
 	}
 
+	logs = vm.count("v")?true:false;
+
 	double p_square = vm["p_square"].as<double>();
 	double p_merge = vm["p_merge"].as<double>();
 	int P = vm["P"].as<int>();
 	int Q = vm["Q"].as<int>();
 	int O = vm["O"].as<int>();
+
+	cout<<p_square<<p_merge<<P<<Q<<O<<logs<<endl;
 
 	int seed = vm["seed"].as<int>();
 	//int seed = time(nullptr);
@@ -568,6 +741,8 @@ int main(int argc, char *argv[])
 	//int seed = 1654024021;
 	//int seed = 1654519065;
 	//int seed = 1654611373; ./output/main --P 30 --Q 30 --O 2 --seed 1654611373 > ./data/logs.log && cat ./data/logs.log | grep "Deleting path"
+	//int seed = 1654680670; ./output/main --P 100 --Q 100 --O 2 --p_merge 0 --p_square 1 --seed 1654680670 --v
+
 	srand(seed); //1652869031
 	cout<<"seed : "<<seed<<"\n\n"<<endl;
 	//breakTheReference();
@@ -582,7 +757,11 @@ int main(int argc, char *argv[])
 	//testLoading();
 	//testPathMinD(P, Q, O, p_square, p_merge);
 	//testSPPAO2(P, Q, O, p_square, p_merge);
-	compareSPPAOs(P, Q, O, p_square, p_merge);
+	//compareSPPAOs(P, Q, O, p_square, p_merge);
+	//testGraph2(2000, 1, 0);
+	//testDB();
+	realDB();
+	//manuallyCompletingDB(2000, 1, 0, 80, 1.8, 5, "realDB/instance_", ".txt");
 }
 
 

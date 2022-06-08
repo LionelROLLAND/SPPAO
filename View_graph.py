@@ -242,6 +242,7 @@ def displayBetterGraph(tab_points, plotings):
 
 
 
+		#pygame.image.save(screen, "data/ex_" + str(currentLayer) + ".png")
 		playing = True
 		clock = pygame.time.Clock()
 

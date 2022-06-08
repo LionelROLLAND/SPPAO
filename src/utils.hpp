@@ -9,6 +9,7 @@ using namespace std;
 
 extern double inf;
 extern double min_inf;
+extern bool logs;
 
 
 const auto inf_d = numeric_limits<double>::infinity;

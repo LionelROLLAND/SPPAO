@@ -12,8 +12,6 @@
 #include "randomGraph.hpp"
 #include "secondSPPAO.hpp"
 
-bool logs2 = true;
-
 unsigned char RSr = 0;
 unsigned char RSg = 0;
 unsigned char RSb = 255;
@@ -144,7 +142,7 @@ infoPath optiPathOfMaxD(Node* s, Node* t) {
 }
 
 
-list<infoPath>* secondSPPAO(list<Node*>& graph, Node* s, Node* t) {
+list<infoPath>* secondSPPAO(list<Node*>& graph, Node* s, Node* t, int* n1, int* n2) {
     int nbD1 = 0;
     int step = 0;
     filesystem::path filepath = filesystem::current_path();
@@ -154,16 +152,16 @@ list<infoPath>* secondSPPAO(list<Node*>& graph, Node* s, Node* t) {
 
     auto start = chrono::system_clock::now();
 
-    if (logs2) {cout<<"\nSPPAO2 -- path of max d\n";}
+    if (logs) {cout<<"\nSPPAO2 -- path of max d\n";}
     infoPath maxDpath = pathOfMaxD(s, t);
-    if (logs2) {cout<<"result : d = "<<maxDpath.d<<", c = "<<maxDpath.c<<"\n";}
+    if (logs) {cout<<"result : d = "<<maxDpath.d<<", c = "<<maxDpath.c<<"\n";}
     resetGraph(graph);
-    if (logs2) {cout<<"\n#"<<++nbD1<<" SPPAO2 -- path of min c\n";}
+    if (logs) {cout<<"\n#"<<++nbD1<<" SPPAO2 -- path of min c\n";}
     infoPath minCpath = genDijkstra(s, t);
-    if (logs2) {cout<<"result : d = "<<minCpath.d<<", c = "<<minCpath.c<<"\n";}
+    if (logs) {cout<<"result : d = "<<minCpath.d<<", c = "<<minCpath.c<<"\n";}
     list<infoPath>* res = new list<infoPath>();
     double d_max = maxDpath.d;
-    if (logs2) {
+    if (logs) {
         cout<<"Adding path : d = "<<minCpath.d<<", c = "<<minCpath.c<<"\n";
     }
     res->push_front(minCpath);
@@ -171,7 +169,7 @@ list<infoPath>* secondSPPAO(list<Node*>& graph, Node* s, Node* t) {
         return res;
     }
     list<Rectangle> criteriaSpace = list<Rectangle>();
-    if (logs2) {
+    if (logs) {
         cout<<"Adding rectangle : bottom = "<<res->begin()->d<<", top = ";
         cout<<maxDpath.d<<", left = "<<res->begin()->c<<", right = "<<maxDpath.c<<"\n";
     }
@@ -183,29 +181,30 @@ list<infoPath>* secondSPPAO(list<Node*>& graph, Node* s, Node* t) {
     bool is_dmax_reached = false;
     while(!criteriaSpace.empty()) {
         Irect = criteriaSpace.front();
-        if (logs2) {
+        if (logs) {
             cout<<"\n\nDeleting rectangle : bottom = "<<Irect.pathMin->d<<", top = ";
             cout<<Irect.d_max<<", left = "<<Irect.pathMin->c<<", right = "<<Irect.c_max<<"\n";
         }
         criteriaSpace.erase(criteriaSpace.begin());
         d_bar = (Irect.d_max + Irect.pathMin->d)/2;
         resetGraph(graph);
-        if (logs2) {
+        if (logs) {
             cout<<"#"<<++nbD1<<" SPPAO2 -- Dijkstra, upper, strict_min_d = "<<d_bar;
             cout<<", strict_max_c = "<<Irect.c_max<<"\n";
         }
         upper = genDijkstra(s, t, d_bar, -1, Irect.c_max);
-        if (logs2) {cout<<"result : d = "<<upper.d<<", c = "<<upper.c<<"\n";}
+        if (n1 != nullptr) {(*n1)++;}
+        if (logs) {cout<<"result : d = "<<upper.d<<", c = "<<upper.c<<"\n";}
 
         if (upper.path->size() > 1) {
 
-            if (logs2) {
+            if (logs) {
                 cout<<"Adding path : d = "<<upper.d<<", c = "<<upper.c<<"\n";
             }
             res->push_front(upper);
             if (upper.d == d_max) {is_dmax_reached = true;}
             if (upper.d != Irect.d_max) {
-                if (logs2) {
+                if (logs) {
                     cout<<"Adding rectangle : bottom = "<<res->begin()->d<<", top = ";
                     cout<<Irect.d_max<<", left = "<<res->begin()->c<<", right = "<<Irect.c_max<<"\n";
                 }
@@ -215,7 +214,7 @@ list<infoPath>* secondSPPAO(list<Node*>& graph, Node* s, Node* t) {
             if (upper.c == Irect.pathMin->c) {
 
                 delete Irect.pathMin->path;
-                if (logs2) {
+                if (logs) {
                     cout<<"Deleting path : c = "<<Irect.pathMin->c;
                     cout<<", d = "<<Irect.pathMin->d<<"\n";
                 }
@@ -224,20 +223,21 @@ list<infoPath>* secondSPPAO(list<Node*>& graph, Node* s, Node* t) {
             } else {
 
                 resetGraph(graph);
-                if (logs2) {
+                if (logs) {
                     cout<<"#"<<++nbD1<<" SPPAO2 -- Dijkstra, lower, strict_min_d = "<<Irect.pathMin->d;
                     cout<<", strict_max_c = "<<upper.c<<"\n";
                 }
                 lower = genDijkstra(s, t, Irect.pathMin->d, -1, upper.c);
-                if (logs2) {cout<<"result : d = "<<lower.d<<", c = "<<lower.c<<"\n";}
+                if (n2 != nullptr) {(*n2)++;}
+                if (logs) {cout<<"result : d = "<<lower.d<<", c = "<<lower.c<<"\n";}
                 if (lower.path->size() > 1) {
 
-                    if (logs2) {
+                    if (logs) {
                         cout<<"Adding path : d = "<<lower.d<<", c = "<<lower.c<<"\n";
                     }
                     res->push_front(lower);
                     if (lower.d != d_bar) {
-                        if (logs2) {
+                        if (logs) {
                             cout<<"Adding rectangle : bottom = "<<res->begin()->d<<", top = ";
                             cout<<upper.d<<", left = "<<res->begin()->c<<", right = "<<upper.c<<"\n";
                         }
@@ -246,7 +246,7 @@ list<infoPath>* secondSPPAO(list<Node*>& graph, Node* s, Node* t) {
 
                     if (lower.c == Irect.pathMin->c) {
                         delete Irect.pathMin->path;
-                        if (logs2) {
+                        if (logs) {
                             cout<<"Deleting path : c = "<<Irect.pathMin->c;
                             cout<<", d = "<<Irect.pathMin->d<<"\n";
                         }
@@ -254,7 +254,7 @@ list<infoPath>* secondSPPAO(list<Node*>& graph, Node* s, Node* t) {
                     }
 
                 } else {
-                    if (logs2) {
+                    if (logs) {
                         logStream<<step+1<<" "<<step+2<<" "<<Irect.pathMin->d<<" ";
                         logStream<<d_bar<<" "<<Irect.pathMin->c<<" "<<upper.c<<" ";
                         logStream<<(int) RNr<<" "<<(int) RNg<<" "<<(int) RNb<<"\n";
@@ -262,7 +262,7 @@ list<infoPath>* secondSPPAO(list<Node*>& graph, Node* s, Node* t) {
                 }
             }
 
-            if (logs2) {
+            if (logs) {
                 logStream<<Irect.initStep<<" "<<step+1<<" "<<Irect.pathMin->d<<" ";
                 logStream<<Irect.d_max<<" "<<Irect.pathMin->c<<" "<<Irect.c_max<<" ";
                 logStream<<(int) RSr<<" "<<(int) RSg<<" "<<(int) RSb<<"\n";
@@ -271,7 +271,7 @@ list<infoPath>* secondSPPAO(list<Node*>& graph, Node* s, Node* t) {
         } else {
 
             resetGraph(graph);
-            if (logs2) {
+            if (logs) {
                 cout<<"#"<<++nbD1<<" SPPAO2 -- Dijkstra, lower, strict_min_d = "<<Irect.pathMin->d;
                 cout<<", strict_max_c = "<<Irect.c_max<<"\n";
                 logStream<<step+1<<" "<<step+2<<" "<<d_bar<<" ";
@@ -279,20 +279,21 @@ list<infoPath>* secondSPPAO(list<Node*>& graph, Node* s, Node* t) {
                 logStream<<(int) RNr<<" "<<(int) RNg<<" "<<(int) RNb<<"\n";
             }
             lower = genDijkstra(s, t, Irect.pathMin->d, -1, Irect.c_max);
-            if (logs2) {cout<<"result : d = "<<lower.d<<", c = "<<lower.c<<"\n";}
+            if (n2 != nullptr) {(*n2)++;}
+            if (logs) {cout<<"result : d = "<<lower.d<<", c = "<<lower.c<<"\n";}
             if (lower.path->size() > 1) {
                 
-                if (logs2) {
+                if (logs) {
                     cout<<"Adding path : d = "<<lower.d<<", c = "<<lower.c<<"\n";
                 }
                 res->push_front(lower);
-                if (logs2) {
+                if (logs) {
                     cout<<"Adding rectangle : bottom = "<<res->begin()->d<<", top = ";
                     cout<<d_bar<<", left = "<<res->begin()->c<<", right = "<<Irect.c_max<<"\n";
                 }
                 criteriaSpace.push_back(Rectangle({res->begin(), Irect.c_max, d_bar, step+1}));
 
-                if (logs2) {
+                if (logs) {
                     logStream<<Irect.initStep<<" "<<step+1<<" "<<Irect.pathMin->d<<" ";
                     logStream<<Irect.d_max<<" "<<Irect.pathMin->c<<" "<<Irect.c_max<<" ";
                     logStream<<(int) RSr<<" "<<(int) RSg<<" "<<(int) RSb<<"\n";
@@ -300,7 +301,7 @@ list<infoPath>* secondSPPAO(list<Node*>& graph, Node* s, Node* t) {
 
                 if (lower.c == Irect.pathMin->c) {
                     delete Irect.pathMin->path;
-                    if (logs2) {
+                    if (logs) {
                         cout<<"Deleting path : c = "<<Irect.pathMin->c;
                         cout<<", d = "<<Irect.pathMin->d<<"\n";
                     }
@@ -308,14 +309,14 @@ list<infoPath>* secondSPPAO(list<Node*>& graph, Node* s, Node* t) {
                 }
 
             } else {
-                if (logs2) {
+                if (logs) {
                     logStream<<Irect.initStep<<" "<<step+1<<" "<<Irect.pathMin->d<<" ";
                     logStream<<Irect.d_max<<" "<<Irect.pathMin->c<<" "<<Irect.c_max<<" ";
                     logStream<<(int) RNr<<" "<<(int) RNg<<" "<<(int) RNb<<"\n";
                 }
             }
         }
-        if (logs2) {step++;}
+        if (logs) {step++;}
     }
     if (!is_dmax_reached) {
         res->push_front(maxDpath);
@@ -329,7 +330,7 @@ list<infoPath>* secondSPPAO(list<Node*>& graph, Node* s, Node* t) {
 }
 
 
-list<infoPath>* secondSPPAO_2(list<Node*>& graph, Node* s, Node* t) {
+list<infoPath>* secondSPPAO_2(list<Node*>& graph, Node* s, Node* t, int* n1, int* n2) {
     int nbD1 = 0;
     int step = 0;
     filesystem::path filepath = filesystem::current_path();
@@ -339,16 +340,16 @@ list<infoPath>* secondSPPAO_2(list<Node*>& graph, Node* s, Node* t) {
 
     auto start = chrono::system_clock::now();
 
-    if (logs2) {cout<<"\nSPPAO2 -- path of max d\n";}
+    if (logs) {cout<<"\nSPPAO2 -- path of max d\n";}
     infoPath maxDpath = optiPathOfMaxD(s, t);
-    if (logs2) {cout<<"result : d = "<<maxDpath.d<<", c = "<<maxDpath.c<<"\n";}
+    if (logs) {cout<<"result : d = "<<maxDpath.d<<", c = "<<maxDpath.c<<"\n";}
     resetGraph(graph);
-    if (logs2) {cout<<"\n#"<<++nbD1<<" SPPAO2 -- path of min c\n";}
+    if (logs) {cout<<"\n#"<<++nbD1<<" SPPAO2 -- path of min c\n";}
     infoPath minCpath = simpleDijkstraDistCheck(s, t);
-    if (logs2) {cout<<"result : d = "<<minCpath.d<<", c = "<<minCpath.c<<"\n";}
+    if (logs) {cout<<"result : d = "<<minCpath.d<<", c = "<<minCpath.c<<"\n";}
     list<infoPath>* res = new list<infoPath>();
     double d_max = maxDpath.d;
-    if (logs2) {
+    if (logs) {
         cout<<"Adding path : d = "<<minCpath.d<<", c = "<<minCpath.c<<"\n";
     }
     res->push_front(minCpath);
@@ -356,7 +357,7 @@ list<infoPath>* secondSPPAO_2(list<Node*>& graph, Node* s, Node* t) {
         return res;
     }
     list<Rectangle> criteriaSpace = list<Rectangle>();
-    if (logs2) {
+    if (logs) {
         cout<<"Adding rectangle : bottom = "<<res->begin()->d<<", top = ";
         cout<<maxDpath.d<<", left = "<<res->begin()->c<<", right = "<<maxDpath.c<<"\n";
     }
@@ -368,29 +369,30 @@ list<infoPath>* secondSPPAO_2(list<Node*>& graph, Node* s, Node* t) {
     bool is_dmax_reached = false;
     while(!criteriaSpace.empty()) {
         Irect = criteriaSpace.front();
-        if (logs2) {
+        if (logs) {
             cout<<"\n\nDeleting rectangle : bottom = "<<Irect.pathMin->d<<", top = ";
             cout<<Irect.d_max<<", left = "<<Irect.pathMin->c<<", right = "<<Irect.c_max<<"\n";
         }
         criteriaSpace.erase(criteriaSpace.begin());
         d_bar = (Irect.d_max + Irect.pathMin->d)/2;
         resetGraph(graph);
-        if (logs2) {
+        if (logs) {
             cout<<"#"<<++nbD1<<" SPPAO2 -- Dijkstra, upper, strict_min_d = "<<d_bar;
             cout<<", strict_max_c = "<<Irect.c_max<<"\n";
         }
         upper = dijkstraCDDistCheck(s, t, d_bar, Irect.c_max);
-        if (logs2) {cout<<"result : d = "<<upper.d<<", c = "<<upper.c<<"\n";}
+        if (n1 != nullptr) {(*n1)++;}
+        if (logs) {cout<<"result : d = "<<upper.d<<", c = "<<upper.c<<"\n";}
 
         if (upper.path->size() > 1) {
 
-            if (logs2) {
+            if (logs) {
                 cout<<"Adding path : d = "<<upper.d<<", c = "<<upper.c<<"\n";
             }
             res->push_front(upper);
             if (upper.d == d_max) {is_dmax_reached = true;}
             if (upper.d != Irect.d_max) {
-                if (logs2) {
+                if (logs) {
                     cout<<"Adding rectangle : bottom = "<<res->begin()->d<<", top = ";
                     cout<<Irect.d_max<<", left = "<<res->begin()->c<<", right = "<<Irect.c_max<<"\n";
                 }
@@ -400,7 +402,7 @@ list<infoPath>* secondSPPAO_2(list<Node*>& graph, Node* s, Node* t) {
             if (upper.c == Irect.pathMin->c) {
 
                 delete Irect.pathMin->path;
-                if (logs2) {
+                if (logs) {
                     cout<<"Deleting path : c = "<<Irect.pathMin->c;
                     cout<<", d = "<<Irect.pathMin->d<<"\n";
                 }
@@ -409,20 +411,21 @@ list<infoPath>* secondSPPAO_2(list<Node*>& graph, Node* s, Node* t) {
             } else {
 
                 resetGraph(graph);
-                if (logs2) {
+                if (logs) {
                     cout<<"#"<<++nbD1<<" SPPAO2 -- Dijkstra, lower, strict_min_d = "<<Irect.pathMin->d;
                     cout<<", strict_max_c = "<<upper.c<<"\n";
                 }
                 lower = dijkstraCDDistCheck(s, t, Irect.pathMin->d, upper.c);
-                if (logs2) {cout<<"result : d = "<<lower.d<<", c = "<<lower.c<<"\n";}
+                if (n2 != nullptr) {(*n2)++;}
+                if (logs) {cout<<"result : d = "<<lower.d<<", c = "<<lower.c<<"\n";}
                 if (lower.path->size() > 1) {
 
-                    if (logs2) {
+                    if (logs) {
                         cout<<"Adding path : d = "<<lower.d<<", c = "<<lower.c<<"\n";
                     }
                     res->push_front(lower);
                     if (lower.d != d_bar) {
-                        if (logs2) {
+                        if (logs) {
                             cout<<"Adding rectangle : bottom = "<<res->begin()->d<<", top = ";
                             cout<<upper.d<<", left = "<<res->begin()->c<<", right = "<<upper.c<<"\n";
                         }
@@ -431,7 +434,7 @@ list<infoPath>* secondSPPAO_2(list<Node*>& graph, Node* s, Node* t) {
 
                     if (lower.c == Irect.pathMin->c) {
                         delete Irect.pathMin->path;
-                        if (logs2) {
+                        if (logs) {
                             cout<<"Deleting path : c = "<<Irect.pathMin->c;
                             cout<<", d = "<<Irect.pathMin->d<<"\n";
                         }
@@ -439,7 +442,7 @@ list<infoPath>* secondSPPAO_2(list<Node*>& graph, Node* s, Node* t) {
                     }
 
                 } else {
-                    if (logs2) {
+                    if (logs) {
                         logStream<<step+1<<" "<<step+2<<" "<<Irect.pathMin->d<<" ";
                         logStream<<d_bar<<" "<<Irect.pathMin->c<<" "<<upper.c<<" ";
                         logStream<<(int) RNr<<" "<<(int) RNg<<" "<<(int) RNb<<"\n";
@@ -447,7 +450,7 @@ list<infoPath>* secondSPPAO_2(list<Node*>& graph, Node* s, Node* t) {
                 }
             }
 
-            if (logs2) {
+            if (logs) {
                 logStream<<Irect.initStep<<" "<<step+1<<" "<<Irect.pathMin->d<<" ";
                 logStream<<Irect.d_max<<" "<<Irect.pathMin->c<<" "<<Irect.c_max<<" ";
                 logStream<<(int) RSr<<" "<<(int) RSg<<" "<<(int) RSb<<"\n";
@@ -456,7 +459,7 @@ list<infoPath>* secondSPPAO_2(list<Node*>& graph, Node* s, Node* t) {
         } else {
 
             resetGraph(graph);
-            if (logs2) {
+            if (logs) {
                 cout<<"#"<<++nbD1<<" SPPAO2 -- Dijkstra, lower, strict_min_d = "<<Irect.pathMin->d;
                 cout<<", strict_max_c = "<<Irect.c_max<<"\n";
                 logStream<<step+1<<" "<<step+2<<" "<<d_bar<<" ";
@@ -464,20 +467,21 @@ list<infoPath>* secondSPPAO_2(list<Node*>& graph, Node* s, Node* t) {
                 logStream<<(int) RNr<<" "<<(int) RNg<<" "<<(int) RNb<<"\n";
             }
             lower = dijkstraCDDistCheck(s, t, Irect.pathMin->d, Irect.c_max);
-            if (logs2) {cout<<"result : d = "<<lower.d<<", c = "<<lower.c<<"\n";}
+            if (n2 != nullptr) {(*n2)++;}
+            if (logs) {cout<<"result : d = "<<lower.d<<", c = "<<lower.c<<"\n";}
             if (lower.path->size() > 1) {
                 
-                if (logs2) {
+                if (logs) {
                     cout<<"Adding path : d = "<<lower.d<<", c = "<<lower.c<<"\n";
                 }
                 res->push_front(lower);
-                if (logs2) {
+                if (logs) {
                     cout<<"Adding rectangle : bottom = "<<res->begin()->d<<", top = ";
                     cout<<d_bar<<", left = "<<res->begin()->c<<", right = "<<Irect.c_max<<"\n";
                 }
                 criteriaSpace.push_back(Rectangle({res->begin(), Irect.c_max, d_bar, step+1}));
 
-                if (logs2) {
+                if (logs) {
                     logStream<<Irect.initStep<<" "<<step+1<<" "<<Irect.pathMin->d<<" ";
                     logStream<<Irect.d_max<<" "<<Irect.pathMin->c<<" "<<Irect.c_max<<" ";
                     logStream<<(int) RSr<<" "<<(int) RSg<<" "<<(int) RSb<<"\n";
@@ -485,7 +489,7 @@ list<infoPath>* secondSPPAO_2(list<Node*>& graph, Node* s, Node* t) {
 
                 if (lower.c == Irect.pathMin->c) {
                     delete Irect.pathMin->path;
-                    if (logs2) {
+                    if (logs) {
                         cout<<"Deleting path : c = "<<Irect.pathMin->c;
                         cout<<", d = "<<Irect.pathMin->d<<"\n";
                     }
@@ -493,14 +497,14 @@ list<infoPath>* secondSPPAO_2(list<Node*>& graph, Node* s, Node* t) {
                 }
 
             } else {
-                if (logs2) {
+                if (logs) {
                     logStream<<Irect.initStep<<" "<<step+1<<" "<<Irect.pathMin->d<<" ";
                     logStream<<Irect.d_max<<" "<<Irect.pathMin->c<<" "<<Irect.c_max<<" ";
                     logStream<<(int) RNr<<" "<<(int) RNg<<" "<<(int) RNb<<"\n";
                 }
             }
         }
-        if (logs2) {step++;}
+        if (logs) {step++;}
     }
     if (!is_dmax_reached) {
         res->push_front(maxDpath);

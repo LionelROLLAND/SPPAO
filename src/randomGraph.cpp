@@ -1,6 +1,7 @@
 #include <iostream>
 #include <list>
 #include <random>
+#include <cmath>
 #include "Node.hpp"
 #include "utils.hpp"
 #include "randomGraph.hpp"
@@ -41,21 +42,17 @@ void newCoord(Node* t1, Node* t2, int P, int Q) {
 
 
 list<Node*>* makeGraph(int P, int Q, double prop_square, double prop_merge) {
-    //cout<<"prop_merge = "<<prop_merge<<endl;
     //STEP 1
-    cout<<"\nSTEP 1/4  [..]";
+    if (logs) {cout<<"\nSTEP 1/4  [..]";}
     list<Node*>* nodes = new list<Node*>();
     Matrix<Node*> hex(P, Q, nullptr);
     Matrix<double>* adjacency = new Matrix<double>(P*Q, P*Q, inf_d());
-    //cout<<"matrix created"<<endl;
     for (int i = 1; i <= P; i++) {
         for (int j = 1; j <= Q; j++) {
             Node* new_node = new Node((i-1)*Q + j, j, i, list<arcNode>(), adjacency);
             hex(i, j) = new_node;
             nodes->push_front(new_node);
             if (i == 1 && j == 1) {
-                //Node* test = new Node(1, 0, 0, list<ref<Node>>(), adjacency);
-                //cout<<"\n"<<test;
                 hex(1, 1)->x = 0;
                 hex(1, 1)->y = 0;
             } else if (i == P && j == Q) {
@@ -64,7 +61,7 @@ list<Node*>* makeGraph(int P, int Q, double prop_square, double prop_merge) {
             }
         }
     }
-    cout<<"\rSTEP 1/4  [#.]";
+    if (logs) {cout<<"\rSTEP 1/4  [#.]";}
     for (int i = 1; i <= P; i++) {
         for (int j = 1; j <= Q; j++) {
             if (i > 1) {sym_con(hex(i, j), hex(i-1, j));}
@@ -82,15 +79,13 @@ list<Node*>* makeGraph(int P, int Q, double prop_square, double prop_merge) {
             }
         }
     }
-    cout<<"\rSTEP 1/4  [##]"<<endl;
-    cout<<"STEP 2/4  [..]";
+    if (logs) {cout<<"\rSTEP 1/4  [##]"<<endl;}
+    if (logs) {cout<<"STEP 2/4  [..]";}
     //STEP 2
     int rest = (int) (P*(Q-1)*(1-prop_square) + 0.5);
     list<augmentedNode> still_hex = list<augmentedNode>();
     for (int i = 1; i <= P; i++) {
         for (int j = 1; j <= Q; j++) {
-            //cout<<"i = "<<i<<", j = "<<j<<endl;
-            //cout<<hex(i, j)<<endl;
             if (j % 2 == 0) {
                 if (i != P) {still_hex.push_front( augmentedNode({i, j, hex(i, j)}) );}
             } else {
@@ -98,61 +93,51 @@ list<Node*>* makeGraph(int P, int Q, double prop_square, double prop_merge) {
             }
         }
     }
-    //cout<<"list created"<<endl;
 
-    cout<<"\rSTEP 2/4  [#.]";
+    if (logs) {cout<<"\rSTEP 2/4  [#.]";}
     for (int k = Q*(P-1); k > rest; k--) {
         int to_square = (rand() % k);
         list<augmentedNode>::iterator hex_to_square = still_hex.begin();
-        //for (int l = 0; l < to_square; l++) {hex_to_square++;}
-        //cout<<"still_hex.size() = "<<still_hex.size()<<", to_square = "<<to_square<<endl;
         advance(hex_to_square, to_square);
         int i = hex_to_square->i;
         int j = hex_to_square->j;
         int direction = rand() % 2 - (j % 2);
-        //cout<<"i = "<<i<<", j = "<<j<<", direction = "<<direction<<endl;
         if (j > 1) {
-            //cout<<"Before sym_dis (j-1)"<<endl;
             sym_dis(hex(i, j), hex(i+direction, j-1));
-            //cout<<"After sym_dis (j-1)"<<endl;
-            //cout<<"disconnecting "<<hex(i, j)<<" and "<<hex(i+direction, j-1)<<endl;
         }
         if (j < Q) {
-            //cout<<"Before sym_dis (j+1)"<<endl;
             sym_dis(hex(i, j), hex(i+direction, j+1));
-            //cout<<"After sym_dis (j+1)"<<endl;
-            //cout<<"disconnecting "<<hex(i, j)<<" and "<<hex(i+direction, j+1)<<"\n"<<endl;
         }
         still_hex.erase(hex_to_square);
     }
 
-    cout<<"\rSTEP 2/4  [##]"<<endl;
-    cout<<"STEP 3/4  [....]";
+    if (logs) {cout<<"\rSTEP 2/4  [##]"<<endl;}
+    if (logs) {cout<<"STEP 3/4  [....]";}
 
     //STEP 3
     int expand = (rand() % Q);
     for (int j = 2; j <= 1 + expand; j++) {
         sym_con(hex(1, 1), hex(1, j));
     }
-    cout<<"\rSTEP 3/4  [#...]";
+    if (logs) {cout<<"\rSTEP 3/4  [#...]";}
     expand = (rand() % Q);
     for (int j = Q-1; j >= Q - expand; j--) {
         sym_con(hex(P, Q), hex(P, j));
     }
-    cout<<"\rSTEP 3/4  [##..]";
+    if (logs) {cout<<"\rSTEP 3/4  [##..]";}
     expand = (rand() % P);
     for (int i = 2; i <= 1 + expand; i++) {
         sym_con(hex(1, 1), hex(i, 1));
     }
-    cout<<"\rSTEP 3/4  [###.]";
+    if (logs) {cout<<"\rSTEP 3/4  [###.]";}
     expand = (rand() % P);
     for (int i = P-1; i >= P - expand; i--) {
         sym_con(hex(P, Q), hex(i, Q));
     }
-    cout<<"\rSTEP 3/4  [####]"<<endl;
+    if (logs) {cout<<"\rSTEP 3/4  [####]"<<endl;}
 
 
-    cout<<"STEP 4/4  [.]";
+    if (logs) {cout<<"STEP 4/4  [.]";}
 
     //STEP 4
     int nb_merge = (int) ((P*Q - 3)*prop_merge + 0.5);
@@ -167,11 +152,9 @@ list<Node*>* makeGraph(int P, int Q, double prop_square, double prop_merge) {
 
 
     //It should hold that not_merged.size() == P*Q-2
-    //cout<<"nb_merge = "<<nb_merge<<", P*Q-2-nb_merge = "<<P*Q-2 - nb_merge<<endl;
     for (int k = P*Q-2; k > P*Q-2 - nb_merge; k--) {
         int to_merge = rand() % k;
         list<Node*>::iterator first = not_merged.begin();
-        //for (int l = 0; l < to_merge; l++) {first++;}
         advance(first, to_merge);
         int nb_neighb = 0;
         list<arcNode>::iterator test = (*first)->l_adj.begin();
@@ -185,40 +168,195 @@ list<Node*>* makeGraph(int P, int Q, double prop_square, double prop_merge) {
                 test++;
             }
         }
-        /*
-        if (nb_neighb == 0) {
-            //cout<<"x = "<<(*first)->x<<", y = "<<(*first)->y<<endl;
-            cout<<"\nProblem with : "<<*first<<endl;
-            for (list<arcNode>::iterator it = (*first)->l_adj.begin();
-            it != (*first)->l_adj.end(); it++) {
-                cout<<it->node<<endl;
+        if (nb_neighb > 0) {
+            int to_merge2 = rand() % nb_neighb;
+            list<arcNode>::iterator second = (*first)->l_adj.begin();
+            for (int l = 0; l < to_merge2; l++) {
+                while (second->node->no == critic1 || second->node->no == critic2) {
+                    second++;
+                }
+                second++;
             }
-        }
-        */
-        int to_merge2 = rand() % nb_neighb;
-        list<arcNode>::iterator second = (*first)->l_adj.begin();
-        for (int l = 0; l < to_merge2; l++) {
             while (second->node->no == critic1 || second->node->no == critic2) {
                 second++;
             }
-            second++;
+            contract(second->node, *first);
+            newCoord(second->node, *first, P, Q);
+        } else {
+            k++;
         }
-        while (second->node->no == critic1 || second->node->no == critic2) {
-            second++;
-        }
-        //cout<<"merging "<<*first<<" and "<<second->node<<endl;
-        contract(second->node, *first);
-        newCoord(second->node, *first, P, Q);
         not_merged.erase(first);
     }
-    cout<<"\rSTEP 4/4  [#]"<<endl;
+    if (logs) {cout<<"\rSTEP 4/4  [#]"<<endl;}
 
     
-    cout<<"cleaning and normalizing...  [..]";
+    if (logs) {cout<<"cleaning and normalizing...  [..]";}
     clean(*nodes);
-    cout<<"\rcleaning and normalizing...  [#.]";
+    if (logs) {cout<<"\rcleaning and normalizing...  [#.]";}
     normalize(*nodes);
-    cout<<"\rcleaning and normalizing...  [##]"<<endl;
+    if (logs) {cout<<"\rcleaning and normalizing...  [##]"<<endl;}
+    return nodes;
+}
+
+
+list<Node*>* makeGraph2(int nb_points, double prop_square, double expand_max_prop) {
+    double r_screen = 1920./1080.;
+    int P = 1 + (int) sqrt(2*nb_points/r_screen);
+    int Q = (int) P*r_screen;
+    int nb_merge = P*Q-nb_points;
+    //STEP 1
+    if (logs) {cout<<"\nSTEP 1/4  [..]";}
+    list<Node*>* nodes = new list<Node*>();
+    Matrix<Node*> hex(P, Q, nullptr);
+    Matrix<double>* adjacency = new Matrix<double>(P*Q, P*Q, inf_d());
+    for (int i = 1; i <= P; i++) {
+        for (int j = 1; j <= Q; j++) {
+            Node* new_node = new Node((i-1)*Q + j, j, i, list<arcNode>(), adjacency);
+            hex(i, j) = new_node;
+            nodes->push_front(new_node);
+            if (i == 1 && j == 1) {
+                hex(1, 1)->x = 0;
+                hex(1, 1)->y = 0;
+            } else if (i == P && j == Q) {
+                hex(P, Q)->x = Q+1;
+                hex(P, Q)->y = P+1;
+            }
+        }
+    }
+    if (logs) {cout<<"\rSTEP 1/4  [#.]";}
+    for (int i = 1; i <= P; i++) {
+        for (int j = 1; j <= Q; j++) {
+            if (i > 1) {sym_con(hex(i, j), hex(i-1, j));}
+            if (i < P) {sym_con(hex(i, j), hex(i+1, j));}
+            if (j%2 == 0) {
+                sym_con(hex(i, j), hex(i, j-1));
+                if (j < Q) {sym_con(hex(i, j), hex(i, j+1));}
+                if (i < P) {sym_con(hex(i, j), hex(i+1, j-1));}
+                if (j < Q && i < P) {sym_con(hex(i, j), hex(i+1, j+1));}
+            } else {
+                if (j > 1) {sym_con(hex(i, j), hex(i, j-1));}
+                if (j < Q) {sym_con(hex(i, j), hex(i, j+1));}
+                if (j < Q && i > 1) {sym_con(hex(i, j), hex(i-1, j+1));}
+                if (j > 1 && i > 1) {sym_con(hex(i, j), hex(i-1, j-1));}
+            }
+        }
+    }
+    if (logs) {cout<<"\rSTEP 1/4  [##]"<<endl;}
+    if (logs) {cout<<"STEP 2/4  [..]";}
+    //STEP 2
+    int rest = (int) (P*(Q-1)*(1-prop_square) + 0.5);
+    list<augmentedNode> still_hex = list<augmentedNode>();
+    for (int i = 1; i <= P; i++) {
+        for (int j = 1; j <= Q; j++) {
+            if (j % 2 == 0) {
+                if (i != P) {still_hex.push_front( augmentedNode({i, j, hex(i, j)}) );}
+            } else {
+                if (i != 1) {still_hex.push_front( augmentedNode({i, j, hex(i, j)}) );}
+            }
+        }
+    }
+
+    if (logs) {cout<<"\rSTEP 2/4  [#.]";}
+    for (int k = Q*(P-1); k > rest; k--) {
+        int to_square = (rand() % k);
+        list<augmentedNode>::iterator hex_to_square = still_hex.begin();
+        advance(hex_to_square, to_square);
+        int i = hex_to_square->i;
+        int j = hex_to_square->j;
+        int direction = rand() % 2 - (j % 2);
+        if (j > 1) {
+            sym_dis(hex(i, j), hex(i+direction, j-1));
+        }
+        if (j < Q) {
+            sym_dis(hex(i, j), hex(i+direction, j+1));
+        }
+        still_hex.erase(hex_to_square);
+    }
+
+    if (logs) {cout<<"\rSTEP 2/4  [##]"<<endl;}
+    if (logs) {cout<<"STEP 3/4  [....]";}
+
+    //STEP 3
+    int expand = (rand() % (1 + (int) (expand_max_prop*(Q-1)) ) );
+    for (int j = 2; j <= 1 + expand; j++) {
+        sym_con(hex(1, 1), hex(1, j));
+    }
+    if (logs) {cout<<"\rSTEP 3/4  [#...]";}
+    expand = (rand() % (1 + (int) (expand_max_prop*(Q-1)) ) );
+    for (int j = Q-1; j >= Q - expand; j--) {
+        sym_con(hex(P, Q), hex(P, j));
+    }
+    if (logs) {cout<<"\rSTEP 3/4  [##..]";}
+    expand = (rand() % (1 + (int) (expand_max_prop*(P-1)) ) );
+    for (int i = 2; i <= 1 + expand; i++) {
+        sym_con(hex(1, 1), hex(i, 1));
+    }
+    if (logs) {cout<<"\rSTEP 3/4  [###.]";}
+    expand = (rand() % (1 + (int) (expand_max_prop*(P-1)) ) );
+    for (int i = P-1; i >= P - expand; i--) {
+        sym_con(hex(P, Q), hex(i, Q));
+    }
+    if (logs) {cout<<"\rSTEP 3/4  [####]"<<endl;}
+
+
+    if (logs) {cout<<"STEP 4/4  [.]";}
+
+    //STEP 4
+    list<Node*> not_merged = list<Node*>();
+    int critic1 = hex(1,1)->no;
+    int critic2 = hex(P, Q)->no;
+    for (list<Node*>::iterator it = nodes->begin(); it != nodes->end(); it++) {
+        if ((*it)->no != critic1 && (*it)->no != critic2) {
+            not_merged.push_back(*it);
+        }
+    }
+
+
+    //It should hold that not_merged.size() == P*Q-2
+    int skipped = 0;
+    for (int k = P*Q-2; k > P*Q-2 - (nb_merge + skipped); k--) {
+        int to_merge = rand() % k;
+        list<Node*>::iterator first = not_merged.begin();
+        advance(first, to_merge);
+        int nb_neighb = 0;
+        list<arcNode>::iterator test = (*first)->l_adj.begin();
+        while (test != (*first)->l_adj.end()) {
+            if (c(*first, test->node) == inf) {
+                (*first)->l_adj.erase(test++);
+            } else {
+                if (test->node->no != critic1 && test->node->no != critic2) {
+                    nb_neighb++;
+                }
+                test++;
+            }
+        }
+        if (nb_neighb > 0) {
+            int to_merge2 = rand() % nb_neighb;
+            list<arcNode>::iterator second = (*first)->l_adj.begin();
+            for (int l = 0; l < to_merge2; l++) {
+                while (second->node->no == critic1 || second->node->no == critic2) {
+                    second++;
+                }
+                second++;
+            }
+            while (second->node->no == critic1 || second->node->no == critic2) {
+                second++;
+            }
+            contract(second->node, *first);
+            newCoord(second->node, *first, P, Q);
+        } else {
+            skipped += 1;
+        }
+        not_merged.erase(first);
+    }
+    if (logs) {cout<<"\rSTEP 4/4  [#]"<<endl;}
+
+    
+    if (logs) {cout<<"cleaning and normalizing...  [..]";}
+    clean(*nodes);
+    if (logs) {cout<<"\rcleaning and normalizing...  [#.]";}
+    normalize(*nodes);
+    if (logs) {cout<<"\rcleaning and normalizing...  [##]"<<endl;}
     return nodes;
 }
 
