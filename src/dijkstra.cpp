@@ -181,7 +181,8 @@ infoPath simpleDijkstraDistCheck(Node* s, Node* t) {
                 } else {
                     neighb->pred() = new arcNode(to_relax, neighb->arc_c, neighb->arc_d);
                 }
-            } else if (newLength == neighb->c_to_s() && neighb->pred() != nullptr) {
+            } else if (newLength == neighb->c_to_s() && neighb->pred() != nullptr
+            && neighb->arc_c > 0) {
                 if (neighb->arc_d > neighb->pred()->arc_d) {
                     neighb->c_to_s() = newLength;
                     neighb->d_to_S() = min(to_relax->d_to_S, neighb->arc_d);
@@ -231,7 +232,8 @@ infoPath dijkstraCDDistCheck(Node* s, Node* t, double strict_min_d, double stric
                     } else {
                         neighb->pred() = new arcNode(to_relax, neighb->arc_c, neighb->arc_d);
                     }
-                } else if (newLength == neighb->c_to_s() && neighb->pred() != nullptr) {
+                } else if (newLength == neighb->c_to_s() && neighb->pred() != nullptr
+                && neighb->arc_c > 0) {
                     if (neighb->arc_d > neighb->pred()->arc_d) {
                         neighb->c_to_s() = newLength;
                         neighb->d_to_S() = min(to_relax->d_to_S, neighb->arc_d);
@@ -320,7 +322,8 @@ infoPath dijkstraDDistCheck(Node* s, Node* t, double strict_min_d) {
                     } else {
                         neighb->pred() = new arcNode(to_relax, neighb->arc_c, neighb->arc_d);
                     }
-                } else if (newLength == neighb->c_to_s() && neighb->pred() != nullptr) {
+                } else if (newLength == neighb->c_to_s() && neighb->pred() != nullptr
+                && neighb->arc_c > 0) {
                     if (neighb->arc_d > neighb->pred()->arc_d) {
                         neighb->c_to_s() = newLength;
                         neighb->d_to_S() = min(to_relax->d_to_S, neighb->arc_d);

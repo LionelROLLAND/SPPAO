@@ -4,6 +4,8 @@
 #include <fstream>
 #include <filesystem>
 #include <random>
+#include <cmath>
+#include <iomanip>
 
 
 #include <boost/program_options/cmdline.hpp> //boost not installed by default, to install manually
@@ -552,8 +554,8 @@ struct param
 };
 
 void createDB(list<int>& nbs_points, int n_breaks=5, int n_samp=10, string pref="",
-string suff=".txt", double densityInf=1.5, double densityMax=2.9) {
-	int graphInd = 0;
+string suff=".txt", double densityInf=1.5, double densityMax=2.9, int min_ind=0) {
+	int graphInd = min_ind;
 	default_random_engine generator;
     uniform_real_distribution distribUnit(0., 1.);
     double p_sq;
@@ -601,9 +603,16 @@ string suff=".txt", double densityInf=1.5, double densityMax=2.9) {
 void realDB() {
 	list<int> point = list<int>();
 	point.push_back(20);
-	//point.push_back(200);
-	//point.push_back(2000);
-	createDB(point, 5, 5, "realDB/instance_", ".txt", 1.8, 2.6);
+	point.push_back(200);
+	point.push_back(2000);
+	createDB(point, 5, 30, "realDB/instance_", ".txt", 1.8, 2.6);
+}
+
+
+void completingDB() {
+	list<int> point = list<int>();
+	point.push_back(2000);
+	createDB(point, 4, 30, "realDB/instance_", ".txt", 2.0, 2.6, 300);
 }
 
 
@@ -626,10 +635,23 @@ double density=1.8, int n_samp=10, string pref="", string suff=".txt") {
 }
 
 
-void statSPPAO(string dir, list<int>& obstacles) {
+struct resultSPPAO
+{
+	int nb_nodes;
+	double density;
+	int n_obs;
+	int n_result;
 	int n1;
 	int n2;
 	int n;
+};
+
+
+void statSPPAO(string dir, list<int>& obstacles, ostream& out) {
+	int n1;
+	int n2;
+	int n;
+	list<resultSPPAO> results = list<resultSPPAO>();
 	for (const auto& file : filesystem::directory_iterator(dir)) {
 		filesystem::path infilepath = file.path();
 		ifstream reading(infilepath, ios::in);
@@ -638,7 +660,7 @@ void statSPPAO(string dir, list<int>& obstacles) {
 		reading.close();
 		int n_nodes = nbNodes(*l);
 		int n_arcs = nbArcs(*l);
-		cout<<"nodes : "<<n_nodes<<", arcs : "<<n_arcs<<", arcs/nodes : ";
+		cout<<"file : "<<infilepath<<", nodes : "<<n_nodes<<", arcs : "<<n_arcs<<", arcs/nodes : ";
 		cout<<((double) n_arcs)/n_nodes<<endl;
 		double x_min = l->front()->x;
 		double x_max = l->front()->x;
@@ -667,9 +689,13 @@ void statSPPAO(string dir, list<int>& obstacles) {
 			}
 		}
 		for (list<int>::iterator n_obs = obstacles.begin(); n_obs != obstacles.end(); n_obs++) {
+
+			cout<<"Obstacles : "<<*n_obs<<endl;
 			list<Node*>* obsList = createObstacles(x_min, y_min, x_max, y_max, max_no+1, *n_obs);
 			computeArcD(*l, *obsList);
 
+			n1 = 0;
+			n2 = 0;
 			list<infoPath>* l_res = secondSPPAO_2(*l, node1, node2, &n1, &n2);
 
 			for (list<infoPath>::iterator it = l_res->begin(); it != l_res->end(); it++) {
@@ -680,7 +706,11 @@ void statSPPAO(string dir, list<int>& obstacles) {
 
 			cout<<"n1 = "<<n1<<", n2 = "<<n2<<endl;
 
-			list<infoPath>* SPPAOres = firstSPPAO(*l, node1, node2, &n);
+			n = 0;
+			list<infoPath>* SPPAOres = firstSPPAO_2(*l, node1, node2, &n);
+
+			results.push_back(resultSPPAO({n_nodes, ((double) n_arcs)/n_nodes, *n_obs,
+			(int) SPPAOres->size(), n1, n2, n}));
 
 			for (list<infoPath>::iterator it = SPPAOres->begin(); it != SPPAOres->end(); it++) {
 				delete it->path;
@@ -690,11 +720,222 @@ void statSPPAO(string dir, list<int>& obstacles) {
 
 			cout<<"n = "<<n<<"\n"<<endl;
 
+			deleteGraph(obsList);
+
 
 
 
 		}
+		deleteGraph(l);
 	}
+	list<int> nodes = list<int>();
+	list<double> densities = list<double>();
+	bool isin;
+	//list<resultSPPAO>* v_result[obstacles.size()];
+	cout<<"\nbefore making the lists"<<endl;
+	for (list<resultSPPAO>::iterator res = results.begin(); res != results.end(); res++) {
+		isin = false;
+		for (list<int>::iterator new_n_nodes = nodes.begin();
+		new_n_nodes != nodes.end(); new_n_nodes++) {
+			if (*new_n_nodes == res->nb_nodes) {isin = true; break;}
+		}
+		if (!isin) {nodes.push_back(res->nb_nodes);}
+		isin = false;
+		for (list<double>::iterator dens = densities.begin(); dens != densities.end(); dens++) {
+			if (*dens == res->density) {isin = true; break;}
+		}
+		if (!isin) {densities.push_back(res->density);}
+	}
+	obstacles.sort();
+	nodes.sort();
+	densities.sort();
+	int oS = obstacles.size();
+	int nS = nodes.size();
+	int dS = densities.size();
+	list<resultSPPAO>** v_result = new list<resultSPPAO>*[oS*nS*dS];
+
+	cout<<"\nbefore filling with empty_lists"<<endl;
+	for (int i = 0; i != oS*nS*dS; i++) {
+		v_result[i] = new list<resultSPPAO>();
+	}
+	cout<<"\nbefore filling the lists"<<endl;
+	for (list<resultSPPAO>::iterator res = results.begin(); res != results.end(); res++) {
+		int oInd = 0;
+		int nInd = 0;
+		int dInd = 0;
+		list<int>::iterator oIt = obstacles.begin();
+		list<int>::iterator nIt = nodes.begin();
+		list<double>::iterator dIt = densities.begin();
+		while (*oIt != res->n_obs) {oIt++; oInd++;}
+		while (*nIt != res->nb_nodes) {nIt++; nInd++;}
+		while (*dIt != res->density) {dIt++; dInd++;}
+		v_result[nS*dS*oInd + dS*nInd + dInd]->push_back(*res);
+	}
+	out<<"\\documentclass{article}"
+	"\n\\usepackage[french]{babel}"
+	"\n\\usepackage [utf8] {inputenc}"
+	"\n\\setlength{\\oddsidemargin}{0pt}"
+	"\n\\setlength{\\evensidemargin}{9pt}"
+	"\n\\begin{document}\n";
+	string n_col = "";
+	for (int i = 0; i < (int) densities.size(); i++) {
+		n_col += "|c";
+	}
+	double sum_n1;
+	double sum_n2;
+	double sum_n;
+	double sum_n_res;
+
+	double mean_n1;
+	double mean_n2;
+	double mean_n;
+	double mean_n_res;
+	list<int>::iterator oIt = obstacles.begin();
+	cout<<"\nbefore writing the doc"<<endl;
+	for (int oInd = 0; oInd != oS; oInd++) {
+		out<<"With "<<*(oIt++)<<" obstacles :\n\n";
+		out<<"\\begin{center}"
+		"\n\\renewcommand{\\arraystretch}{1.4}" 
+ 		"\n\\begin{tabular}{r" + n_col + "}\n";
+
+		out<<"\n & "<<densities.front();
+		for (list<double>::iterator dIt = ++densities.begin(); dIt != densities.end(); dIt++) {
+			out<<" & "<<*dIt;
+		}
+		out<<"\\\\ \\hline\n";
+		list<int>::iterator nIt = nodes.begin();
+		cout<<"\nbefore nodes loop"<<endl;
+		for (int nInd = 0; nInd != nS; nInd++) {
+			out<<"\n"<<*(nIt++);
+			cout<<"\nbefore density loop"<<endl;
+			for (int dInd = 0; dInd != dS; dInd++) {
+				if (v_result[nS*dS*oInd + dS*nInd + dInd]->empty()) {
+					out<<"& ?? ";
+				} else {
+					sum_n1 = 0;
+					sum_n2 = 0;
+					sum_n = 0;
+					sum_n_res = 0;
+					cout<<"\nbefore computation loop"<<endl;
+					for (list<resultSPPAO>::iterator res = v_result[nS*dS*oInd + dS*nInd + dInd]->begin();
+					res != v_result[nS*dS*oInd + dS*nInd + dInd]->end(); res++) {
+						sum_n1 += res->n1;
+						sum_n2 += res->n2;
+						sum_n += res->n;
+						sum_n_res += res->n_result;
+					}
+					mean_n1 = sum_n1/v_result[nS*dS*oInd + dS*nInd + dInd]->size();
+					mean_n2 = sum_n2/v_result[nS*dS*oInd + dS*nInd + dInd]->size();
+					mean_n = sum_n/v_result[nS*dS*oInd + dS*nInd + dInd]->size();
+					mean_n_res = sum_n_res/v_result[nS*dS*oInd + dS*nInd + dInd]->size();
+
+					out<<" & \\begin{tabular}{@{}c@{}} ";
+					out<<"$ \\overline{n_1} = "<<setprecision(2)<<mean_n1;
+					out<<"$ \\\\ ";
+					out<<"$ \\overline{n_2} = "<<setprecision(2)<<mean_n2;
+					out<<"$ \\\\ ";
+					out<<"$ \\overline{n} = "<<setprecision(2)<<mean_n;
+					out<<"$ \\\\ ";
+					out<<"$ \\overline{n_{res}} = "<<setprecision(2)<<mean_n_res;
+					out<<"$ \\end{tabular} ";
+				}
+			}
+			out<<" \\\\ \\hline \n";
+		}
+		out<<"\\end{tabular}\n\\end{center}\n\n";
+		
+		
+		
+		
+		out<<"\\begin{center}"
+		"\n\\renewcommand{\\arraystretch}{1.4}" 
+ 		"\n\\begin{tabular}{r" + n_col + "}\n";
+
+		out<<"\n & "<<densities.front();
+		for (list<double>::iterator dIt = ++densities.begin(); dIt != densities.end(); dIt++) {
+			out<<" & "<<*dIt;
+		}
+		out<<"\\\\ \\hline\n";
+		nIt = nodes.begin();
+		cout<<"\nbefore nodes loop"<<endl;
+		for (int nInd = 0; nInd != nS; nInd++) {
+			out<<"\n"<<*(nIt++);
+			cout<<"\nbefore density loop"<<endl;
+			for (int dInd = 0; dInd != dS; dInd++) {
+				if (v_result[nS*dS*oInd + dS*nInd + dInd]->empty()) {
+					out<<"& ?? ";
+				} else {
+					sum_n1 = 0;
+					sum_n2 = 0;
+					sum_n = 0;
+					sum_n_res = 0;
+					cout<<"\nbefore computation loop"<<endl;
+					for (list<resultSPPAO>::iterator res = v_result[nS*dS*oInd + dS*nInd + dInd]->begin();
+					res != v_result[nS*dS*oInd + dS*nInd + dInd]->end(); res++) {
+						sum_n1 += res->n1;
+						sum_n2 += res->n2;
+						sum_n += res->n;
+						sum_n_res += res->n_result;
+					}
+					mean_n1 = sum_n1/v_result[nS*dS*oInd + dS*nInd + dInd]->size();
+					mean_n2 = sum_n2/v_result[nS*dS*oInd + dS*nInd + dInd]->size();
+					mean_n = sum_n/v_result[nS*dS*oInd + dS*nInd + dInd]->size();
+					mean_n_res = sum_n_res/v_result[nS*dS*oInd + dS*nInd + dInd]->size();
+
+					sum_n1 = 0;
+					sum_n2 = 0;
+					sum_n = 0;
+					sum_n_res = 0;
+					cout<<"\nbefore computation loop 2"<<endl;
+					for (list<resultSPPAO>::iterator res = v_result[nS*dS*oInd + dS*nInd + dInd]->begin();
+					res != v_result[nS*dS*oInd + dS*nInd + dInd]->end(); res++) {
+						sum_n1 += (res->n1 - mean_n1)*(res->n1 - mean_n1);
+						sum_n2 += (res->n2 - mean_n2)*(res->n2 - mean_n2);
+						sum_n += (res->n - mean_n)*(res->n - mean_n);
+						sum_n_res += (res->n_result - mean_n_res)*(res->n_result - mean_n_res);
+					}
+					out<<" & \\begin{tabular}{@{}c@{}} ";
+					out<<"$ sd(n_1) = ";
+					out<<setprecision(2)<<sqrt(sum_n1/(v_result[nS*dS*oInd + dS*nInd + dInd]->size()-1));
+					out<<"$ \\\\ ";
+					out<<"$ sd(n_2) = ";
+					out<<setprecision(2)<<sqrt(sum_n2/(v_result[nS*dS*oInd + dS*nInd + dInd]->size()-1));
+					out<<"$ \\\\ ";
+					out<<"$ sd(n) = ";
+					out<<setprecision(2)<<sqrt(sum_n/(v_result[nS*dS*oInd + dS*nInd + dInd]->size()-1));
+					out<<"$ \\\\ ";
+					out<<"$ sd(n_{res}) = ";
+					out<<setprecision(2)<<sqrt(sum_n_res/(v_result[nS*dS*oInd + dS*nInd + dInd]->size()-1));
+					out<<"$ \\end{tabular} ";
+				}
+			}
+			out<<" \\\\ \\hline \n";
+		}
+		out<<"\\end{tabular}\n\\end{center}\n\n";
+	}
+	out<<"\\end{document}";
+	for (int i = 0; i < oS*nS*dS; i++) {
+		delete v_result[i];
+	}
+	delete v_result;
+}
+
+
+void writeStatSPPAO() {
+	filesystem::path filepath = filesystem::current_path();
+	filepath /= "data";
+	filepath /= "reportStat";
+	filepath /= "statSPPAO.tex";
+	ofstream writing(filepath, ios::out);
+	list<int> obstacles = list<int>();
+	obstacles.push_back(1);
+	obstacles.push_back(3);
+	obstacles.push_back(10);
+	obstacles.push_back(30);
+	obstacles.push_back(100);
+	obstacles.push_back(500);
+	statSPPAO("data/realDB/", obstacles, writing);
+	writing.close();
 }
 
 
@@ -760,8 +1001,10 @@ int main(int argc, char *argv[])
 	//compareSPPAOs(P, Q, O, p_square, p_merge);
 	//testGraph2(2000, 1, 0);
 	//testDB();
-	realDB();
-	//manuallyCompletingDB(2000, 1, 0, 80, 1.8, 5, "realDB/instance_", ".txt");
+	//realDB();
+	//completingDB();
+	//manuallyCompletingDB(2000, 1, 0, 420, 1.8, 30, "realDB/instance_", ".txt");
+	writeStatSPPAO();
 }
 
 

@@ -346,6 +346,7 @@ list<infoPath>* secondSPPAO_2(list<Node*>& graph, Node* s, Node* t, int* n1, int
     resetGraph(graph);
     if (logs) {cout<<"\n#"<<++nbD1<<" SPPAO2 -- path of min c\n";}
     infoPath minCpath = simpleDijkstraDistCheck(s, t);
+    //infoPath minCpath = genDijkstra(s, t);
     if (logs) {cout<<"result : d = "<<minCpath.d<<", c = "<<minCpath.c<<"\n";}
     list<infoPath>* res = new list<infoPath>();
     double d_max = maxDpath.d;
