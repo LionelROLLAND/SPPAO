@@ -644,6 +644,9 @@ struct resultSPPAO
 	int n1;
 	int n2;
 	int n;
+	double t1;
+	double t2;
+	double t;
 };
 
 
@@ -651,6 +654,10 @@ void statSPPAO(string dir, list<int>& obstacles, ostream& out) {
 	int n1;
 	int n2;
 	int n;
+	double t1;
+	double t2;
+	double t_comp;
+	int n_samp;
 	list<resultSPPAO> results = list<resultSPPAO>();
 	for (const auto& file : filesystem::directory_iterator(dir)) {
 		filesystem::path infilepath = file.path();
@@ -694,9 +701,7 @@ void statSPPAO(string dir, list<int>& obstacles, ostream& out) {
 			list<Node*>* obsList = createObstacles(x_min, y_min, x_max, y_max, max_no+1, *n_obs);
 			computeArcD(*l, *obsList);
 
-			n1 = 0;
-			n2 = 0;
-			list<infoPath>* l_res = secondSPPAO_2(*l, node1, node2, &n1, &n2);
+			list<infoPath>* l_res = secondSPPAO_2(*l, node1, node2, &n1, &n2, &t1, &t2);
 
 			for (list<infoPath>::iterator it = l_res->begin(); it != l_res->end(); it++) {
 				delete it->path;
@@ -706,11 +711,10 @@ void statSPPAO(string dir, list<int>& obstacles, ostream& out) {
 
 			cout<<"n1 = "<<n1<<", n2 = "<<n2<<endl;
 
-			n = 0;
-			list<infoPath>* SPPAOres = firstSPPAO_2(*l, node1, node2, &n);
+			list<infoPath>* SPPAOres = firstSPPAO_2(*l, node1, node2, &n, &t_comp);
 
 			results.push_back(resultSPPAO({n_nodes, ((double) n_arcs)/n_nodes, *n_obs,
-			(int) SPPAOres->size(), n1, n2, n}));
+			(int) SPPAOres->size(), n1, n2, n, t1, t2, t_comp}));
 
 			for (list<infoPath>::iterator it = SPPAOres->begin(); it != SPPAOres->end(); it++) {
 				delete it->path;
@@ -732,7 +736,7 @@ void statSPPAO(string dir, list<int>& obstacles, ostream& out) {
 	list<double> densities = list<double>();
 	bool isin;
 	//list<resultSPPAO>* v_result[obstacles.size()];
-	cout<<"\nbefore making the lists"<<endl;
+	//cout<<"\nbefore making the lists"<<endl;
 	for (list<resultSPPAO>::iterator res = results.begin(); res != results.end(); res++) {
 		isin = false;
 		for (list<int>::iterator new_n_nodes = nodes.begin();
@@ -754,11 +758,11 @@ void statSPPAO(string dir, list<int>& obstacles, ostream& out) {
 	int dS = densities.size();
 	list<resultSPPAO>** v_result = new list<resultSPPAO>*[oS*nS*dS];
 
-	cout<<"\nbefore filling with empty_lists"<<endl;
+	//cout<<"\nbefore filling with empty_lists"<<endl;
 	for (int i = 0; i != oS*nS*dS; i++) {
 		v_result[i] = new list<resultSPPAO>();
 	}
-	cout<<"\nbefore filling the lists"<<endl;
+	//cout<<"\nbefore filling the lists"<<endl;
 	for (list<resultSPPAO>::iterator res = results.begin(); res != results.end(); res++) {
 		int oInd = 0;
 		int nInd = 0;
@@ -786,14 +790,19 @@ void statSPPAO(string dir, list<int>& obstacles, ostream& out) {
 	double sum_n;
 	double sum_n_res;
 
+	double sum_t1;
+	double sum_t2;
+	double sum_t_comp;
+
 	double mean_n1;
 	double mean_n2;
 	double mean_n;
 	double mean_n_res;
 	list<int>::iterator oIt = obstacles.begin();
-	cout<<"\nbefore writing the doc"<<endl;
+	//cout<<"\nbefore writing the doc"<<endl;
 	for (int oInd = 0; oInd != oS; oInd++) {
-		out<<"With "<<*(oIt++)<<" obstacles :\n\n";
+		out<<"\n\\newpage"
+		"\nWith "<<*(oIt++)<<" obstacles :\n\n";
 		out<<"\\begin{center}"
 		"\n\\renewcommand{\\arraystretch}{1.4}" 
  		"\n\\begin{tabular}{r" + n_col + "}\n";
@@ -804,40 +813,55 @@ void statSPPAO(string dir, list<int>& obstacles, ostream& out) {
 		}
 		out<<"\\\\ \\hline\n";
 		list<int>::iterator nIt = nodes.begin();
-		cout<<"\nbefore nodes loop"<<endl;
+		//cout<<"\nbefore nodes loop"<<endl;
 		for (int nInd = 0; nInd != nS; nInd++) {
 			out<<"\n"<<*(nIt++);
-			cout<<"\nbefore density loop"<<endl;
+			//cout<<"\nbefore density loop"<<endl;
 			for (int dInd = 0; dInd != dS; dInd++) {
 				if (v_result[nS*dS*oInd + dS*nInd + dInd]->empty()) {
 					out<<"& ?? ";
 				} else {
+					n_samp = v_result[nS*dS*oInd + dS*nInd + dInd]->size();
 					sum_n1 = 0;
 					sum_n2 = 0;
 					sum_n = 0;
 					sum_n_res = 0;
-					cout<<"\nbefore computation loop"<<endl;
+
+					sum_t1 = 0;
+					sum_t2 = 0;
+					sum_t_comp = 0;
+					//cout<<"\nbefore computation loop"<<endl;
 					for (list<resultSPPAO>::iterator res = v_result[nS*dS*oInd + dS*nInd + dInd]->begin();
 					res != v_result[nS*dS*oInd + dS*nInd + dInd]->end(); res++) {
 						sum_n1 += res->n1;
 						sum_n2 += res->n2;
 						sum_n += res->n;
 						sum_n_res += res->n_result;
+
+						if (res->n1 != 0) {sum_t1 += res->t1/res->n1;}
+						if (res->n2 != 0) {sum_t2 += res->t2/res->n2;}
+						if (res->n != 0) {sum_t_comp += res->t/res->n;}
 					}
-					mean_n1 = sum_n1/v_result[nS*dS*oInd + dS*nInd + dInd]->size();
-					mean_n2 = sum_n2/v_result[nS*dS*oInd + dS*nInd + dInd]->size();
-					mean_n = sum_n/v_result[nS*dS*oInd + dS*nInd + dInd]->size();
-					mean_n_res = sum_n_res/v_result[nS*dS*oInd + dS*nInd + dInd]->size();
+					mean_n1 = sum_n1/n_samp;
+					mean_n2 = sum_n2/n_samp;
+					mean_n = sum_n/n_samp;
+					mean_n_res = sum_n_res/n_samp;
 
 					out<<" & \\begin{tabular}{@{}c@{}} ";
-					out<<"$ \\overline{n_1} = "<<setprecision(2)<<mean_n1;
-					out<<"$ \\\\ ";
-					out<<"$ \\overline{n_2} = "<<setprecision(2)<<mean_n2;
-					out<<"$ \\\\ ";
-					out<<"$ \\overline{n} = "<<setprecision(2)<<mean_n;
-					out<<"$ \\\\ ";
-					out<<"$ \\overline{n_{res}} = "<<setprecision(2)<<mean_n_res;
-					out<<"$ \\end{tabular} ";
+					out<<"$ \\overline{n_1} = "<<setprecision(3)<<mean_n1;
+					out<<" $ \\\\ ";
+					out<<"$ \\overline{n_2} = "<<setprecision(3)<<mean_n2;
+					out<<" $ \\\\ ";
+					out<<"$ \\overline{\\frac{t_1}{n_1}} = "<<setprecision(3)<<sum_t1/n_samp;
+					out<<" $ \\\\ ";
+					out<<"$ \\overline{\\frac{t_2}{n_2}} = "<<setprecision(3)<<sum_t2/n_samp;
+					out<<" $ \\\\ ";
+					out<<"$ \\overline{n} = "<<setprecision(3)<<mean_n;
+					out<<" $ \\\\ ";
+					out<<"$ \\overline{\\frac{t}{n}} = "<<setprecision(3)<<sum_t_comp/n_samp;
+					out<<" $ \\\\ ";
+					out<<"$ \\overline{|P_E|} = "<<setprecision(3)<<mean_n_res;
+					out<<" $ \\end{tabular} ";
 				}
 			}
 			out<<" \\\\ \\hline \n";
@@ -857,10 +881,10 @@ void statSPPAO(string dir, list<int>& obstacles, ostream& out) {
 		}
 		out<<"\\\\ \\hline\n";
 		nIt = nodes.begin();
-		cout<<"\nbefore nodes loop"<<endl;
+		//cout<<"\nbefore nodes loop"<<endl;
 		for (int nInd = 0; nInd != nS; nInd++) {
 			out<<"\n"<<*(nIt++);
-			cout<<"\nbefore density loop"<<endl;
+			//cout<<"\nbefore density loop"<<endl;
 			for (int dInd = 0; dInd != dS; dInd++) {
 				if (v_result[nS*dS*oInd + dS*nInd + dInd]->empty()) {
 					out<<"& ?? ";
@@ -869,7 +893,7 @@ void statSPPAO(string dir, list<int>& obstacles, ostream& out) {
 					sum_n2 = 0;
 					sum_n = 0;
 					sum_n_res = 0;
-					cout<<"\nbefore computation loop"<<endl;
+					//cout<<"\nbefore computation loop"<<endl;
 					for (list<resultSPPAO>::iterator res = v_result[nS*dS*oInd + dS*nInd + dInd]->begin();
 					res != v_result[nS*dS*oInd + dS*nInd + dInd]->end(); res++) {
 						sum_n1 += res->n1;
@@ -877,16 +901,16 @@ void statSPPAO(string dir, list<int>& obstacles, ostream& out) {
 						sum_n += res->n;
 						sum_n_res += res->n_result;
 					}
-					mean_n1 = sum_n1/v_result[nS*dS*oInd + dS*nInd + dInd]->size();
-					mean_n2 = sum_n2/v_result[nS*dS*oInd + dS*nInd + dInd]->size();
-					mean_n = sum_n/v_result[nS*dS*oInd + dS*nInd + dInd]->size();
-					mean_n_res = sum_n_res/v_result[nS*dS*oInd + dS*nInd + dInd]->size();
+					mean_n1 = sum_n1/n_samp;
+					mean_n2 = sum_n2/n_samp;
+					mean_n = sum_n/n_samp;
+					mean_n_res = sum_n_res/n_samp;
 
 					sum_n1 = 0;
 					sum_n2 = 0;
 					sum_n = 0;
 					sum_n_res = 0;
-					cout<<"\nbefore computation loop 2"<<endl;
+					//cout<<"\nbefore computation loop 2"<<endl;
 					for (list<resultSPPAO>::iterator res = v_result[nS*dS*oInd + dS*nInd + dInd]->begin();
 					res != v_result[nS*dS*oInd + dS*nInd + dInd]->end(); res++) {
 						sum_n1 += (res->n1 - mean_n1)*(res->n1 - mean_n1);
@@ -896,16 +920,16 @@ void statSPPAO(string dir, list<int>& obstacles, ostream& out) {
 					}
 					out<<" & \\begin{tabular}{@{}c@{}} ";
 					out<<"$ sd(n_1) = ";
-					out<<setprecision(2)<<sqrt(sum_n1/(v_result[nS*dS*oInd + dS*nInd + dInd]->size()-1));
+					out<<setprecision(2)<<sqrt(sum_n1/(n_samp-1));
 					out<<"$ \\\\ ";
 					out<<"$ sd(n_2) = ";
-					out<<setprecision(2)<<sqrt(sum_n2/(v_result[nS*dS*oInd + dS*nInd + dInd]->size()-1));
+					out<<setprecision(2)<<sqrt(sum_n2/(n_samp-1));
 					out<<"$ \\\\ ";
 					out<<"$ sd(n) = ";
-					out<<setprecision(2)<<sqrt(sum_n/(v_result[nS*dS*oInd + dS*nInd + dInd]->size()-1));
+					out<<setprecision(2)<<sqrt(sum_n/(n_samp-1));
 					out<<"$ \\\\ ";
-					out<<"$ sd(n_{res}) = ";
-					out<<setprecision(2)<<sqrt(sum_n_res/(v_result[nS*dS*oInd + dS*nInd + dInd]->size()-1));
+					out<<"$ sd(|P_E|) = ";
+					out<<setprecision(2)<<sqrt(sum_n_res/(n_samp-1));
 					out<<"$ \\end{tabular} ";
 				}
 			}
@@ -1016,5 +1040,4 @@ TODO :
 - Reimplementer les matrices pour qu'elles soient moins gourmandes en espace
 	-> Reimplementer la facon dont on update la distance dans dijkstra pour que ca soit pas
 		plus couteux en temps
-- Tracker les fuites de memoire
 */

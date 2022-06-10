@@ -142,14 +142,21 @@ infoPath optiPathOfMaxD(Node* s, Node* t) {
 }
 
 
-list<infoPath>* secondSPPAO(list<Node*>& graph, Node* s, Node* t, int* n1, int* n2) {
+list<infoPath>* secondSPPAO(list<Node*>& graph, Node* s, Node* t, int* n1, int* n2,
+double* t1, double* t2) {
     int nbD1 = 0;
     int step = 0;
+    if (n1 != nullptr) {*n1 = 0;}
+    if (n2 != nullptr) {*n2 = 0;}
+    if (t1 != nullptr) {*t1 = 0;}
+    if (t2 != nullptr) {*t2 = 0;}
     filesystem::path filepath = filesystem::current_path();
     filepath /= "data";
     filepath /= "SPPAO2.log";
     ofstream logStream(filepath, ios::out);
 
+    auto startSub = chrono::system_clock::now();
+    chrono::duration<double> elapsed;
     auto start = chrono::system_clock::now();
 
     if (logs) {cout<<"\nSPPAO2 -- path of max d\n";}
@@ -192,7 +199,11 @@ list<infoPath>* secondSPPAO(list<Node*>& graph, Node* s, Node* t, int* n1, int* 
             cout<<"#"<<++nbD1<<" SPPAO2 -- Dijkstra, upper, strict_min_d = "<<d_bar;
             cout<<", strict_max_c = "<<Irect.c_max<<"\n";
         }
+
+        startSub = chrono::system_clock::now();
         upper = genDijkstra(s, t, d_bar, -1, Irect.c_max);
+        elapsed = chrono::system_clock::now()-startSub;
+        if (t1 != nullptr) {*t1 += elapsed.count();}
         if (n1 != nullptr) {(*n1)++;}
         if (logs) {cout<<"result : d = "<<upper.d<<", c = "<<upper.c<<"\n";}
 
@@ -227,9 +238,13 @@ list<infoPath>* secondSPPAO(list<Node*>& graph, Node* s, Node* t, int* n1, int* 
                     cout<<"#"<<++nbD1<<" SPPAO2 -- Dijkstra, lower, strict_min_d = "<<Irect.pathMin->d;
                     cout<<", strict_max_c = "<<upper.c<<"\n";
                 }
+                startSub = chrono::system_clock::now();
                 lower = genDijkstra(s, t, Irect.pathMin->d, -1, upper.c);
+                elapsed = chrono::system_clock::now()-startSub;
+                if (t2 != nullptr) {*t2 += elapsed.count();}
                 if (n2 != nullptr) {(*n2)++;}
                 if (logs) {cout<<"result : d = "<<lower.d<<", c = "<<lower.c<<"\n";}
+
                 if (lower.path->size() > 1) {
 
                     if (logs) {
@@ -278,7 +293,11 @@ list<infoPath>* secondSPPAO(list<Node*>& graph, Node* s, Node* t, int* n1, int* 
                 logStream<<Irect.d_max<<" "<<Irect.pathMin->c<<" "<<Irect.c_max<<" ";
                 logStream<<(int) RNr<<" "<<(int) RNg<<" "<<(int) RNb<<"\n";
             }
+
+            startSub = chrono::system_clock::now();
             lower = genDijkstra(s, t, Irect.pathMin->d, -1, Irect.c_max);
+            elapsed = chrono::system_clock::now()-startSub;
+            if (t2 != nullptr) {*t2 += elapsed.count();}
             if (n2 != nullptr) {(*n2)++;}
             if (logs) {cout<<"result : d = "<<lower.d<<", c = "<<lower.c<<"\n";}
             if (lower.path->size() > 1) {
@@ -322,22 +341,32 @@ list<infoPath>* secondSPPAO(list<Node*>& graph, Node* s, Node* t, int* n1, int* 
         res->push_front(maxDpath);
     }
     auto end = chrono::system_clock::now();
-    chrono::duration<double> elapsed = end-start;
-    cout<<"\nComputation time -- SPPAO 2nd approach : "<<setprecision(12)<<elapsed.count()<<endl;
+    elapsed = end-start;
+    if (logs) {
+        cout<<"\nComputation time -- SPPAO 2nd approach : ";
+        cout<<setprecision(12)<<elapsed.count()<<endl;
+    }
     res->sort(compare_d);
     logStream.close();
     return res;
 }
 
 
-list<infoPath>* secondSPPAO_2(list<Node*>& graph, Node* s, Node* t, int* n1, int* n2) {
+list<infoPath>* secondSPPAO_2(list<Node*>& graph, Node* s, Node* t, int* n1, int* n2,
+double* t1, double* t2) {
     int nbD1 = 0;
     int step = 0;
+    if (n1 != nullptr) {*n1 = 0;}
+    if (n2 != nullptr) {*n2 = 0;}
+    if (t1 != nullptr) {*t1 = 0;}
+    if (t2 != nullptr) {*t2 = 0;}
     filesystem::path filepath = filesystem::current_path();
     filepath /= "data";
     filepath /= "SPPAO2_2.log";
     ofstream logStream(filepath, ios::out);
 
+    auto startSub = chrono::system_clock::now();
+    chrono::duration<double> elapsed;
     auto start = chrono::system_clock::now();
 
     if (logs) {cout<<"\nSPPAO2 -- path of max d\n";}
@@ -381,7 +410,11 @@ list<infoPath>* secondSPPAO_2(list<Node*>& graph, Node* s, Node* t, int* n1, int
             cout<<"#"<<++nbD1<<" SPPAO2 -- Dijkstra, upper, strict_min_d = "<<d_bar;
             cout<<", strict_max_c = "<<Irect.c_max<<"\n";
         }
+
+        startSub = chrono::system_clock::now();
         upper = dijkstraCDDistCheck(s, t, d_bar, Irect.c_max);
+        elapsed = chrono::system_clock::now()-startSub;
+        if (t1 != nullptr) {*t1 += elapsed.count();}
         if (n1 != nullptr) {(*n1)++;}
         if (logs) {cout<<"result : d = "<<upper.d<<", c = "<<upper.c<<"\n";}
 
@@ -416,9 +449,14 @@ list<infoPath>* secondSPPAO_2(list<Node*>& graph, Node* s, Node* t, int* n1, int
                     cout<<"#"<<++nbD1<<" SPPAO2 -- Dijkstra, lower, strict_min_d = "<<Irect.pathMin->d;
                     cout<<", strict_max_c = "<<upper.c<<"\n";
                 }
+
+                startSub = chrono::system_clock::now();
                 lower = dijkstraCDDistCheck(s, t, Irect.pathMin->d, upper.c);
+                elapsed = chrono::system_clock::now()-startSub;
+                if (t2 != nullptr) {*t2 += elapsed.count();}
                 if (n2 != nullptr) {(*n2)++;}
                 if (logs) {cout<<"result : d = "<<lower.d<<", c = "<<lower.c<<"\n";}
+
                 if (lower.path->size() > 1) {
 
                     if (logs) {
@@ -467,9 +505,14 @@ list<infoPath>* secondSPPAO_2(list<Node*>& graph, Node* s, Node* t, int* n1, int
                 logStream<<Irect.d_max<<" "<<Irect.pathMin->c<<" "<<Irect.c_max<<" ";
                 logStream<<(int) RNr<<" "<<(int) RNg<<" "<<(int) RNb<<"\n";
             }
+
+            startSub = chrono::system_clock::now();
             lower = dijkstraCDDistCheck(s, t, Irect.pathMin->d, Irect.c_max);
+            if (t2 != nullptr) {*t2 += elapsed.count();}
+            if (n2 != nullptr) {(*n2)++;}
             if (n2 != nullptr) {(*n2)++;}
             if (logs) {cout<<"result : d = "<<lower.d<<", c = "<<lower.c<<"\n";}
+
             if (lower.path->size() > 1) {
                 
                 if (logs) {
@@ -511,8 +554,11 @@ list<infoPath>* secondSPPAO_2(list<Node*>& graph, Node* s, Node* t, int* n1, int
         res->push_front(maxDpath);
     }
     auto end = chrono::system_clock::now();
-    chrono::duration<double> elapsed = end-start;
-    cout<<"\nComputation time -- SPPAO 2nd approach : "<<setprecision(12)<<elapsed.count()<<endl;
+    elapsed = end-start;
+    if (logs) {
+        cout<<"\nComputation time -- SPPAO 2nd approach : ";
+        cout<<setprecision(12)<<elapsed.count()<<endl;
+    }
     res->sort(compare_d);
     logStream.close();
     return res;
