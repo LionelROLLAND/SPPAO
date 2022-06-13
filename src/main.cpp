@@ -6,6 +6,8 @@
 #include <random>
 #include <cmath>
 #include <iomanip>
+#include <ctime>
+#include <chrono>
 
 
 #include <boost/program_options/cmdline.hpp> //boost not installed by default, to install manually
@@ -647,6 +649,8 @@ struct resultSPPAO
 	double t1;
 	double t2;
 	double t;
+	double Tss;
+	double Tbs;
 };
 
 
@@ -658,6 +662,9 @@ void statSPPAO(string dir, list<int>& obstacles, ostream& out) {
 	double t2;
 	double t_comp;
 	int n_samp;
+	auto start_pb = chrono::system_clock::now();
+	chrono::duration<double> elapsed1;
+	chrono::duration<double> elapsed2;
 	list<resultSPPAO> results = list<resultSPPAO>();
 	for (const auto& file : filesystem::directory_iterator(dir)) {
 		filesystem::path infilepath = file.path();
@@ -701,7 +708,9 @@ void statSPPAO(string dir, list<int>& obstacles, ostream& out) {
 			list<Node*>* obsList = createObstacles(x_min, y_min, x_max, y_max, max_no+1, *n_obs);
 			computeArcD(*l, *obsList);
 
+			start_pb = chrono::system_clock::now();
 			list<infoPath>* l_res = secondSPPAO_2(*l, node1, node2, &n1, &n2, &t1, &t2);
+			elapsed2 = chrono::system_clock::now() - start_pb;
 
 			for (list<infoPath>::iterator it = l_res->begin(); it != l_res->end(); it++) {
 				delete it->path;
@@ -711,10 +720,13 @@ void statSPPAO(string dir, list<int>& obstacles, ostream& out) {
 
 			cout<<"n1 = "<<n1<<", n2 = "<<n2<<endl;
 
+			start_pb = chrono::system_clock::now();
 			list<infoPath>* SPPAOres = firstSPPAO_2(*l, node1, node2, &n, &t_comp);
+			elapsed1 = chrono::system_clock::now() - start_pb;
 
 			results.push_back(resultSPPAO({n_nodes, ((double) n_arcs)/n_nodes, *n_obs,
-			(int) SPPAOres->size(), n1, n2, n, t1, t2, t_comp}));
+			(int) SPPAOres->size(), n1, n2, n, t1, t2, t_comp,
+			elapsed1.count(), elapsed2.count()}));
 
 			for (list<infoPath>::iterator it = SPPAOres->begin(); it != SPPAOres->end(); it++) {
 				delete it->path;
@@ -775,16 +787,22 @@ void statSPPAO(string dir, list<int>& obstacles, ostream& out) {
 		while (*dIt != res->density) {dIt++; dInd++;}
 		v_result[nS*dS*oInd + dS*nInd + dInd]->push_back(*res);
 	}
+
+
+
+
+
 	out<<"\\documentclass{article}"
 	"\n\\usepackage[french]{babel}"
 	"\n\\usepackage [utf8] {inputenc}"
-	"\n\\setlength{\\oddsidemargin}{0pt}"
-	"\n\\setlength{\\evensidemargin}{9pt}"
+	"\n\\usepackage{float}"
+	"\n\\usepackage{booktabs}"
+	"\n\\usepackage{multirow}"
+	"\n\\voffset=-1.5cm"
+	"\n\\hoffset=-1.4cm"
+	"\n\\textwidth=16cm"
+	"\n\\textheight=22.0cm"
 	"\n\\begin{document}\n";
-	string n_col = "";
-	for (int i = 0; i < (int) densities.size(); i++) {
-		n_col += "|c";
-	}
 	double sum_n1;
 	double sum_n2;
 	double sum_n;
@@ -793,6 +811,8 @@ void statSPPAO(string dir, list<int>& obstacles, ostream& out) {
 	double sum_t1;
 	double sum_t2;
 	double sum_t_comp;
+	double sum_tss;
+	double sum_tbs;
 
 	double mean_n1;
 	double mean_n2;
@@ -801,26 +821,32 @@ void statSPPAO(string dir, list<int>& obstacles, ostream& out) {
 	list<int>::iterator oIt = obstacles.begin();
 	//cout<<"\nbefore writing the doc"<<endl;
 	for (int oInd = 0; oInd != oS; oInd++) {
-		out<<"\n\\newpage"
-		"\nWith "<<*(oIt++)<<" obstacles :\n\n";
-		out<<"\\begin{center}"
-		"\n\\renewcommand{\\arraystretch}{1.4}" 
- 		"\n\\begin{tabular}{r" + n_col + "}\n";
+		out<<"\\begin{table}[H]"
+		"\n\\caption{Results for solving the SPPAO when $|S|="<<*(oIt++);
+		out<<"$\\label{tab:resSPPAOs"<<oInd<<"}}"
+		"\n\\centering"
+		"\n\\small"
+		"\n\\begin{tabular}{cc c@{ }cc@{ }cccc c@{ }ccc c@{ }c} \\hline"
+		"\n & & \\multicolumn{7}{c}{\\texttt{BS}} & \\multicolumn{4}{c}{\\texttt{SS}} & \\\\"
+		"\n\\cmidrule(lr){3-9} \\cmidrule(lr){10-13}"
+		"\n & & \\multicolumn{2}{c}{$n_1$} & \\multicolumn{2}{c}{$n_2$} & $T_1/n_1$ & $T_2/n_2$"
+		" & $T$ & \\multicolumn{2}{c}{$n$} & $T/n$ & $T$ & "
+		"\\multicolumn{2}{c}{$|P_E|$}\\\\ \\hline"
+		"\n$|N|$ & $d$ & $\\bar{x}$ & $s_X$ & $\\bar{x}$ & $s_X$ & "
+		"$\\bar{x}$ & $\\bar{x}$ & $\\bar{x}$ & $\\bar{x}$ & $s_X$ & "
+		"$\\bar{x}$ & $\\bar{x}$ & $\\bar{x}$ & $s_X$ \\\\ \\hline";
 
-		out<<"\n & "<<densities.front();
-		for (list<double>::iterator dIt = ++densities.begin(); dIt != densities.end(); dIt++) {
-			out<<" & "<<*dIt;
-		}
-		out<<"\\\\ \\hline\n";
 		list<int>::iterator nIt = nodes.begin();
 		//cout<<"\nbefore nodes loop"<<endl;
 		for (int nInd = 0; nInd != nS; nInd++) {
-			out<<"\n"<<*(nIt++);
+			out<<"\n\\multirow{"<<dS<<"}{*}{"<<*(nIt++)<<"}";
 			//cout<<"\nbefore density loop"<<endl;
+			list<double>::iterator dIt = densities.begin();
 			for (int dInd = 0; dInd != dS; dInd++) {
 				if (v_result[nS*dS*oInd + dS*nInd + dInd]->empty()) {
-					out<<"& ?? ";
+					out<<"\n & ? & ? & ? & ? & ? & ? & ? & ? & ? & ? & ? & ? & ? & ? ";
 				} else {
+					out<<"\n & "<<*(dIt++);
 					n_samp = v_result[nS*dS*oInd + dS*nInd + dInd]->size();
 					sum_n1 = 0;
 					sum_n2 = 0;
@@ -830,6 +856,8 @@ void statSPPAO(string dir, list<int>& obstacles, ostream& out) {
 					sum_t1 = 0;
 					sum_t2 = 0;
 					sum_t_comp = 0;
+					sum_tss = 0;
+					sum_tbs = 0;
 					//cout<<"\nbefore computation loop"<<endl;
 					for (list<resultSPPAO>::iterator res = v_result[nS*dS*oInd + dS*nInd + dInd]->begin();
 					res != v_result[nS*dS*oInd + dS*nInd + dInd]->end(); res++) {
@@ -837,69 +865,12 @@ void statSPPAO(string dir, list<int>& obstacles, ostream& out) {
 						sum_n2 += res->n2;
 						sum_n += res->n;
 						sum_n_res += res->n_result;
+						sum_tss += res->Tss;
+						sum_tbs += res->Tbs;
 
 						if (res->n1 != 0) {sum_t1 += res->t1/res->n1;}
 						if (res->n2 != 0) {sum_t2 += res->t2/res->n2;}
 						if (res->n != 0) {sum_t_comp += res->t/res->n;}
-					}
-					mean_n1 = sum_n1/n_samp;
-					mean_n2 = sum_n2/n_samp;
-					mean_n = sum_n/n_samp;
-					mean_n_res = sum_n_res/n_samp;
-
-					out<<" & \\begin{tabular}{@{}c@{}} ";
-					out<<"$ \\overline{n_1} = "<<setprecision(3)<<mean_n1;
-					out<<" $ \\\\ ";
-					out<<"$ \\overline{n_2} = "<<setprecision(3)<<mean_n2;
-					out<<" $ \\\\ ";
-					out<<"$ \\overline{\\frac{t_1}{n_1}} = "<<setprecision(3)<<sum_t1/n_samp;
-					out<<" $ \\\\ ";
-					out<<"$ \\overline{\\frac{t_2}{n_2}} = "<<setprecision(3)<<sum_t2/n_samp;
-					out<<" $ \\\\ ";
-					out<<"$ \\overline{n} = "<<setprecision(3)<<mean_n;
-					out<<" $ \\\\ ";
-					out<<"$ \\overline{\\frac{t}{n}} = "<<setprecision(3)<<sum_t_comp/n_samp;
-					out<<" $ \\\\ ";
-					out<<"$ \\overline{|P_E|} = "<<setprecision(3)<<mean_n_res;
-					out<<" $ \\end{tabular} ";
-				}
-			}
-			out<<" \\\\ \\hline \n";
-		}
-		out<<"\\end{tabular}\n\\end{center}\n\n";
-		
-		
-		
-		
-		out<<"\\begin{center}"
-		"\n\\renewcommand{\\arraystretch}{1.4}" 
- 		"\n\\begin{tabular}{r" + n_col + "}\n";
-
-		out<<"\n & "<<densities.front();
-		for (list<double>::iterator dIt = ++densities.begin(); dIt != densities.end(); dIt++) {
-			out<<" & "<<*dIt;
-		}
-		out<<"\\\\ \\hline\n";
-		nIt = nodes.begin();
-		//cout<<"\nbefore nodes loop"<<endl;
-		for (int nInd = 0; nInd != nS; nInd++) {
-			out<<"\n"<<*(nIt++);
-			//cout<<"\nbefore density loop"<<endl;
-			for (int dInd = 0; dInd != dS; dInd++) {
-				if (v_result[nS*dS*oInd + dS*nInd + dInd]->empty()) {
-					out<<"& ?? ";
-				} else {
-					sum_n1 = 0;
-					sum_n2 = 0;
-					sum_n = 0;
-					sum_n_res = 0;
-					//cout<<"\nbefore computation loop"<<endl;
-					for (list<resultSPPAO>::iterator res = v_result[nS*dS*oInd + dS*nInd + dInd]->begin();
-					res != v_result[nS*dS*oInd + dS*nInd + dInd]->end(); res++) {
-						sum_n1 += res->n1;
-						sum_n2 += res->n2;
-						sum_n += res->n;
-						sum_n_res += res->n_result;
 					}
 					mean_n1 = sum_n1/n_samp;
 					mean_n2 = sum_n2/n_samp;
@@ -918,24 +889,25 @@ void statSPPAO(string dir, list<int>& obstacles, ostream& out) {
 						sum_n += (res->n - mean_n)*(res->n - mean_n);
 						sum_n_res += (res->n_result - mean_n_res)*(res->n_result - mean_n_res);
 					}
-					out<<" & \\begin{tabular}{@{}c@{}} ";
-					out<<"$ sd(n_1) = ";
-					out<<setprecision(2)<<sqrt(sum_n1/(n_samp-1));
-					out<<"$ \\\\ ";
-					out<<"$ sd(n_2) = ";
-					out<<setprecision(2)<<sqrt(sum_n2/(n_samp-1));
-					out<<"$ \\\\ ";
-					out<<"$ sd(n) = ";
-					out<<setprecision(2)<<sqrt(sum_n/(n_samp-1));
-					out<<"$ \\\\ ";
-					out<<"$ sd(|P_E|) = ";
-					out<<setprecision(2)<<sqrt(sum_n_res/(n_samp-1));
-					out<<"$ \\end{tabular} ";
+
+					out<<" & "<<setprecision(3)<<mean_n1;
+					out<<" & "<<setprecision(2)<<sqrt(sum_n1/(n_samp-1));
+					out<<" & "<<setprecision(3)<<mean_n2;
+					out<<" & "<<setprecision(2)<<sqrt(sum_n2/(n_samp-1));
+					out<<" & "<<setprecision(3)<<1000*sum_t1/n_samp;
+					out<<" & "<<setprecision(3)<<1000*sum_t2/n_samp;
+					out<<" & "<<setprecision(3)<<1000*sum_tbs/n_samp;
+					out<<" & "<<setprecision(3)<<mean_n;
+					out<<" & "<<setprecision(2)<<sqrt(sum_n/(n_samp-1));
+					out<<" & "<<setprecision(3)<<1000*sum_t_comp/n_samp;
+					out<<" & "<<setprecision(3)<<1000*sum_tss/n_samp;
+					out<<" & "<<setprecision(3)<<mean_n_res;
+					out<<" & "<<setprecision(2)<<sqrt(sum_n_res/(n_samp-1))<<" \\\\";
 				}
 			}
-			out<<" \\\\ \\hline \n";
+			out<<" \\hline \n";
 		}
-		out<<"\\end{tabular}\n\\end{center}\n\n";
+		out<<"\n\\end{tabular}\n\\end{table}\n\n";
 	}
 	out<<"\\end{document}";
 	for (int i = 0; i < oS*nS*dS; i++) {
