@@ -29,7 +29,8 @@
 #include "utils.hpp"
 #include "newFibHeap.hpp"
 #include "test.hpp"
-#include "dijkstra.hpp"
+//#include "dijkstra.hpp"
+#include "newDijkstra.hpp"
 #include "firstSPPAO.hpp"
 #include "secondSPPAO.hpp"
 
@@ -201,7 +202,7 @@ void stack_test2() {
 	cout<<test[8654]<<endl;
 }
 
-
+/*
 void testMarkTree() {
 	markTree<int>* test = 
 	new markTree<int>(nullptr, list<Tree<infoFib<int>>*>(), infoFib<int>(-1, -1));
@@ -216,7 +217,7 @@ void testMarkTree() {
 		}
 	}
 	cout<<test<<"\n\n\n"<<endl;
-	/*
+	////////
 	for (list<markTree<int>*>::iterator child = test->children.begin();
 	child != test->children.end(); child++) {
 		for (list<markTree<int>*>::iterator baby = (*child)->children.begin();
@@ -231,10 +232,11 @@ void testMarkTree() {
 	}
 	cout<<test<<endl;
 	//cout<<"number of nodes : "<<nb_nodes(*test)<<endl;
-	*/
+	///////
 }
+*/
 
-
+/*
 void testFibHeap() {
 	fibHeap<int> test = fibHeap<int>();
 	vector<markTree<int>*> locations = vector<markTree<int>*>(12, nullptr);
@@ -252,7 +254,9 @@ void testFibHeap() {
 	fibHeap<int> test2 = fibHeap<int>(test);
 	cout<<"test2 : "<<test2<<endl;
 }
+*/
 
+/*
 
 void testDijkstra() {
 	int P = 100;
@@ -285,7 +289,7 @@ void testDijkstra() {
 	delete optPath.path;
 	deleteGraph(l);
 }
-
+*/
 
 void testSPPAO1(int P=10, int Q=10, int O=5, double prop_square=0.5, double prop_merge=0.5) {
 	list<Node*>* l = makeGraph(P, Q, prop_square, prop_merge);
@@ -322,6 +326,8 @@ void testSPPAO1(int P=10, int Q=10, int O=5, double prop_square=0.5, double prop
 	deleteGraph(l);
 }
 
+
+/*
 
 void testPathMinD(int P=10, int Q=10, int O=5, double prop_square=0.5, double prop_merge=0.5) {
 	list<Node*>* l = makeGraph(P, Q, prop_square, prop_merge);
@@ -376,6 +382,8 @@ void testPathMinD(int P=10, int Q=10, int O=5, double prop_square=0.5, double pr
 	deleteGraph(obstacles);
 	deleteGraph(l);
 }
+
+*/
 
 
 void testLoading() {
@@ -447,7 +455,7 @@ void testSPPAO2(int P=10, int Q=10, int O=5, double prop_square=0.5, double prop
 	deleteGraph(l);
 }
 
-
+/*
 void compareSPPAOs(int P=10, int Q=10, int O=5, double prop_square=0.5, double prop_merge=0.5) {
 	list<Node*>* l = makeGraph(P, Q, prop_square, prop_merge);
 	naturalWeight(*l);
@@ -535,7 +543,7 @@ void compareSPPAOs(int P=10, int Q=10, int O=5, double prop_square=0.5, double p
 	deleteGraph(obstacles);
 	deleteGraph(l);
 }
-
+*/
 
 void testGraph2(int n_points, double prop_square, double prop_expand) {
 	list<Node*>* l = makeGraph2(n_points, prop_square, prop_expand);
@@ -709,7 +717,7 @@ void statSPPAO(string dir, list<int>& obstacles, ostream& out) {
 			computeArcD(*l, *obsList);
 
 			start_pb = chrono::system_clock::now();
-			list<infoPath>* l_res = secondSPPAO_2(*l, node1, node2, &n1, &n2, &t1, &t2);
+			list<infoPath>* l_res = secondSPPAO(*l, node1, node2, &n1, &n2, &t1, &t2);
 			elapsed2 = chrono::system_clock::now() - start_pb;
 
 			for (list<infoPath>::iterator it = l_res->begin(); it != l_res->end(); it++) {
@@ -721,7 +729,7 @@ void statSPPAO(string dir, list<int>& obstacles, ostream& out) {
 			cout<<"n1 = "<<n1<<", n2 = "<<n2<<endl;
 
 			start_pb = chrono::system_clock::now();
-			list<infoPath>* SPPAOres = firstSPPAO_2(*l, node1, node2, &n, &t_comp);
+			list<infoPath>* SPPAOres = firstSPPAO(*l, node1, node2, &n, &t_comp);
 			elapsed1 = chrono::system_clock::now() - start_pb;
 
 			results.push_back(resultSPPAO({n_nodes, ((double) n_arcs)/n_nodes, *n_obs,
@@ -930,7 +938,7 @@ void writeStatSPPAO() {
 	obstacles.push_back(30);
 	obstacles.push_back(100);
 	obstacles.push_back(500);
-	statSPPAO("data/realDB/", obstacles, writing);
+	statSPPAO("data/testDB/", obstacles, writing);
 	writing.close();
 }
 

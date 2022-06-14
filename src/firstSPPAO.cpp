@@ -1,12 +1,3 @@
-#include <list>
-#include <iomanip>
-#include <ctime>
-#include <chrono>
-
-#include "Node.hpp"
-#include "randomGraph.hpp"
-//#include "dijkstra.hpp"
-#include "newDijkstra.hpp"
 #include "firstSPPAO.hpp"
 
 using namespace std;
@@ -23,7 +14,7 @@ list<infoPath>* firstSPPAO(list<Node*>& graph, Node* s, Node* t, int* n, double*
 
     //infoPath optPath = genDijkstra(s, t);
     //infoPath optPath = simpleDijkstraDistCheck(s, t);
-    infoPath optPath = superDijkstra<complexKey>(s, t, getComplexKey,
+    infoPath optPath = superDijkstra(s, t, complexComp,
     changeComplexKey, newComplexKey, noCond);
 
 
@@ -39,7 +30,7 @@ list<infoPath>* firstSPPAO(list<Node*>& graph, Node* s, Node* t, int* n, double*
 
         //optPath = genDijkstra(s, t, optPath.d);
         //optPath = dijkstraDDistCheck(s, t, optPath.d);
-        optPath = superDijkstra<complexKey>(s, t, getComplexKey,
+        optPath = superDijkstra(s, t, complexComp,
         changeComplexKey, newComplexKey, condD, optPath.d);
 
 

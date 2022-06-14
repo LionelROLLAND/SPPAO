@@ -1,3 +1,4 @@
+/*
 #ifndef DIJKSTRA
 #define DIJKSTRA
 #include <list>
@@ -28,3 +29,4 @@ infoPath dijkstraD(Node* s, Node* t, double strict_min_d);
 infoPath dijkstraDDistCheck(Node* s, Node* t, double strict_min_d);
 
 #endif
+*/

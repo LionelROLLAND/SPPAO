@@ -22,10 +22,10 @@ class Node
         double c_to_s;
         double d_to_S;
         arcNode* pred;
-        void* tree;
+        markTree<Node*>* tree;
         Node(int n=0, double absc=0., double ord=0., list<arcNode> l=list<arcNode>(),
                 Matrix<double>* A=nullptr, bool m=false, double dist=inf, double d=0, 
-                arcNode* pr=nullptr, void* Tr=nullptr) : no(n), x(absc),
+                arcNode* pr=nullptr, markTree<Node*>* Tr=nullptr) : no(n), x(absc),
                 y(ord), l_adj(l), adj(A), marked(m), c_to_s(dist), d_to_S(d), pred(pr),
                 tree(Tr) {}
         Node(const Node& n);
@@ -96,7 +96,7 @@ class arcNode
         double& d_to_S() {return node->d_to_S;}
         bool& marked() {return node->marked;}
         arcNode*& pred() {return node->pred;}
-        void*& tree() {return node->tree;}
+        markTree<Node*>*& tree() {return node->tree;}
         int& no() {return node->no;}
 };
 

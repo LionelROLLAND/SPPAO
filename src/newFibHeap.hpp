@@ -164,7 +164,7 @@ class markTree : public Tree<infoFib<T>>
     public:
         //using Tree<infoFib<T>>::Tree;
         markTree(Tree<infoFib<T>>* par=nullptr,
-                list<Tree<infoFib<T>>*> childr=list<Tree<T>*>(),
+                list<Tree<infoFib<T>>*> childr=list<Tree<infoFib<T>>*>(),
                 infoFib<T> info=infoFib<T>());
         markTree(const markTree<T>& Tr);
         list<Tree<infoFib<T>>*>::iterator addChild(Tree<infoFib<T>>* Tr);
@@ -276,7 +276,7 @@ void fibHeap<T>::orderTrees() {
             //cout<<tree1->get<<endl;
             remOfForest(tree1->get.selfPointer);
             rootVec[deg] = nullptr;
-            if (tree1->get.key <= tree2->get.key) {
+            if (tree1->get.key < tree2->get.key) {
                 tree1->addChild(tree2);
                 addToForest(tree1);
             } else {

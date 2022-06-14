@@ -1,16 +1,3 @@
-#include <iostream>
-#include <list>
-#include <cmath>
-#include <iomanip>
-#include <ctime>
-#include <chrono>
-#include <fstream>
-#include <filesystem>
-
-//#include "dijkstra.hpp"
-#include "newDijkstra.hpp"
-#include "Node.hpp"
-#include "randomGraph.hpp"
 #include "secondSPPAO.hpp"
 
 unsigned char RSr = 0;
@@ -164,7 +151,7 @@ double* t1, double* t2) {
 
     //infoPath maxDpath = pathOfMaxD(s, t);
     //infoPath maxDpath = optiPathOfMaxD(s, t);
-    infoPath maxDpath = superDijkstra<double>(s, t, getDist, changeDist, newDistToS, noCond);
+    infoPath maxDpath = superDijkstra(s, t, distComp, changeDist, newDistToS, noCond);
 
 
     if (logs) {cout<<"result : d = "<<maxDpath.d<<", c = "<<maxDpath.c<<"\n";}
@@ -174,8 +161,8 @@ double* t1, double* t2) {
 
     //infoPath minCpath = genDijkstra(s, t);
     //infoPath minCpath = simpleDijkstraDistCheck(s, t);
-    infoPath minCpath = superDijkstra<complexKey>(s, t,
-    getComplexKey, changeComplexKey, newComplexKey, noCond);
+    infoPath minCpath = superDijkstra(s, t,
+    complexComp, changeComplexKey, newComplexKey, noCond);
 
 
     if (logs) {cout<<"result : d = "<<minCpath.d<<", c = "<<minCpath.c<<"\n";}
@@ -218,7 +205,7 @@ double* t1, double* t2) {
 
         //upper = genDijkstra(s, t, d_bar, -1, Irect.c_max);
         //upper = dijkstraCDDistCheck(s, t, d_bar, Irect.c_max);
-        upper = superDijkstra<complexKey>(s, t, getComplexKey, changeComplexKey, newComplexKey,
+        upper = superDijkstra(s, t, complexComp, changeComplexKey, newComplexKey,
                 condCD, d_bar, Irect.c_max);
 
 
@@ -264,7 +251,7 @@ double* t1, double* t2) {
                 
                 //lower = genDijkstra(s, t, Irect.pathMin->d, -1, upper.c);
                 //lower = dijkstraCDDistCheck(s, t, Irect.pathMin->d, upper.c);
-                lower = superDijkstra<complexKey>(s, t, getComplexKey, changeComplexKey, newComplexKey,
+                lower = superDijkstra(s, t, complexComp, changeComplexKey, newComplexKey,
                         condCD, Irect.pathMin->d, upper.c);
 
 
@@ -326,7 +313,7 @@ double* t1, double* t2) {
 
             //lower = genDijkstra(s, t, Irect.pathMin->d, -1, Irect.c_max);
             //lower = dijkstraCDDistCheck(s, t, Irect.pathMin->d, Irect.c_max);
-            lower = superDijkstra<complexKey>(s, t, getComplexKey, changeComplexKey, newComplexKey,
+            lower = superDijkstra(s, t, complexComp, changeComplexKey, newComplexKey,
                     condCD, Irect.pathMin->d, Irect.c_max);
 
 
