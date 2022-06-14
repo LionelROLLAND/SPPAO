@@ -249,6 +249,8 @@ markTree<T>* fibHeap<T>::remOfForest(typename list<Tree<infoFib<T>>*>::iterator 
 
 template<typename T>
 void fibHeap<T>::orderTrees() {
+    //cout<<"orderTrees begins"<<endl;
+    //cout<<*this<<endl;
     if (is_empty()) {
         min_root = nullptr;
         return;
@@ -262,15 +264,28 @@ void fibHeap<T>::orderTrees() {
     min_root = static_cast<markTree<T>*>(forest.front());
     typename list<Tree<infoFib<T>>*>::iterator it = forest.begin();
     while (it != forest.end()) {
+        //cout<<*this<<endl;
+        //cout<<"expanding :: "<<(*((*it)->get.selfPointer))->get.data->no<<endl;
         tree2 = static_cast<markTree<T>*>(*it);
         deg = tree2->children.size();
-        //cout<<"max_deg = "<<max_deg<<", deg = "<<deg<<endl;
+        if (deg > max_deg) {
+            for (typename list<Tree<infoFib<T>>*>::iterator testTree = tree2->children.begin();
+            testTree != tree2->children.end(); testTree++) {
+                cout<<"+1 :"<<endl;
+                cout<<*testTree<<endl;
+            }
+            cout<<tree2<<endl;
+            cout<<*this<<endl;
+            cout<<"max_deg = "<<max_deg<<", deg = "<<deg<<endl;
+        }
         tree1 = rootVec[deg];
         if (tree1 == nullptr) {
             rootVec[deg] = tree2;
-            if (lesser(tree2->get.data, min_root->get.data)) {min_root = tree2;}
+            //cout<<"Go "<<(*(tree2->get.selfPointer))->get.data->no<<" in "<<deg<<endl;
+            if (!lesser(min_root->get.data, tree2->get.data)) {min_root = tree2;}
             it++;
         } else {
+            //cout<<"deleting (1) :"<<(*(tree1->get.selfPointer))->get.data->no<<endl;
             //cout<<"Before remOfForest"<<endl;
             //cout<<tree1->get<<endl;
             remOfForest(tree1->get.selfPointer);
@@ -282,6 +297,7 @@ void fibHeap<T>::orderTrees() {
                 tree2->addChild(tree1);
                 addToForest(tree2);
             }
+            //cout<<"deleting (2) :"<<(*((*it)->get.selfPointer))->get.data->no<<endl;
             remOfForest(it++);
         }
     }

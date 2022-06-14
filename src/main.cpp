@@ -938,7 +938,7 @@ void writeStatSPPAO() {
 	obstacles.push_back(30);
 	obstacles.push_back(100);
 	obstacles.push_back(500);
-	statSPPAO("data/testDB/", obstacles, writing);
+	statSPPAO("data/realDB/", obstacles, writing);
 	writing.close();
 }
 
@@ -987,6 +987,7 @@ int main(int argc, char *argv[])
 	//int seed = 1654519065;
 	//int seed = 1654611373; ./output/main --P 30 --Q 30 --O 2 --seed 1654611373 > ./data/logs.log && cat ./data/logs.log | grep "Deleting path"
 	//int seed = 1654680670; ./output/main --P 100 --Q 100 --O 2 --p_merge 0 --p_square 1 --seed 1654680670 --v
+	//int seed = 1655202207;
 
 	srand(seed); //1652869031
 	cout<<"seed : "<<seed<<"\n\n"<<endl;

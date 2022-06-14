@@ -151,7 +151,7 @@ double* t1, double* t2) {
 
     //infoPath maxDpath = pathOfMaxD(s, t);
     //infoPath maxDpath = optiPathOfMaxD(s, t);
-    infoPath maxDpath = superDijkstra(s, t, distComp, changeDist, newDistToS, noCond);
+    infoPath maxDpath = superDijkstra(s, t, distComp, changeComplexKey, newComplexKey, noCond);
 
 
     if (logs) {cout<<"result : d = "<<maxDpath.d<<", c = "<<maxDpath.c<<"\n";}
