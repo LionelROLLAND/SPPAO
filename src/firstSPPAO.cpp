@@ -14,9 +14,11 @@ list<infoPath>* firstSPPAO(list<Node*>& graph, Node* s, Node* t, int* n, double*
 
     //infoPath optPath = genDijkstra(s, t);
     //infoPath optPath = simpleDijkstraDistCheck(s, t);
-    infoPath optPath = superDijkstra(s, t, complexComp,
-    changeComplexKey, newComplexKey, noCond);
+    
+    //infoPath optPath = superDijkstra(s, t, compCD,
+    //        changeComplexKey, newComplexKey, noCond);
 
+    infoPath optPath = dijkstraOptiCD_noCond(s, t);
 
     double optC = 0;
     list<infoPath>* res = new list<infoPath>();
@@ -30,8 +32,11 @@ list<infoPath>* firstSPPAO(list<Node*>& graph, Node* s, Node* t, int* n, double*
 
         //optPath = genDijkstra(s, t, optPath.d);
         //optPath = dijkstraDDistCheck(s, t, optPath.d);
-        optPath = superDijkstra(s, t, complexComp,
-        changeComplexKey, newComplexKey, condD, optPath.d);
+        
+        //optPath = superDijkstra(s, t, compCD,
+        //        changeComplexKey, newComplexKey, condD, optPath.d);
+
+        optPath = dijkstraOptiCD_condD(s, t, optPath.d);
 
 
         elapsed = chrono::system_clock::now()-startSub;

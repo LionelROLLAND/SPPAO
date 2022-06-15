@@ -8,6 +8,14 @@ unsigned char RNr = 255;
 unsigned char RNg = 0;
 unsigned char RNb = 0;
 
+unsigned char PSr = 38;
+unsigned char PSg = 255;
+unsigned char PSb = 41;
+
+unsigned char PNr = 143;
+unsigned char PNg = 0;
+unsigned char PNb = 155;
+
 
 bool compare_d(infoPath p1, infoPath p2) {return p1.d < p2.d;}
 
@@ -140,7 +148,7 @@ double* t1, double* t2) {
     if (t2 != nullptr) {*t2 = 0;}
     filesystem::path filepath = filesystem::current_path();
     filepath /= "data";
-    filepath /= "SPPAO2_2.log";
+    filepath /= "SPPAO2.log";
     ofstream logStream(filepath, ios::out);
 
     auto startSub = chrono::system_clock::now();
@@ -151,7 +159,11 @@ double* t1, double* t2) {
 
     //infoPath maxDpath = pathOfMaxD(s, t);
     //infoPath maxDpath = optiPathOfMaxD(s, t);
-    infoPath maxDpath = superDijkstra(s, t, distComp, changeComplexKey, newComplexKey, noCond);
+
+    //infoPath maxDpath = superDijkstra(s, t, distComp, changeComplexKey,
+    //        newComplexKey, noCond);
+
+    infoPath maxDpath = dijkstraOptiD_noCond(s, t);
 
 
     if (logs) {cout<<"result : d = "<<maxDpath.d<<", c = "<<maxDpath.c<<"\n";}
@@ -161,8 +173,11 @@ double* t1, double* t2) {
 
     //infoPath minCpath = genDijkstra(s, t);
     //infoPath minCpath = simpleDijkstraDistCheck(s, t);
-    infoPath minCpath = superDijkstra(s, t,
-    complexComp, changeComplexKey, newComplexKey, noCond);
+    
+    //infoPath minCpath = superDijkstra(s, t, compCD, changeComplexKey,
+    //        newComplexKey, noCond);
+    
+    infoPath minCpath = dijkstraOptiCD_noCond(s, t);
 
 
     if (logs) {cout<<"result : d = "<<minCpath.d<<", c = "<<minCpath.c<<"\n";}
@@ -170,6 +185,8 @@ double* t1, double* t2) {
     double d_max = maxDpath.d;
     if (logs) {
         cout<<"Adding path : d = "<<minCpath.d<<", c = "<<minCpath.c<<"\n";
+        logStream<<"point 0 "<<minCpath.c<<" "<<minCpath.d<<" ";
+        logStream<<(int) PSr<<" "<<(int) PSg<<" "<<(int) PSb<<"\n";
     }
     res->push_front(minCpath);
     if (minCpath.d == d_max) {
@@ -205,8 +222,11 @@ double* t1, double* t2) {
 
         //upper = genDijkstra(s, t, d_bar, -1, Irect.c_max);
         //upper = dijkstraCDDistCheck(s, t, d_bar, Irect.c_max);
-        upper = superDijkstra(s, t, complexComp, changeComplexKey, newComplexKey,
-                condCD, d_bar, Irect.c_max);
+        
+        //upper = superDijkstra(s, t, compCD, changeComplexKey, newComplexKey, condCD,
+        //        d_bar, Irect.c_max);
+
+        upper = dijkstraOptiCD_condCD(s, t, d_bar, Irect.c_max);
 
 
         elapsed = chrono::system_clock::now()-startSub;
@@ -218,6 +238,8 @@ double* t1, double* t2) {
 
             if (logs) {
                 cout<<"Adding path : d = "<<upper.d<<", c = "<<upper.c<<"\n";
+                logStream<<"point "<<step+1<<" "<<upper.c<<" "<<upper.d<<" ";
+                logStream<<(int) PSr<<" "<<(int) PSg<<" "<<(int) PSb<<"\n";
             }
             res->push_front(upper);
             if (upper.d == d_max) {is_dmax_reached = true;}
@@ -235,6 +257,8 @@ double* t1, double* t2) {
                 if (logs) {
                     cout<<"Deleting path : c = "<<Irect.pathMin->c;
                     cout<<", d = "<<Irect.pathMin->d<<"\n";
+                    logStream<<"point "<<step+1<<" "<<Irect.pathMin->c<<" "<<Irect.pathMin->d<<" ";
+                    logStream<<(int) PNr<<" "<<(int) PNg<<" "<<(int) PNb<<"\n";
                 }
                 res->erase(Irect.pathMin);
 
@@ -251,8 +275,11 @@ double* t1, double* t2) {
                 
                 //lower = genDijkstra(s, t, Irect.pathMin->d, -1, upper.c);
                 //lower = dijkstraCDDistCheck(s, t, Irect.pathMin->d, upper.c);
-                lower = superDijkstra(s, t, complexComp, changeComplexKey, newComplexKey,
-                        condCD, Irect.pathMin->d, upper.c);
+                
+                //lower = superDijkstra(s, t, compCD, changeComplexKey, newComplexKey,
+                //        condCD, Irect.pathMin->d, upper.c);
+
+                lower = dijkstraOptiCD_condCD(s, t, Irect.pathMin->d, upper.c);
 
 
                 elapsed = chrono::system_clock::now()-startSub;
@@ -264,6 +291,8 @@ double* t1, double* t2) {
 
                     if (logs) {
                         cout<<"Adding path : d = "<<lower.d<<", c = "<<lower.c<<"\n";
+                        logStream<<"point "<<step+1<<" "<<lower.c<<" "<<lower.d<<" ";
+                        logStream<<(int) PSr<<" "<<(int) PSg<<" "<<(int) PSb<<"\n";
                     }
                     res->push_front(lower);
                     if (lower.d != d_bar) {
@@ -279,13 +308,15 @@ double* t1, double* t2) {
                         if (logs) {
                             cout<<"Deleting path : c = "<<Irect.pathMin->c;
                             cout<<", d = "<<Irect.pathMin->d<<"\n";
+                            logStream<<"point "<<step+1<<" "<<Irect.pathMin->c<<" "<<Irect.pathMin->d<<" ";
+                            logStream<<(int) PNr<<" "<<(int) PNg<<" "<<(int) PNb<<"\n";
                         }
                         res->erase(Irect.pathMin);
                     }
 
                 } else {
                     if (logs) {
-                        logStream<<step+1<<" "<<step+2<<" "<<Irect.pathMin->d<<" ";
+                        logStream<<"rect "<<step+1<<" "<<step+2<<" "<<Irect.pathMin->d<<" ";
                         logStream<<d_bar<<" "<<Irect.pathMin->c<<" "<<upper.c<<" ";
                         logStream<<(int) RNr<<" "<<(int) RNg<<" "<<(int) RNb<<"\n";
                     }
@@ -293,7 +324,7 @@ double* t1, double* t2) {
             }
 
             if (logs) {
-                logStream<<Irect.initStep<<" "<<step+1<<" "<<Irect.pathMin->d<<" ";
+                logStream<<"rect "<<Irect.initStep<<" "<<step+1<<" "<<Irect.pathMin->d<<" ";
                 logStream<<Irect.d_max<<" "<<Irect.pathMin->c<<" "<<Irect.c_max<<" ";
                 logStream<<(int) RSr<<" "<<(int) RSg<<" "<<(int) RSb<<"\n";
             }
@@ -304,7 +335,7 @@ double* t1, double* t2) {
             if (logs) {
                 cout<<"#"<<++nbD1<<" SPPAO2 -- Dijkstra, lower, strict_min_d = "<<Irect.pathMin->d;
                 cout<<", strict_max_c = "<<Irect.c_max<<"\n";
-                logStream<<step+1<<" "<<step+2<<" "<<d_bar<<" ";
+                logStream<<"rect "<<step+1<<" "<<step+2<<" "<<d_bar<<" ";
                 logStream<<Irect.d_max<<" "<<Irect.pathMin->c<<" "<<Irect.c_max<<" ";
                 logStream<<(int) RNr<<" "<<(int) RNg<<" "<<(int) RNb<<"\n";
             }
@@ -313,8 +344,11 @@ double* t1, double* t2) {
 
             //lower = genDijkstra(s, t, Irect.pathMin->d, -1, Irect.c_max);
             //lower = dijkstraCDDistCheck(s, t, Irect.pathMin->d, Irect.c_max);
-            lower = superDijkstra(s, t, complexComp, changeComplexKey, newComplexKey,
-                    condCD, Irect.pathMin->d, Irect.c_max);
+            
+            //lower = superDijkstra(s, t, compCD, changeComplexKey, newComplexKey,
+            //        condCD, Irect.pathMin->d, Irect.c_max);
+
+            lower = dijkstraOptiCD_condCD(s, t, Irect.pathMin->d, Irect.c_max);
 
 
             if (t2 != nullptr) {*t2 += elapsed.count();}
@@ -326,6 +360,8 @@ double* t1, double* t2) {
                 
                 if (logs) {
                     cout<<"Adding path : d = "<<lower.d<<", c = "<<lower.c<<"\n";
+                    logStream<<"point "<<step+1<<" "<<lower.c<<" "<<lower.d<<" ";
+                    logStream<<(int) PSr<<" "<<(int) PSg<<" "<<(int) PSb<<"\n";
                 }
                 res->push_front(lower);
                 if (logs) {
@@ -335,7 +371,7 @@ double* t1, double* t2) {
                 criteriaSpace.push_back(Rectangle({res->begin(), Irect.c_max, d_bar, step+1}));
 
                 if (logs) {
-                    logStream<<Irect.initStep<<" "<<step+1<<" "<<Irect.pathMin->d<<" ";
+                    logStream<<"rect "<<Irect.initStep<<" "<<step+1<<" "<<Irect.pathMin->d<<" ";
                     logStream<<Irect.d_max<<" "<<Irect.pathMin->c<<" "<<Irect.c_max<<" ";
                     logStream<<(int) RSr<<" "<<(int) RSg<<" "<<(int) RSb<<"\n";
                 }
@@ -345,13 +381,15 @@ double* t1, double* t2) {
                     if (logs) {
                         cout<<"Deleting path : c = "<<Irect.pathMin->c;
                         cout<<", d = "<<Irect.pathMin->d<<"\n";
+                        logStream<<"point "<<step+1<<" "<<Irect.pathMin->c<<" "<<Irect.pathMin->d<<" ";
+                        logStream<<(int) PNr<<" "<<(int) PNg<<" "<<(int) PNb<<"\n";
                     }
                     res->erase(Irect.pathMin);
                 }
 
             } else {
                 if (logs) {
-                    logStream<<Irect.initStep<<" "<<step+1<<" "<<Irect.pathMin->d<<" ";
+                    logStream<<"rect "<<Irect.initStep<<" "<<step+1<<" "<<Irect.pathMin->d<<" ";
                     logStream<<Irect.d_max<<" "<<Irect.pathMin->c<<" "<<Irect.c_max<<" ";
                     logStream<<(int) RNr<<" "<<(int) RNg<<" "<<(int) RNb<<"\n";
                 }
@@ -361,6 +399,11 @@ double* t1, double* t2) {
     }
     if (!is_dmax_reached) {
         res->push_front(maxDpath);
+        if (logs) {
+            cout<<"Adding path : d = "<<minCpath.d<<", c = "<<minCpath.c<<"\n";
+            logStream<<"point 0 "<<maxDpath.c<<" "<<maxDpath.d<<" ";
+            logStream<<(int) PSr<<" "<<(int) PSg<<" "<<(int) PSb<<"\n";
+        }
     }
     auto end = chrono::system_clock::now();
     elapsed = end-start;

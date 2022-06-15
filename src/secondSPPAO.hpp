@@ -23,6 +23,14 @@ extern unsigned char RNr;
 extern unsigned char RNg;
 extern unsigned char RNb;
 
+extern unsigned char PSr;
+extern unsigned char PSg;
+extern unsigned char PSb;
+
+extern unsigned char PNr;
+extern unsigned char PNg;
+extern unsigned char PNb;
+
 struct Rectangle
 {
     list<infoPath>::iterator pathMin;

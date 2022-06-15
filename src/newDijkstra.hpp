@@ -24,9 +24,11 @@ struct complexKey
 
 infoPath makePath(Node* t);
 
-bool complexComp(const Node* i, const Node* j);
+bool compCD(const Node* i, const Node* j);
 
-bool pathComp(const Node* i, const Node* j);
+//bool compDC(const Node* i, const Node* j);
+
+bool compC(const Node* i, const Node* j);
 
 bool distComp(const Node* i, const Node* j);
 
@@ -58,5 +60,19 @@ function<void(Node&, const Node&, const arcNode&)> newKey,
 function<bool(double, double, double, double)> isAllowed,
 double strict_min_d=-1,
 double strict_max_c=inf);
+
+infoPath dijkstraOptiCD_noCond(Node* s, Node* t);
+
+infoPath dijkstraOptiCD_condD(Node* s, Node* t, double strict_min_d);
+
+infoPath dijkstraOptiCD_condCD(Node* s, Node* t, double strict_min_d, double strict_max_c);
+
+infoPath dijkstraOptiD_noCond(Node* s, Node* t);
+
+infoPath dijkstraOptiC_noCond(Node* s, Node* t);
+
+infoPath dijkstraOptiC_condD(Node* s, Node* t, double strict_min_d);
+
+infoPath dijkstraOptiC_condCD(Node* s, Node* t, double strict_min_d, double strict_max_c);
 
 #endif

@@ -1,7 +1,12 @@
 #ifndef RANDOMGRAPH
 #define RANDOMGRAPH
 
+#include <iostream>
+#include <list>
+#include <random>
+#include <cmath>
 #include "Node.hpp"
+#include "utils.hpp"
 
 list<Node*>* makeGraph(int P, int Q, double prop_square, double prop_merge);
 

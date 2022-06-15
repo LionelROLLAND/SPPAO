@@ -1,7 +1,12 @@
 #ifndef NODE
 #define NODE
 
+#include <iostream>
+#include <list>
+#include <cmath>
+#include <string>
 #include <functional>
+#include <iomanip>
 #include "matrix.hpp"
 #include "utils.hpp"
 #include "tempKeyFibHeap.hpp"

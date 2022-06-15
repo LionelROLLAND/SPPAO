@@ -35,6 +35,7 @@
 #include "secondSPPAO.hpp"
 
 bool logs;
+int nb_rand_run;
 
 namespace po = boost::program_options;
 using namespace std;
@@ -62,14 +63,6 @@ void test_list() {
 	}
 }
 
-void breakTheReference() {
-	int test = 78965;
-	int * ptest = new int(78965);
-	int& rtest = *ptest;
-	cout<<test<<" "<<rtest<<endl;
-	Matrix<double>* m = new Matrix<double>(100, 100, inf_d());
-	cout<<m;
-}
 
 void writeNodeList(list<Node*>& l, ofstream& w_stream) {
 	for (list<Node*>::iterator it = l.begin(); it != l.end(); it ++) {
@@ -189,18 +182,6 @@ void test_graph() {
 	//deleteGraph(test);
 }
 
-
-void stack_test() {
-	vector<int> test = vector<int>(8200*1024, 64);
-	cout<<test[8654]<<endl;
-}
-
-void stack_test2() {
-	char test[8200*1024];
-	test[7] = 10;
-	test[8654] = 67;
-	cout<<test[8654]<<endl;
-}
 
 /*
 void testMarkTree() {
@@ -645,6 +626,73 @@ double density=1.8, int n_samp=10, string pref="", string suff=".txt") {
 }
 
 
+void checkSPPAO() {
+	int retrieving_rand_runs = 129088;
+	int n_obs = 500;
+
+	default_random_engine generator;
+    uniform_real_distribution distribx(0., 1.);
+    uniform_real_distribution distriby(0., 1.);
+	for (int i = 0; i < div(retrieving_rand_runs, 2).quot; i++) {
+        distribx(generator);
+        distriby(generator);
+	}
+
+	filesystem::path infilepath = filesystem::current_path();
+	infilepath /= "data";
+	infilepath /= "realDB";
+	infilepath /= "instance_92.txt";
+	ifstream reading(infilepath, ios::in);
+	list<Node*>* l = new list<Node*>();
+	reading>>*l;
+	reading.close();
+
+	double x_min = l->front()->x;
+	double x_max = l->front()->x;
+	double y_min = l->front()->y;
+	double y_max = l->front()->y;
+	int max_no = l->front()->no;
+	for (list<Node*>::iterator point = l->begin(); point != l->end(); point++) {
+		if ((*point)->x < x_min) {x_min = (*point)->x;}
+		if ((*point)->x > x_max) {x_max = (*point)->x;}
+		if ((*point)->y < y_min) {y_min = (*point)->y;}
+		if ((*point)->y > y_max) {y_max = (*point)->y;}
+		if ((*point)->no > max_no) {max_no = (*point)->no;}
+	}
+	Node* node1;
+	Node* node2;
+	for (list<Node*>::iterator it = l->begin(); it != l->end(); it++) {
+		if ((*it)->x <= x_min + 1 && (*it)-> y <= y_min + 1) {
+			node1 = *it;
+			break;
+		}
+	}
+	for (list<Node*>::iterator it = l->begin(); it != l->end(); it++) {
+		if ((*it)->x >= x_max-1 && (*it)-> y >= y_max-1) {
+			node2 = *it;
+			break;
+		}
+	}
+
+	list<Node*>* obstacles = createObstacles(x_min, y_min, x_max, y_max, max_no+1, n_obs);
+	computeArcD(*l, *obstacles);
+	list<infoPath>* res = firstSPPAO(*l, node1, node2);
+
+	filesystem::path outfilepath = filesystem::current_path();
+	outfilepath /= "data";
+	outfilepath /= "testSPPAO1.txt";
+	ofstream writing(outfilepath, ios::out);
+	writeSolSPPAO(*l, *obstacles, *res, writing);
+	writing.close();
+	for (list<infoPath>::iterator it = res->begin(); it != res->end(); it++) {
+		delete it->path;
+	}
+	delete res;
+	deleteGraph(obstacles);
+	deleteGraph(l);
+}
+
+
 struct resultSPPAO
 {
 	int nb_nodes;
@@ -682,8 +730,7 @@ void statSPPAO(string dir, list<int>& obstacles, ostream& out) {
 		reading.close();
 		int n_nodes = nbNodes(*l);
 		int n_arcs = nbArcs(*l);
-		cout<<"file : "<<infilepath<<", nodes : "<<n_nodes<<", arcs : "<<n_arcs<<", arcs/nodes : ";
-		cout<<((double) n_arcs)/n_nodes<<endl;
+
 		double x_min = l->front()->x;
 		double x_max = l->front()->x;
 		double y_min = l->front()->y;
@@ -712,7 +759,6 @@ void statSPPAO(string dir, list<int>& obstacles, ostream& out) {
 		}
 		for (list<int>::iterator n_obs = obstacles.begin(); n_obs != obstacles.end(); n_obs++) {
 
-			cout<<"Obstacles : "<<*n_obs<<endl;
 			list<Node*>* obsList = createObstacles(x_min, y_min, x_max, y_max, max_no+1, *n_obs);
 			computeArcD(*l, *obsList);
 
@@ -726,7 +772,6 @@ void statSPPAO(string dir, list<int>& obstacles, ostream& out) {
 
 			resetGraph(*l);
 
-			cout<<"n1 = "<<n1<<", n2 = "<<n2<<endl;
 
 			start_pb = chrono::system_clock::now();
 			list<infoPath>* SPPAOres = firstSPPAO(*l, node1, node2, &n, &t_comp);
@@ -742,7 +787,6 @@ void statSPPAO(string dir, list<int>& obstacles, ostream& out) {
 
 			resetGraph(*l);
 
-			cout<<"n = "<<n<<"\n"<<endl;
 
 			deleteGraph(obsList);
 
@@ -755,8 +799,7 @@ void statSPPAO(string dir, list<int>& obstacles, ostream& out) {
 	list<int> nodes = list<int>();
 	list<double> densities = list<double>();
 	bool isin;
-	//list<resultSPPAO>* v_result[obstacles.size()];
-	//cout<<"\nbefore making the lists"<<endl;
+
 	for (list<resultSPPAO>::iterator res = results.begin(); res != results.end(); res++) {
 		isin = false;
 		for (list<int>::iterator new_n_nodes = nodes.begin();
@@ -778,11 +821,10 @@ void statSPPAO(string dir, list<int>& obstacles, ostream& out) {
 	int dS = densities.size();
 	list<resultSPPAO>** v_result = new list<resultSPPAO>*[oS*nS*dS];
 
-	//cout<<"\nbefore filling with empty_lists"<<endl;
 	for (int i = 0; i != oS*nS*dS; i++) {
 		v_result[i] = new list<resultSPPAO>();
 	}
-	//cout<<"\nbefore filling the lists"<<endl;
+
 	for (list<resultSPPAO>::iterator res = results.begin(); res != results.end(); res++) {
 		int oInd = 0;
 		int nInd = 0;
@@ -827,7 +869,7 @@ void statSPPAO(string dir, list<int>& obstacles, ostream& out) {
 	double mean_n;
 	double mean_n_res;
 	list<int>::iterator oIt = obstacles.begin();
-	//cout<<"\nbefore writing the doc"<<endl;
+
 	for (int oInd = 0; oInd != oS; oInd++) {
 		out<<"\\begin{table}[H]"
 		"\n\\caption{Results for solving the SPPAO when $|S|="<<*(oIt++);
@@ -845,10 +887,10 @@ void statSPPAO(string dir, list<int>& obstacles, ostream& out) {
 		"$\\bar{x}$ & $\\bar{x}$ & $\\bar{x}$ & $s_X$ \\\\ \\hline";
 
 		list<int>::iterator nIt = nodes.begin();
-		//cout<<"\nbefore nodes loop"<<endl;
+
 		for (int nInd = 0; nInd != nS; nInd++) {
 			out<<"\n\\multirow{"<<dS<<"}{*}{"<<*(nIt++)<<"}";
-			//cout<<"\nbefore density loop"<<endl;
+
 			list<double>::iterator dIt = densities.begin();
 			for (int dInd = 0; dInd != dS; dInd++) {
 				if (v_result[nS*dS*oInd + dS*nInd + dInd]->empty()) {
@@ -866,7 +908,7 @@ void statSPPAO(string dir, list<int>& obstacles, ostream& out) {
 					sum_t_comp = 0;
 					sum_tss = 0;
 					sum_tbs = 0;
-					//cout<<"\nbefore computation loop"<<endl;
+
 					for (list<resultSPPAO>::iterator res = v_result[nS*dS*oInd + dS*nInd + dInd]->begin();
 					res != v_result[nS*dS*oInd + dS*nInd + dInd]->end(); res++) {
 						sum_n1 += res->n1;
@@ -889,7 +931,7 @@ void statSPPAO(string dir, list<int>& obstacles, ostream& out) {
 					sum_n2 = 0;
 					sum_n = 0;
 					sum_n_res = 0;
-					//cout<<"\nbefore computation loop 2"<<endl;
+
 					for (list<resultSPPAO>::iterator res = v_result[nS*dS*oInd + dS*nInd + dInd]->begin();
 					res != v_result[nS*dS*oInd + dS*nInd + dInd]->end(); res++) {
 						sum_n1 += (res->n1 - mean_n1)*(res->n1 - mean_n1);
@@ -991,6 +1033,7 @@ int main(int argc, char *argv[])
 
 	srand(seed); //1652869031
 	cout<<"seed : "<<seed<<"\n\n"<<endl;
+	nb_rand_run = 0;
 	//breakTheReference();
 	//test_list();
 	//test_graph();
@@ -1002,14 +1045,15 @@ int main(int argc, char *argv[])
 	//testSPPAO1(P, Q, O, p_square, p_merge);
 	//testLoading();
 	//testPathMinD(P, Q, O, p_square, p_merge);
-	//testSPPAO2(P, Q, O, p_square, p_merge);
+	testSPPAO2(P, Q, O, p_square, p_merge);
 	//compareSPPAOs(P, Q, O, p_square, p_merge);
 	//testGraph2(2000, 1, 0);
 	//testDB();
 	//realDB();
 	//completingDB();
 	//manuallyCompletingDB(2000, 1, 0, 420, 1.8, 30, "realDB/instance_", ".txt");
-	writeStatSPPAO();
+	//writeStatSPPAO();
+	//checkSPPAO();
 }
 
 
