@@ -363,7 +363,6 @@ list<Node*>* createObstacles(double infx, double infy, double supx, double supy,
     double y;
     list<Node*>* res = new list<Node*>();
     for (int i = n_min; i < n_min+n; i++) {
-        nb_rand_run += 2;
         x = distribx(generator);
         y = distriby(generator);
         res->push_back(new Node(i, x, y));

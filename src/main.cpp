@@ -35,7 +35,6 @@
 #include "secondSPPAO.hpp"
 
 bool logs;
-int nb_rand_run;
 
 namespace po = boost::program_options;
 using namespace std;
@@ -710,7 +709,7 @@ struct resultSPPAO
 };
 
 
-void statSPPAO(string dir, list<int>& obstacles, ostream& out) {
+void statSPPAO(string dir, list<int>& obstacles, ostream& out, ostream& dataOut) {
 	int n1;
 	int n2;
 	int n;
@@ -868,9 +867,14 @@ void statSPPAO(string dir, list<int>& obstacles, ostream& out) {
 	double mean_n2;
 	double mean_n;
 	double mean_n_res;
+
+	int currObs;
+	int currNbNodes;
+	double currDens;
 	list<int>::iterator oIt = obstacles.begin();
 
 	for (int oInd = 0; oInd != oS; oInd++) {
+		currObs = *oIt;
 		out<<"\\begin{table}[H]"
 		"\n\\caption{Results for solving the SPPAO when $|S|="<<*(oIt++);
 		out<<"$\\label{tab:resSPPAOs"<<oInd<<"}}"
@@ -889,14 +893,16 @@ void statSPPAO(string dir, list<int>& obstacles, ostream& out) {
 		list<int>::iterator nIt = nodes.begin();
 
 		for (int nInd = 0; nInd != nS; nInd++) {
+			currNbNodes = *nIt;
 			out<<"\n\\multirow{"<<dS<<"}{*}{"<<*(nIt++)<<"}";
 
 			list<double>::iterator dIt = densities.begin();
 			for (int dInd = 0; dInd != dS; dInd++) {
+				currDens = *dIt;
+				out<<"\n & "<<*(dIt++);
 				if (v_result[nS*dS*oInd + dS*nInd + dInd]->empty()) {
-					out<<"\n & ? & ? & ? & ? & ? & ? & ? & ? & ? & ? & ? & ? & ? & ? ";
+					out<<" & ? & ? & ? & ? & ? & ? & ? & ? & ? & ? & ? & ? & ? ";
 				} else {
-					out<<"\n & "<<*(dIt++);
 					n_samp = v_result[nS*dS*oInd + dS*nInd + dInd]->size();
 					sum_n1 = 0;
 					sum_n2 = 0;
@@ -953,6 +959,11 @@ void statSPPAO(string dir, list<int>& obstacles, ostream& out) {
 					out<<" & "<<setprecision(3)<<1000*sum_tss/n_samp;
 					out<<" & "<<setprecision(3)<<mean_n_res;
 					out<<" & "<<setprecision(2)<<sqrt(sum_n_res/(n_samp-1))<<" \\\\";
+
+
+					dataOut<<setprecision(8)<<currObs<<" "<<currNbNodes<<" "<<currDens<<" ";
+					dataOut<<mean_n1+mean_n2+2<<" "<<mean_n+1<<" "<<500*(sum_t1/n_samp+sum_t2/n_samp)<<" ";
+					dataOut<<1000*sum_t_comp/n_samp<<" "<<1000*sum_tbs/n_samp<<" "<<1000*sum_tss/n_samp<<"\n";
 				}
 			}
 			out<<" \\hline \n";
@@ -967,12 +978,17 @@ void statSPPAO(string dir, list<int>& obstacles, ostream& out) {
 }
 
 
-void writeStatSPPAO() {
+void writeStatSPPAO(string stats="statSPPAO.tex", string dataFile="dataSPPAO.txt") {
 	filesystem::path filepath = filesystem::current_path();
 	filepath /= "data";
 	filepath /= "reportStat";
-	filepath /= "statSPPAO.tex";
+	filepath /= stats;
 	ofstream writing(filepath, ios::out);
+
+	filepath = filesystem::current_path();
+	filepath /= "data";
+	filepath /= dataFile;
+	ofstream dataWriting(filepath, ios::out);
 	list<int> obstacles = list<int>();
 	obstacles.push_back(1);
 	obstacles.push_back(3);
@@ -980,7 +996,338 @@ void writeStatSPPAO() {
 	obstacles.push_back(30);
 	obstacles.push_back(100);
 	obstacles.push_back(500);
-	statSPPAO("data/realDB/", obstacles, writing);
+	statSPPAO("data/realDB/", obstacles, writing, dataWriting);
+	writing.close();
+	dataWriting.close();
+}
+
+
+struct meanResults
+{
+	int nObs;
+	int nbNodes;
+	double dens;
+	double binSubs;
+	double seqSubs;
+	double binSubTime;
+	double seqSubTime;
+	double binTime;
+	double seqTime;
+};
+
+
+istream& operator>>(istream& in, list<meanResults>& l) {
+	string line;
+    string number;
+    int nObs;
+	int nbNodes;
+	double dens;
+	double binSubs;
+	double seqSubs;
+	double binSubTime;
+	double seqSubTime;
+	double binTime;
+	double seqTime;
+
+	int cut;
+    istream& state = getline(in, line);
+    while (state && line.compare("") != 0) {
+        cut = line.find_first_of(" ");
+        number = line.substr(0,cut);
+        line = line.substr(cut+1);
+        //cout<<number<<endl;
+        nObs = stoi(number);
+
+        cut = min(line.find_first_of(" "), line.find_first_of("\n"));
+        number = line.substr(0,cut);
+        line = line.substr(cut+1);
+		nbNodes = stoi(number);
+
+		cut = min(line.find_first_of(" "), line.find_first_of("\n"));
+        number = line.substr(0,cut);
+        line = line.substr(cut+1);
+		dens = stod(number);
+
+		cut = min(line.find_first_of(" "), line.find_first_of("\n"));
+        number = line.substr(0,cut);
+        line = line.substr(cut+1);
+		binSubs = stod(number);
+
+		cut = min(line.find_first_of(" "), line.find_first_of("\n"));
+        number = line.substr(0,cut);
+        line = line.substr(cut+1);
+		seqSubs = stod(number);
+
+		cut = min(line.find_first_of(" "), line.find_first_of("\n"));
+        number = line.substr(0,cut);
+        line = line.substr(cut+1);
+		binSubTime = stod(number);
+
+		cut = min(line.find_first_of(" "), line.find_first_of("\n"));
+        number = line.substr(0,cut);
+        line = line.substr(cut+1);
+		seqSubTime = stod(number);
+
+		cut = min(line.find_first_of(" "), line.find_first_of("\n"));
+        number = line.substr(0,cut);
+        line = line.substr(cut+1);
+		binTime = stod(number);
+
+		cut = min(line.find_first_of(" "), line.find_first_of("\n"));
+        number = line.substr(0,cut);
+        line = line.substr(cut+1);
+		seqTime = stod(number);
+
+		l.push_back(meanResults({nObs, nbNodes, dens, binSubs, seqSubs, binSubTime,
+		seqSubTime, binTime, seqTime}));
+
+        getline(in, line);
+    }
+    return in;
+}
+
+
+void comparePercentage(istream& file1, istream& file2, ostream& out) {
+	list<meanResults>* l1 = new list<meanResults>();
+	list<meanResults>* l2 = new list<meanResults>();
+	file1>>*l1;
+	file2>>*l2;
+
+	list<int> obstacles = list<int>();
+	list<int> nodes = list<int>();
+	list<double> densities = list<double>();
+	bool isin;
+	bool isinL2;
+
+	for (list<meanResults>::iterator res = l1->begin(); res != l1->end(); res++) {
+		isin = false;
+		for (list<int>::iterator obs = obstacles.begin(); obs != obstacles.end(); obs++) {
+			if (*obs == res->nObs) {isin = true; break;}
+		}
+		if (!isin) {
+			isinL2 = false;
+			for (list<meanResults>::iterator res2 = l2->begin(); res2 != l2->end(); res2++) {
+				if (res2->nObs == res->nObs) {isinL2 = true; break;}
+			}
+			if (!isin && isinL2) {obstacles.push_back(res->nObs);}
+		}
+
+		isin = false;
+		for (list<int>::iterator new_n_nodes = nodes.begin();
+		new_n_nodes != nodes.end(); new_n_nodes++) {
+			if (*new_n_nodes == res->nbNodes) {isin = true; break;}
+		}
+		if (!isin) {
+			isinL2 = false;
+			for (list<meanResults>::iterator res2 = l2->begin(); res2 != l2->end(); res2++) {
+				if (res2->nbNodes == res->nbNodes) {isinL2 = true; break;}
+			}
+			if (!isin && isinL2) {nodes.push_back(res->nbNodes);}
+		}
+
+		isin = false;
+		for (list<double>::iterator dens = densities.begin(); dens != densities.end(); dens++) {
+			if (*dens == res->dens) {isin = true; break;}
+		}
+		if (!isin) {
+			isinL2 = false;
+			for (list<meanResults>::iterator res2 = l2->begin(); res2 != l2->end(); res2++) {
+				if (res2->dens == res->dens) {isinL2 = true; break;}
+			}
+			if (!isin && isinL2) {densities.push_back(res->dens);}
+		}
+	}
+	obstacles.sort();
+	nodes.sort();
+	densities.sort();
+	int oS = obstacles.size();
+	int nS = nodes.size();
+	int dS = densities.size();
+	meanResults** v_result1 = new meanResults*[oS*nS*dS];
+	meanResults** v_result2 = new meanResults*[oS*nS*dS];
+
+	meanResults* res1;
+	meanResults* res2;
+
+	for (int i = 0; i != oS*nS*dS; i++) {
+		v_result1[i] = nullptr;
+		v_result2[i] = nullptr;
+	}
+
+	for (list<meanResults>::iterator res = l1->begin(); res != l1->end(); res++) {
+		int oInd = 0;
+		int nInd = 0;
+		int dInd = 0;
+		list<int>::iterator oIt = obstacles.begin();
+		list<int>::iterator nIt = nodes.begin();
+		list<double>::iterator dIt = densities.begin();
+		while (*oIt != res->nObs) {oIt++; oInd++;}
+		while (*nIt != res->nbNodes) {nIt++; nInd++;}
+		while (*dIt != res->dens) {dIt++; dInd++;}
+		v_result1[nS*dS*oInd + dS*nInd + dInd] = new meanResults({res->nObs, res->nbNodes, res->dens,
+		res->binSubs, res->seqSubs, res->binSubTime, res->seqSubTime, res->binTime, res->seqTime});
+	}
+
+	for (list<meanResults>::iterator res = l2->begin(); res != l2->end(); res++) {
+		int oInd = 0;
+		int nInd = 0;
+		int dInd = 0;
+		list<int>::iterator oIt = obstacles.begin();
+		list<int>::iterator nIt = nodes.begin();
+		list<double>::iterator dIt = densities.begin();
+		while (*oIt != res->nObs) {oIt++; oInd++;}
+		while (*nIt != res->nbNodes) {nIt++; nInd++;}
+		while (*dIt != res->dens) {dIt++; dInd++;}
+		v_result2[nS*dS*oInd + dS*nInd + dInd] = new meanResults({res->nObs, res->nbNodes, res->dens,
+		res->binSubs, res->seqSubs, res->binSubTime, res->seqSubTime, res->binTime, res->seqTime});
+	}
+
+	out<<"\\documentclass{article}"
+	"\n\\usepackage[french]{babel}"
+	"\n\\usepackage [utf8] {inputenc}"
+	"\n\\usepackage{float}"
+	"\n\\usepackage{booktabs}"
+	"\n\\usepackage{multirow}"
+	"\n\\usepackage{xcolor}"
+	"\n\\voffset=-1.5cm"
+	"\n\\hoffset=-1.4cm"
+	"\n\\textwidth=16cm"
+	"\n\\textheight=22.0cm"
+	"\n\\begin{document}\n";
+
+	double to_write;
+	list<int>::iterator oIt = obstacles.begin();
+
+
+	for (int oInd = 0; oInd != oS; oInd++) {
+		out<<"\\begin{table}[H]"
+		"\n\\caption{Results for solving the SPPAO when $|S|="<<*(oIt++);
+		out<<"$\\label{tab:resSPPAOs"<<oInd<<"}}"
+		"\n\\centering"
+		"\n\\small"
+		"\n\\begin{tabular}{cc ccc ccc} \\hline"
+		"\n & & \\multicolumn{3}{c}{\\texttt{BS}} & \\multicolumn{3}{c}{\\texttt{SS}} \\\\"
+		"\n\\cmidrule(lr){3-5} \\cmidrule(lr){6-8}"
+		"\n$|N|$ & $d$ & $\\Delta n$ (\\%) & $\\Delta t $ (\\%) & $\\Delta T $ (\\%) & "
+		"$\\Delta n$ (\\%) & $\\Delta t $ (\\%) & $\\Delta T (\\%) $"
+		"\\\\ \\hline";
+
+		list<int>::iterator nIt = nodes.begin();
+
+		for (int nInd = 0; nInd != nS; nInd++) {
+			out<<"\n\\multirow{"<<dS<<"}{*}{"<<*(nIt++)<<"}";
+
+			list<double>::iterator dIt = densities.begin();
+			for (int dInd = 0; dInd != dS; dInd++) {
+				out<<"\n & "<<*(dIt++);
+				res1 = v_result1[nS*dS*oInd + dS*nInd + dInd];
+				res2 = v_result2[nS*dS*oInd + dS*nInd + dInd];
+				if (res1 == nullptr || res2 == nullptr) {
+					out<<" & ? & ? & ? & ? ";
+				} else {
+					to_write = 100*(res2->binSubs-res1->binSubs)/res1->binSubs;
+					out<<" & ";
+					if (to_write < 0) {
+						out<<"\\color{green}{";
+					} else if (to_write > 0) {
+						out<<"\\color{red}{+";
+					}
+					out<<setprecision(3)<<to_write;
+					if (to_write != 0) {out<<"}";}
+
+					to_write = 100*(res2->binSubTime-res1->binSubTime)/res1->binSubTime;
+					out<<" & ";
+					if (to_write < 0) {
+						out<<"\\color{green}{";
+					} else if (to_write > 0) {
+						out<<"\\color{red}{+";
+					}
+					out<<setprecision(3)<<to_write;
+					if (to_write != 0) {out<<"}";}
+
+					to_write = 100*(res2->binTime-res1->binTime)/res1->binTime;
+					out<<" & ";
+					if (to_write < 0) {
+						out<<"\\color{green}{";
+					} else if (to_write > 0) {
+						out<<"\\color{red}{+";
+					}
+					out<<setprecision(3)<<to_write;
+					if (to_write != 0) {out<<"}";}
+
+					to_write = 100*(res2->seqSubs-res1->seqSubs)/res1->seqSubs;
+					out<<" & ";
+					if (to_write < 0) {
+						out<<"\\color{green}{";
+					} else if (to_write > 0) {
+						out<<"\\color{red}{+";
+					}
+					out<<setprecision(3)<<to_write;
+					if (to_write != 0) {out<<"}";}
+
+					to_write = 100*(res2->seqSubTime-res1->seqSubTime)/res1->seqSubTime;
+					out<<" & ";
+					if (to_write < 0) {
+						out<<"\\color{green}{";
+					} else if (to_write > 0) {
+						out<<"\\color{red}{+";
+					}
+					out<<setprecision(3)<<to_write;
+					if (to_write != 0) {out<<"}";}
+
+					to_write = 100*(res2->seqTime-res1->seqTime)/res1->seqTime;
+					out<<" & ";
+					if (to_write < 0) {
+						out<<"\\color{green}{";
+					} else if (to_write > 0) {
+						out<<"\\color{red}{+";
+					}
+					out<<setprecision(3)<<to_write;
+					if (to_write != 0) {out<<"}";}
+
+					out<<" \\\\";
+				}
+			}
+
+			out<<" \\hline \\\\ \n";
+		}
+		out<<"\n\\end{tabular}\n\\end{table}\n\n";
+	}
+	out<<"\n\\end{document}";
+
+	for (int i = 0; i < oS*nS*dS; i++) {
+		delete v_result1[i];
+		delete v_result2[i];
+	}
+	delete v_result1;
+	delete v_result2;
+
+	delete l1;
+	delete l2;
+}
+
+
+void writeComparison(string filename1="dataSPPAO1.txt", string filename2="dataSPPAO2.txt",
+string fileOut="SPPAOcomparison.tex") {
+	filesystem::path filepath = filesystem::current_path();
+	filepath /= "data";
+	filepath /= fileOut;
+	ofstream writing(filepath, ios::out);
+
+	filesystem::path file1 = filesystem::current_path();
+	file1 /= "data";
+	file1 /= filename1;
+	ifstream stream1(file1, ios::in);
+
+	filesystem::path file2 = filesystem::current_path();
+	file2 /= "data";
+	file2 /= filename2;
+	ifstream stream2(file2, ios::in);
+
+	comparePercentage(stream1, stream2, writing);
+
+	stream1.close();
+	stream2.close();
 	writing.close();
 }
 
@@ -1020,20 +1367,12 @@ int main(int argc, char *argv[])
 
 	int seed = vm["seed"].as<int>();
 	//int seed = time(nullptr);
-	//int seed = 1652869031;
-	//int seed = 1653487368;
-	//int seed = 1653490732;
-	//int seed = 1653490924;
-	//int seed = 1653567294;
-	//int seed = 1654024021;
-	//int seed = 1654519065;
 	//int seed = 1654611373; ./output/main --P 30 --Q 30 --O 2 --seed 1654611373 > ./data/logs.log && cat ./data/logs.log | grep "Deleting path"
 	//int seed = 1654680670; ./output/main --P 100 --Q 100 --O 2 --p_merge 0 --p_square 1 --seed 1654680670 --v
 	//int seed = 1655202207;
 
 	srand(seed); //1652869031
 	cout<<"seed : "<<seed<<"\n\n"<<endl;
-	nb_rand_run = 0;
 	//breakTheReference();
 	//test_list();
 	//test_graph();
@@ -1045,15 +1384,16 @@ int main(int argc, char *argv[])
 	//testSPPAO1(P, Q, O, p_square, p_merge);
 	//testLoading();
 	//testPathMinD(P, Q, O, p_square, p_merge);
-	testSPPAO2(P, Q, O, p_square, p_merge);
+	//testSPPAO2(P, Q, O, p_square, p_merge);
 	//compareSPPAOs(P, Q, O, p_square, p_merge);
 	//testGraph2(2000, 1, 0);
 	//testDB();
 	//realDB();
 	//completingDB();
 	//manuallyCompletingDB(2000, 1, 0, 420, 1.8, 30, "realDB/instance_", ".txt");
-	//writeStatSPPAO();
+	//writeStatSPPAO("statsSPPAO__withTie_2.tex", "dataSPPAO2.txt");
 	//checkSPPAO();
+	writeComparison("dataSPPAO1.txt","dataSPPAO2.txt", "SPPAOcomparison_new.tex");
 }
 
 

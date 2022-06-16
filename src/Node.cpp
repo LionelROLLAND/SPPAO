@@ -390,7 +390,7 @@ void deleteGraph(list<Node*>* l) {
 }
 
 
-istream& operator>>(istream& in, list<Node*>& l) { //Not tested yet
+istream& operator>>(istream& in, list<Node*>& l) {
     string line;
     string number;
     Node* newNode;

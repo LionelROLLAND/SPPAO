@@ -19,124 +19,6 @@ unsigned char PNb = 155;
 
 bool compare_d(infoPath p1, infoPath p2) {return p1.d < p2.d;}
 
-/*
-infoPath pathOfMaxD(Node* s, Node* t) {
-    s->marked = true;
-    s->c_to_s = 0;
-    s->d_to_S = inf;
-    s->pred = nullptr;
-    fibHeap<Node*>* heap = new fibHeap<Node*>();
-    s->tree = heap->insert(s, min_inf);
-    Node* to_relax;
-    while (!heap->is_empty()) {
-        to_relax = heap->deleteMin();
-        to_relax->tree = nullptr;
-        to_relax->marked = true;
-        if (to_relax == t) {break;}
-        for (list<arcNode>::iterator neighb = to_relax->l_adj.begin();
-        neighb != to_relax->l_adj.end(); neighb++) {
-            if (!neighb->marked()) {
-                if (neighb->tree() == nullptr) {
-                    neighb->c_to_s() = to_relax->c_to_s + neighb->arc_c;
-                    neighb->d_to_S() = min(to_relax->d_to_S, neighb->arc_d);
-                    neighb->tree() = heap->insert(neighb->node, -neighb->d_to_S());
-                    arcNode* pr = new arcNode(to_relax, neighb->arc_c, neighb->arc_d);
-                    neighb->pred() = pr;
-                } else if (min(to_relax->d_to_S, neighb->arc_d) > neighb->d_to_S()) {
-                    neighb->d_to_S() = min(to_relax->d_to_S, neighb->arc_d);
-                    neighb->c_to_s() = to_relax->c_to_s + neighb->arc_c;
-                    heap->decreaseKey(neighb->tree(), -neighb->d_to_S());
-                    arcNode* pr = new arcNode(to_relax, neighb->arc_c, neighb->arc_d);
-                    neighb->pred() = pr;
-                }
-            }
-        }
-    }
-    delete heap;
-    return makePath(t);
-}
-
-
-infoPath newPathOfMaxD(Node* s, Node* t) {
-    s->c_to_s = 0;
-    s->d_to_S = inf;
-    s->pred = nullptr;
-    fibHeap<Node*>* heap = new fibHeap<Node*>();
-    s->tree = heap->insert(s, min_inf);
-    Node* to_relax;
-    while (!heap->is_empty()) {
-        to_relax = heap->deleteMin();
-        to_relax->tree = nullptr;
-        to_relax->marked = true;
-        if (to_relax == t) {break;}
-        for (list<arcNode>::iterator neighb = to_relax->l_adj.begin();
-        neighb != to_relax->l_adj.end(); neighb++) {
-            if (min(to_relax->d_to_S, neighb->arc_d) > neighb->d_to_S()) {
-                neighb->c_to_s() = to_relax->c_to_s + neighb->arc_c;
-                neighb->d_to_S() = min(to_relax->d_to_S, neighb->arc_d);
-                if (neighb->tree() != nullptr) {
-                    heap->decreaseKey(neighb->tree(), -neighb->d_to_S());
-                } else {
-                    neighb->tree() = heap->insert(neighb->node, -neighb->d_to_S());
-                }
-                if (neighb->pred() != nullptr) {
-                    neighb->pred()->node = to_relax;
-                    neighb->pred()->arc_c = neighb->arc_c;
-                    neighb->pred()->arc_d = neighb->arc_d;
-                } else {
-                    neighb->pred() = new arcNode(to_relax, neighb->arc_c, neighb->arc_d);
-                }
-            } else if (min(to_relax->d_to_S, neighb->arc_d) == neighb->d_to_S()
-            && neighb->pred() != nullptr) {
-                if (to_relax->c_to_s + neighb->arc_c < neighb->c_to_s()) {
-                    neighb->pred()->node = to_relax;
-                    neighb->pred()->arc_c = neighb->arc_c;
-                    neighb->pred()->arc_d = neighb->arc_d;
-                }
-            }
-        }
-    }
-    delete heap;
-    return makePath(t);
-}
-
-
-infoPath optiPathOfMaxD(Node* s, Node* t) {
-    s->c_to_s = 0;
-    s->d_to_S = inf;
-    s->pred = nullptr;
-    fibHeap<Node*>* heap = new fibHeap<Node*>();
-    s->tree = heap->insert(s, min_inf);
-    Node* to_relax;
-    while (!heap->is_empty()) {
-        to_relax = heap->deleteMin();
-        to_relax->tree = nullptr;
-        to_relax->marked = true;
-        if (to_relax == t) {break;}
-        for (list<arcNode>::iterator neighb = to_relax->l_adj.begin();
-        neighb != to_relax->l_adj.end(); neighb++) {//infoPath minCpath = genDijkstra(s, t);
-            if (min(to_relax->d_to_S, neighb->arc_d) > neighb->d_to_S()) {
-                neighb->c_to_s() = to_relax->c_to_s + neighb->arc_c;
-                neighb->d_to_S() = min(to_relax->d_to_S, neighb->arc_d);
-                if (neighb->tree() != nullptr) {
-                    heap->decreaseKey(neighb->tree(), -neighb->d_to_S());
-                } else {
-                    neighb->tree() = heap->insert(neighb->node, -neighb->d_to_S());
-                }
-                if (neighb->pred() != nullptr) {
-                    neighb->pred()->node = to_relax;
-                    neighb->pred()->arc_c = neighb->arc_c;
-                    neighb->pred()->arc_d = neighb->arc_d;
-                } else {
-                    neighb->pred() = new arcNode(to_relax, neighb->arc_c, neighb->arc_d);
-                }
-            }
-        }
-    }
-    delete heap;
-    return makePath(t);
-}
-*/
 
 list<infoPath>* secondSPPAO(list<Node*>& graph, Node* s, Node* t, int* n1, int* n2,
 double* t1, double* t2) {
@@ -178,6 +60,7 @@ double* t1, double* t2) {
     //        newComplexKey, noCond);
     
     infoPath minCpath = dijkstraOptiCD_noCond(s, t);
+    //infoPath minCpath = dijkstraOptiC_noCond(s, t);
 
 
     if (logs) {cout<<"result : d = "<<minCpath.d<<", c = "<<minCpath.c<<"\n";}
@@ -227,6 +110,7 @@ double* t1, double* t2) {
         //        d_bar, Irect.c_max);
 
         upper = dijkstraOptiCD_condCD(s, t, d_bar, Irect.c_max);
+        //upper = dijkstraOptiC_condCD(s, t, d_bar, Irect.c_max);
 
 
         elapsed = chrono::system_clock::now()-startSub;
@@ -280,6 +164,7 @@ double* t1, double* t2) {
                 //        condCD, Irect.pathMin->d, upper.c);
 
                 lower = dijkstraOptiCD_condCD(s, t, Irect.pathMin->d, upper.c);
+                //lower = dijkstraOptiC_condCD(s, t, Irect.pathMin->d, upper.c);
 
 
                 elapsed = chrono::system_clock::now()-startSub;
@@ -349,6 +234,7 @@ double* t1, double* t2) {
             //        condCD, Irect.pathMin->d, Irect.c_max);
 
             lower = dijkstraOptiCD_condCD(s, t, Irect.pathMin->d, Irect.c_max);
+            //lower = dijkstraOptiC_condCD(s, t, Irect.pathMin->d, Irect.c_max);
 
 
             if (t2 != nullptr) {*t2 += elapsed.count();}

@@ -115,7 +115,7 @@ def displayRects(plotings):
 			varPlot += 1
 
 
-		pygame.image.save(screen, "data/ex_rec_" + str(step) + ".png")
+		#pygame.image.save(screen, "data/ex_rec_" + str(step) + ".png")
 		playing = True
 		clock = pygame.time.Clock()
 
