@@ -63,6 +63,8 @@ Node::Node(const Node& n) {
     d_to_S = n.d_to_S;
     pred = n.pred;
     tree = n.tree;
+    rev_adj = n.rev_adj;
+    c_to_t = n.c_to_t;
 }
 
 
@@ -77,6 +79,8 @@ Node& Node::operator= (const Node& t) {
     d_to_S = t.d_to_S;
     pred = t.pred;
     tree = t.tree;
+    rev_adj = t.rev_adj;
+    c_to_t = t.c_to_t;
     return *this;
 }
 
@@ -137,7 +141,7 @@ list<cArc>* pathToCArc(list<Node*>& graph, list<Node*>& path) {
     }
     res2->splice(res2->end(), *res1);
     return res2;
-}
+} //Not the best implementation choice ever
 
 
 list<cArc>* graphToCArc(list<Node*>& graph) {
@@ -184,6 +188,10 @@ double& c(Node* v1, Node* v2) {
 
 
 void connect(Node* v1, Node* v2, double weight) {
+    if (weight == inf) {
+        cerr<<"Error : trying to connect nodes with infinity weight"<<endl;
+        return;
+    }
     if (check_mat(v1, v2)) {
         bool isV2In = false;
         list<arcNode>::iterator it = v1->l_adj.begin();
@@ -196,8 +204,15 @@ void connect(Node* v1, Node* v2, double weight) {
         }
         if (isV2In) {
             it->arc_c = weight;
+            list<arcNode>::iterator it = v2->rev_adj.begin();
+            while (it->node != v1) {
+                it++;
+            }
+            it->arc_c = weight;
+
         } else {
             v1->l_adj.push_front(arcNode(v2, weight));
+            v2->rev_adj.push_front(arcNode(v1, weight));
         }
         c(v1, v2) = weight;
     }
@@ -218,6 +233,13 @@ void disconnect(Node* v1, Node* v2) {
                 break;
             }
         }
+
+        for (list<arcNode>::iterator it = v2->rev_adj.begin(); it != v2->rev_adj.end(); it++) {
+            if (it->node == v1) {
+                v2->rev_adj.erase(it);
+                break;
+            }
+        }
         c(v1, v2) = inf;
     }
     
@@ -229,18 +251,18 @@ void sym_dis(Node* v1, Node* v2) {
     disconnect(v2, v1);
 }
 
-
+/*
 void disconnect(Node* v1, list<arcNode>::iterator v2) {
     c(v1, v2->node) = inf;
     v1->l_adj.erase(v2);
 }
+*/
 
 
 void contract(Node* v1, Node* v2) {
-    list<arcNode>::iterator saveIt;
     list<arcNode>::iterator it = v2->l_adj.begin();
     while (it != v2->l_adj.end()) {
-        if (c(v2, it->node) != inf && it->node != v1) {
+        if (it->node != v1) {
             sym_con(v1, it->node);
         }
         sym_dis(v2, (it++)->node);
@@ -249,6 +271,7 @@ void contract(Node* v1, Node* v2) {
 
 
 void clean(list<Node*>& l) {
+    /*
     for (list<Node*>::iterator it = l.begin(); it != l.end(); it++) {
         list<arcNode>::iterator v = (*it)->l_adj.begin();
         while (v != (*it)->l_adj.end()) {
@@ -258,18 +281,17 @@ void clean(list<Node*>& l) {
                 v++;
             }
         }
-    }
+    } Add a loop to delete the points from the rev_adj lists if used again
+    */
     list<Node*>::iterator it = l.begin();
     while (it != l.end()) {
         if ((*it)->l_adj.empty()) {
-            //cout<<"*it : "<<(*it)->no<<endl;
             delete *it;
             l.erase(it++);
         } else {
             it++;
         }
     }
-    //cout<<"\n\n"<<l<<endl;
 }
 
 
@@ -282,35 +304,22 @@ void normalize(list<Node*>& l) {
         return;
     }
     int new_n = 0;
-    //cout<<"l.front() : "<<l.front()->no<<endl;
-    //cout<<"l.front()->adj : "<<l.front()->adj<<endl;
-    //cout<<"\n"<<*(l.front()->adj)<<endl;
-    //Matrix<double> mat(*(l.front().adj));
-    //Matrix<double>* mat = l.front()->adj;
     vector<int> new_tab = vector<int>(max_num, -1);
-    //cout<<"\n#Intilialization passed"<<endl;
     for (list<Node*>::iterator it = l.begin(); it != l.end(); it++) {
         new_n++;
         new_tab[(*it)->no-1] = new_n;
     }
-    //cout<<"#new_n : "<<new_n<<endl;
-    //cout<<"\n#new_tab passed"<<endl;
     Matrix<double>* new_mat = new Matrix<double>(new_n, new_n, inf_d());
-    //cout<<"\nmatrix created"<<endl;
     for (list<Node*>::iterator it = l.begin(); it != l.end(); it++) {
         for(list<arcNode>::iterator v = (*it)->l_adj.begin(); v != (*it)->l_adj.end(); v++) {
-            //cout<<(*it)->no<<"  "<<v->get().no<<endl;
-            //cout<<new_tab[(*it)->no-1]<<"  "<<new_tab[v->get().no-1]<<"\n"<<endl;
             (*new_mat)(new_tab[(*it)->no-1], new_tab[v->node->no-1]) = c(*it, v->node);
         }
     }
-    //cout<<"\n#new_mat passed"<<endl;
     delete l.front()->adj;
     for (list<Node*>::iterator it = l.begin(); it != l.end(); it ++) {
         (*it)->no = new_tab[(*it)->no-1];
         (*it)->adj = new_mat;
     }
-    //cout<<"\n#new_no passed"<<endl;
 }
 
 
@@ -319,14 +328,12 @@ void naturalWeight(list<Node*>& l) {
     for (list<Node*>::iterator it = l.begin(); it != l.end(); it++) {
         for (list<arcNode>::iterator child = (*it)->l_adj.begin();
         child != (*it)->l_adj.end(); child++) {
-            if (c(*it, child->node) < inf) {
-                x1 = (*it)->x;
-                y1 = (*it)->y;
-                x2 = child->node->x;
-                y2 = child->node->y;
-                dist = sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1));
-                connect(*it, child->node, dist);
-            } 
+            x1 = (*it)->x;
+            y1 = (*it)->y;
+            x2 = child->node->x;
+            y2 = child->node->y;
+            dist = sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1));
+            connect(*it, child->node, dist);
         }
     }
 }
@@ -348,16 +355,18 @@ list<Node*>* graphCopy(list<Node*>& l) {
     Node* oNode;
     for (list<Node*>::const_iterator node = l.begin(); node != l.end(); node++) {
         oNode = *node;
-        //newNode = new Node(no, x, y, l_adj, adj, marked, d, pred, tree);
+        //newNode = new Node(no, x, y, l_adj, adj, marked, d, pred, tree, rev_adj, c_to_t);
         newNode = new Node(oNode->no, oNode->x, oNode->y, list<arcNode>(), newAdjacency,
-                false, inf, 0, nullptr, nullptr);
+                false, inf, 0, nullptr, nullptr, list<arcNode>(), inf);
         locations[oNode->no] = newNode;
         res->push_back(newNode);
     }
     for (list<Node*>::const_iterator node = l.begin(); node != l.end(); node++) {
         for (list<arcNode>::iterator child = (*node)->l_adj.begin();
         child != (*node)->l_adj.end(); child++) {
-            locations[(*node)->no]->l_adj.push_back(arcNode(locations[child->no()], child->arc_c));
+            //locations[(*node)->no]->l_adj.push_back(arcNode(locations[child->no()], child->arc_c));
+            connect(locations[(*node)->no], locations[child->no()]);
+            //Maybe slower, to change if used in the computations
         }
     }
     return res;

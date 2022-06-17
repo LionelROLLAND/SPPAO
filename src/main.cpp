@@ -103,7 +103,7 @@ void writeDijSol(list<Node*>& graph, list<Node*>& path, ofstream& w_stream) {
 	writeOptPath(*cGraph, *cPath, w_stream);
 	delete cPath;
 	delete cGraph;
-}
+} //Not the best implementation choice ever
 
 
 void writeSolSPPAO(list<Node*>& graph, list<Node*>& obstacles, list<infoPath>& optPaths, ofstream& w_stream) {
@@ -883,8 +883,8 @@ void statSPPAO(string dir, list<int>& obstacles, ostream& out, ostream& dataOut)
 		"\n\\begin{tabular}{cc c@{ }cc@{ }cccc c@{ }ccc c@{ }c} \\hline"
 		"\n & & \\multicolumn{7}{c}{\\texttt{BS}} & \\multicolumn{4}{c}{\\texttt{SS}} & \\\\"
 		"\n\\cmidrule(lr){3-9} \\cmidrule(lr){10-13}"
-		"\n & & \\multicolumn{2}{c}{$n_1$} & \\multicolumn{2}{c}{$n_2$} & $T_1/n_1$ & $T_2/n_2$"
-		" & $T$ & \\multicolumn{2}{c}{$n$} & $T/n$ & $T$ & "
+		"\n & & \\multicolumn{2}{c}{$D_1$} & \\multicolumn{2}{c}{$D_2$} & $T_1/D_1$ & $T_2/D_2$"
+		" & $T$ & \\multicolumn{2}{c}{$D$} & $T/D$ & $T$ & "
 		"\\multicolumn{2}{c}{$|P_E|$}\\\\ \\hline"
 		"\n$|N|$ & $d$ & $\\bar{x}$ & $s_X$ & $\\bar{x}$ & $s_X$ & "
 		"$\\bar{x}$ & $\\bar{x}$ & $\\bar{x}$ & $\\bar{x}$ & $s_X$ & "
@@ -1208,8 +1208,8 @@ void comparePercentage(istream& file1, istream& file2, ostream& out) {
 		"\n\\begin{tabular}{cc ccc ccc} \\hline"
 		"\n & & \\multicolumn{3}{c}{\\texttt{BS}} & \\multicolumn{3}{c}{\\texttt{SS}} \\\\"
 		"\n\\cmidrule(lr){3-5} \\cmidrule(lr){6-8}"
-		"\n$|N|$ & $d$ & $\\Delta n$ (\\%) & $\\Delta t $ (\\%) & $\\Delta T $ (\\%) & "
-		"$\\Delta n$ (\\%) & $\\Delta t $ (\\%) & $\\Delta T (\\%) $"
+		"\n$|N|$ & $a$ & $\\Delta D$ (\\%) & $\\Delta t $ (\\%) & $\\Delta T $ (\\%) & "
+		"$\\Delta D$ (\\%) & $\\Delta t $ (\\%) & $\\Delta T (\\%) $"
 		"\\\\ \\hline";
 
 		list<int>::iterator nIt = nodes.begin();
@@ -1232,7 +1232,7 @@ void comparePercentage(istream& file1, istream& file2, ostream& out) {
 					} else if (to_write > 0) {
 						out<<"\\color{red}{+";
 					}
-					out<<setprecision(3)<<to_write;
+					out<<setprecision(1)<<to_write;
 					if (to_write != 0) {out<<"}";}
 
 					to_write = 100*(res2->binSubTime-res1->binSubTime)/res1->binSubTime;
@@ -1242,7 +1242,7 @@ void comparePercentage(istream& file1, istream& file2, ostream& out) {
 					} else if (to_write > 0) {
 						out<<"\\color{red}{+";
 					}
-					out<<setprecision(3)<<to_write;
+					out<<setprecision(1)<<to_write;
 					if (to_write != 0) {out<<"}";}
 
 					to_write = 100*(res2->binTime-res1->binTime)/res1->binTime;
@@ -1252,7 +1252,7 @@ void comparePercentage(istream& file1, istream& file2, ostream& out) {
 					} else if (to_write > 0) {
 						out<<"\\color{red}{+";
 					}
-					out<<setprecision(3)<<to_write;
+					out<<setprecision(1)<<to_write;
 					if (to_write != 0) {out<<"}";}
 
 					to_write = 100*(res2->seqSubs-res1->seqSubs)/res1->seqSubs;
@@ -1262,7 +1262,7 @@ void comparePercentage(istream& file1, istream& file2, ostream& out) {
 					} else if (to_write > 0) {
 						out<<"\\color{red}{+";
 					}
-					out<<setprecision(3)<<to_write;
+					out<<setprecision(1)<<to_write;
 					if (to_write != 0) {out<<"}";}
 
 					to_write = 100*(res2->seqSubTime-res1->seqSubTime)/res1->seqSubTime;
@@ -1272,7 +1272,7 @@ void comparePercentage(istream& file1, istream& file2, ostream& out) {
 					} else if (to_write > 0) {
 						out<<"\\color{red}{+";
 					}
-					out<<setprecision(3)<<to_write;
+					out<<setprecision(1)<<to_write;
 					if (to_write != 0) {out<<"}";}
 
 					to_write = 100*(res2->seqTime-res1->seqTime)/res1->seqTime;
@@ -1282,7 +1282,7 @@ void comparePercentage(istream& file1, istream& file2, ostream& out) {
 					} else if (to_write > 0) {
 						out<<"\\color{red}{+";
 					}
-					out<<setprecision(3)<<to_write;
+					out<<setprecision(1)<<to_write;
 					if (to_write != 0) {out<<"}";}
 
 					out<<" \\\\";

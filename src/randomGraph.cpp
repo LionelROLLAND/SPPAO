@@ -153,14 +153,10 @@ list<Node*>* makeGraph(int P, int Q, double prop_square, double prop_merge) {
         int nb_neighb = 0;
         list<arcNode>::iterator test = (*first)->l_adj.begin();
         while (test != (*first)->l_adj.end()) {
-            if (c(*first, test->node) == inf) {
-                (*first)->l_adj.erase(test++);
-            } else {
-                if (test->node->no != critic1 && test->node->no != critic2) {
-                    nb_neighb++;
-                }
-                test++;
+            if (test->node->no != critic1 && test->node->no != critic2) {
+                nb_neighb++;
             }
+            test++;
         }
         if (nb_neighb > 0) {
             int to_merge2 = rand() % nb_neighb;
@@ -315,14 +311,10 @@ list<Node*>* makeGraph2(int nb_points, double prop_square, double expand_max_pro
         int nb_neighb = 0;
         list<arcNode>::iterator test = (*first)->l_adj.begin();
         while (test != (*first)->l_adj.end()) {
-            if (c(*first, test->node) == inf) {
-                (*first)->l_adj.erase(test++);
-            } else {
-                if (test->node->no != critic1 && test->node->no != critic2) {
-                    nb_neighb++;
-                }
-                test++;
+            if (test->node->no != critic1 && test->node->no != critic2) {
+                nb_neighb++;
             }
+            test++;
         }
         if (nb_neighb > 0) {
             int to_merge2 = rand() % nb_neighb;
@@ -378,7 +370,14 @@ void computeArcD(list<Node*>& graph, list<Node*>& obstacles) {
             for (list<Node*>::iterator obs = obstacles.begin(); obs != obstacles.end(); obs++) {
                 if (d(*n1, n2->node, *obs) < n2->arc_d) {n2->arc_d = d(*n1, n2->node, *obs);}
             }
+
+            list<arcNode>::iterator rev_n1 = n2->node->rev_adj.begin();
+            while (rev_n1->node != n2->node) {
+                rev_n1++;
+            }
+            rev_n1->arc_d = n2->arc_d;
         }
+
     }
 }
 
@@ -387,6 +386,7 @@ void resetGraph(list<Node*>& graph) {
     for (list<Node*>::iterator it = graph.begin(); it != graph.end(); it++) {
         (*it)->marked = false;
         (*it)->c_to_s = inf;
+        (*it)->c_to_t = inf;
         (*it)->d_to_S = 0;
         if ((*it)->pred != nullptr) {delete (*it)->pred;}
         (*it)->pred = nullptr;

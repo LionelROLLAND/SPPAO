@@ -28,11 +28,14 @@ class Node
         double d_to_S;
         arcNode* pred;
         markTree<Node*>* tree;
+        list<arcNode> rev_adj;
+        double c_to_t;
         Node(int n=0, double absc=0., double ord=0., list<arcNode> l=list<arcNode>(),
                 Matrix<double>* A=nullptr, bool m=false, double dist=inf, double d=0, 
-                arcNode* pr=nullptr, markTree<Node*>* Tr=nullptr) : no(n), x(absc),
-                y(ord), l_adj(l), adj(A), marked(m), c_to_s(dist), d_to_S(d), pred(pr),
-                tree(Tr) {}
+                arcNode* pr=nullptr, markTree<Node*>* Tr=nullptr,
+                list<arcNode> rev_l=list<arcNode>(), double rev_dist=inf) : no(n), x(absc), y(ord), l_adj(l),
+                adj(A), marked(m), c_to_s(dist), d_to_S(d), pred(pr), tree(Tr), rev_adj(rev_l),
+                c_to_t(rev_dist) {}
         Node(const Node& n);
         ~Node() {}
         Node& operator= (const Node& t);
@@ -98,6 +101,7 @@ class arcNode
         ~arcNode() {}
         arcNode& operator=(const arcNode& aN);
         double& c_to_s() {return node->c_to_s;}
+        double& c_to_t() {return node->c_to_t;}
         double& d_to_S() {return node->d_to_S;}
         bool& marked() {return node->marked;}
         arcNode*& pred() {return node->pred;}
@@ -135,17 +139,17 @@ void disconnect(Node* v1, Node* v2);
 
 void sym_dis(Node* v1, Node* v2);
 
-void disconnect(Node* v1, list<arcNode>::iterator v2);
+//void disconnect(Node* v1, list<arcNode>::iterator v2); To change if used again !!
 
 void contract(Node* v1, Node* v2);
 
 void clean(list<Node*>& l);
 
-void normalize(list<Node*>& l);
+void normalize(list<Node*>& l); //to change ?
 
-void naturalWeight(list<Node*>& l);
+void naturalWeight(list<Node*>& l); //to change ?
 
-list<Node*>* graphCopy(list<Node*>& l);
+list<Node*>* graphCopy(list<Node*>& l); //to change ?
 
 double d(Node* n1, Node* n2, Node* obs);
 
