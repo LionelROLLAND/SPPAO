@@ -18,4 +18,8 @@ void computeArcD(list<Node*>& graph, list<Node*>& obstacles);
 
 void resetGraph(list<Node*>& graph);
 
+void simpleResetGraph(list<Node*>& graph);
+
+void revResetGraph(list<Node*>& graph);
+
 #endif

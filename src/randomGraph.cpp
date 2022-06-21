@@ -372,7 +372,7 @@ void computeArcD(list<Node*>& graph, list<Node*>& obstacles) {
             }
 
             list<arcNode>::iterator rev_n1 = n2->node->rev_adj.begin();
-            while (rev_n1->node != n2->node) {
+            while (rev_n1->node != *n1) {
                 rev_n1++;
             }
             rev_n1->arc_d = n2->arc_d;
@@ -386,6 +386,30 @@ void resetGraph(list<Node*>& graph) {
     for (list<Node*>::iterator it = graph.begin(); it != graph.end(); it++) {
         (*it)->marked = false;
         (*it)->c_to_s = inf;
+        (*it)->c_to_t = inf;
+        (*it)->d_to_S = 0;
+        if ((*it)->pred != nullptr) {delete (*it)->pred;}
+        (*it)->pred = nullptr;
+        (*it)->tree = nullptr;
+    }
+}
+
+
+void simpleResetGraph(list<Node*>& graph) {
+    for (list<Node*>::iterator it = graph.begin(); it != graph.end(); it++) {
+        (*it)->marked = false;
+        (*it)->c_to_s = inf;
+        (*it)->d_to_S = 0;
+        if ((*it)->pred != nullptr) {delete (*it)->pred;}
+        (*it)->pred = nullptr;
+        (*it)->tree = nullptr;
+    }
+}
+
+
+void revResetGraph(list<Node*>& graph) {
+    for (list<Node*>::iterator it = graph.begin(); it != graph.end(); it++) {
+        (*it)->marked = false;
         (*it)->c_to_t = inf;
         (*it)->d_to_S = 0;
         if ((*it)->pred != nullptr) {delete (*it)->pred;}

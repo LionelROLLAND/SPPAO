@@ -22,6 +22,7 @@ bool compare_d(infoPath p1, infoPath p2) {return p1.d < p2.d;}
 
 list<infoPath>* secondSPPAO(list<Node*>& graph, Node* s, Node* t, int* n1, int* n2,
 double* t1, double* t2) {
+    //cout<<"\nInto secondSPPAO"<<endl;
     int nbD1 = 0;
     int step = 0;
     if (n1 != nullptr) {*n1 = 0;}
@@ -47,9 +48,12 @@ double* t1, double* t2) {
 
     infoPath maxDpath = dijkstraOptiD_noCond(s, t);
 
+    //cout<<"\nAfter maxDpath"<<endl;
+
 
     if (logs) {cout<<"result : d = "<<maxDpath.d<<", c = "<<maxDpath.c<<"\n";}
-    resetGraph(graph);
+    //resetGraph(graph);
+    simpleResetGraph(graph);
     if (logs) {cout<<"\n#"<<++nbD1<<" SPPAO2 -- path of min c\n";}
 
 
@@ -59,8 +63,13 @@ double* t1, double* t2) {
     //infoPath minCpath = superDijkstra(s, t, compCD, changeComplexKey,
     //        newComplexKey, noCond);
     
-    infoPath minCpath = dijkstraOptiCD_noCond(s, t);
+    //infoPath minCpath = dijkstraOptiCD_noCond(s, t);
     //infoPath minCpath = dijkstraOptiC_noCond(s, t);
+
+    //infoPath minCpath = computeCstar_andPathOptiC_noCond(s, t);
+    infoPath minCpath = computeCstar_andPathOptiCD_noCond(s, t);
+
+    //cout<<"\nAfter computeCstar"<<endl;
 
 
     if (logs) {cout<<"result : d = "<<minCpath.d<<", c = "<<minCpath.c<<"\n";}
@@ -94,7 +103,10 @@ double* t1, double* t2) {
         }
         criteriaSpace.erase(criteriaSpace.begin());
         d_bar = (Irect.d_max + Irect.pathMin->d)/2;
-        resetGraph(graph);
+
+        //resetGraph(graph);
+        simpleResetGraph(graph);
+
         if (logs) {
             cout<<"#"<<++nbD1<<" SPPAO2 -- Dijkstra, upper, strict_min_d = "<<d_bar;
             cout<<", strict_max_c = "<<Irect.c_max<<"\n";
@@ -109,11 +121,17 @@ double* t1, double* t2) {
         //upper = superDijkstra(s, t, compCD, changeComplexKey, newComplexKey, condCD,
         //        d_bar, Irect.c_max);
 
-        upper = dijkstraOptiCD_condCD(s, t, d_bar, Irect.c_max);
+        //upper = dijkstraOptiCD_condCD(s, t, d_bar, Irect.c_max);
         //upper = dijkstraOptiC_condCD(s, t, d_bar, Irect.c_max);
+
+        upper = dijkstraOptiCD_condCstarD(s, t, d_bar, Irect.c_max);
+        //upper = dijkstraOptiC_condCstarD(s, t, d_bar, Irect.c_max);
 
 
         elapsed = chrono::system_clock::now()-startSub;
+
+        //cout<<"\nAfter upper"<<endl;
+
         if (t1 != nullptr) {*t1 += elapsed.count();}
         if (n1 != nullptr) {(*n1)++;}
         if (logs) {cout<<"result : d = "<<upper.d<<", c = "<<upper.c<<"\n";}
@@ -148,7 +166,9 @@ double* t1, double* t2) {
 
             } else {
 
-                resetGraph(graph);
+                //resetGraph(graph);
+                simpleResetGraph(graph);
+
                 if (logs) {
                     cout<<"#"<<++nbD1<<" SPPAO2 -- Dijkstra, lower, strict_min_d = "<<Irect.pathMin->d;
                     cout<<", strict_max_c = "<<upper.c<<"\n";
@@ -163,8 +183,11 @@ double* t1, double* t2) {
                 //lower = superDijkstra(s, t, compCD, changeComplexKey, newComplexKey,
                 //        condCD, Irect.pathMin->d, upper.c);
 
-                lower = dijkstraOptiCD_condCD(s, t, Irect.pathMin->d, upper.c);
+                //lower = dijkstraOptiCD_condCD(s, t, Irect.pathMin->d, upper.c);
                 //lower = dijkstraOptiC_condCD(s, t, Irect.pathMin->d, upper.c);
+
+                lower = dijkstraOptiCD_condCstarD(s, t, Irect.pathMin->d, upper.c);
+                //lower = dijkstraOptiC_condCstarD(s, t, Irect.pathMin->d, upper.c);
 
 
                 elapsed = chrono::system_clock::now()-startSub;
@@ -216,7 +239,9 @@ double* t1, double* t2) {
 
         } else {
 
-            resetGraph(graph);
+            //resetGraph(graph);
+            simpleResetGraph(graph);
+
             if (logs) {
                 cout<<"#"<<++nbD1<<" SPPAO2 -- Dijkstra, lower, strict_min_d = "<<Irect.pathMin->d;
                 cout<<", strict_max_c = "<<Irect.c_max<<"\n";
@@ -233,8 +258,11 @@ double* t1, double* t2) {
             //lower = superDijkstra(s, t, compCD, changeComplexKey, newComplexKey,
             //        condCD, Irect.pathMin->d, Irect.c_max);
 
-            lower = dijkstraOptiCD_condCD(s, t, Irect.pathMin->d, Irect.c_max);
+            //lower = dijkstraOptiCD_condCD(s, t, Irect.pathMin->d, Irect.c_max);
             //lower = dijkstraOptiC_condCD(s, t, Irect.pathMin->d, Irect.c_max);
+
+            lower = dijkstraOptiCD_condCstarD(s, t, Irect.pathMin->d, Irect.c_max);
+            //lower = dijkstraOptiC_condCstarD(s, t, Irect.pathMin->d, Irect.c_max);
 
 
             if (t2 != nullptr) {*t2 += elapsed.count();}

@@ -198,10 +198,17 @@ def displayBetterGraph(tab_points, plotings):
 	#print("len(plotings) = ", len(plotings))
 	constPlot = 0
 
-	while varPlot < len(plotings):
+	executed = False
+	while varPlot < len(plotings) or not(executed):
+		executed = True
+
+
 		screen.fill(BLACK)
 		constPlot = 0
-		currentLayer = plotings[varPlot][1]
+		if varPlot < len(plotings):
+			currentLayer = plotings[varPlot][1]
+		else:
+			currentLayer = -1
 		while (constPlot < len(plotings) and plotings[constPlot][1] == 0) \
 					or (varPlot < len(plotings) and plotings[varPlot][1] == currentLayer):
 			if constPlot < len(plotings):

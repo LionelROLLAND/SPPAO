@@ -24,7 +24,11 @@ struct complexKey
 
 infoPath makePath(Node* t);
 
+infoPath revMakePath(Node* s);
+
 bool compC_to_sD(const Node* i, const Node* j);
+
+bool compC_to_tD(const Node* i, const Node* j);
 
 //bool compDC(const Node* i, const Node* j);
 
@@ -77,5 +81,15 @@ infoPath dijkstraOptiCD_noCond(Node* s, Node* t);
 infoPath dijkstraOptiCD_condD(Node* s, Node* t, double strict_min_d);
 
 infoPath dijkstraOptiCD_condCD(Node* s, Node* t, double strict_min_d, double strict_max_c);
+
+infoPath revDijkstraOptiC_noCond(Node* s, Node* t);
+
+infoPath computeCstar_andPathOptiC_noCond(Node* s, Node* t);
+
+infoPath computeCstar_andPathOptiCD_noCond(Node* s, Node* t);
+
+infoPath dijkstraOptiC_condCstarD(Node* s, Node* t, double strict_min_d, double strict_max_c);
+
+infoPath dijkstraOptiCD_condCstarD(Node* s, Node* t, double strict_min_d, double strict_max_c);
 
 #endif
