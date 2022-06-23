@@ -256,7 +256,7 @@ void fibHeap<T>::orderTrees() {
         return;
     }
 
-    int max_deg = 1 + (int) (log(n)/log(2));
+    int max_deg = 2 + (int) (log(n)/log(2));
     vector<markTree<T>*> rootVec = vector<markTree<T>*>(max_deg+1, nullptr);
     markTree<T>* tree1;
     markTree<T>* tree2;
@@ -400,6 +400,9 @@ void fibHeap<T>::decreaseKey(markTree<T>* Tr, double newKey) {
 
 template<typename T>
 void fibHeap<T>::decreasedKey(markTree<T>* Tr) {
+    //if (is_empty()) {cout<<"EMPTY FIBHEAP"<<endl;}
+    //cout<<Tr->get.data<<endl;
+    //cout<<"    "<<min_root->get.data<<endl;
     if (lesser(Tr->get.data, min_root->get.data)) {min_root = Tr;}
     Tree<infoFib<T>>* parInit = Tr->parent;
     markTree<T>* par = static_cast<markTree<T>*>(parInit);

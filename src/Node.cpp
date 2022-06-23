@@ -65,6 +65,7 @@ Node::Node(const Node& n) {
     tree = n.tree;
     rev_adj = n.rev_adj;
     c_to_t = n.c_to_t;
+    step = n.step;
 }
 
 
@@ -81,6 +82,7 @@ Node& Node::operator= (const Node& t) {
     tree = t.tree;
     rev_adj = t.rev_adj;
     c_to_t = t.c_to_t;
+    step = t.step;
     return *this;
 }
 

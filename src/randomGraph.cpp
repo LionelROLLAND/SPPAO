@@ -391,6 +391,7 @@ void resetGraph(list<Node*>& graph) {
         if ((*it)->pred != nullptr) {delete (*it)->pred;}
         (*it)->pred = nullptr;
         (*it)->tree = nullptr;
+        (*it)->step = -1;
     }
 }
 

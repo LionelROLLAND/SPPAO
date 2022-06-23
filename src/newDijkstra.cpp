@@ -540,6 +540,7 @@ infoPath computeCstar_andPathOptiCD_noCond(Node* s, Node* t) {
     double newDist;
     while (!heap->is_empty()) {
         to_relax = heap->deleteMin();
+        //cout<<"to_relax : "<<to_relax<<endl;
         to_relax->tree = nullptr;
         for (list<arcNode>::iterator neighb = to_relax->rev_adj.begin();
         neighb != to_relax->rev_adj.end(); neighb++) {
@@ -655,6 +656,350 @@ infoPath dijkstraOptiCD_condCstarD(Node* s, Node* t, double strict_min_d, double
                         neighb->pred()->arc_c = neighb->arc_c;
                         neighb->pred()->arc_d = neighb->arc_d;
                     }
+                }
+            }
+        }
+    }
+    delete heap;
+    return makePath(t);
+}
+
+
+infoPath dijkstraOptiCD_condCstarD_step(Node* s, Node* t, double strict_min_d, double strict_max_c) {
+    //cout<<"s = "<<s<<", t = "<<t<<endl;
+    s->c_to_s = 0;
+    s->d_to_S = inf;
+    s->step = strict_min_d;
+    arcNode* temp_s = s->pred;
+    s->pred = nullptr;
+    fibHeap<Node*>* heap = new fibHeap<Node*>(compC_to_sD);
+    s->tree = heap->insert(s);
+    Node* to_relax;
+    double newLength;
+    double newDist;
+    while (!heap->is_empty()) {
+        to_relax = heap->deleteMin();
+        if (to_relax == t) {break;}
+        for (list<arcNode>::iterator neighb = to_relax->l_adj.begin();
+        neighb != to_relax->l_adj.end(); neighb++) {
+            if (neighb->arc_d > strict_min_d) {
+                newLength = to_relax->c_to_s + neighb->arc_c;
+                if (neighb->step() < strict_min_d) {
+
+                    /*
+                    if (neighb->pred() == nullptr) {
+                        cout<<"Pb nullptr, to_relax = "<<to_relax<<endl;
+                    }
+                    */
+
+
+                    neighb->c_to_s() = newLength;
+                    neighb->d_to_S() = min(to_relax->d_to_S, neighb->arc_d);
+                    neighb->tree() = heap->insert(neighb->node);
+                    
+                    neighb->pred()->node = to_relax;
+                    neighb->pred()->arc_c = neighb->arc_c;
+                    neighb->pred()->arc_d = neighb->arc_d;
+
+                    neighb->step() = strict_min_d;
+                } else if (newLength + neighb->c_to_t() < strict_max_c && newLength < neighb->c_to_s()) {
+
+                    /*
+                    if (neighb->pred() == nullptr) {
+                        cout<<"Pb nullptr, to_relax = "<<to_relax<<endl;
+                    }
+
+                    cout<<neighb->node<<endl;
+                    */
+
+                    neighb->c_to_s() = newLength;
+                    neighb->d_to_S() = min(to_relax->d_to_S, neighb->arc_d);
+                    
+                    heap->decreasedKey( static_cast<markTree<Node*>*>(neighb->tree()) );
+                    
+                    neighb->pred()->node = to_relax;
+                    neighb->pred()->arc_c = neighb->arc_c;
+                    neighb->pred()->arc_d = neighb->arc_d;
+
+                } else if (newLength == neighb->c_to_s()) {
+                //No need for newLength + neighb->c_to_t() < strict_max_c because that's guaranteed by
+                //this condition already : newLength == neighb->c_to_s() with newLength != infinity
+                //So neighb->c_to_s() != infinity
+                //Meaning that previously the neighb->c_to_s() that has been set complied with
+                //neighb->c_to_s() + neighb->c_to_t() < strict_max_c
+                    newDist = min(to_relax->d_to_S, neighb->arc_d);
+                    if (newDist > neighb->d_to_S()) {
+
+                        /*
+                        if (neighb->pred() == nullptr) {
+                            cout<<"Pb nullptr, to_relax = "<<to_relax<<endl;
+                        }
+
+                        cout<<neighb->node<<endl;
+                        */
+
+                        neighb->c_to_s() = newLength;
+                        neighb->d_to_S() = newDist;
+                        heap->decreasedKey( static_cast<markTree<Node*>*>(neighb->tree()) );
+
+                        neighb->pred()->node = to_relax;
+                        neighb->pred()->arc_c = neighb->arc_c;
+                        neighb->pred()->arc_d = neighb->arc_d;
+                    }
+                }
+            }
+        }
+    }
+    delete heap;
+    if (to_relax != t) {
+        arcNode* temp = t->pred;
+        t->pred = nullptr;
+        infoPath to_return = makePath(t);
+        t->pred = temp;
+        return to_return;
+    } else {
+        infoPath to_return = makePath(t);
+        s->pred = temp_s;
+        return to_return;
+    }
+}
+
+
+infoPath revDijkstraOptiCD_condCstarD_step(Node* s, Node* t, double strict_min_d, double strict_max_c) {
+    //cout<<"s = "<<s<<", t = "<<t<<endl;
+    t->c_to_t = 0;
+    t->d_to_S = inf;
+    t->step = strict_min_d;
+    arcNode* temp_t = t->pred;
+    t->pred = nullptr;
+    fibHeap<Node*>* heap = new fibHeap<Node*>(compC_to_tD);
+    t->tree = heap->insert(t);
+    Node* to_relax;
+    double newLength;
+    double newDist;
+    while (!heap->is_empty()) {
+        to_relax = heap->deleteMin();
+        if (to_relax == s) {break;}
+        for (list<arcNode>::iterator neighb = to_relax->rev_adj.begin();
+        neighb != to_relax->rev_adj.end(); neighb++) {
+            if (neighb->arc_d > strict_min_d) {
+                newLength = to_relax->c_to_t + neighb->arc_c;
+                if (neighb->step() < strict_min_d) {
+
+                    /*
+                    if (neighb->pred() == nullptr) {
+                        cout<<"Pb nullptr, to_relax = "<<to_relax<<endl;
+                    }
+                    */
+
+
+                    neighb->c_to_t() = newLength;
+                    neighb->d_to_S() = min(to_relax->d_to_S, neighb->arc_d);
+                    neighb->tree() = heap->insert(neighb->node);
+                    
+                    neighb->pred()->node = to_relax;
+                    neighb->pred()->arc_c = neighb->arc_c;
+                    neighb->pred()->arc_d = neighb->arc_d;
+
+                    neighb->step() = strict_min_d;
+                } else if (newLength + neighb->c_to_s() < strict_max_c && newLength < neighb->c_to_t()) {
+
+                    /*
+                    if (neighb->pred() == nullptr) {
+                        cout<<"Pb nullptr, to_relax = "<<to_relax<<endl;
+                    }
+
+                    cout<<neighb->node<<endl;
+                    */
+
+
+                    neighb->c_to_t() = newLength;
+                    neighb->d_to_S() = min(to_relax->d_to_S, neighb->arc_d);
+                    
+                    heap->decreasedKey( static_cast<markTree<Node*>*>(neighb->tree()) );
+                    
+                    neighb->pred()->node = to_relax;
+                    neighb->pred()->arc_c = neighb->arc_c;
+                    neighb->pred()->arc_d = neighb->arc_d;
+
+                } else if (newLength == neighb->c_to_t()) {
+                //No need for newLength + neighb->c_to_t() < strict_max_c because that's guaranteed by
+                //this condition already : newLength == neighb->c_to_s() with newLength != infinity
+                //So neighb->c_to_s() != infinity
+                //Meaning that previously the neighb->c_to_s() that has been set complied with
+                //neighb->c_to_s() + neighb->c_to_t() < strict_max_c
+                    newDist = min(to_relax->d_to_S, neighb->arc_d);
+                    if (newDist > neighb->d_to_S()) {
+
+                        /*
+                        if (neighb->pred() == nullptr) {
+                            cout<<"Pb nullptr, to_relax = "<<to_relax<<endl;
+                        }
+
+                        cout<<neighb->node<<endl;
+                        */
+
+
+                        neighb->c_to_t() = newLength;
+                        neighb->d_to_S() = newDist;
+                        heap->decreasedKey( static_cast<markTree<Node*>*>(neighb->tree()) );
+
+                        neighb->pred()->node = to_relax;
+                        neighb->pred()->arc_c = neighb->arc_c;
+                        neighb->pred()->arc_d = neighb->arc_d;
+                    }
+                }
+            }
+        }
+    }
+    delete heap;
+    return makePath(t);
+    if (to_relax != s) {
+        arcNode* temp = s->pred;
+        s->pred = nullptr;
+        infoPath to_return = revMakePath(s);
+        s->pred = temp;
+        t->pred = temp_t;
+        return to_return;
+    } else {
+        infoPath to_return = revMakePath(s);
+        t->pred = temp_t;
+        return to_return;
+    }
+}
+
+
+
+infoPath labelUpdating_OptiCD_condD(list<Node*>& graph, Node* s, Node* t, double strict_min_d) {
+    bool isSok = false;
+    for (list<arcNode>::iterator neighb = s->l_adj.begin(); neighb != s->l_adj.end(); neighb++) {
+        if (neighb->arc_d > strict_min_d) {isSok = true; break;}
+    }
+    if (!isSok) {
+        arcNode* temp_t = t->pred;
+        t->pred = nullptr;
+        infoPath to_return = makePath(t);
+        t->pred = temp_t;
+        return to_return;
+    }
+    fibHeap<Node*>* heap = new fibHeap<Node*>(compC_to_sD);
+    Node* to_process;
+    double newLength;
+    double newDist;
+    for (list<Node*>::iterator it = graph.begin(); it != graph.end(); it++) {
+        if ((*it)->d_to_S <= strict_min_d && (*it)->c_to_s < inf) {
+            to_process = *it;
+            to_process->c_to_s = inf;
+            to_process->d_to_S = 0;
+            for (list<arcNode>::iterator prev = to_process->rev_adj.begin();
+            prev != to_process->rev_adj.end(); prev++) {
+                newLength = prev->c_to_s() + prev->arc_c;
+                newDist = min(prev->d_to_S(), prev->arc_d);
+                if (newDist > strict_min_d) {
+                    if (newLength < to_process->c_to_s ||
+                    (newLength == to_process->c_to_s && newDist > to_process->d_to_S)) {
+                        to_process->c_to_s = newLength;
+                        to_process->d_to_S = newDist;
+
+                        to_process->pred->node = prev->node;
+                        to_process->pred->arc_c = prev->arc_c;
+                        to_process->pred->arc_d = prev->arc_d;
+                    }
+                }
+            }
+            //cout<<"Adding : "<<to_process<<endl;
+            to_process->tree = heap->insert(to_process);
+        }
+    }
+
+
+
+
+
+    Node* to_relax;
+    while (!heap->is_empty()) {
+        to_relax = heap->deleteMin();
+        to_relax->tree = nullptr;
+        //cout<<"Taking : "<<to_relax<<endl;
+        for (list<arcNode>::iterator neighb = to_relax->l_adj.begin();
+        neighb != to_relax->l_adj.end(); neighb++) {
+            if (neighb->arc_d > strict_min_d) {
+                newLength = to_relax->c_to_s + neighb->arc_c;
+                if (newLength < neighb->c_to_s()) {
+                    //cout<<"     Considered neighb : "<<neighb->node;
+                    //cout<<" -> c = "<<neighb->c_to_s()<<", d = "<<neighb->d_to_S()<<endl;
+                    neighb->c_to_s() = newLength;
+                    neighb->d_to_S() = min(to_relax->d_to_S, neighb->arc_d);
+                    
+                    heap->decreasedKey( static_cast<markTree<Node*>*>(neighb->tree()) );
+                    neighb->pred()->node = to_relax;
+                    neighb->pred()->arc_c = neighb->arc_c;
+                    neighb->pred()->arc_d = neighb->arc_d;
+                } else if (newLength == neighb->c_to_s()) {
+                    //cout<<"     Considered neighb : "<<neighb->node;
+                    //cout<<" -> c = "<<neighb->c_to_s()<<", d = "<<neighb->d_to_S()<<endl;
+                    newDist = min(to_relax->d_to_S, neighb->arc_d);
+                    if (newDist > neighb->d_to_S()) {
+                        neighb->c_to_s() = newLength;
+                        neighb->d_to_S() = newDist;
+
+                        heap->decreasedKey( static_cast<markTree<Node*>*>(neighb->tree()) );
+                        neighb->pred()->node = to_relax;
+                        neighb->pred()->arc_c = neighb->arc_c;
+                        neighb->pred()->arc_d = neighb->arc_d;
+                    }
+                }
+            }
+        }
+    }
+    delete heap;
+    if (t->c_to_s == inf) {
+        arcNode* temp_t = t->pred;
+        t->pred = nullptr;
+        infoPath to_return = makePath(t);
+        t->pred = temp_t;
+        return to_return;
+    }
+    return makePath(t);
+}
+
+
+infoPath dijkstraOptiCD_noCond_noStop(Node* s, Node* t) {
+    s->c_to_s = 0;
+    s->d_to_S = inf;
+    s->pred = nullptr;
+    fibHeap<Node*>* heap = new fibHeap<Node*>(compC_to_sD);
+    s->tree = heap->insert(s);
+    Node* to_relax;
+    double newLength;
+    double newDist;
+    while (!heap->is_empty()) {
+        to_relax = heap->deleteMin();
+        to_relax->tree = nullptr;
+        for (list<arcNode>::iterator neighb = to_relax->l_adj.begin();
+        neighb != to_relax->l_adj.end(); neighb++) {
+            newLength = to_relax->c_to_s + neighb->arc_c;
+            if (newLength < neighb->c_to_s()) {
+                neighb->c_to_s() = newLength;
+                neighb->d_to_S() = min(to_relax->d_to_S, neighb->arc_d);
+                if (neighb->tree() != nullptr) {
+                    heap->decreasedKey( static_cast<markTree<Node*>*>(neighb->tree()) );
+                    neighb->pred()->node = to_relax;
+                    neighb->pred()->arc_c = neighb->arc_c;
+                    neighb->pred()->arc_d = neighb->arc_d;
+                } else {
+                    neighb->tree() = heap->insert(neighb->node);
+                    neighb->pred() = new arcNode(to_relax, neighb->arc_c, neighb->arc_d);
+                }
+            } else if (newLength == neighb->c_to_s()) {
+                newDist = min(to_relax->d_to_S, neighb->arc_d);
+                if (newDist > neighb->d_to_S()) {
+                    neighb->c_to_s() = newLength;
+                    neighb->d_to_S() = newDist;
+                    heap->decreasedKey( static_cast<markTree<Node*>*>(neighb->tree()) );
+                    neighb->pred()->node = to_relax;
+                    neighb->pred()->arc_c = neighb->arc_c;
+                    neighb->pred()->arc_d = neighb->arc_d;
                 }
             }
         }

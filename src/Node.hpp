@@ -30,12 +30,13 @@ class Node
         markTree<Node*>* tree;
         list<arcNode> rev_adj;
         double c_to_t;
+        double step;
         Node(int n=0, double absc=0., double ord=0., list<arcNode> l=list<arcNode>(),
                 Matrix<double>* A=nullptr, bool m=false, double dist=inf, double d=0, 
                 arcNode* pr=nullptr, markTree<Node*>* Tr=nullptr,
-                list<arcNode> rev_l=list<arcNode>(), double rev_dist=inf) : no(n), x(absc), y(ord), l_adj(l),
-                adj(A), marked(m), c_to_s(dist), d_to_S(d), pred(pr), tree(Tr), rev_adj(rev_l),
-                c_to_t(rev_dist) {}
+                list<arcNode> rev_l=list<arcNode>(), double rev_dist=inf, double curr_step=-1) : no(n),
+                x(absc), y(ord), l_adj(l), adj(A), marked(m), c_to_s(dist), d_to_S(d), pred(pr), tree(Tr),
+                rev_adj(rev_l), c_to_t(rev_dist), step(curr_step) {}
         Node(const Node& n);
         ~Node() {}
         Node& operator= (const Node& t);
@@ -96,7 +97,7 @@ class arcNode
         Node* node;
         double arc_c;
         double arc_d;
-        arcNode(Node* v=nullptr, double c=inf, double d=inf) : node(v), arc_c(c), arc_d(d) {}
+        arcNode(Node* v=nullptr, double c=inf, double d=0) : node(v), arc_c(c), arc_d(d) {}
         arcNode(const arcNode& aN) : node(aN.node), arc_c(aN.arc_c), arc_d(aN.arc_d) {}
         ~arcNode() {}
         arcNode& operator=(const arcNode& aN);
@@ -107,6 +108,7 @@ class arcNode
         arcNode*& pred() {return node->pred;}
         markTree<Node*>*& tree() {return node->tree;}
         int& no() {return node->no;}
+        double& step() {return node->step;}
 };
 
 ostream& operator<<(ostream& out, struct cNode& cN);

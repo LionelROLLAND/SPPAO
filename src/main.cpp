@@ -436,7 +436,7 @@ void testSPPAO2(int P=10, int Q=10, int O=5, double prop_square=0.5, double prop
 
 	resetGraph(*l);
 
-	list<infoPath>* SPPAOres = firstSPPAO(*l, node1, node2);
+	list<infoPath>* SPPAOres = firstSPPAO_update(*l, node1, node2);
 
 	filepath = filesystem::current_path();
 	filepath /= "data";
@@ -458,6 +458,7 @@ void testSPPAO2(int P=10, int Q=10, int O=5, double prop_square=0.5, double prop
 
 	//delete pre_res.path;
 	//delete res.path;
+	resetGraph(*l);
 	deleteGraph(obstacles);
 	deleteGraph(l);
 }
@@ -806,13 +807,14 @@ void statSPPAO(string dir, list<int>& obstacles, ostream& out, ostream& dataOut)
 
 
 			start_pb = chrono::system_clock::now();
-			list<infoPath>* SPPAOres = firstSPPAO(*l, node1, node2, &n, &t_comp);
+			list<infoPath>* SPPAOres = firstSPPAO_update(*l, node1, node2, &n, &t_comp);
 			elapsed1 = chrono::system_clock::now() - start_pb;
 
 
 			results.push_back(resultSPPAO({n_nodes, ((double) n_arcs)/n_nodes, *n_obs,
 			(int) SPPAOres->size(), n1, n2, n, t1, t2, t_comp,
 			elapsed1.count(), elapsed2.count()}));
+			if (SPPAOres->size() != l_res->size()) {cout<<"NOT THE SAME RESULTS"<<endl;}
 
 			for (list<infoPath>::iterator it = SPPAOres->begin(); it != SPPAOres->end(); it++) {
 				delete it->path;
@@ -1263,62 +1265,62 @@ void comparePercentage(istream& file1, istream& file2, ostream& out) {
 					to_write = 100*(res2->binSubs-res1->binSubs)/res1->binSubs;
 					out<<" & ";
 					if (to_write < 0) {
-						out<<"\\color{green}{";
+						out<<"\\color{green}{$";
 					} else if (to_write > 0) {
-						out<<"\\color{red}{+";
+						out<<"\\color{red}{$+";
 					}
 					out<<setprecision(significantNb)<<to_write;
-					if (to_write != 0) {out<<"}";}
+					if (to_write != 0) {out<<"$}";}
 
 					to_write = 100*(res2->binSubTime-res1->binSubTime)/res1->binSubTime;
 					out<<" & ";
 					if (to_write < 0) {
-						out<<"\\color{green}{";
+						out<<"\\color{green}{$";
 					} else if (to_write > 0) {
-						out<<"\\color{red}{+";
+						out<<"\\color{red}{$+";
 					}
 					out<<setprecision(significantNb)<<to_write;
-					if (to_write != 0) {out<<"}";}
+					if (to_write != 0) {out<<"$}";}
 
 					to_write = 100*(res2->binTime-res1->binTime)/res1->binTime;
 					out<<" & ";
 					if (to_write < 0) {
-						out<<"\\color{green}{";
+						out<<"\\color{green}{$";
 					} else if (to_write > 0) {
-						out<<"\\color{red}{+";
+						out<<"\\color{red}{$+";
 					}
 					out<<setprecision(significantNb)<<to_write;
-					if (to_write != 0) {out<<"}";}
+					if (to_write != 0) {out<<"$}";}
 
 					to_write = 100*(res2->seqSubs-res1->seqSubs)/res1->seqSubs;
 					out<<" & ";
 					if (to_write < 0) {
-						out<<"\\color{green}{";
+						out<<"\\color{green}{$";
 					} else if (to_write > 0) {
-						out<<"\\color{red}{+";
+						out<<"\\color{red}{$+";
 					}
 					out<<setprecision(significantNb)<<to_write;
-					if (to_write != 0) {out<<"}";}
+					if (to_write != 0) {out<<"$}";}
 
 					to_write = 100*(res2->seqSubTime-res1->seqSubTime)/res1->seqSubTime;
 					out<<" & ";
 					if (to_write < 0) {
-						out<<"\\color{green}{";
+						out<<"\\color{green}{$";
 					} else if (to_write > 0) {
-						out<<"\\color{red}{+";
+						out<<"\\color{red}{$+";
 					}
 					out<<setprecision(significantNb)<<to_write;
-					if (to_write != 0) {out<<"}";}
+					if (to_write != 0) {out<<"$}";}
 
 					to_write = 100*(res2->seqTime-res1->seqTime)/res1->seqTime;
 					out<<" & ";
 					if (to_write < 0) {
-						out<<"\\color{green}{";
+						out<<"\\color{green}{$";
 					} else if (to_write > 0) {
-						out<<"\\color{red}{+";
+						out<<"\\color{red}{$+";
 					}
 					out<<setprecision(significantNb)<<to_write;
-					if (to_write != 0) {out<<"}";}
+					if (to_write != 0) {out<<"$}";}
 
 					out<<" \\\\";
 				}
@@ -1617,10 +1619,10 @@ int main(int argc, char *argv[])
 	//realDB();
 	//completingDB();
 	//manuallyCompletingDB(2000, 1, 0, 420, 1.8, 30, "realDB/instance_", ".txt");
-	//writeStatSPPAO("statsSPPAO__withCstarD.tex", "dataSPPAO_CstarD.txt");
+	//writeStatSPPAO("statsSPPAO__labelUpdate.tex", "dataSPPAO_labelUpdate.txt");
 	//checkSPPAO();
-	//writeComparison("dataSPPAO2.txt", "dataSPPAO_CstarD.txt", "SPPAOcomparison_Tie__Cstar.tex");
-	writeCompareMethod("dataSPPAO_CstarD.txt", "methodsCompareCstar.tex");
+	writeComparison("dataSPPAO_CstarD.txt", "dataSPPAO_labelUpdate.txt", "SPPAOcomparison_labelUpdate.tex");
+	//writeCompareMethod("dataSPPAO_CstarD.txt", "methodsCompareCstar.tex");
 }
 
 
