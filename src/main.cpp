@@ -1265,7 +1265,7 @@ void comparePercentage(istream& file1, istream& file2, ostream& out) {
 					to_write = 100*(res2->binSubs-res1->binSubs)/res1->binSubs;
 					out<<" & ";
 					if (to_write < 0) {
-						out<<"\\color{green}{$";
+						out<<"\\color{olive}{$";
 					} else if (to_write > 0) {
 						out<<"\\color{red}{$+";
 					}
@@ -1275,7 +1275,7 @@ void comparePercentage(istream& file1, istream& file2, ostream& out) {
 					to_write = 100*(res2->binSubTime-res1->binSubTime)/res1->binSubTime;
 					out<<" & ";
 					if (to_write < 0) {
-						out<<"\\color{green}{$";
+						out<<"\\color{olive}{$";
 					} else if (to_write > 0) {
 						out<<"\\color{red}{$+";
 					}
@@ -1285,7 +1285,7 @@ void comparePercentage(istream& file1, istream& file2, ostream& out) {
 					to_write = 100*(res2->binTime-res1->binTime)/res1->binTime;
 					out<<" & ";
 					if (to_write < 0) {
-						out<<"\\color{green}{$";
+						out<<"\\color{olive}{$";
 					} else if (to_write > 0) {
 						out<<"\\color{red}{$+";
 					}
@@ -1295,7 +1295,7 @@ void comparePercentage(istream& file1, istream& file2, ostream& out) {
 					to_write = 100*(res2->seqSubs-res1->seqSubs)/res1->seqSubs;
 					out<<" & ";
 					if (to_write < 0) {
-						out<<"\\color{green}{$";
+						out<<"\\color{olive}{$";
 					} else if (to_write > 0) {
 						out<<"\\color{red}{$+";
 					}
@@ -1305,7 +1305,7 @@ void comparePercentage(istream& file1, istream& file2, ostream& out) {
 					to_write = 100*(res2->seqSubTime-res1->seqSubTime)/res1->seqSubTime;
 					out<<" & ";
 					if (to_write < 0) {
-						out<<"\\color{green}{$";
+						out<<"\\color{olive}{$";
 					} else if (to_write > 0) {
 						out<<"\\color{red}{$+";
 					}
@@ -1315,7 +1315,7 @@ void comparePercentage(istream& file1, istream& file2, ostream& out) {
 					to_write = 100*(res2->seqTime-res1->seqTime)/res1->seqTime;
 					out<<" & ";
 					if (to_write < 0) {
-						out<<"\\color{green}{$";
+						out<<"\\color{olive}{$";
 					} else if (to_write > 0) {
 						out<<"\\color{red}{$+";
 					}
@@ -1514,7 +1514,7 @@ void compareMethods(istream& file1, ostream& out) {
 					to_write = 100*(res1->binTime - res1->seqTime)/res1->seqTime;
 					out<<" & ";
 					if (to_write < 0) {
-						out<<"\\color{green}{";
+						out<<"\\color{olive}{";
 					} else if (to_write > 0) {
 						out<<"\\color{red}{+";
 					}

@@ -636,7 +636,7 @@ double* t1, double* t2) {
 }
 
 
-/*
+
 list<infoPath>* secondSPPAO_cstarPlus_cuttingC(list<Node*>& graph, Node* s, Node* t, int* n1, int* n2,
 double* t1, double* t2) {
     //cout<<"\nInto secondSPPAO"<<endl;
@@ -729,7 +729,7 @@ double* t1, double* t2) {
 
 
         if (logs) {
-            cout<<"#"<<++nbD1<<" SPPAO2 -- Dijkstra, upper, strict_max_c = "<<c_bar;
+            cout<<"#"<<++nbD1<<" SPPAO2 -- Dijkstra, left, strict_max_c = "<<c_bar;
             cout<<", strict_min_d = "<<Irect.pathMin->d<<"\n";
         }
 
@@ -858,10 +858,10 @@ double* t1, double* t2) {
             //simpleResetGraph(graph);
 
             if (logs) { /////REPRENDRE ICI
-                cout<<"#"<<++nbD1<<" SPPAO2 -- Dijkstra, lower, strict_min_d = "<<Irect.pathMin->d;
+                cout<<"#"<<++nbD1<<" SPPAO2 -- Dijkstra, right, strict_min_d = "<<Irect.pathMin->d;
                 cout<<", strict_max_c = "<<Irect.c_max<<"\n";
-                logStream<<"rect "<<step+1<<" "<<step+2<<" "<<d_bar<<" ";
-                logStream<<Irect.d_max<<" "<<Irect.pathMin->c<<" "<<Irect.c_max<<" ";
+                logStream<<"rect "<<step+1<<" "<<step+2<<" "<<Irect.pathMin->d<<" ";
+                logStream<<Irect.d_max<<" "<<Irect.pathMin->c<<" "<<c_bar<<" ";
                 logStream<<(int) RNr<<" "<<(int) RNg<<" "<<(int) RNb<<"\n";
             }
 
@@ -870,9 +870,9 @@ double* t1, double* t2) {
 
 
             if (way) {
-                lower = dijkstraOptiCD_condCstarD_step(s, t, Irect.pathMin->d, Irect.c_max);
+                right = dijkstraOptiCD_condCstarD_step(s, t, Irect.pathMin->d, Irect.c_max);
             } else {
-                lower = revDijkstraOptiCD_condCstarD_step(s, t, Irect.pathMin->d, Irect.c_max);
+                right = revDijkstraOptiCD_condCstarD_step(s, t, Irect.pathMin->d, Irect.c_max);
             }
             way = !way;
 
@@ -880,21 +880,21 @@ double* t1, double* t2) {
             if (t2 != nullptr) {*t2 += elapsed.count();}
             if (n2 != nullptr) {(*n2)++;}
             if (n2 != nullptr) {(*n2)++;}
-            if (logs) {cout<<"result : d = "<<lower.d<<", c = "<<lower.c<<"\n";}
+            if (logs) {cout<<"result : d = "<<right.d<<", c = "<<right.c<<"\n";}
 
-            if (lower.path->size() > 1) {
+            if (right.path->size() > 1) {
                 
                 if (logs) {
-                    cout<<"Adding path : d = "<<lower.d<<", c = "<<lower.c<<"\n";
-                    logStream<<"point "<<step+1<<" "<<lower.c<<" "<<lower.d<<" ";
+                    cout<<"Adding path : d = "<<right.d<<", c = "<<right.c<<"\n";
+                    logStream<<"point "<<step+1<<" "<<right.c<<" "<<right.d<<" ";
                     logStream<<(int) PSr<<" "<<(int) PSg<<" "<<(int) PSb<<"\n";
                 }
-                res->push_front(lower);
+                res->push_front(right); // A CHANGER
                 if (logs) {
-                    cout<<"Adding rectangle : bottom = "<<res->begin()->d<<", top = ";
-                    cout<<d_bar<<", left = "<<res->begin()->c<<", right = "<<Irect.c_max<<"\n";
+                    cout<<"Adding rectangle : bottom = "<<right.d<<", top = ";
+                    cout<<Irect.d_max<<", left = "<<right.c<<", right = "<<Irect.c_max<<"\n";
                 }
-                criteriaSpace.push_front(Rectangle({res->begin(), Irect.c_max, d_bar, step+1}));
+                criteriaSpace.push_front(Rectangle({res->begin(), Irect.c_max, Irect.d_max, step+1}));
 
                 if (logs) {
                     logStream<<"rect "<<Irect.initStep<<" "<<step+1<<" "<<Irect.pathMin->d<<" ";
@@ -902,21 +902,10 @@ double* t1, double* t2) {
                     logStream<<(int) RSr<<" "<<(int) RSg<<" "<<(int) RSb<<"\n";
                 }
 
-                if (lower.c == Irect.pathMin->c) {
-                    delete Irect.pathMin->path;
-                    if (logs) {
-                        cout<<"Deleting path : c = "<<Irect.pathMin->c;
-                        cout<<", d = "<<Irect.pathMin->d<<"\n";
-                        logStream<<"point "<<step+1<<" "<<Irect.pathMin->c<<" "<<Irect.pathMin->d<<" ";
-                        logStream<<(int) PNr<<" "<<(int) PNg<<" "<<(int) PNb<<"\n";
-                    }
-                    res->erase(Irect.pathMin);
-                }
-
             } else {
                 if (logs) {
                     logStream<<"rect "<<Irect.initStep<<" "<<step+1<<" "<<Irect.pathMin->d<<" ";
-                    logStream<<Irect.d_max<<" "<<Irect.pathMin->c<<" "<<Irect.c_max<<" ";
+                    logStream<<Irect.d_max<<" "<<c_bar<<" "<<Irect.c_max<<" ";
                     logStream<<(int) RNr<<" "<<(int) RNg<<" "<<(int) RNb<<"\n";
                 }
             }
@@ -941,4 +930,3 @@ double* t1, double* t2) {
     logStream.close();
     return res;
 }
-*/
