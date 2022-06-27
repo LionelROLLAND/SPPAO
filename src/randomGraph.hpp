@@ -22,4 +22,8 @@ void simpleResetGraph(list<Node*>& graph);
 
 void revResetGraph(list<Node*>& graph);
 
+bool compSimpleArc(const simpleArc& a1, const simpleArc& a2);
+
+list<list<bunchOfArcs>>* buildArcsToAdd(list<Node*>& graph);
+
 #endif

@@ -111,6 +111,20 @@ class arcNode
         double& step() {return node->step;}
 };
 
+
+struct simpleArc
+{
+    Node* node;
+    arcNode arc;
+};
+
+
+struct bunchOfArcs
+{
+    Node* node;
+    list<arcNode> rev_adj;
+};
+
 ostream& operator<<(ostream& out, struct cNode& cN);
 
 void printRCNode(ostream& out, struct cNode& cN);

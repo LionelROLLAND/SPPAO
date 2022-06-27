@@ -964,6 +964,74 @@ infoPath labelUpdating_OptiCD_condD(list<Node*>& graph, Node* s, Node* t, double
 }
 
 
+infoPath labelUpdating_add_OptiC_condD(list<bunchOfArcs>& arcsToAddLists, Node* t, double min_d) {
+    fibHeap<Node*>* heap = new fibHeap<Node*>(compC_to_s);
+    Node* to_process;
+    double newLength;
+    for (list<bunchOfArcs>::iterator arcList = arcsToAddLists.begin(); arcList != arcsToAddLists.end(); arcList++) {
+        to_process = arcList->node;
+        for (list<arcNode>::iterator neighb = arcList->rev_adj.begin();
+        neighb != arcList->rev_adj.end(); neighb++) {
+            if (neighb->c_to_s() < inf) {
+                newLength = neighb->c_to_s() + neighb->arc_c;
+                if (newLength < to_process->c_to_s) {
+                    to_process->c_to_s = newLength;
+                    to_process->d_to_S = min(neighb->d_to_S(), neighb->arc_d);
+
+                    if (to_process->pred == nullptr) {
+                        to_process->pred = new arcNode(neighb->node, neighb->arc_c, neighb->arc_d);
+                    } else {
+                        to_process->pred->node = neighb->node;
+                        to_process->pred->arc_c = neighb->arc_c;
+                        to_process->pred->arc_d = neighb->arc_d;
+                    }
+                }
+            }
+
+        }
+        to_process->tree = heap->insert(to_process);
+    }
+
+
+
+
+
+    Node* to_relax;
+    while (!heap->is_empty()) {
+        to_relax = heap->deleteMin();
+        to_relax->tree = nullptr;
+        if (to_relax->c_to_s < inf) {
+            for (list<arcNode>::iterator neighb = to_relax->l_adj.begin();
+            neighb != to_relax->l_adj.end(); neighb++) {
+                if (neighb->arc_d >= min_d) {
+                    newLength = to_relax->c_to_s + neighb->arc_c;
+                    if (newLength < neighb->c_to_s()) {
+                        neighb->c_to_s() = newLength;
+                        neighb->d_to_S() = min(to_relax->d_to_S, neighb->arc_d);
+                        if (neighb->tree() != nullptr) {
+                            heap->decreasedKey( static_cast<markTree<Node*>*>(neighb->tree()) );
+                        } else {
+                            neighb->tree() = heap->insert(neighb->node);
+                        }
+
+                        if (neighb->pred() != nullptr) {
+                            neighb->pred()->node = to_relax;
+                            neighb->pred()->arc_c = neighb->arc_c;
+                            neighb->pred()->arc_d = neighb->arc_d;
+                        } else {
+                            neighb->pred() = new arcNode(to_relax, neighb->arc_c, neighb->arc_d);
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+    delete heap;
+    return makePath(t);
+}
+
+
 infoPath dijkstraOptiCD_noCond_noStop(Node* s, Node* t) {
     s->c_to_s = 0;
     s->d_to_S = inf;

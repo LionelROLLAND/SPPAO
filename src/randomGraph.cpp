@@ -418,3 +418,37 @@ void revResetGraph(list<Node*>& graph) {
         (*it)->tree = nullptr;
     }
 }
+
+
+bool compSimpleArc(const simpleArc& a1, const simpleArc& a2) {
+    return (a1.arc.arc_d > a2.arc.arc_d || (a1.arc.arc_d == a2.arc.arc_d && a1.node->no < a2.node->no));
+}
+
+
+list<list<bunchOfArcs>>* buildArcsToAdd(list<Node*>& graph) {
+    list<simpleArc> arcs = list<simpleArc>();
+    for (list<Node*>::iterator it = graph.begin(); it != graph.end(); it++) {
+        for (list<arcNode>::iterator child = (*it)->rev_adj.begin(); child != (*it)->rev_adj.end(); child++) {
+            arcs.push_back(simpleArc({*it, *child}));
+        }
+    }
+    arcs.sort(compSimpleArc);
+    list<simpleArc>::iterator sArc = arcs.begin();
+    list<list<bunchOfArcs>>* res = new list<list<bunchOfArcs>>();
+    Node* currNode;
+    double currD;
+    while (sArc != arcs.end()) {
+        currD = sArc->arc.arc_d;
+        res->push_back(list<bunchOfArcs>());
+        while (sArc != arcs.end() && sArc->arc.arc_d == currD) {
+            currNode = sArc->node;
+            //res->push_front(bunchOfArcs({currNode, list<arcNode>()}));
+            res->back().push_back(bunchOfArcs({currNode, list<arcNode>()}));
+            while (sArc != arcs.end() && sArc->node == currNode && sArc->arc.arc_d == currD) {
+                res->back().back().rev_adj.push_front(sArc->arc);
+                sArc++;
+            }
+        }
+    }
+    return res;
+}

@@ -425,6 +425,7 @@ void testSPPAO2(int P=10, int Q=10, int O=5, double prop_square=0.5, double prop
 	}
 	list<Node*>* obstacles = createObstacles(1, 1, Q, P, P*Q+1, O);
 	computeArcD(*l, *obstacles);
+	list<list<bunchOfArcs>>* arcsToAddLists = buildArcsToAdd(*l);
 
 	list<infoPath>* l_res = secondSPPAO(*l, node1, node2);
 	filesystem::path filepath = filesystem::current_path();
@@ -436,11 +437,11 @@ void testSPPAO2(int P=10, int Q=10, int O=5, double prop_square=0.5, double prop
 
 	resetGraph(*l);
 
-	list<infoPath>* SPPAOres = firstSPPAO_update(*l, node1, node2);
+	list<infoPath>* SPPAOres = weirdSPPAO(*arcsToAddLists, node1, node2);
 
 	filepath = filesystem::current_path();
 	filepath /= "data";
-	filepath /= "testSPPAO1.txt";
+	filepath /= "testWeirdSPPAO.txt";
 	writing= ofstream(filepath, ios::out);
 	writeSolSPPAO(*l, *obstacles, *SPPAOres, writing);
 	writing.close();
@@ -458,6 +459,7 @@ void testSPPAO2(int P=10, int Q=10, int O=5, double prop_square=0.5, double prop
 
 	//delete pre_res.path;
 	//delete res.path;
+	delete arcsToAddLists;
 	resetGraph(*l);
 	deleteGraph(obstacles);
 	deleteGraph(l);
@@ -792,6 +794,7 @@ void statSPPAO(string dir, list<int>& obstacles, ostream& out, ostream& dataOut)
 
 			list<Node*>* obsList = createObstacles(x_min, y_min, x_max, y_max, max_no+1, *n_obs);
 			computeArcD(*l, *obsList);
+			list<list<bunchOfArcs>>* arcsToAddLists = buildArcsToAdd(*l);
 
 			//cout<<"\nJust before secondSPPAO"<<endl;
 
@@ -807,7 +810,10 @@ void statSPPAO(string dir, list<int>& obstacles, ostream& out, ostream& dataOut)
 
 
 			start_pb = chrono::system_clock::now();
-			list<infoPath>* SPPAOres = firstSPPAO_update(*l, node1, node2, &n, &t_comp);
+
+			//list<infoPath>* SPPAOres = firstSPPAO_update(*l, node1, node2, &n, &t_comp);
+			list<infoPath>* SPPAOres = weirdSPPAO(*arcsToAddLists, node1, node2, &n, &t_comp);
+			
 			elapsed1 = chrono::system_clock::now() - start_pb;
 
 
@@ -1612,7 +1618,7 @@ int main(int argc, char *argv[])
 	//testSPPAO1(P, Q, O, p_square, p_merge);
 	//testLoading();
 	//testPathMinD(P, Q, O, p_square, p_merge);
-	//testSPPAO2(P, Q, O, p_square, p_merge);
+	testSPPAO2(P, Q, O, p_square, p_merge);
 	//compareSPPAOs(P, Q, O, p_square, p_merge);
 	//testGraph2(2000, 1, 0);
 	//testDB();
@@ -1621,7 +1627,7 @@ int main(int argc, char *argv[])
 	//manuallyCompletingDB(2000, 1, 0, 420, 1.8, 30, "realDB/instance_", ".txt");
 	//writeStatSPPAO("statsSPPAO__labelUpdate.tex", "dataSPPAO_labelUpdate.txt");
 	//checkSPPAO();
-	writeComparison("dataSPPAO_CstarD.txt", "dataSPPAO_labelUpdate.txt", "SPPAOcomparison_labelUpdate.tex");
+	//writeComparison("dataSPPAO_CstarD.txt", "dataSPPAO_labelUpdate.txt", "SPPAOcomparison_labelUpdate.tex");
 	//writeCompareMethod("dataSPPAO_CstarD.txt", "methodsCompareCstar.tex");
 }
 
