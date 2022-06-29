@@ -88,13 +88,14 @@ def getBetterGraph(lines):
 	i+=1
 	line = lines[i].strip("\n")
 	while line != "" and i < len(lines):
+		#print(sep)
 		sep = line.split(" ")
 		if sep[0] == "point":
 			plotings.append(("point", int(sep[1]), int(sep[2]), float(sep[3]), int(sep[4]),
 								int(sep[5]), int(sep[6]), int(sep[7]) ))
 		if sep[0] == "arc":
-			plotings.append(( "arc", int(sep[1]), int(sep[2]), int(sep[3]), 
-								int(sep[4]), int(sep[6]), int(sep[7]), int(sep[8]) ))
+			plotings.append(( "arc", int(sep[1]), int(sep[2]), float(sep[3]), int(sep[4]), 
+								int(sep[5]), int(sep[7]), int(sep[8]), int(sep[9]) ))
 		if sep[0] == "info":
 			plotings.append(( "info", int(sep[1]), int(sep[2]), float(sep[3]), float(sep[4]) ))
 
@@ -237,10 +238,10 @@ def displayBetterGraph(tab_points, plotings):
 				pygame.draw.circle(screen, col, pos, max(scale,1))
 
 			if to_plot[0] == "arc":
-				pos1 = (a*tab_points[to_plot[3]][0]+bX, a*tab_points[to_plot[3]][1]+bY)
-				pos2 = (a*tab_points[to_plot[4]][0]+bX, a*tab_points[to_plot[4]][1]+bY)
-				col = (to_plot[5], to_plot[6], to_plot[7])
-				scale = int(max(0.3*a, 1))
+				pos1 = (a*tab_points[to_plot[4]][0]+bX, a*tab_points[to_plot[4]][1]+bY)
+				pos2 = (a*tab_points[to_plot[5]][0]+bX, a*tab_points[to_plot[5]][1]+bY)
+				col = (to_plot[6], to_plot[7], to_plot[8])
+				scale = int(max(a*to_plot[3], 1))
 				pygame.draw.line(screen, color=col, start_pos=pos1,
 					end_pos=pos2, width=scale)
 

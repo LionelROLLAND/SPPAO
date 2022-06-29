@@ -134,7 +134,7 @@ void writeDijSol(list<Node*>& graph, /* list<Node*>& */ infoPath& path, ofstream
 }
 
 
-void writeSolSPPAO(list<Node*>& graph, list<Node*>& obstacles, list<infoPath>& optPaths, ofstream& w_stream) {
+void writeSolSPPAO(list<Node*>& graph, list<Node*>& obstacles, list<infoPath>& optPaths, ofstream& w_stream, double scale=1) {
 	list<cNode>* cGraph = graphToCNode(graph);
 	list<cNode>* cObst = graphToCNode(obstacles, rO, gO, bO);
 	list<cArc>* cArcGraph = graphToCArc(graph);
@@ -149,11 +149,11 @@ void writeSolSPPAO(list<Node*>& graph, list<Node*>& obstacles, list<infoPath>& o
 
 	w_stream<<"\n";
 	for (list<cArc>::iterator it = cArcGraph->begin(); it != cArcGraph->end(); it++) {
-		w_stream<<"arc 0 1 "<<*it<<"\n";
+		w_stream<<"arc 0 0 "<<scale*0.3<<" "<<*it<<"\n";
 	}
 
 	for (list<cNode>::iterator it = cObst->begin(); it != cObst->end(); it++) {
-		w_stream<<"point "<<4<<" 0 0.4 ";
+		w_stream<<"point 4 3 "<<scale*0.4<<" ";
 		printRCNode(w_stream, *it);
 		w_stream<<"\n";
 	}
@@ -169,26 +169,26 @@ void writeSolSPPAO(list<Node*>& graph, list<Node*>& obstacles, list<infoPath>& o
         	child != (*it)->l_adj.end(); child++) {
 				if (child->arc_d <= min_d) {
             		aN = cArc({*it, child->node, child->arc_c, rAi, gAi, bAi});
-					w_stream<<"arc "<<4*(indPath+1)<<" 2 "<<aN<<"\n";
+					w_stream<<"arc "<<4*(indPath+1)<<" 1 "<<scale*0.4<<" "<<aN<<"\n";
 				}
 			}
 		}
 
 		for (list<cNode>::iterator it = cObst->begin(); it != cObst->end(); it++) {
-			w_stream<<"point "<<4*(indPath+1)<<" 0 "<<min_d<<" ";
+			w_stream<<"point "<<4*(indPath+1)<<" 3 "<<min_d<<" ";
 			printRCNode(w_stream, *it);
 			w_stream<<"\n";
 		}
 
 		list<cArc>* currPath = simplePathToCArc(*(it->path));
 		for (list<cArc>::iterator arcPath = currPath->begin(); arcPath != currPath->end(); arcPath++) {
-			w_stream<<"arc "<<4*indPath<<" 2 "<<*arcPath<<"\n";
+			w_stream<<"arc "<<4*indPath<<" 1 "<<to_string(scale*0.4)<<" "<<*arcPath<<"\n";
 		}
 		w_stream<<"info "<<4*indPath<<" 0 "<<it->c<<" "<<it->d<<"\n";
 		indPath++;
 	}
 	for (list<cNode>::iterator it = cGraph->begin(); it != cGraph->end(); it++) {
-		w_stream<<"point 0 3 0.24 ";
+		w_stream<<"point 0 2 "<<to_string(scale*0.24)<<" ";
 		printRCNode(w_stream, *it);
 		w_stream<<"\n";
 	}
@@ -408,23 +408,53 @@ void testLoading() {
 
 
 void testSPPAO2(int P=10, int Q=10, int O=5, double prop_square=0.5, double prop_merge=0.5) {
+	cout<<P<<Q<<O<<prop_square<<prop_merge<<endl;
+	/*
 	list<Node*>* l = makeGraph(P, Q, prop_square, prop_merge);
 	naturalWeight(*l);
-	Node* node1;
-	Node* node2;
+	*/
+
+	filesystem::path infilepath = filesystem::current_path();
+	infilepath /= "data";
+	infilepath /= "newDB";
+	infilepath /= "instance_569.txt";
+	ifstream reading(infilepath, ios::in);
+	list<Node*>* l = new list<Node*>();
+	reading>>*l;
+	reading.close();
+
+
+	double x_min = l->front()->x;
+	double x_max = l->front()->x;
+	double y_min = l->front()->y;
+	double y_max = l->front()->y;
+	int max_no = l->front()->no;
+	for (list<Node*>::iterator point = l->begin(); point != l->end(); point++) {
+		if ((*point)->x < x_min) {x_min = (*point)->x;}
+		if ((*point)->x > x_max) {x_max = (*point)->x;}
+		if ((*point)->y < y_min) {y_min = (*point)->y;}
+		if ((*point)->y > y_max) {y_max = (*point)->y;}
+		if ((*point)->no > max_no) {max_no = (*point)->no;}
+	}
+	double n_points = nbNodes(*l);
+	double n_arcs = nbArcs(*l);
+	cout<<"Nb nodes : "<<n_points<<endl;
+	Node* node1 = l->front();
+	Node* node2 = l->front();
 	for (list<Node*>::iterator it = l->begin(); it != l->end(); it++) {
-		if ((*it)->x <= 2 && (*it)-> y <= 2) {
+		if ((*it)->x + (*it)->y < node1->x + node1->y) {
 			node1 = *it;
-			break;
 		}
 	}
 	for (list<Node*>::iterator it = l->begin(); it != l->end(); it++) {
-		if ((*it)->x >= Q-2 && (*it)-> y >= P-2) {
+		if ((*it)->x + (*it)->y > node2->x + node2->y) {
 			node2 = *it;
-			break;
 		}
 	}
-	list<Node*>* obstacles = createObstacles(1, 1, Q, P, P*Q+1, O);
+	cout<<"Node 1 : "<<node1<<"\nNode 2 : "<<node2<<endl;
+
+
+	list<Node*>* obstacles = createObstacles(x_min, y_min, x_max, y_max, max_no+1, O);
 	computeArcD(*l, *obstacles);
 	list<list<bunchOfArcs>>* arcsToAddLists = buildArcsToAdd(*l);
 
@@ -433,7 +463,11 @@ void testSPPAO2(int P=10, int Q=10, int O=5, double prop_square=0.5, double prop
 	filepath /= "data";
 	filepath /= "testSPPAO2.txt";
 	ofstream writing(filepath, ios::out);
-	writeSolSPPAO(*l, *obstacles, *l_res, writing);
+	if (n_arcs/n_points < 6) {
+		writeSolSPPAO(*l, *obstacles, *l_res, writing);
+	} else {
+		writeSolSPPAO(*l, *obstacles, *l_res, writing, 0.1);
+	}
 	writing.close();
 
 	resetGraph(*l);
@@ -444,7 +478,11 @@ void testSPPAO2(int P=10, int Q=10, int O=5, double prop_square=0.5, double prop
 	filepath /= "data";
 	filepath /= "testWeirdSPPAO.txt";
 	writing= ofstream(filepath, ios::out);
-	writeSolSPPAO(*l, *obstacles, *SPPAOres, writing);
+	if (n_arcs/n_points < 6) {
+		writeSolSPPAO(*l, *obstacles, *SPPAOres, writing);
+	} else {
+		writeSolSPPAO(*l, *obstacles, *SPPAOres, writing, 0.1);
+	}
 	writing.close();
 	for (list<infoPath>::iterator it = SPPAOres->begin(); it != SPPAOres->end(); it++) {
 		delete it->path;
@@ -711,7 +749,7 @@ void newCompleteDB() {
 	points.push_back(200);
 	points.push_back(600);
 	points.push_back(1000);
-	createDB_complete(points, 1, 30, "newDB/instance_", ".txt", 1, 1, 450);
+	createDB_complete(points, 1, 30, "completeDB/instance_", ".txt", 1, 1, 450);
 }
 
 
@@ -1732,12 +1770,12 @@ int main(int argc, char *argv[])
 	//testSPPAO1(P, Q, O, p_square, p_merge);
 	//testLoading();
 	//testPathMinD(P, Q, O, p_square, p_merge);
-	//testSPPAO2(P, Q, O, p_square, p_merge);
+	testSPPAO2(P, Q, O, p_square, p_merge);
 	//compareSPPAOs(P, Q, O, p_square, p_merge);
 	//testGraph2(2000, 1, 0);
 	//testDB();
 	//realDB();
-	newCompleteDB();
+	//newCompleteDB();
 	//completingDB();
 	//showDB("realDB", 2000, 3.6);
 	//manuallyCompletingDB(2000, 1, 0, 420, 1.8, 30, "realDB/instance_", ".txt");

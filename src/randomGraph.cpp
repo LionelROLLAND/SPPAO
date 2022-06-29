@@ -457,12 +457,13 @@ list<Node*>* generalGraph(int n, double density) {
     double r_screen = 1920./1080.;
     double P = 1 + (int) sqrt(n/r_screen);
     double Q = (int) P*r_screen;
+    double dilatation = 1;
     int arcsToAdd = (int) density*n*(n-1);
     int remainingArcs = n*(n-1);
     double p_remaining = ((double) arcsToAdd)/remainingArcs;
     default_random_engine generator;
-    uniform_real_distribution distribx(0., Q);
-    uniform_real_distribution distriby(0., P);
+    uniform_real_distribution distribx(0., dilatation*Q);
+    uniform_real_distribution distriby(0., dilatation*P);
     uniform_real_distribution prop(0., 1.);
     list<Node*>* res = new list<Node*>();
     Node* newNode;
