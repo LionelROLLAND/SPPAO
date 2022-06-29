@@ -26,4 +26,6 @@ bool compSimpleArc(const simpleArc& a1, const simpleArc& a2);
 
 list<list<bunchOfArcs>>* buildArcsToAdd(list<Node*>& graph);
 
+list<Node*>* generalGraph(int n, double density=1);
+
 #endif

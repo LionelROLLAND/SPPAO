@@ -22,7 +22,7 @@ class Node
         double x;
         double y;
         list<arcNode> l_adj;
-        Matrix<double>* adj;
+        //Matrix<double>* adj;
         bool marked;
         double c_to_s;
         double d_to_S;
@@ -30,13 +30,12 @@ class Node
         markTree<Node*>* tree;
         list<arcNode> rev_adj;
         double c_to_t;
-        double step;
         Node(int n=0, double absc=0., double ord=0., list<arcNode> l=list<arcNode>(),
-                Matrix<double>* A=nullptr, bool m=false, double dist=inf, double d=0, 
+                /* Matrix<double>* A=nullptr, */ bool m=false, double dist=inf, double d=0, 
                 arcNode* pr=nullptr, markTree<Node*>* Tr=nullptr,
-                list<arcNode> rev_l=list<arcNode>(), double rev_dist=inf, double curr_step=-1) : no(n),
-                x(absc), y(ord), l_adj(l), adj(A), marked(m), c_to_s(dist), d_to_S(d), pred(pr), tree(Tr),
-                rev_adj(rev_l), c_to_t(rev_dist), step(curr_step) {}
+                list<arcNode> rev_l=list<arcNode>(), double rev_dist=inf) : no(n),
+                x(absc), y(ord), l_adj(l), /* adj(A), */ marked(m), c_to_s(dist), d_to_S(d), pred(pr), tree(Tr),
+                rev_adj(rev_l), c_to_t(rev_dist) {}
         Node(const Node& n);
         ~Node() {}
         Node& operator= (const Node& t);
@@ -108,7 +107,6 @@ class arcNode
         arcNode*& pred() {return node->pred;}
         markTree<Node*>*& tree() {return node->tree;}
         int& no() {return node->no;}
-        double& step() {return node->step;}
 };
 
 
@@ -139,13 +137,15 @@ list<cArc>* graphToCArc(list<Node*>& graph);
 
 list<cArc>* simplePathToCArc(list<Node*>& path);
 
-bool check_mat(const Node* v1, const Node* v2);
+//bool check_mat(const Node* v1, const Node* v2);
 
 ostream& operator<< (ostream& out, const Node& t);
 
 ostream& operator<< (ostream& out, Node* t);
 
-double& c(Node* v1, Node* v2);
+//double& c(Node* v1, Node* v2);
+
+double c(Node* v1, Node* v2);
 
 void connect(Node* v1, Node* v2, double weight=1);
 
@@ -161,11 +161,11 @@ void contract(Node* v1, Node* v2);
 
 void clean(list<Node*>& l);
 
-void normalize(list<Node*>& l); //to change ?
+void normalize(list<Node*>& l);
 
-void naturalWeight(list<Node*>& l); //to change ?
+void naturalWeight(list<Node*>& l);
 
-list<Node*>* graphCopy(list<Node*>& l); //to change ?
+list<Node*>* graphCopy(list<Node*>& l);
 
 double d(Node* n1, Node* n2, Node* obs);
 

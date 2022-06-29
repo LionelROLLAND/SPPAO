@@ -35,6 +35,7 @@
 #include "secondSPPAO.hpp"
 
 bool logs;
+int nb_rand_runs = 0;
 
 namespace po = boost::program_options;
 using namespace std;
@@ -70,7 +71,7 @@ void writeNodeList(list<Node*>& l, ofstream& w_stream) {
 	w_stream<<"\n";
 	for (list<Node*>::iterator it = l.begin(); it != l.end(); it ++) {
 		for (list<arcNode>::iterator v = (*it)->l_adj.begin(); v != (*it)->l_adj.end(); v++) {
-			w_stream<<(*it)->no<<" "<<v->node->no<<" "<<c(*it, v->node)<<"\n";
+			w_stream<<(*it)->no<<" "<<v->node->no<<" "<<v->arc_c<<"\n";
 		}
 	}
 }
@@ -167,7 +168,7 @@ void writeSolSPPAO(list<Node*>& graph, list<Node*>& obstacles, list<infoPath>& o
 			for (list<arcNode>::iterator child = (*it)->l_adj.begin();
         	child != (*it)->l_adj.end(); child++) {
 				if (child->arc_d <= min_d) {
-            		aN = cArc({*it, child->node, c(*it, child->node), rAi, gAi, bAi});
+            		aN = cArc({*it, child->node, child->arc_c, rAi, gAi, bAi});
 					w_stream<<"arc "<<4*(indPath+1)<<" 2 "<<aN<<"\n";
 				}
 			}
@@ -574,7 +575,7 @@ struct param
 };
 
 void createDB(list<int>& nbs_points, int n_breaks=5, int n_samp=10, string pref="",
-string suff=".txt", double densityInf=1.5, double densityMax=2.9, int min_ind=0) {
+string suff=".txt", double densityInf=3, double densityMax=5.8, int min_ind=0) {
 	int graphInd = min_ind;
 	default_random_engine generator;
     uniform_real_distribution distribUnit(0., 1.);
@@ -587,7 +588,11 @@ string suff=".txt", double densityInf=1.5, double densityMax=2.9, int min_ind=0)
 		vector<int> nbs_arcs = vector<int>(n_breaks);
 		vector<list<param>> params = vector<list<param>>(n_breaks);
 		for (int i = 0; i != n_breaks; i++) {
-			nbs_arcs[i] = (int) ( (densityInf + i*(densityMax-densityInf)/(n_breaks-1))*(*n_it) );
+			if (n_breaks != 1) {
+				nbs_arcs[i] = (int) ( (densityInf + i*(densityMax-densityInf)/(n_breaks-1))*(*n_it) );
+			} else {
+				nbs_arcs[i] = (int) (densityInf*(*n_it));
+			}
 			params[i] = list<param>();
 		}
 		for (int i = 0; i != n_breaks; i++) {
@@ -622,10 +627,11 @@ string suff=".txt", double densityInf=1.5, double densityMax=2.9, int min_ind=0)
 
 void realDB() {
 	list<int> point = list<int>();
-	point.push_back(20);
-	point.push_back(200);
-	point.push_back(2000);
-	createDB(point, 5, 30, "realDB/instance_", ".txt", 1.8, 2.6);
+	point.push_back(500);
+	point.push_back(1000);
+	//point.push_back(2000);
+	//createDB(point, 2, 30, "newDB/instance_", ".txt", 4.6, 5.6);
+	createDB(point, 1, 30, "newDB/instance_", ".txt", 3.6, 3.6, 180);
 }
 
 
@@ -655,9 +661,63 @@ double density=1.8, int n_samp=10, string pref="", string suff=".txt") {
 }
 
 
+void showDB(string dir, int n_arcs, double dens) {
+	filesystem::path indirpath = filesystem::current_path();
+	indirpath /= "data";
+	indirpath /= dir;
+	for (const auto& file : filesystem::directory_iterator(indirpath)) {
+		filesystem::path infilepath = file.path();
+		ifstream reading(infilepath, ios::in);
+		list<Node*>* graph = new list<Node*>();
+		reading>>*graph;
+		reading.close();
+		int n = nbNodes(*graph);
+		double d = ((double) nbArcs(*graph))/n;
+		if (n == n_arcs && d == dens) {
+			cout<<infilepath<<endl;
+		}
+		deleteGraph(graph);
+	}
+}
+
+
+void createDB_complete(list<int>& nb_points, int n_breaks=5, int n_samp=30, string pref="",
+string suff=".txt", double densityInf=1, double densityMax=1, int min_ind=0) {
+	int graphInd = min_ind;
+	double dens;
+	for (list<int>::iterator n_it = nb_points.begin(); n_it != nb_points.end(); n_it++) {
+		for (int i = 0; i != n_breaks; i++) {
+			for (int j = 0; j != n_samp; j++) {
+				if (n_breaks != 1) {
+					dens = densityInf + i*(densityMax-densityInf)/(n_breaks-1);
+				} else {
+					dens = densityInf;
+				}
+				list<Node*>* graph = generalGraph(*n_it, dens);
+				naturalWeight(*graph);
+				writeFileCwd(*graph, pref + to_string(graphInd) + suff);
+				graphInd++;
+				cout<<"nodes : "<<*n_it<<", arcs : "<<nbArcs(*graph)<<endl;
+				deleteGraph(graph);
+			}
+		}
+	}
+}
+
+
+void newCompleteDB() {
+	list<int> points = list<int>();
+	points.push_back(100);
+	points.push_back(200);
+	points.push_back(600);
+	points.push_back(1000);
+	createDB_complete(points, 1, 30, "newDB/instance_", ".txt", 1, 1, 450);
+}
+
+
 void checkSPPAO() {
-	int retrieving_rand_runs = 129088;
-	int n_obs = 500;
+	int retrieving_rand_runs = 202218;
+	int n_obs = 3;
 
 	default_random_engine generator;
     uniform_real_distribution distribx(0., 1.);
@@ -670,7 +730,7 @@ void checkSPPAO() {
 	filesystem::path infilepath = filesystem::current_path();
 	infilepath /= "data";
 	infilepath /= "realDB";
-	infilepath /= "instance_92.txt";
+	infilepath /= "instance_155.txt";
 	ifstream reading(infilepath, ios::in);
 	list<Node*>* l = new list<Node*>();
 	reading>>*l;
@@ -705,11 +765,13 @@ void checkSPPAO() {
 
 	list<Node*>* obstacles = createObstacles(x_min, y_min, x_max, y_max, max_no+1, n_obs);
 	computeArcD(*l, *obstacles);
-	list<infoPath>* res = firstSPPAO(*l, node1, node2);
+	list<infoPath>* res = secondSPPAO(*l, node1, node2);
+
+	cout<<"nb res second : "<<res->size()<<endl;
 
 	filesystem::path outfilepath = filesystem::current_path();
 	outfilepath /= "data";
-	outfilepath /= "testSPPAO1.txt";
+	outfilepath /= "testSPPAO2.txt";
 	ofstream writing(outfilepath, ios::out);
 	writeSolSPPAO(*l, *obstacles, *res, writing);
 	writing.close();
@@ -717,8 +779,28 @@ void checkSPPAO() {
 		delete it->path;
 	}
 	delete res;
+
+	list<list<bunchOfArcs>>* arcsToAddLists = buildArcsToAdd(*l);
+	res = weirdSPPAO(*arcsToAddLists, node1, node2);
+
+	cout<<"nb res weird : "<<res->size()<<endl;
+
+	outfilepath = filesystem::current_path();
+	outfilepath /= "data";
+	outfilepath /= "testWeirdSPPAO.txt";
+	writing = ofstream(outfilepath, ios::out);
+	writeSolSPPAO(*l, *obstacles, *res, writing);
+	writing.close();
+	for (list<infoPath>::iterator it = res->begin(); it != res->end(); it++) {
+		delete it->path;
+	}
+	delete res;
+
+
+
 	deleteGraph(obstacles);
 	deleteGraph(l);
+
 }
 
 
@@ -747,6 +829,7 @@ void statSPPAO(string dir, list<int>& obstacles, ostream& out, ostream& dataOut)
 	double t2;
 	double t_comp;
 	int n_samp;
+	int nb_rand;
 	auto start_pb = chrono::system_clock::now();
 	chrono::duration<double> elapsed1;
 	chrono::duration<double> elapsed2;
@@ -792,6 +875,8 @@ void statSPPAO(string dir, list<int>& obstacles, ostream& out, ostream& dataOut)
 
 			//cout<<"\nBefore obstacles and arc d"<<endl;
 
+			nb_rand = nb_rand_runs;
+
 			list<Node*>* obsList = createObstacles(x_min, y_min, x_max, y_max, max_no+1, *n_obs);
 			computeArcD(*l, *obsList);
 			list<list<bunchOfArcs>>* arcsToAddLists = buildArcsToAdd(*l);
@@ -801,10 +886,6 @@ void statSPPAO(string dir, list<int>& obstacles, ostream& out, ostream& dataOut)
 			start_pb = chrono::system_clock::now();
 			list<infoPath>* l_res = secondSPPAO(*l, node1, node2, &n1, &n2, &t1, &t2);
 			elapsed2 = chrono::system_clock::now() - start_pb;
-
-			for (list<infoPath>::iterator it = l_res->begin(); it != l_res->end(); it++) {
-				delete it->path;
-			}
 
 			resetGraph(*l);
 
@@ -820,11 +901,44 @@ void statSPPAO(string dir, list<int>& obstacles, ostream& out, ostream& dataOut)
 			results.push_back(resultSPPAO({n_nodes, ((double) n_arcs)/n_nodes, *n_obs,
 			(int) SPPAOres->size(), n1, n2, n, t1, t2, t_comp,
 			elapsed1.count(), elapsed2.count()}));
-			if (SPPAOres->size() != l_res->size()) {cout<<"NOT THE SAME RESULTS"<<endl;}
+			if (SPPAOres->size() != l_res->size()) {
+				cout<<"NOT THE SAME RESULTS : ";
+				cout<<"nb res second : "<<l_res->size()<<endl;
+				cout<<"nb res weird : "<<SPPAOres->size()<<endl;
+				cout<<infilepath<<endl;
+				cout<<"n_obs = "<<*n_obs<<endl;
+				cout<<"rand_runs = "<<nb_rand<<endl;
+
+				//cout<<"l weird : "<<endl;
+				//for (list<infoPath>::iterator it = SPPAOres)
+
+
+				filesystem::path outfilepath = filesystem::current_path();
+				outfilepath /= "data";
+				outfilepath /= "testSPPAO2.txt";
+				ofstream writing(outfilepath, ios::out);
+				writeSolSPPAO(*l, *obsList, *l_res, writing);
+				writing.close();
+
+				outfilepath = filesystem::current_path();
+				outfilepath /= "data";
+				outfilepath /= "testWeirdSPPAO.txt";
+				writing = ofstream(outfilepath, ios::out);
+				writeSolSPPAO(*l, *obsList, *SPPAOres, writing);
+				writing.close();
+				//return;
+
+			}
+
+			for (list<infoPath>::iterator it = l_res->begin(); it != l_res->end(); it++) {
+				delete it->path;
+			}
+			delete l_res;
 
 			for (list<infoPath>::iterator it = SPPAOres->begin(); it != SPPAOres->end(); it++) {
 				delete it->path;
 			}
+			delete SPPAOres;
 
 			resetGraph(*l);
 
@@ -1618,16 +1732,18 @@ int main(int argc, char *argv[])
 	//testSPPAO1(P, Q, O, p_square, p_merge);
 	//testLoading();
 	//testPathMinD(P, Q, O, p_square, p_merge);
-	testSPPAO2(P, Q, O, p_square, p_merge);
+	//testSPPAO2(P, Q, O, p_square, p_merge);
 	//compareSPPAOs(P, Q, O, p_square, p_merge);
 	//testGraph2(2000, 1, 0);
 	//testDB();
 	//realDB();
+	newCompleteDB();
 	//completingDB();
+	//showDB("realDB", 2000, 3.6);
 	//manuallyCompletingDB(2000, 1, 0, 420, 1.8, 30, "realDB/instance_", ".txt");
-	//writeStatSPPAO("statsSPPAO__labelUpdate.tex", "dataSPPAO_labelUpdate.txt");
+	//writeStatSPPAO("statsSPPAO__addArcs.tex", "dataSPPAO_addArcs.txt");
 	//checkSPPAO();
-	//writeComparison("dataSPPAO_CstarD.txt", "dataSPPAO_labelUpdate.txt", "SPPAOcomparison_labelUpdate.tex");
+	//writeComparison("dataSPPAO_labelUpdate.txt", "dataSPPAO_addArcs.txt", "SPPAOcomparison_labUpdate_addaArcs.tex");
 	//writeCompareMethod("dataSPPAO_CstarD.txt", "methodsCompareCstar.tex");
 }
 

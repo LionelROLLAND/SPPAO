@@ -198,10 +198,9 @@ list<Node*>* makeGraph2(int nb_points, double prop_square, double expand_max_pro
     if (logs) {cout<<"\nSTEP 1/4  [..]";}
     list<Node*>* nodes = new list<Node*>();
     Matrix<Node*> hex(P, Q, nullptr);
-    Matrix<double>* adjacency = new Matrix<double>(P*Q, P*Q, inf_d());
     for (int i = 1; i <= P; i++) {
         for (int j = 1; j <= Q; j++) {
-            Node* new_node = new Node((i-1)*Q + j, j, i, list<arcNode>(), adjacency);
+            Node* new_node = new Node((i-1)*Q + j, j, i);
             hex(i, j) = new_node;
             nodes->push_front(new_node);
             if (i == 1 && j == 1) {
@@ -357,6 +356,7 @@ list<Node*>* createObstacles(double infx, double infy, double supx, double supy,
     for (int i = n_min; i < n_min+n; i++) {
         x = distribx(generator);
         y = distriby(generator);
+        nb_rand_runs += 2;
         res->push_back(new Node(i, x, y));
     }
     return res;
@@ -391,7 +391,6 @@ void resetGraph(list<Node*>& graph) {
         if ((*it)->pred != nullptr) {delete (*it)->pred;}
         (*it)->pred = nullptr;
         (*it)->tree = nullptr;
-        (*it)->step = -1;
     }
 }
 
@@ -447,6 +446,43 @@ list<list<bunchOfArcs>>* buildArcsToAdd(list<Node*>& graph) {
             while (sArc != arcs.end() && sArc->node == currNode && sArc->arc.arc_d == currD) {
                 res->back().back().rev_adj.push_front(sArc->arc);
                 sArc++;
+            }
+        }
+    }
+    return res;
+}
+
+
+list<Node*>* generalGraph(int n, double density) {
+    double r_screen = 1920./1080.;
+    double P = 1 + (int) sqrt(n/r_screen);
+    double Q = (int) P*r_screen;
+    int arcsToAdd = (int) density*n*(n-1);
+    int remainingArcs = n*(n-1);
+    double p_remaining = ((double) arcsToAdd)/remainingArcs;
+    default_random_engine generator;
+    uniform_real_distribution distribx(0., Q);
+    uniform_real_distribution distriby(0., P);
+    uniform_real_distribution prop(0., 1.);
+    list<Node*>* res = new list<Node*>();
+    Node* newNode;
+    for (int i = 1; i <= n; i++) {
+        newNode = new Node(i, distribx(generator), distriby(generator));
+        res->push_back(newNode);
+        for (list<Node*>::iterator it = res->begin(); it != res->end(); it++) {
+            if (*it != newNode) {
+                if (prop(generator) <= p_remaining) {
+                    connect(newNode, *it);
+                    arcsToAdd--;
+                }
+                remainingArcs--;
+                p_remaining = ((double) arcsToAdd)/remainingArcs;
+                if (prop(generator) <= p_remaining) {
+                    connect(*it, newNode);
+                    arcsToAdd--;
+                }
+                remainingArcs--;
+                p_remaining = ((double) arcsToAdd)/remainingArcs;
             }
         }
     }

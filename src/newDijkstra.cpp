@@ -664,7 +664,7 @@ infoPath dijkstraOptiCD_condCstarD(Node* s, Node* t, double strict_min_d, double
     return makePath(t);
 }
 
-
+/*
 infoPath dijkstraOptiCD_condCstarD_step(Node* s, Node* t, double strict_min_d, double strict_max_c) {
     //cout<<"s = "<<s<<", t = "<<t<<endl;
     s->c_to_s = 0;
@@ -686,11 +686,6 @@ infoPath dijkstraOptiCD_condCstarD_step(Node* s, Node* t, double strict_min_d, d
                 newLength = to_relax->c_to_s + neighb->arc_c;
                 if (neighb->step() < strict_min_d) {
 
-                    /*
-                    if (neighb->pred() == nullptr) {
-                        cout<<"Pb nullptr, to_relax = "<<to_relax<<endl;
-                    }
-                    */
 
 
                     neighb->c_to_s() = newLength;
@@ -704,13 +699,7 @@ infoPath dijkstraOptiCD_condCstarD_step(Node* s, Node* t, double strict_min_d, d
                     neighb->step() = strict_min_d;
                 } else if (newLength + neighb->c_to_t() < strict_max_c && newLength < neighb->c_to_s()) {
 
-                    /*
-                    if (neighb->pred() == nullptr) {
-                        cout<<"Pb nullptr, to_relax = "<<to_relax<<endl;
-                    }
 
-                    cout<<neighb->node<<endl;
-                    */
 
                     neighb->c_to_s() = newLength;
                     neighb->d_to_S() = min(to_relax->d_to_S, neighb->arc_d);
@@ -730,13 +719,6 @@ infoPath dijkstraOptiCD_condCstarD_step(Node* s, Node* t, double strict_min_d, d
                     newDist = min(to_relax->d_to_S, neighb->arc_d);
                     if (newDist > neighb->d_to_S()) {
 
-                        /*
-                        if (neighb->pred() == nullptr) {
-                            cout<<"Pb nullptr, to_relax = "<<to_relax<<endl;
-                        }
-
-                        cout<<neighb->node<<endl;
-                        */
 
                         neighb->c_to_s() = newLength;
                         neighb->d_to_S() = newDist;
@@ -763,8 +745,11 @@ infoPath dijkstraOptiCD_condCstarD_step(Node* s, Node* t, double strict_min_d, d
         return to_return;
     }
 }
+*/
 
 
+
+/*
 infoPath revDijkstraOptiCD_condCstarD_step(Node* s, Node* t, double strict_min_d, double strict_max_c) {
     //cout<<"s = "<<s<<", t = "<<t<<endl;
     t->c_to_t = 0;
@@ -786,11 +771,7 @@ infoPath revDijkstraOptiCD_condCstarD_step(Node* s, Node* t, double strict_min_d
                 newLength = to_relax->c_to_t + neighb->arc_c;
                 if (neighb->step() < strict_min_d) {
 
-                    /*
-                    if (neighb->pred() == nullptr) {
-                        cout<<"Pb nullptr, to_relax = "<<to_relax<<endl;
-                    }
-                    */
+
 
 
                     neighb->c_to_t() = newLength;
@@ -804,13 +785,7 @@ infoPath revDijkstraOptiCD_condCstarD_step(Node* s, Node* t, double strict_min_d
                     neighb->step() = strict_min_d;
                 } else if (newLength + neighb->c_to_s() < strict_max_c && newLength < neighb->c_to_t()) {
 
-                    /*
-                    if (neighb->pred() == nullptr) {
-                        cout<<"Pb nullptr, to_relax = "<<to_relax<<endl;
-                    }
 
-                    cout<<neighb->node<<endl;
-                    */
 
 
                     neighb->c_to_t() = newLength;
@@ -831,13 +806,6 @@ infoPath revDijkstraOptiCD_condCstarD_step(Node* s, Node* t, double strict_min_d
                     newDist = min(to_relax->d_to_S, neighb->arc_d);
                     if (newDist > neighb->d_to_S()) {
 
-                        /*
-                        if (neighb->pred() == nullptr) {
-                            cout<<"Pb nullptr, to_relax = "<<to_relax<<endl;
-                        }
-
-                        cout<<neighb->node<<endl;
-                        */
 
 
                         neighb->c_to_t() = newLength;
@@ -867,6 +835,7 @@ infoPath revDijkstraOptiCD_condCstarD_step(Node* s, Node* t, double strict_min_d
         return to_return;
     }
 }
+*/
 
 
 
