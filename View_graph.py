@@ -256,7 +256,7 @@ def displayBetterGraph(tab_points, plotings):
 
 		change_frame = pygame.event.custom_type()
 		if animated:
-			pygame.time.set_timer(change_frame, 200)
+			pygame.time.set_timer(change_frame, 1200)
 		
 		while playing :
 			clock.tick(30)

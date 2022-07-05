@@ -22,6 +22,9 @@ struct complexKey
 };
 
 
+extern long int n_labels;
+
+
 infoPath makePath(Node* t);
 
 infoPath revMakePath(Node* s);

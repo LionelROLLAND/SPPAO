@@ -347,7 +347,7 @@ list<Node*>* makeGraph2(int nb_points, double prop_square, double expand_max_pro
 
 
 list<Node*>* createObstacles(double infx, double infy, double supx, double supy, int n_min, int n) {
-    default_random_engine generator;
+    default_random_engine generator(rand());
     uniform_real_distribution distribx(infx, supx);
     uniform_real_distribution distriby(infy, supy);
     double x;
@@ -461,7 +461,7 @@ list<Node*>* generalGraph(int n, double density) {
     int arcsToAdd = (int) density*n*(n-1);
     int remainingArcs = n*(n-1);
     double p_remaining = ((double) arcsToAdd)/remainingArcs;
-    default_random_engine generator;
+    default_random_engine generator(rand());
     uniform_real_distribution distribx(0., dilatation*Q);
     uniform_real_distribution distriby(0., dilatation*P);
     uniform_real_distribution prop(0., 1.);
