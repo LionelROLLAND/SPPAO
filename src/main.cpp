@@ -1273,15 +1273,16 @@ void statSS(string dir, list<int>& obstacles, ostream& out)
 
 			list<Node*>* obsList = createObstacles(x_min, y_min, x_max, y_max, max_no+1, *n_obs);
 			computeArcD(*l, *obsList);
-			list<list<bunchOfArcs>>* arcsToAddLists = buildArcsToAdd(*l);
+			//list<list<bunchOfArcs>>* arcsToAddLists = buildArcsToAdd(*l);
 
 			//cout<<"\nJust before secondSPPAO"<<endl;
 
 			n_labels = 0;
 			start_pb = chrono::system_clock::now();
 
+			list<infoPath>* SPPAOres = firstSPPAO(*l, node1, node2);
 			//list<infoPath>* SPPAOres = firstSPPAO_update(*l, node1, node2, &n, &t_comp);
-			list<infoPath>* SPPAOres = weirdSPPAO(*arcsToAddLists, node1, node2);
+			//list<infoPath>* SPPAOres = weirdSPPAO(*arcsToAddLists, node1, node2);
 			
 			elapsed1 = chrono::system_clock::now() - start_pb;
 
@@ -1311,7 +1312,93 @@ void statSS(string dir, list<int>& obstacles, ostream& out)
 }
 
 
-//void statBS(string dir, list)
+void statBS(string dir, list<int>& obstacles, ostream& out) {
+	int n1;
+	int n2;
+	double t1;
+	double t2;
+	auto start_pb = chrono::system_clock::now();
+	chrono::duration<double> elapsed1;
+	list<resultBS> results = list<resultBS>();
+	for (const auto& file : filesystem::directory_iterator(dir)) {
+		filesystem::path infilepath = file.path();
+		//cout<<"\n"<<infilepath<<endl;
+		ifstream reading(infilepath, ios::in);
+		list<Node*>* l = new list<Node*>();
+		reading>>*l;
+		//cout<<"\nAfter reading"<<endl;
+		reading.close();
+		int n_nodes = nbNodes(*l);
+		int n_arcs = nbArcs(*l);
+
+		double x_min = l->front()->x;
+		double x_max = l->front()->x;
+		double y_min = l->front()->y;
+		double y_max = l->front()->y;
+		int max_no = l->front()->no;
+		for (list<Node*>::iterator point = l->begin(); point != l->end(); point++) {
+			if ((*point)->x < x_min) {x_min = (*point)->x;}
+			if ((*point)->x > x_max) {x_max = (*point)->x;}
+			if ((*point)->y < y_min) {y_min = (*point)->y;}
+			if ((*point)->y > y_max) {y_max = (*point)->y;}
+			if ((*point)->no > max_no) {max_no = (*point)->no;}
+		}
+		Node* node1;
+		Node* node2;
+		for (list<Node*>::iterator it = l->begin(); it != l->end(); it++) {
+			if ((*it)->x <= x_min + 1 && (*it)-> y <= y_min + 1) {
+				node1 = *it;
+				break;
+			}
+		}
+		for (list<Node*>::iterator it = l->begin(); it != l->end(); it++) {
+			if ((*it)->x >= x_max-1 && (*it)-> y >= y_max-1) {
+				node2 = *it;
+				break;
+			}
+		}
+		for (list<int>::iterator n_obs = obstacles.begin(); n_obs != obstacles.end(); n_obs++) {
+
+			//cout<<"\nBefore obstacles and arc d"<<endl;
+
+
+			list<Node*>* obsList = createObstacles(x_min, y_min, x_max, y_max, max_no+1, *n_obs);
+			computeArcD(*l, *obsList);
+
+			//cout<<"\nJust before secondSPPAO"<<endl;
+
+			n_labels = 0;
+			start_pb = chrono::system_clock::now();
+
+			list<infoPath>* SPPAOres = secondSPPAO(*l, node1, node2, &n1, &n2, &t1, &t2);
+			
+			elapsed1 = chrono::system_clock::now() - start_pb;
+
+
+			results.push_back(resultBS({n_nodes, n_arcs, *n_obs,
+			(int) SPPAOres->size(), n1, n2, t1, t2, n_labels, elapsed1.count()}));
+
+			for (list<infoPath>::iterator it = SPPAOres->begin(); it != SPPAOres->end(); it++) {
+				delete it->path;
+			}
+			delete SPPAOres;
+
+			resetGraph(*l);
+
+
+			deleteGraph(obsList);
+
+
+
+
+		}
+		deleteGraph(l);
+	}
+	for (list<resultBS>::iterator it = results.begin(); it != results.end(); it++) {
+		out<<it->nb_nodes<<" "<<it->nb_arcs<<" "<<it->n_obs<<" "<<it->n_res<<" ";
+		out<<it->D1<<" "<<it->D2<<" "<<it->T1<<" "<<it->T2<<" "<<it->n_labels<<" "<<it->T<<"\n";
+	}
+}
 
 
 struct meanResultSS
@@ -1336,15 +1423,22 @@ struct meanResultBS
 	double D2;
 	double T1;
 	double T2;
-	long int n_labels;
+	double n_labels;
 	double T;
 	double sdT;
 };
 
 
-list<resultSS>* to_results(istream& in) {
+string next(string& toParse) {
+	int cut = min(toParse.find_first_of(" "), toParse.find_first_of("\n"));
+    string res = toParse.substr(0,cut);
+    toParse = toParse.substr(cut+1);
+	return res;
+}
+
+
+list<resultSS>* to_resultSS(istream& in) {
 	string line;
-    string number;
 	int n;
 	int m;
 	int nObs;
@@ -1352,40 +1446,21 @@ list<resultSS>* to_results(istream& in) {
 	long int labs;
 	double time;
 
-	int cut;
     istream& state = getline(in, line);
 	list<resultSS>* res = new list<resultSS>();
     while (state && line.compare("") != 0) {
-        cut = line.find_first_of(" ");
-        number = line.substr(0,cut);
-        line = line.substr(cut+1);
-        //cout<<number<<endl;
-        n = stoi(number);
+		n = stoi(next(line));
 
-        cut = min(line.find_first_of(" "), line.find_first_of("\n"));
-        number = line.substr(0,cut);
-        line = line.substr(cut+1);
-		m = stoi(number);
+		m = stoi(next(line));
 
-		cut = min(line.find_first_of(" "), line.find_first_of("\n"));
-        number = line.substr(0,cut);
-        line = line.substr(cut+1);
-		nObs = stoi(number);
+		nObs = stoi(next(line));
 
-		cut = min(line.find_first_of(" "), line.find_first_of("\n"));
-        number = line.substr(0,cut);
-        line = line.substr(cut+1);
-		nRes = stoi(number);
+		nRes = stoi(next(line));
 
-		cut = min(line.find_first_of(" "), line.find_first_of("\n"));
-        number = line.substr(0,cut);
-        line = line.substr(cut+1);
-		labs = stol(number);
+		labs = stol(next(line));
 
-		cut = min(line.find_first_of(" "), line.find_first_of("\n"));
-        number = line.substr(0,cut);
-        line = line.substr(cut+1);
-		time = stod(number);
+		time = stod(next(line));
+
 		res->push_back(resultSS({n, m, nObs, nRes, labs, time}));
 
         getline(in, line);
@@ -1394,7 +1469,51 @@ list<resultSS>* to_results(istream& in) {
 }
 
 
-bool sortRes(resultSS& r1, resultSS& r2) {
+
+list<resultBS>* to_resultBS(istream& in) {
+	string line;
+	int n;
+	int m;
+	int nObs;
+	int nRes;
+	int D1;
+	int D2;
+	double t1;
+	double t2;
+	long int labs;
+	double time;
+
+    istream& state = getline(in, line);
+	list<resultBS>* res = new list<resultBS>();
+    while (state && line.compare("") != 0) {
+        n = stoi(next(line));
+
+		m = stoi(next(line));
+
+		nObs = stoi(next(line));
+
+		nRes = stoi(next(line));
+
+		D1 = stoi(next(line));
+		
+		D2 = stoi(next(line));
+
+		t1 = stod(next(line));
+
+		t2 = stod(next(line));
+
+		labs = stol(next(line));
+
+		time = stod(next(line));
+		res->push_back(resultBS({n, m, nObs, nRes, D1, D2, t1, t2, labs, time}));
+
+        getline(in, line);
+    }
+    return res;
+}
+
+template<typename T>
+bool sortRes(T& r1, T& r2) {
 	if (r1.n_obs < r2.n_obs) {
 		return true;
 	} else if (r1.n_obs == r2.n_obs) {
@@ -1412,16 +1531,16 @@ bool sortRes(resultSS& r1, resultSS& r2) {
 
 
 list<meanResultSS>* to_mean(list<resultSS>& l) {
-	l.sort(sortRes);
+	l.sort(sortRes<resultSS>);
 	list<resultSS>::iterator beginning = l.begin();
 	int nb_nodes;
 	int nb_arcs;
 	int nbObs;
-	int sum_res;
 	double sum_time;
 	double mean_time;
 	int n_samp;
 	long int sum_labs;
+	int sum_res;
 	list<meanResultSS>* res = new list<meanResultSS>();
 	list<resultSS>::iterator current = l.begin();
 	while (beginning != l.end()) {
@@ -1459,6 +1578,68 @@ list<meanResultSS>* to_mean(list<resultSS>& l) {
 }
 
 
+list<meanResultBS>* to_mean(list<resultBS>& l) {
+	l.sort(sortRes<resultBS>);
+	int nb_nodes;
+	int nb_arcs;
+	int nbObs;
+	double sum_time;
+	double mean_time;
+	int n_samp;
+	long int sum_labs;
+	int sum_res;
+	int sum_D1;
+	int sum_D2;
+	double sum_t1;
+	double sum_t2;
+	list<meanResultBS>* res = new list<meanResultBS>();
+	list<resultBS>::iterator beginning = l.begin();
+	list<resultBS>::iterator current = l.begin();
+	while (beginning != l.end()) {
+		nb_nodes = beginning->nb_nodes;
+		nb_arcs = beginning->nb_arcs;
+		nbObs = beginning->n_obs;
+		n_samp = 0;
+		sum_labs = 0;
+		sum_time = 0;
+		sum_res = 0;
+		sum_D1 = 0;
+		sum_D2 = 0;
+		sum_t1 = 0;
+		sum_t2 = 0;
+		while (current->nb_arcs == nb_arcs && current->nb_nodes == nb_nodes && current->n_obs == nbObs) {
+			n_samp++;
+			sum_res += current->n_res;
+			sum_D1 += current->D1;
+			sum_D2 += current->D2;
+			sum_t1 += current->T1;
+			sum_t2 += current->T2;
+			sum_labs += current->n_labels;
+			sum_time += current->T;
+			current++;
+		}
+		mean_time = sum_time/n_samp;
+		sum_time = 0;
+		current = beginning;
+		while (current->nb_arcs == nb_arcs && current->nb_nodes == nb_nodes && current->n_obs == nbObs) {
+			sum_time += (current->T - mean_time)*(current->T - mean_time);
+			current++;
+		}
+		if (n_samp > 1) {
+			res->push_back(meanResultBS({nb_nodes, nb_arcs, nbObs, ((double) sum_res)/n_samp,
+			((double) sum_D1)/n_samp, ((double) sum_D2)/n_samp, ((double) sum_t1)/n_samp, ((double) sum_t2)/n_samp,
+			((double) sum_labs)/n_samp, mean_time, sqrt(sum_time/(n_samp-1))}));
+		} else {
+			res->push_back(meanResultBS({nb_nodes, nb_arcs, nbObs, ((double) sum_res)/n_samp,
+			((double) sum_D1)/n_samp, ((double) sum_D2)/n_samp, ((double) sum_t1)/n_samp, ((double) sum_t2)/n_samp,
+			((double) sum_labs)/n_samp, mean_time, -1}));
+		}
+		beginning = current;
+	}
+	return res;
+}
+
+
 struct meanResults
 {
 	int nObs;
@@ -1475,7 +1656,6 @@ struct meanResults
 
 istream& operator>>(istream& in, list<meanResults>& l) {
 	string line;
-    string number;
     int nObs;
 	int nbNodes;
 	double dens;
@@ -1486,54 +1666,25 @@ istream& operator>>(istream& in, list<meanResults>& l) {
 	double binTime;
 	double seqTime;
 
-	int cut;
     istream& state = getline(in, line);
     while (state && line.compare("") != 0) {
-        cut = line.find_first_of(" ");
-        number = line.substr(0,cut);
-        line = line.substr(cut+1);
-        //cout<<number<<endl;
-        nObs = stoi(number);
+        nObs = stoi(next(line));
 
-        cut = min(line.find_first_of(" "), line.find_first_of("\n"));
-        number = line.substr(0,cut);
-        line = line.substr(cut+1);
-		nbNodes = stoi(number);
+		nbNodes = stoi(next(line));
 
-		cut = min(line.find_first_of(" "), line.find_first_of("\n"));
-        number = line.substr(0,cut);
-        line = line.substr(cut+1);
-		dens = stod(number);
+		dens = stod(next(line));
 
-		cut = min(line.find_first_of(" "), line.find_first_of("\n"));
-        number = line.substr(0,cut);
-        line = line.substr(cut+1);
-		binSubs = stod(number);
+		binSubs = stod(next(line));
 
-		cut = min(line.find_first_of(" "), line.find_first_of("\n"));
-        number = line.substr(0,cut);
-        line = line.substr(cut+1);
-		seqSubs = stod(number);
+		seqSubs = stod(next(line));
 
-		cut = min(line.find_first_of(" "), line.find_first_of("\n"));
-        number = line.substr(0,cut);
-        line = line.substr(cut+1);
-		binSubTime = stod(number);
+		binSubTime = stod(next(line));
 
-		cut = min(line.find_first_of(" "), line.find_first_of("\n"));
-        number = line.substr(0,cut);
-        line = line.substr(cut+1);
-		seqSubTime = stod(number);
+		seqSubTime = stod(next(line));
 
-		cut = min(line.find_first_of(" "), line.find_first_of("\n"));
-        number = line.substr(0,cut);
-        line = line.substr(cut+1);
-		binTime = stod(number);
+		binTime = stod(next(line));
 
-		cut = min(line.find_first_of(" "), line.find_first_of("\n"));
-        number = line.substr(0,cut);
-        line = line.substr(cut+1);
-		seqTime = stod(number);
+		seqTime = stod(next(line));
 
 		l.push_back(meanResults({nObs, nbNodes, dens, binSubs, seqSubs, binSubTime,
 		seqSubTime, binTime, seqTime}));
@@ -2043,6 +2194,15 @@ struct methodBS
 };
 
 
+string res_to_lab(meanResultSS& mRes) {
+	double density = ((double) mRes.nb_arcs)/mRes.nb_nodes;
+	string dens = to_string(density);
+	int cut = dens.find_last_not_of("0");
+	dens = dens.substr(0, cut+1);
+	return "$P_{" + to_string(mRes.nb_nodes) + "," + dens + "}$";
+}
+
+
 void superComparison(list<methodSS>& l, ostream& out, string pref_Fig="") {
 
 	list<int>* obstacles = new list<int>();
@@ -2078,7 +2238,7 @@ void superComparison(list<methodSS>& l, ostream& out, string pref_Fig="") {
 						}
 					}
 					if (!isIn) {
-						labels->push_back(meanResultSS({elt->nb_nodes, elt->nb_arcs, elt->nb_arcs, -1, -1, -1, -1}));
+						labels->push_back(meanResultSS({elt->nb_nodes, elt->nb_arcs, elt->n_obs, elt->n_res, -1, -1, -1}));
 					}
 				}
 			}
@@ -2099,10 +2259,12 @@ void superComparison(list<methodSS>& l, ostream& out, string pref_Fig="") {
 		"anchor=north, draw=white!80!black}, tick align=outside, ylabel={Number of labelled nodes},";
 		out<<"\nxtick={";
 		list<meanResultSS>::iterator lab = labels->begin();
-		out<<"$P_{"<<lab->nb_nodes<<","<<((double) lab->nb_arcs)/lab->nb_nodes<<"}$";
+		//out<<"$P_{"<<lab->nb_nodes<<","<<((double) lab->nb_arcs)/lab->nb_nodes<<"}$";
+		out<<res_to_lab(*lab);
 		lab++;
 		while (lab != labels->end()) {
-			out<<",$P_{"<<lab->nb_nodes<<","<<((double) lab->nb_arcs)/lab->nb_nodes<<"}$";
+			//out<<",$P_{"<<lab->nb_nodes<<","<<((double) lab->nb_arcs)/lab->nb_nodes<<"}$";
+			out<<","<<res_to_lab(*lab);
 			lab++;
 		}
 		out<<"},";
@@ -2110,10 +2272,12 @@ void superComparison(list<methodSS>& l, ostream& out, string pref_Fig="") {
 
 		out<<"\nsymbolic x coords={";
 		lab = labels->begin();
-		out<<"$P_{"<<lab->nb_nodes<<","<<((double) lab->nb_arcs)/lab->nb_nodes<<"}$";
+		//out<<"$P_{"<<lab->nb_nodes<<","<<((double) lab->nb_arcs)/lab->nb_nodes<<"}$";
+		out<<res_to_lab(*lab);
 		lab++;
 		while (lab != labels->end()) {
-			out<<",$P_{"<<lab->nb_nodes<<","<<((double) lab->nb_arcs)/lab->nb_nodes<<"}$";
+			//out<<",$P_{"<<lab->nb_nodes<<","<<((double) lab->nb_arcs)/lab->nb_nodes<<"}$";
+			out<<","<<res_to_lab(*lab);
 			lab++;
 		}
 		out<<"},";
@@ -2125,39 +2289,46 @@ void superComparison(list<methodSS>& l, ostream& out, string pref_Fig="") {
 
 
 
-		bool firstTime = true;
+		//bool firstTime = true;
 		for (list<methodSS>::iterator method = l.begin(); method != l.end(); method++) {
-			out<<"\n\\addplot";
+			//out<<"\n\\addplot";
+			out<<"\n\\addplot+";
+			/*
 			if (!firstTime) {
 				out<<"+";
 			}
+			*/
 			out<<"[ color="<<method->color<<", mark=square*, mark options = {color="<<method->color<<"}, dashed]";
 			out<<"\ncoordinates {";
 			for (list<meanResultSS>::iterator locRes = method->data->begin(); locRes != method->data->end(); locRes++) {
 				if (locRes->n_obs == *obs) {
-					out<<"\n($P_{"<<locRes->nb_nodes<<","<<((double) locRes->nb_arcs)/locRes->nb_nodes<<"}$,";
+					//out<<"\n($P_{"<<locRes->nb_nodes<<","<<((double) locRes->nb_arcs)/locRes->nb_nodes<<"}$,";
+					out<<"\n("<<res_to_lab(*locRes)<<",";
 					out<<locRes->n_labels<<")";
 				}
 			}
 			out<<"\n};";
+			/*
 			if (firstTime) {
 				out<<"\n\\legend{\\texttt{"<<method->name<<"}}";
 				firstTime = false;
 			} else {
 				out<<"\n\\addlegendentry{\\texttt{"<<method->name<<"}}";
 			}
+			*/
+			out<<"\n\\addlegendentry{\\texttt{"<<method->name<<"}}";
 		}
 		
 		out<<"\n\\end{axis}"
 		"\n\\end{tikzpicture}";
 		out<<"\n\\caption{$|S|="<<*obs<<"$}";
-		out<<"\n\\label{fig:"<<pref_Fig<<*obs<<"}";
+		out<<"\n\\label{fig:lab-"<<pref_Fig<<*obs<<"}";
 		out<<"\n\\end{subfigure}";
 
 		delete labels;
 	}
 	out<<"\n\\caption{\\texttt{SS} comparison}\n";
-	out<<"\n\\label{"<<pref_Fig<<"}\n";
+	out<<"\n\\label{fig:lab-"<<pref_Fig<<"}\n";
 	out<<"\n\\end{figure}";
 }
 
@@ -2179,7 +2350,150 @@ void timeComparison(list<methodSS>& LSS, list<methodBS>& LBS, ostream& out, stri
 			}
 		}
 	}
+	for (list<methodBS>::iterator method = LBS.begin(); method != LBS.end(); method++) {
+		for (list<meanResultBS>::iterator elt = method->data->begin(); elt != method->data->end(); elt++) {
+			isIn = false;
+			for (list<int>::iterator it = obstacles->begin(); it != obstacles->end(); it++) {
+				if (*it == elt->n_obs) {
+					isIn = true;
+					break;
+				}
+			}
+			if (!isIn) {
+				obstacles->push_back(elt->n_obs);
+			}
+		}
+	}
 
+
+
+
+
+	out<<"\n\\begin{figure}[htb]"
+	"\n\\centering"
+	"\n\\small\n";
+	for (list<int>::iterator obs = obstacles->begin(); obs != obstacles->end(); obs++) {
+		list<meanResultSS>* labels = new list<meanResultSS>();
+		for (list<methodSS>::iterator method = LSS.begin(); method != LSS.end(); method++) {
+			for (list<meanResultSS>::iterator elt = method->data->begin(); elt != method->data->end(); elt++) {
+				if (elt->n_obs == *obs) {
+					isIn = false;
+					for (list<meanResultSS>::iterator it = labels->begin(); it != labels->end(); it++) {
+						if (it->nb_nodes == elt->nb_nodes && it->nb_arcs == elt->nb_arcs) {
+							isIn = true;
+							if (it->n_res != elt->n_res) {cout<<"different n_res"<<endl;}
+							it->n_res = min(it->n_res, elt->n_res);
+							break;
+						}
+					}
+					if (!isIn) {
+						labels->push_back(meanResultSS({elt->nb_nodes, elt->nb_arcs, elt->n_obs, elt->n_res, -1, -1, -1}));
+					}
+				}
+			}
+		}
+
+		for (list<methodBS>::iterator method = LBS.begin(); method != LBS.end(); method++) {
+			for (list<meanResultBS>::iterator elt = method->data->begin(); elt != method->data->end(); elt++) {
+				if (elt->n_obs == *obs) {
+					isIn = false;
+					for (list<meanResultSS>::iterator it = labels->begin(); it != labels->end(); it++) {
+						if (it->nb_nodes == elt->nb_nodes && it->nb_arcs == elt->nb_arcs) {
+							isIn = true;
+							break;
+						}
+					}
+					if (!isIn) {
+						labels->push_back(meanResultSS({elt->nb_nodes, elt->nb_arcs, elt->n_obs, elt->n_res, -1, -1, -1}));
+					}
+				}
+			}
+		}
+		out<<"\n\n\\begin{subfigure}[h]{0.45\\textwidth}"
+		"\n\\centering"
+		"\n\\begin{tikzpicture}[xscale=.8, yscale=.8]"
+		"\n\\begin{axis}"
+		"\n[x=1cm,"
+		"\nboxplot/draw direction=y,"
+		"\nboxplot/variable width,"
+		"\nboxplot/box extend=.5,"
+		"\nlegend cell align={left},";
+        out<<"\nlegend columns="<<LSS.size() + LBS.size()<<",";
+		out<<"\nylabel={Runtime},"
+		"\nx axis line style={opacity=0},"
+		"\naxis x line*=top,"
+		"\naxis y line=left,"
+		"\nymajorgrids,"
+		"\nxtick={";
+		out<<0;
+		for (long unsigned int i = 0; i < labels->size(); i++) {
+			out<<","<<i+1;
+		}
+		out<<"},"
+		"\nxticklabels={";
+		
+		list<meanResultSS>::iterator lab = labels->begin();
+		out<<res_to_lab(*lab);
+		lab++;
+		while (lab != labels->end()) {
+			out<<","<<res_to_lab(*lab);
+			lab++;
+		}
+		out<<"},";
+		out<<"\ncycle list={{red},{blue}},";	
+		
+		out<<"\nxtick style={draw=none},"
+		"\nxticklabel style={rotate=90}]";
+
+		int position = 0;
+		for (list<meanResultSS>::iterator lab = labels->begin(); lab != labels->end(); lab++) {
+			
+			for (list<methodSS>::iterator method = LSS.begin(); method != LSS.end(); method++) {
+				for (list<meanResultSS>::iterator elt = method->data->begin(); elt != method->data->end(); elt++) {
+					if (elt->n_obs == *obs && elt->nb_nodes == lab->nb_nodes && elt->nb_arcs == lab->nb_arcs) {
+						out<<"\n\\addplot+ [";
+						out<<"\ndraw="<<method->color<<"!50,";
+						out<<"\nboxplot prepared={";
+						out<<"\ndraw position="<<position<<",";
+						out<<"\nmedian="<<elt->T<<",";
+						out<<"\nupper whisker="<<elt->T + elt->sdT<<",";
+						out<<"\nlower whisker="<<elt->T - elt->sdT<<"},";
+						out<<"\n] coordinates {};";
+					}
+				}
+			}
+
+
+
+			for (list<methodBS>::iterator method = LBS.begin(); method != LBS.end(); method++) {
+				for (list<meanResultBS>::iterator elt = method->data->begin(); elt != method->data->end(); elt++) {
+					if (elt->n_obs == *obs && elt->nb_nodes == lab->nb_nodes && elt->nb_arcs == lab->nb_arcs) {
+						out<<"\n\\addplot+ [";
+						out<<"\ndraw="<<method->color<<"!50,";
+						out<<"\nboxplot prepared={";
+						out<<"\ndraw position="<<position<<",";
+						out<<"\nmedian="<<elt->T<<",";
+						out<<"\nupper whisker="<<elt->T + elt->sdT<<",";
+						out<<"\nlower whisker="<<elt->T - elt->sdT<<"},";
+						out<<"\n] coordinates {};";
+					}
+				}
+			}
+
+			position++;
+		}
+
+		out<<"\n\\end{axis}"
+		"\n\\end{tikzpicture}";
+		out<<"\n\\caption{$|S|="<<*obs<<"$}";
+		out<<"\n\\label{fig:time-"<<pref_Fig<<*obs<<"}";
+		out<<"\n\\end{subfigure}";
+
+		delete labels;
+	}
+	out<<"\n\\caption{Runtime}";
+	out<<"\n\\label{fig:time-"<<pref_Fig<<"}";
+	out<<"\n\\end{figure}";
 }
 
 
@@ -2202,7 +2516,7 @@ void testEngine(enum meth m=SS, string dir="testDB") {
 	if (m==SS) {
 		statSS(infilepath, obstacles, fout);
 	} else if (m==BS) {
-		//statBS(infilepath, obstacles, fout);
+		statBS(infilepath, obstacles, fout);
 	}
 	fout.close();
 }
@@ -2217,7 +2531,7 @@ list<methodSS>* filesToResultSS(list<list<filesystem::path>>& l) {
 		for (list<filesystem::path>::iterator filepath = method->begin(); filepath != method->end(); filepath++) {
 			meth.name = to_name(*filepath);
 			ifstream fin(*filepath, ios::in);
-			list<resultSS>* locRes = to_results(fin);
+			list<resultSS>* locRes = to_resultSS(fin);
 			fin.close();
 			list<meanResultSS>* locMeanRes = to_mean(*locRes);
 			delete locRes;
@@ -2228,6 +2542,29 @@ list<methodSS>* filesToResultSS(list<list<filesystem::path>>& l) {
 	}
 	return res;
 }
+
+
+list<methodBS>* filesToResultBS(list<list<filesystem::path>>& l) {
+	list<methodBS>* res = new list<methodBS>();
+	for (list<list<filesystem::path>>::iterator method = l.begin(); method != l.end(); method++) {
+		methodBS meth;
+		meth.color = newColor();
+		meth.data = new list<meanResultBS>();
+		for (list<filesystem::path>::iterator filepath = method->begin(); filepath != method->end(); filepath++) {
+			meth.name = to_name(*filepath);
+			ifstream fin(*filepath, ios::in);
+			list<resultBS>* locRes = to_resultBS(fin);
+			fin.close();
+			list<meanResultBS>* locMeanRes = to_mean(*locRes);
+			delete locRes;
+			meth.data->splice(meth.data->end(), *locMeanRes);
+			delete locMeanRes;
+		}
+		res->push_back(meth);
+	}
+	return res;
+}
+//Templating meanResult and method to avoid this kind of multiple implementation
 
 
 void writeComparisonSS() {
@@ -2251,6 +2588,8 @@ void writeComparisonSS() {
 	//filepath = filesystem::current_path()/"data";
 	//ss_ads.push_back(filepath/"ss_ads_completeDB.txt");
 
+
+
 	list<list<filesystem::path>> testsList = list<list<filesystem::path>>();
 	testsList.push_back(ss_cl);
 	testsList.push_back(ss_ads);
@@ -2269,6 +2608,68 @@ void writeComparisonSS() {
 		delete it->data;
 	}
 	delete methodList;
+}
+
+
+void writeTimeComparison() {
+	string ID = "Test";
+	filesystem::path outfilepath = filesystem::current_path();
+	outfilepath /= "data";
+	outfilepath /= "comparisonTime" + ID + ".tex";
+
+	filesystem::path filepath;
+
+	list<filesystem::path> ss_cl = list<filesystem::path>();
+	list<filesystem::path> ss_ads = list<filesystem::path>();
+
+	filepath = filesystem::current_path()/"data";
+	ss_cl.push_back(filepath/"SS-CL_newDB.txt");
+	//filepath = filesystem::current_path()/"data";
+	//ss_cl.push_back(filepath/"ss_cl_completeDB.txt");
+
+	filepath = filesystem::current_path()/"data";
+	ss_ads.push_back(filepath/"SS-ADS_newDB.txt");
+	//filepath = filesystem::current_path()/"data";
+	//ss_ads.push_back(filepath/"ss_ads_completeDB.txt");
+
+	list<filesystem::path> bs_cstar = list<filesystem::path>();
+	list<filesystem::path> bs_ads_cstar = list<filesystem::path>();
+
+	filepath = filesystem::current_path()/"data";
+	bs_cstar.push_back(filepath/"BS-CSTAR_newDB.txt");
+
+	filepath = filesystem::current_path()/"data";
+	bs_ads_cstar.push_back(filepath/"BS-ADS-STAR_newDB.txt");
+
+
+
+	list<list<filesystem::path>> testsListSS = list<list<filesystem::path>>();
+	testsListSS.push_back(ss_cl);
+	testsListSS.push_back(ss_ads);
+
+	list<list<filesystem::path>> testsListBS = list<list<filesystem::path>>();
+	testsListBS.push_back(bs_cstar);
+	testsListBS.push_back(bs_ads_cstar);
+
+	list<methodSS>* methodListSS = filesToResultSS(testsListSS);
+	list<methodBS>* methodListBS = filesToResultBS(testsListBS);
+
+
+
+
+
+	ofstream writing(outfilepath, ios::out);
+	begin_document(writing);
+	timeComparison(*methodListSS, *methodListBS, writing, ID);
+	writing<<"\n\\end{document}";
+	for (list<methodSS>::iterator it = methodListSS->begin(); it != methodListSS->end(); it++) {
+		delete it->data;
+	}
+	delete methodListSS;
+	for (list<methodBS>::iterator it = methodListBS->begin(); it != methodListBS->end(); it++) {
+		delete it->data;
+	}
+	delete methodListBS;
 }
 
 
@@ -2339,17 +2740,8 @@ int main(int argc, char *argv[])
 	//checkSPPAO();
 	//writeComparison("dataSPPAO_labelUpdate.txt", "dataSPPAO_addArcs.txt", "SPPAOcomparison_labUpdate_addaArcs.tex");
 	//writeCompareMethod("dataSPPAO_CstarD.txt", "methodsCompareCstar.tex");
-	//testEngine(SS, "testDB");
-	writeComparisonSS();
+	//testEngine(BS, "testDB");
+	//writeComparisonSS();
+	writeTimeComparison();
 }
 
-
-
-
-
-/*
-TODO :
-- Reimplementer les matrices pour qu'elles soient moins gourmandes en espace
-	-> Reimplementer la facon dont on update la distance dans dijkstra pour que ca soit pas
-		plus couteux en temps
-*/
