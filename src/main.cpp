@@ -8,6 +8,7 @@
 #include <iomanip>
 #include <ctime>
 #include <chrono>
+#include <functional>
 
 
 #include <boost/program_options/cmdline.hpp> //boost not installed by default, to install manually
@@ -756,8 +757,8 @@ void newCompleteDB() {
 
 
 void checkSPPAO() {
-	int retrieving_rand_runs = 202218;
-	int n_obs = 3;
+	int retrieving_rand_runs = 0;
+	int n_obs = 5;
 
 	default_random_engine generator;
     uniform_real_distribution distribx(0., 1.);
@@ -769,8 +770,8 @@ void checkSPPAO() {
 
 	filesystem::path infilepath = filesystem::current_path();
 	infilepath /= "data";
-	infilepath /= "realDB";
-	infilepath /= "instance_155.txt";
+	infilepath /= "testDB";
+	infilepath /= "test_0.txt";
 	ifstream reading(infilepath, ios::in);
 	list<Node*>* l = new list<Node*>();
 	reading>>*l;
@@ -1307,6 +1308,7 @@ void statSS(string dir, list<int>& obstacles, ostream& out)
 		deleteGraph(l);
 	}
 	for (list<resultSS>::iterator it = results.begin(); it != results.end(); it++) {
+		out<<setprecision(5);
 		out<<it->nb_nodes<<" "<<it->nb_arcs<<" "<<it->n_obs<<" "<<it->n_res<<" "<<it->n_labels<<" "<<it->T<<"\n";
 	}
 }
@@ -1395,6 +1397,7 @@ void statBS(string dir, list<int>& obstacles, ostream& out) {
 		deleteGraph(l);
 	}
 	for (list<resultBS>::iterator it = results.begin(); it != results.end(); it++) {
+		out<<setprecision(5);
 		out<<it->nb_nodes<<" "<<it->nb_arcs<<" "<<it->n_obs<<" "<<it->n_res<<" ";
 		out<<it->D1<<" "<<it->D2<<" "<<it->T1<<" "<<it->T2<<" "<<it->n_labels<<" "<<it->T<<"\n";
 	}
@@ -2193,8 +2196,8 @@ struct methodBS
 	string name;
 };
 
-
-string res_to_lab(meanResultSS& mRes) {
+template<typename T>
+string res_to_lab(T& mRes) {
 	double density = ((double) mRes.nb_arcs)/mRes.nb_nodes;
 	string dens = to_string(density);
 	int cut = dens.find_last_not_of("0");
@@ -2203,137 +2206,7 @@ string res_to_lab(meanResultSS& mRes) {
 }
 
 
-void superComparison(list<methodSS>& l, ostream& out, string pref_Fig="") {
-
-	list<int>* obstacles = new list<int>();
-	bool isIn;
-	for (list<methodSS>::iterator method = l.begin(); method != l.end(); method++) {
-		for (list<meanResultSS>::iterator elt = method->data->begin(); elt != method->data->end(); elt++) {
-			isIn = false;
-			for (list<int>::iterator it = obstacles->begin(); it != obstacles->end(); it++) {
-				if (*it == elt->n_obs) {
-					isIn = true;
-					break;
-				}
-			}
-			if (!isIn) {
-				obstacles->push_back(elt->n_obs);
-			}
-		}
-	}
-
-	out<<"\n\\begin{figure}[htb]"
-	"\n\\centering"
-	"\n\\small\n";
-	for (list<int>::iterator obs = obstacles->begin(); obs != obstacles->end(); obs++) {
-		list<meanResultSS>* labels = new list<meanResultSS>();
-		for (list<methodSS>::iterator method = l.begin(); method != l.end(); method++) {
-			for (list<meanResultSS>::iterator elt = method->data->begin(); elt != method->data->end(); elt++) {
-				if (elt->n_obs == *obs) {
-					isIn = false;
-					for (list<meanResultSS>::iterator it = labels->begin(); it != labels->end(); it++) {
-						if (it->nb_nodes == elt->nb_nodes && it->nb_arcs == elt->nb_arcs) {
-							isIn = true;
-							break;
-						}
-					}
-					if (!isIn) {
-						labels->push_back(meanResultSS({elt->nb_nodes, elt->nb_arcs, elt->n_obs, elt->n_res, -1, -1, -1}));
-					}
-				}
-			}
-		}
-
-
-		out<<"\n\\begin{subfigure}[h]{0.45\\textwidth}"
-		"\n\\centering"
-		"\n\\begin{tikzpicture}[xscale=.8, yscale=.8]";
-		out<<"\n\\begin{axis}["
-        "\naxis lines=left,"
-        "\ngrid style=dashed,"
-        "\nlegend cell align={left},";
-
-        out<<"\nlegend columns="<<(int) l.size()<<","
-
-        "\nlegend style={fill opacity=0.8, draw opacity=1, text opacity=1, at={(0.5,1.21)}, "
-		"anchor=north, draw=white!80!black}, tick align=outside, ylabel={Number of labelled nodes},";
-		out<<"\nxtick={";
-		list<meanResultSS>::iterator lab = labels->begin();
-		//out<<"$P_{"<<lab->nb_nodes<<","<<((double) lab->nb_arcs)/lab->nb_nodes<<"}$";
-		out<<res_to_lab(*lab);
-		lab++;
-		while (lab != labels->end()) {
-			//out<<",$P_{"<<lab->nb_nodes<<","<<((double) lab->nb_arcs)/lab->nb_nodes<<"}$";
-			out<<","<<res_to_lab(*lab);
-			lab++;
-		}
-		out<<"},";
-
-
-		out<<"\nsymbolic x coords={";
-		lab = labels->begin();
-		//out<<"$P_{"<<lab->nb_nodes<<","<<((double) lab->nb_arcs)/lab->nb_nodes<<"}$";
-		out<<res_to_lab(*lab);
-		lab++;
-		while (lab != labels->end()) {
-			//out<<",$P_{"<<lab->nb_nodes<<","<<((double) lab->nb_arcs)/lab->nb_nodes<<"}$";
-			out<<","<<res_to_lab(*lab);
-			lab++;
-		}
-		out<<"},";
-		
-		out<<"x tick label style={rotate=45,anchor=east},"
-		"\nymajorgrids=true]\n";
-
-
-
-
-
-		//bool firstTime = true;
-		for (list<methodSS>::iterator method = l.begin(); method != l.end(); method++) {
-			//out<<"\n\\addplot";
-			out<<"\n\\addplot+";
-			/*
-			if (!firstTime) {
-				out<<"+";
-			}
-			*/
-			out<<"[ color="<<method->color<<", mark=square*, mark options = {color="<<method->color<<"}, dashed]";
-			out<<"\ncoordinates {";
-			for (list<meanResultSS>::iterator locRes = method->data->begin(); locRes != method->data->end(); locRes++) {
-				if (locRes->n_obs == *obs) {
-					//out<<"\n($P_{"<<locRes->nb_nodes<<","<<((double) locRes->nb_arcs)/locRes->nb_nodes<<"}$,";
-					out<<"\n("<<res_to_lab(*locRes)<<",";
-					out<<locRes->n_labels<<")";
-				}
-			}
-			out<<"\n};";
-			/*
-			if (firstTime) {
-				out<<"\n\\legend{\\texttt{"<<method->name<<"}}";
-				firstTime = false;
-			} else {
-				out<<"\n\\addlegendentry{\\texttt{"<<method->name<<"}}";
-			}
-			*/
-			out<<"\n\\addlegendentry{\\texttt{"<<method->name<<"}}";
-		}
-		
-		out<<"\n\\end{axis}"
-		"\n\\end{tikzpicture}";
-		out<<"\n\\caption{$|S|="<<*obs<<"$}";
-		out<<"\n\\label{fig:lab-"<<pref_Fig<<*obs<<"}";
-		out<<"\n\\end{subfigure}";
-
-		delete labels;
-	}
-	out<<"\n\\caption{\\texttt{SS} comparison}\n";
-	out<<"\n\\label{fig:lab-"<<pref_Fig<<"}\n";
-	out<<"\n\\end{figure}";
-}
-
-
-void timeComparison(list<methodSS>& LSS, list<methodBS>& LBS, ostream& out, string pref_Fig="") {
+list<int>* makeObstacles(list<methodSS>& LSS, list<methodBS>& LBS) {
 	list<int>* obstacles = new list<int>();
 	bool isIn;
 	for (list<methodSS>::iterator method = LSS.begin(); method != LSS.end(); method++) {
@@ -2364,6 +2237,362 @@ void timeComparison(list<methodSS>& LSS, list<methodBS>& LBS, ostream& out, stri
 			}
 		}
 	}
+	return obstacles;
+}
+
+
+list<meanResultSS>* makeLabels(list<methodSS>& LSS, list<methodBS>& LBS, int obs) {
+	bool isIn;
+	list<meanResultSS>* labels = new list<meanResultSS>();
+	for (list<methodSS>::iterator method = LSS.begin(); method != LSS.end(); method++) {
+		for (list<meanResultSS>::iterator elt = method->data->begin(); elt != method->data->end(); elt++) {
+			if (elt->n_obs == obs) {
+				isIn = false;
+				for (list<meanResultSS>::iterator it = labels->begin(); it != labels->end(); it++) {
+					if (it->nb_nodes == elt->nb_nodes && it->nb_arcs == elt->nb_arcs) {
+						isIn = true;
+						if (it->n_res != elt->n_res) {cerr<<"WARNING: different n_res for the same problem"<<endl;}
+						it->n_res = min(it->n_res, elt->n_res);
+						break;
+					}
+				}
+				if (!isIn) {
+					labels->push_back(meanResultSS({elt->nb_nodes, elt->nb_arcs, elt->n_obs, elt->n_res, -1, -1, -1}));
+				}
+			}
+		}
+	}
+
+	for (list<methodBS>::iterator method = LBS.begin(); method != LBS.end(); method++) {
+		for (list<meanResultBS>::iterator elt = method->data->begin(); elt != method->data->end(); elt++) {
+			if (elt->n_obs == obs) {
+				isIn = false;
+				for (list<meanResultSS>::iterator it = labels->begin(); it != labels->end(); it++) {
+					if (it->nb_nodes == elt->nb_nodes && it->nb_arcs == elt->nb_arcs) {
+						isIn = true;
+						if (it->n_res != elt->n_res) {cerr<<"WARNING: different n_res for the same problem"<<endl;}
+						it->n_res = min(it->n_res, elt->n_res);
+						break;
+					}
+				}
+				if (!isIn) {
+					labels->push_back(meanResultSS({elt->nb_nodes, elt->nb_arcs, elt->n_obs, elt->n_res, -1, -1, -1}));
+				}
+			}
+		}
+	}
+
+	return labels;
+}
+
+
+void printSub(list<methodSS>& LSS, list<methodBS>& LBS, ostream& out, int obs, string pref_Fig, string ylabel,
+function<double(const meanResultSS&)> pSS, function<double(const meanResultBS&)> pBS,
+function<string(const methodSS&)> plotOptionSS, function<string(const methodBS&)> plotOptionBS) {
+	list<meanResultSS>* labels = makeLabels(LSS, LBS, obs);
+	out<<"\n\\begin{subfigure}[h]{0.45\\textwidth}"
+	"\n\\centering"
+	"\n\\begin{tikzpicture}[xscale=.8, yscale=.8]";
+	out<<"\n\\begin{axis}["
+	"\naxis lines=left,"
+	"\ngrid style=dashed,"
+	"\nlegend cell align={left},";
+
+	out<<"\nlegend columns="<<(int) (LSS.size() + LBS.size())<<",";
+	//Pour etre exact ca devrait etre le nb de methodes comportant des resultats a *obs obstacles
+
+	out<<"\nlegend style={fill opacity=0.8, draw opacity=1, text opacity=1, at={(0.5,1.21)}, ";
+	out<<"anchor=north, draw=white!80!black}, tick align=outside, ylabel={"<<ylabel<<"},";
+	out<<"\nxtick={";
+	list<meanResultSS>::iterator lab = labels->begin();
+	//out<<"$P_{"<<lab->nb_nodes<<","<<((double) lab->nb_arcs)/lab->nb_nodes<<"}$";
+	out<<res_to_lab<meanResultSS>(*lab);
+	lab++;
+	while (lab != labels->end()) {
+		//out<<",$P_{"<<lab->nb_nodes<<","<<((double) lab->nb_arcs)/lab->nb_nodes<<"}$";
+		out<<","<<res_to_lab<meanResultSS>(*lab);
+		lab++;
+	}
+	out<<"},";
+
+
+	out<<"\nsymbolic x coords={";
+	lab = labels->begin();
+	//out<<"$P_{"<<lab->nb_nodes<<","<<((double) lab->nb_arcs)/lab->nb_nodes<<"}$";
+	out<<res_to_lab<meanResultSS>(*lab);
+	lab++;
+	while (lab != labels->end()) {
+		//out<<",$P_{"<<lab->nb_nodes<<","<<((double) lab->nb_arcs)/lab->nb_nodes<<"}$";
+		out<<","<<res_to_lab<meanResultSS>(*lab);
+		lab++;
+	}
+	out<<"},";
+	
+	out<<"x tick label style={rotate=45,anchor=east},"
+	"\nymajorgrids=true]\n";
+
+
+
+
+
+	//bool firstTime = true;
+	for (list<methodSS>::iterator method = LSS.begin(); method != LSS.end(); method++) {
+		out<<"\n\\addplot+";
+
+		//out<<"[ color="<<method->color<<", mark=square*, mark options = {color="<<method->color<<"}]";
+		out<<"["<<plotOptionSS(*method)<<"]";
+		out<<"\ncoordinates {";
+		for (list<meanResultSS>::iterator locRes = method->data->begin(); locRes != method->data->end(); locRes++) {
+			if (locRes->n_obs == obs) {
+				//out<<"\n($P_{"<<locRes->nb_nodes<<","<<((double) locRes->nb_arcs)/locRes->nb_nodes<<"}$,";
+				out<<"\n("<<res_to_lab<meanResultSS>(*locRes)<<",";
+				out<<pSS(*locRes)<<")";
+			}
+		}
+		out<<"\n};";
+		out<<"\n\\addlegendentry{\\texttt{"<<method->name<<"}}";
+
+	}
+
+	for (list<methodBS>::iterator method = LBS.begin(); method != LBS.end(); method++) {
+		out<<"\n\\addplot+";
+
+		//out<<"[ color="<<method->color<<", mark=square*, mark options = {color="<<method->color<<"}]";
+		out<<"["<<plotOptionBS(*method)<<"]";
+		out<<"\ncoordinates {";
+		for (list<meanResultBS>::iterator locRes = method->data->begin(); locRes != method->data->end(); locRes++) {
+			if (locRes->n_obs == obs) {
+				//out<<"\n($P_{"<<locRes->nb_nodes<<","<<((double) locRes->nb_arcs)/locRes->nb_nodes<<"}$,";
+				out<<"\n("<<res_to_lab<meanResultBS>(*locRes)<<",";
+				out<<pBS(*locRes)<<")";
+			}
+		}
+		out<<"\n};";
+		out<<"\n\\addlegendentry{\\texttt{"<<method->name<<"}}";
+
+	}
+	
+	out<<"\n\\end{axis}"
+	"\n\\end{tikzpicture}";
+
+
+	out<<"\n\\caption{$|S|="<<obs<<"$}";
+	out<<"\n\\label{fig:"<<pref_Fig<<"}";
+	out<<"\n\\end{subfigure}";
+
+	delete labels;
+}
+
+
+template<typename T>
+double getLabels(const T& res) {
+	return res.n_labels;
+}
+
+template<typename T>
+string regularOp(const T& meth) {
+	return "color="+meth.color+", mark=square*, mark options = {color="+meth.color+"}";
+}
+
+template<typename T>
+string varOp(const T& meth) {
+	return "color="+meth.color+", mark=diamond, only marks, forget plot";
+}
+
+template<typename T>
+double getRuntime(const T& res) {
+	return 1000*res.T;
+}
+
+template<typename T>
+double getRuntimeMinus(const T& res) {
+	return 1000*(res.T-res.sdT);
+}
+
+template<typename T>
+double getRuntimePlus(const T& res) {
+	return 1000*(res.T+res.sdT);
+}
+
+double getD1(const meanResultBS& res) {
+	return res.D1;
+}
+
+double getD2(const meanResultBS& res) {
+	return res.D2;
+}
+
+double getT1(const meanResultBS& res) {
+	return 1000*res.T1;
+}
+
+double getT2(const meanResultBS& res) {
+	return 1000*res.T2;
+}
+
+void superComparison(list<methodSS>& l, ostream& out, string pref_Fig="") {
+	list<methodBS> emptyList = list<methodBS>();
+	list<int>* obstacles = makeObstacles(l, emptyList);
+
+	out<<"\n\\begin{figure}[htb]"
+	"\n\\centering"
+	"\n\\small\n";
+	for (list<int>::iterator obs = obstacles->begin(); obs != obstacles->end(); obs++) {
+		printSub(l, emptyList, out, *obs, "lab-"+pref_Fig+to_string(*obs), "Number of labelled nodes",
+		getLabels<meanResultSS>, getLabels<meanResultBS>,
+		regularOp<methodSS>, regularOp<methodBS>);
+	}
+	out<<"\n\\caption{\\texttt{SS} comparison}\n";
+	out<<"\n\\label{fig:lab-"<<pref_Fig<<"}\n";
+	out<<"\n\\end{figure}";
+	delete obstacles;
+}
+
+
+void superComparison(list<methodBS>& l, ostream& out, string pref_Fig="") {
+	list<methodSS> emptyList = list<methodSS>();
+	list<int>* obstacles = makeObstacles(emptyList, l);
+	out<<"\n\\begin{figure}[htb]"
+	"\n\\centering"
+	"\n\\small\n";
+	for (list<int>::iterator obs = obstacles->begin(); obs != obstacles->end(); obs++) {
+		printSub(emptyList, l, out, *obs, "lab-"+pref_Fig+to_string(*obs), "Number of labelled nodes",
+		getLabels<meanResultSS>, getLabels<meanResultBS>,
+		regularOp<methodSS>, regularOp<methodBS>);
+	}
+	out<<"\n\\caption{\\texttt{BS} comparison}\n";
+	out<<"\n\\label{fig:lab-"<<pref_Fig<<"}\n";
+	out<<"\n\\end{figure}";
+
+
+	out<<"\n\\begin{figure}[htb]"
+	"\n\\centering"
+	"\n\\small\n";
+	for (list<int>::iterator obs = obstacles->begin(); obs != obstacles->end(); obs++) {
+		printSub(emptyList, l, out, *obs, "D1-"+pref_Fig+to_string(*obs), "D1 (upper)",
+		nullptr, getD1,
+		regularOp<methodSS>, regularOp<methodBS>);
+	}
+	out<<"\n\\caption{\\texttt{BS} comparison}\n";
+	out<<"\n\\label{fig:D1-"<<pref_Fig<<"}\n";
+	out<<"\n\\end{figure}";
+
+	out<<"\n\\begin{figure}[htb]"
+	"\n\\centering"
+	"\n\\small\n";
+	for (list<int>::iterator obs = obstacles->begin(); obs != obstacles->end(); obs++) {
+		printSub(emptyList, l, out, *obs, "D2-"+pref_Fig+to_string(*obs), "D2 (lower)",
+		nullptr, getD2,
+		regularOp<methodSS>, regularOp<methodBS>);
+	}
+	out<<"\n\\caption{\\texttt{BS} comparison}\n";
+	out<<"\n\\label{fig:D2-"<<pref_Fig<<"}\n";
+	out<<"\n\\end{figure}";
+
+	out<<"\n\\begin{figure}[htb]"
+	"\n\\centering"
+	"\n\\small\n";
+	for (list<int>::iterator obs = obstacles->begin(); obs != obstacles->end(); obs++) {
+		printSub(emptyList, l, out, *obs, "T1-"+pref_Fig+to_string(*obs), "T1 (ms)",
+		nullptr, getT1,
+		regularOp<methodSS>, regularOp<methodBS>);
+	}
+	out<<"\n\\caption{\\texttt{BS} comparison}\n";
+	out<<"\n\\label{fig:T1-"<<pref_Fig<<"}\n";
+	out<<"\n\\end{figure}";
+
+	out<<"\n\\begin{figure}[htb]"
+	"\n\\centering"
+	"\n\\small\n";
+	for (list<int>::iterator obs = obstacles->begin(); obs != obstacles->end(); obs++) {
+		printSub(emptyList, l, out, *obs, "T2-"+pref_Fig+to_string(*obs), "T2 (ms)",
+		nullptr, getT2,
+		regularOp<methodSS>, regularOp<methodBS>);
+	}
+	out<<"\n\\caption{\\texttt{BS} comparison}\n";
+	out<<"\n\\label{fig:T2-"<<pref_Fig<<"}\n";
+	out<<"\n\\end{figure}";
+	delete obstacles;
+}
+
+
+void timeComparison(list<methodSS>& LSS, list<methodBS>& LBS, ostream& out, string pref_Fig="") {
+
+	list<int>* obstacles = makeObstacles(LSS, LBS);
+
+	out<<"\n\\begin{figure}[htb]"
+	"\n\\centering"
+	"\n\\small\n";
+
+
+	for (list<int>::iterator obs = obstacles->begin(); obs != obstacles->end(); obs++) {
+		
+		list<meanResultSS>* labels = makeLabels(LSS, LBS, *obs);
+
+
+		out<<"\n\\begin{subfigure}[h]{0.45\\textwidth}"
+		"\n\\centering"
+		"\n\\begin{tikzpicture}[xscale=.8, yscale=.8]";
+		out<<"\n\\begin{axis}["
+        "\naxis lines=left,"
+        "\ngrid style=dashed,";
+
+		out<<"\nxtick={";
+		list<meanResultSS>::iterator lab = labels->begin();
+		//out<<"$P_{"<<lab->nb_nodes<<","<<((double) lab->nb_arcs)/lab->nb_nodes<<"}$";
+		out<<res_to_lab<meanResultSS>(*lab);
+		lab++;
+		while (lab != labels->end()) {
+			//out<<",$P_{"<<lab->nb_nodes<<","<<((double) lab->nb_arcs)/lab->nb_nodes<<"}$";
+			out<<","<<res_to_lab<meanResultSS>(*lab);
+			lab++;
+		}
+		out<<"},";
+
+
+		out<<"\nsymbolic x coords={";
+		lab = labels->begin();
+		//out<<"$P_{"<<lab->nb_nodes<<","<<((double) lab->nb_arcs)/lab->nb_nodes<<"}$";
+		out<<res_to_lab<meanResultSS>(*lab);
+		lab++;
+		while (lab != labels->end()) {
+			//out<<",$P_{"<<lab->nb_nodes<<","<<((double) lab->nb_arcs)/lab->nb_nodes<<"}$";
+			out<<","<<res_to_lab<meanResultSS>(*lab);
+			lab++;
+		}
+		out<<"},";
+		
+		out<<"x tick label style={rotate=45,anchor=east},"
+		"\nymajorgrids=true]\n";
+
+
+		out<<"\n\\addplot+";
+
+		out<<"[ color=black, mark=square*, mark options = {color=black}, forget plot]";
+		out<<"\ncoordinates {";
+		for (list<meanResultSS>::iterator locRes = labels->begin(); locRes != labels->end(); locRes++) {
+			if (locRes->n_obs == *obs) {
+				//out<<"\n($P_{"<<locRes->nb_nodes<<","<<((double) locRes->nb_arcs)/locRes->nb_nodes<<"}$,";
+				out<<"\n("<<res_to_lab<meanResultSS>(*locRes)<<",";
+				out<<locRes->n_res<<")";
+			}
+		}
+		out<<"\n};";
+
+		out<<"\n\\end{axis}"
+		"\n\\end{tikzpicture}";
+
+
+		out<<"\n\\caption{$|S|="<<*obs<<"$}";
+		out<<"\n\\label{fig:n-res-"<<pref_Fig<<*obs<<"}";
+		out<<"\n\\end{subfigure}";
+
+		delete labels;
+	}
+
+	out<<"\n\\caption{Number of non-dominated points}";
+	out<<"\n\\label{fig:n-res-"<<pref_Fig<<"}";
+	out<<"\n\\end{figure}";
 
 
 
@@ -2373,118 +2602,144 @@ void timeComparison(list<methodSS>& LSS, list<methodBS>& LBS, ostream& out, stri
 	"\n\\centering"
 	"\n\\small\n";
 	for (list<int>::iterator obs = obstacles->begin(); obs != obstacles->end(); obs++) {
-		list<meanResultSS>* labels = new list<meanResultSS>();
-		for (list<methodSS>::iterator method = LSS.begin(); method != LSS.end(); method++) {
-			for (list<meanResultSS>::iterator elt = method->data->begin(); elt != method->data->end(); elt++) {
-				if (elt->n_obs == *obs) {
-					isIn = false;
-					for (list<meanResultSS>::iterator it = labels->begin(); it != labels->end(); it++) {
-						if (it->nb_nodes == elt->nb_nodes && it->nb_arcs == elt->nb_arcs) {
-							isIn = true;
-							if (it->n_res != elt->n_res) {cout<<"different n_res"<<endl;}
-							it->n_res = min(it->n_res, elt->n_res);
-							break;
-						}
-					}
-					if (!isIn) {
-						labels->push_back(meanResultSS({elt->nb_nodes, elt->nb_arcs, elt->n_obs, elt->n_res, -1, -1, -1}));
-					}
-				}
-			}
-		}
 
-		for (list<methodBS>::iterator method = LBS.begin(); method != LBS.end(); method++) {
-			for (list<meanResultBS>::iterator elt = method->data->begin(); elt != method->data->end(); elt++) {
-				if (elt->n_obs == *obs) {
-					isIn = false;
-					for (list<meanResultSS>::iterator it = labels->begin(); it != labels->end(); it++) {
-						if (it->nb_nodes == elt->nb_nodes && it->nb_arcs == elt->nb_arcs) {
-							isIn = true;
-							break;
-						}
-					}
-					if (!isIn) {
-						labels->push_back(meanResultSS({elt->nb_nodes, elt->nb_arcs, elt->n_obs, elt->n_res, -1, -1, -1}));
-					}
-				}
-			}
-		}
-		out<<"\n\n\\begin{subfigure}[h]{0.45\\textwidth}"
+		list<meanResultSS>* labels = makeLabels(LSS, LBS, *obs);
+		out<<"\n\\begin{subfigure}[h]{0.45\\textwidth}"
 		"\n\\centering"
-		"\n\\begin{tikzpicture}[xscale=.8, yscale=.8]"
-		"\n\\begin{axis}"
-		"\n[x=1cm,"
-		"\nboxplot/draw direction=y,"
-		"\nboxplot/variable width,"
-		"\nboxplot/box extend=.5,"
-		"\nlegend cell align={left},";
-        out<<"\nlegend columns="<<LSS.size() + LBS.size()<<",";
-		out<<"\nylabel={Runtime},"
-		"\nx axis line style={opacity=0},"
-		"\naxis x line*=top,"
-		"\naxis y line=left,"
-		"\nymajorgrids,"
-		"\nxtick={";
-		out<<0;
-		for (long unsigned int i = 0; i < labels->size(); i++) {
-			out<<","<<i+1;
-		}
-		out<<"},"
-		"\nxticklabels={";
-		
+		"\n\\begin{tikzpicture}[xscale=.8, yscale=.8]";
+		out<<"\n\\begin{axis}["
+        "\naxis lines=left,"
+        "\ngrid style=dashed,"
+        "\nlegend cell align={left},";
+
+        out<<"\nlegend columns="<<(int) (LSS.size() + LBS.size())<<",";
+		//Pour etre exact ca devrait etre le nb de methodes comportant des resultats a *obs obstacles
+
+        out<<"\nlegend style={fill opacity=0.8, draw opacity=1, text opacity=1, at={(0.5,1.21)}, "
+		"anchor=north, draw=white!80!black}, tick align=outside, ylabel={Runtime (ms)},";
+		out<<"\nxtick={";
 		list<meanResultSS>::iterator lab = labels->begin();
-		out<<res_to_lab(*lab);
+		//out<<"$P_{"<<lab->nb_nodes<<","<<((double) lab->nb_arcs)/lab->nb_nodes<<"}$";
+		out<<res_to_lab<meanResultSS>(*lab);
 		lab++;
 		while (lab != labels->end()) {
-			out<<","<<res_to_lab(*lab);
+			//out<<",$P_{"<<lab->nb_nodes<<","<<((double) lab->nb_arcs)/lab->nb_nodes<<"}$";
+			out<<","<<res_to_lab<meanResultSS>(*lab);
 			lab++;
 		}
 		out<<"},";
-		out<<"\ncycle list={{red},{blue}},";	
+
+
+		out<<"\nsymbolic x coords={";
+		lab = labels->begin();
+		//out<<"$P_{"<<lab->nb_nodes<<","<<((double) lab->nb_arcs)/lab->nb_nodes<<"}$";
+		out<<res_to_lab<meanResultSS>(*lab);
+		lab++;
+		while (lab != labels->end()) {
+			//out<<",$P_{"<<lab->nb_nodes<<","<<((double) lab->nb_arcs)/lab->nb_nodes<<"}$";
+			out<<","<<res_to_lab<meanResultSS>(*lab);
+			lab++;
+		}
+		out<<"},";
 		
-		out<<"\nxtick style={draw=none},"
-		"\nxticklabel style={rotate=90}]";
+		out<<"x tick label style={rotate=45,anchor=east},"
+		"\nymajorgrids=true]\n";
 
-		int position = 0;
-		for (list<meanResultSS>::iterator lab = labels->begin(); lab != labels->end(); lab++) {
-			
-			for (list<methodSS>::iterator method = LSS.begin(); method != LSS.end(); method++) {
-				for (list<meanResultSS>::iterator elt = method->data->begin(); elt != method->data->end(); elt++) {
-					if (elt->n_obs == *obs && elt->nb_nodes == lab->nb_nodes && elt->nb_arcs == lab->nb_arcs) {
-						out<<"\n\\addplot+ [";
-						out<<"\ndraw="<<method->color<<"!50,";
-						out<<"\nboxplot prepared={";
-						out<<"\ndraw position="<<position<<",";
-						out<<"\nmedian="<<elt->T<<",";
-						out<<"\nupper whisker="<<elt->T + elt->sdT<<",";
-						out<<"\nlower whisker="<<elt->T - elt->sdT<<"},";
-						out<<"\n] coordinates {};";
-					}
+
+
+
+
+		//bool firstTime = true;
+		for (list<methodSS>::iterator method = LSS.begin(); method != LSS.end(); method++) {
+			out<<"\n\\addplot+";
+
+			out<<"[ color="<<method->color<<", mark=square*, mark options = {color="<<method->color<<"}]";
+			out<<"\ncoordinates {";
+			for (list<meanResultSS>::iterator locRes = method->data->begin(); locRes != method->data->end(); locRes++) {
+				if (locRes->n_obs == *obs) {
+					//out<<"\n($P_{"<<locRes->nb_nodes<<","<<((double) locRes->nb_arcs)/locRes->nb_nodes<<"}$,";
+					out<<"\n("<<res_to_lab<meanResultSS>(*locRes)<<",";
+					out<<1000*locRes->T<<")";
 				}
 			}
+			out<<"\n};";
+			out<<"\n\\addlegendentry{\\texttt{"<<method->name<<"}}";
 
+			out<<"\n\\addplot+";
 
-
-			for (list<methodBS>::iterator method = LBS.begin(); method != LBS.end(); method++) {
-				for (list<meanResultBS>::iterator elt = method->data->begin(); elt != method->data->end(); elt++) {
-					if (elt->n_obs == *obs && elt->nb_nodes == lab->nb_nodes && elt->nb_arcs == lab->nb_arcs) {
-						out<<"\n\\addplot+ [";
-						out<<"\ndraw="<<method->color<<"!50,";
-						out<<"\nboxplot prepared={";
-						out<<"\ndraw position="<<position<<",";
-						out<<"\nmedian="<<elt->T<<",";
-						out<<"\nupper whisker="<<elt->T + elt->sdT<<",";
-						out<<"\nlower whisker="<<elt->T - elt->sdT<<"},";
-						out<<"\n] coordinates {};";
-					}
+			out<<"[ color="<<method->color<<", mark=diamond, only marks, forget plot]";
+			out<<"\ncoordinates {";
+			for (list<meanResultSS>::iterator locRes = method->data->begin(); locRes != method->data->end(); locRes++) {
+				if (locRes->n_obs == *obs) {
+					//out<<"\n($P_{"<<locRes->nb_nodes<<","<<((double) locRes->nb_arcs)/locRes->nb_nodes<<"}$,";
+					out<<"\n("<<res_to_lab<meanResultSS>(*locRes)<<",";
+					out<<1000*(locRes->T-locRes->sdT)<<")";
 				}
 			}
+			out<<"\n};";
 
-			position++;
+			out<<"\n\\addplot+";
+
+			out<<"[ color="<<method->color<<", mark=diamond, only marks, forget plot]";
+			out<<"\ncoordinates {";
+			for (list<meanResultSS>::iterator locRes = method->data->begin(); locRes != method->data->end(); locRes++) {
+				if (locRes->n_obs == *obs) {
+					//out<<"\n($P_{"<<locRes->nb_nodes<<","<<((double) locRes->nb_arcs)/locRes->nb_nodes<<"}$,";
+					out<<"\n("<<res_to_lab<meanResultSS>(*locRes)<<",";
+					out<<1000*(locRes->T+locRes->sdT)<<")";
+				}
+			}
+			out<<"\n};";
+
 		}
 
+		for (list<methodBS>::iterator method = LBS.begin(); method != LBS.end(); method++) {
+			out<<"\n\\addplot+";
+
+			out<<"[ color="<<method->color<<", mark=square*, mark options = {color="<<method->color<<"}]";
+			out<<"\ncoordinates {";
+			for (list<meanResultBS>::iterator locRes = method->data->begin(); locRes != method->data->end(); locRes++) {
+				if (locRes->n_obs == *obs) {
+					//out<<"\n($P_{"<<locRes->nb_nodes<<","<<((double) locRes->nb_arcs)/locRes->nb_nodes<<"}$,";
+					out<<"\n("<<res_to_lab<meanResultBS>(*locRes)<<",";
+					out<<1000*locRes->T<<")";
+				}
+			}
+			out<<"\n};";
+			out<<"\n\\addlegendentry{\\texttt{"<<method->name<<"}}";
+
+			out<<"\n\\addplot+";
+
+			out<<"[ color="<<method->color<<", mark=diamond, only marks, forget plot]";
+			out<<"\ncoordinates {";
+			for (list<meanResultBS>::iterator locRes = method->data->begin(); locRes != method->data->end(); locRes++) {
+				if (locRes->n_obs == *obs) {
+					//out<<"\n($P_{"<<locRes->nb_nodes<<","<<((double) locRes->nb_arcs)/locRes->nb_nodes<<"}$,";
+					out<<"\n("<<res_to_lab<meanResultBS>(*locRes)<<",";
+					out<<1000*(locRes->T-locRes->sdT)<<")";
+				}
+			}
+			out<<"\n};";
+
+			out<<"\n\\addplot+";
+
+			out<<"[ color="<<method->color<<", mark=diamond, only marks, forget plot]";
+			out<<"\ncoordinates {";
+			for (list<meanResultBS>::iterator locRes = method->data->begin(); locRes != method->data->end(); locRes++) {
+				if (locRes->n_obs == *obs) {
+					//out<<"\n($P_{"<<locRes->nb_nodes<<","<<((double) locRes->nb_arcs)/locRes->nb_nodes<<"}$,";
+					out<<"\n("<<res_to_lab<meanResultBS>(*locRes)<<",";
+					out<<1000*(locRes->T+locRes->sdT)<<")";
+				}
+			}
+			out<<"\n};";
+
+		}
+		
 		out<<"\n\\end{axis}"
 		"\n\\end{tikzpicture}";
+
+
 		out<<"\n\\caption{$|S|="<<*obs<<"$}";
 		out<<"\n\\label{fig:time-"<<pref_Fig<<*obs<<"}";
 		out<<"\n\\end{subfigure}";
@@ -2494,6 +2749,8 @@ void timeComparison(list<methodSS>& LSS, list<methodBS>& LBS, ostream& out, stri
 	out<<"\n\\caption{Runtime}";
 	out<<"\n\\label{fig:time-"<<pref_Fig<<"}";
 	out<<"\n\\end{figure}";
+
+	delete obstacles;
 }
 
 
@@ -2611,6 +2868,50 @@ void writeComparisonSS() {
 }
 
 
+void writeComparisonBS() {
+	string ID = "Test";
+	filesystem::path outfilepath = filesystem::current_path();
+	outfilepath /= "data";
+	outfilepath /= "comparisonBS" + ID + ".tex";
+
+	filesystem::path filepath;
+
+	list<filesystem::path> bs_cstar = list<filesystem::path>();
+	list<filesystem::path> bs_ads_cstar = list<filesystem::path>();
+
+	filepath = filesystem::current_path()/"data";
+	bs_cstar.push_back(filepath/"BS-CSTAR_newDB.txt");
+	//filepath = filesystem::current_path()/"data";
+	//ss_cl.push_back(filepath/"ss_cl_completeDB.txt");
+
+	filepath = filesystem::current_path()/"data";
+	bs_ads_cstar.push_back(filepath/"BS-ADS-CSTAR_newDB.txt");
+	//filepath = filesystem::current_path()/"data";
+	//ss_ads.push_back(filepath/"ss_ads_completeDB.txt");
+
+
+
+	list<list<filesystem::path>> testsList = list<list<filesystem::path>>();
+	testsList.push_back(bs_cstar);
+	testsList.push_back(bs_ads_cstar);
+
+	list<methodBS>* methodList = filesToResultBS(testsList);
+
+
+
+
+
+	ofstream writing(outfilepath, ios::out);
+	begin_document(writing);
+	superComparison(*methodList, writing, ID);
+	writing<<"\n\\end{document}";
+	for (list<methodBS>::iterator it = methodList->begin(); it != methodList->end(); it++) {
+		delete it->data;
+	}
+	delete methodList;
+}
+
+
 void writeTimeComparison() {
 	string ID = "Test";
 	filesystem::path outfilepath = filesystem::current_path();
@@ -2639,7 +2940,7 @@ void writeTimeComparison() {
 	bs_cstar.push_back(filepath/"BS-CSTAR_newDB.txt");
 
 	filepath = filesystem::current_path()/"data";
-	bs_ads_cstar.push_back(filepath/"BS-ADS-STAR_newDB.txt");
+	bs_ads_cstar.push_back(filepath/"BS-ADS-CSTAR_newDB.txt");
 
 
 
@@ -2734,14 +3035,15 @@ int main(int argc, char *argv[])
 	//realDB();
 	//newCompleteDB();
 	//completingDB();
-	//showDB("realDB", 2000, 3.6);
+	//showDB("testDB", 20, 4.2);
 	//manuallyCompletingDB(2000, 1, 0, 420, 1.8, 30, "realDB/instance_", ".txt");
 	//writeStatSPPAO("statsSPPAO__addArcs.tex", "dataSPPAO_addArcs.txt");
 	//checkSPPAO();
 	//writeComparison("dataSPPAO_labelUpdate.txt", "dataSPPAO_addArcs.txt", "SPPAOcomparison_labUpdate_addaArcs.tex");
 	//writeCompareMethod("dataSPPAO_CstarD.txt", "methodsCompareCstar.tex");
-	//testEngine(BS, "testDB");
+	testEngine(BS, "newDB");
 	//writeComparisonSS();
-	writeTimeComparison();
+	//writeComparisonBS();
+	//writeTimeComparison();
 }
 
