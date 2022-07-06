@@ -2199,6 +2199,9 @@ struct methodBS
 template<typename T>
 string res_to_lab(T& mRes) {
 	double density = ((double) mRes.nb_arcs)/mRes.nb_nodes;
+	if (density == (double) mRes.nb_nodes-1) {
+		return "$K_{" + to_string(mRes.nb_nodes) + "}$";
+	}
 	string dens = to_string(density);
 	int cut = dens.find_last_not_of("0");
 	dens = dens.substr(0, cut+1);
