@@ -18,8 +18,8 @@ list<infoPath>* firstSPPAO(list<Node*>& graph, Node* s, Node* t, int* n, double*
     //infoPath optPath = superDijkstra(s, t, compCD,
     //        changeComplexKey, newComplexKey, noCond);
 
-    //infoPath optPath = dijkstraOptiCD_noCond(s, t);
-    infoPath optPath = dijkstraOptiC_noCond(s, t);
+    infoPath optPath = dijkstraOptiCD_noCond(s, t);
+    //infoPath optPath = dijkstraOptiC_noCond(s, t);
 
     double optC = 0;
     list<infoPath>* res = new list<infoPath>();
@@ -30,7 +30,8 @@ list<infoPath>* firstSPPAO(list<Node*>& graph, Node* s, Node* t, int* n, double*
         }
         optC = optPath.c;
         res->push_back(optPath);
-        resetGraph(graph);
+        //resetGraph(graph);
+        simpleResetGraph(graph);
         if (logs) {cout<<"\nSPPAO1 -- Dijkstra, strict_min_d = "<<optPath.d<<"\n";}
         startSub = chrono::system_clock::now();
 
@@ -40,8 +41,8 @@ list<infoPath>* firstSPPAO(list<Node*>& graph, Node* s, Node* t, int* n, double*
         //optPath = superDijkstra(s, t, compCD,
         //        changeComplexKey, newComplexKey, condD, optPath.d);
 
-        //optPath = dijkstraOptiCD_condD(s, t, optPath.d);
-        optPath = dijkstraOptiC_condD(s, t, optPath.d);
+        optPath = dijkstraOptiCD_condD(s, t, optPath.d);
+        //optPath = dijkstraOptiC_condD(s, t, optPath.d);
 
 
         elapsed = chrono::system_clock::now()-startSub;

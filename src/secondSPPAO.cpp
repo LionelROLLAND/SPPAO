@@ -63,8 +63,8 @@ double* t1, double* t2) {
     //infoPath minCpath = superDijkstra(s, t, compCD, changeComplexKey,
     //        newComplexKey, noCond);
     
-    //infoPath minCpath = dijkstraOptiCD_noCond(s, t);
-    infoPath minCpath = dijkstraOptiC_noCond(s, t);
+    infoPath minCpath = dijkstraOptiCD_noCond(s, t);
+    //infoPath minCpath = dijkstraOptiC_noCond(s, t);
 
     //infoPath minCpath = computeCstar_andPathOptiC_noCond(s, t);
     //infoPath minCpath = computeCstar_andPathOptiCD_noCond(s, t);
@@ -121,8 +121,8 @@ double* t1, double* t2) {
         //upper = superDijkstra(s, t, compCD, changeComplexKey, newComplexKey, condCD,
         //        d_bar, Irect.c_max);
 
-        //upper = dijkstraOptiCD_condCD(s, t, d_bar, Irect.c_max);
-        upper = dijkstraOptiC_condCD(s, t, d_bar, Irect.c_max);
+        upper = dijkstraOptiCD_condCD(s, t, d_bar, Irect.c_max);
+        //upper = dijkstraOptiC_condCD(s, t, d_bar, Irect.c_max);
 
         //upper = dijkstraOptiCD_condCstarD(s, t, d_bar, Irect.c_max);
         //upper = dijkstraOptiC_condCstarD(s, t, d_bar, Irect.c_max);
@@ -183,8 +183,8 @@ double* t1, double* t2) {
                 //lower = superDijkstra(s, t, compCD, changeComplexKey, newComplexKey,
                 //        condCD, Irect.pathMin->d, upper.c);
 
-                //lower = dijkstraOptiCD_condCD(s, t, Irect.pathMin->d, upper.c);
-                lower = dijkstraOptiC_condCD(s, t, Irect.pathMin->d, upper.c);
+                lower = dijkstraOptiCD_condCD(s, t, Irect.pathMin->d, upper.c);
+                //lower = dijkstraOptiC_condCD(s, t, Irect.pathMin->d, upper.c);
 
                 //lower = dijkstraOptiCD_condCstarD(s, t, Irect.pathMin->d, upper.c);
                 //lower = dijkstraOptiC_condCstarD(s, t, Irect.pathMin->d, upper.c);
@@ -258,8 +258,8 @@ double* t1, double* t2) {
             //lower = superDijkstra(s, t, compCD, changeComplexKey, newComplexKey,
             //        condCD, Irect.pathMin->d, Irect.c_max);
 
-            //lower = dijkstraOptiCD_condCD(s, t, Irect.pathMin->d, Irect.c_max);
-            lower = dijkstraOptiC_condCD(s, t, Irect.pathMin->d, Irect.c_max);
+            lower = dijkstraOptiCD_condCD(s, t, Irect.pathMin->d, Irect.c_max);
+            //lower = dijkstraOptiC_condCD(s, t, Irect.pathMin->d, Irect.c_max);
 
             //lower = dijkstraOptiCD_condCstarD(s, t, Irect.pathMin->d, Irect.c_max);
             //lower = dijkstraOptiC_condCstarD(s, t, Irect.pathMin->d, Irect.c_max);

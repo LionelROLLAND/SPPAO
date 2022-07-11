@@ -1240,6 +1240,9 @@ void statSS(string dir, list<int>& obstacles, ostream& out)
 		reading.close();
 		int n_nodes = nbNodes(*l);
 		int n_arcs = nbArcs(*l);
+		cout<<infilepath<<"\n";
+		cout<<"Nb nodes : "<<n_nodes<<"\n";
+		cout<<"Nb arcs : "<<n_arcs<<endl;
 
 		double x_min = l->front()->x;
 		double x_max = l->front()->x;
@@ -1253,18 +1256,16 @@ void statSS(string dir, list<int>& obstacles, ostream& out)
 			if ((*point)->y > y_max) {y_max = (*point)->y;}
 			if ((*point)->no > max_no) {max_no = (*point)->no;}
 		}
-		Node* node1;
-		Node* node2;
+		Node* node1 = l->front();
+		Node* node2 = l->front();
 		for (list<Node*>::iterator it = l->begin(); it != l->end(); it++) {
-			if ((*it)->x <= x_min + 1 && (*it)-> y <= y_min + 1) {
+			if ((*it)->x + (*it)->y < node1->x + node1->y) {
 				node1 = *it;
-				break;
 			}
 		}
 		for (list<Node*>::iterator it = l->begin(); it != l->end(); it++) {
-			if ((*it)->x >= x_max-1 && (*it)-> y >= y_max-1) {
+			if ((*it)->x + (*it)->y > node2->x + node2->y) {
 				node2 = *it;
-				break;
 			}
 		}
 		for (list<int>::iterator n_obs = obstacles.begin(); n_obs != obstacles.end(); n_obs++) {
@@ -1282,7 +1283,7 @@ void statSS(string dir, list<int>& obstacles, ostream& out)
 			start_pb = chrono::system_clock::now();
 
 			list<infoPath>* SPPAOres = firstSPPAO(*l, node1, node2);
-			//list<infoPath>* SPPAOres = firstSPPAO_update(*l, node1, node2, &n, &t_comp);
+			//list<infoPath>* SPPAOres = firstSPPAO_update(*l, node1, node2);
 			//list<infoPath>* SPPAOres = weirdSPPAO(*arcsToAddLists, node1, node2);
 			
 			elapsed1 = chrono::system_clock::now() - start_pb;
@@ -1332,6 +1333,9 @@ void statBS(string dir, list<int>& obstacles, ostream& out) {
 		reading.close();
 		int n_nodes = nbNodes(*l);
 		int n_arcs = nbArcs(*l);
+		cout<<infilepath<<"\n";
+		cout<<"Nb nodes : "<<n_nodes<<"\n";
+		cout<<"Nb arcs : "<<n_arcs<<endl;
 
 		double x_min = l->front()->x;
 		double x_max = l->front()->x;
@@ -1345,18 +1349,16 @@ void statBS(string dir, list<int>& obstacles, ostream& out) {
 			if ((*point)->y > y_max) {y_max = (*point)->y;}
 			if ((*point)->no > max_no) {max_no = (*point)->no;}
 		}
-		Node* node1;
-		Node* node2;
+		Node* node1 = l->front();
+		Node* node2 = l->front();
 		for (list<Node*>::iterator it = l->begin(); it != l->end(); it++) {
-			if ((*it)->x <= x_min + 1 && (*it)-> y <= y_min + 1) {
+			if ((*it)->x + (*it)->y < node1->x + node1->y) {
 				node1 = *it;
-				break;
 			}
 		}
 		for (list<Node*>::iterator it = l->begin(); it != l->end(); it++) {
-			if ((*it)->x >= x_max-1 && (*it)-> y >= y_max-1) {
+			if ((*it)->x + (*it)->y > node2->x + node2->y) {
 				node2 = *it;
-				break;
 			}
 		}
 		for (list<int>::iterator n_obs = obstacles.begin(); n_obs != obstacles.end(); n_obs++) {
@@ -2160,7 +2162,7 @@ void begin_document(ostream& out) {
 
 string newColor() {
 	static int n = 0;
-	string colors[] = {"orange", "olive", "red", "purple"};
+	string colors[] = {"orange", "olive", "red", "yellow", "blue", "black", "cyan"};
 	return colors[n++];
 }
 
@@ -2301,7 +2303,8 @@ function<string(const methodSS&)> plotOptionSS, function<string(const methodBS&)
 	"\ngrid style=dashed,"
 	"\nlegend cell align={left},";
 
-	out<<"\nlegend columns="<<(int) (LSS.size() + LBS.size())<<",";
+	//out<<"\nlegend columns="<<(int) (LSS.size() + LBS.size())<<",";
+	out<<"\nlegend columns=4,";
 	//Pour etre exact ca devrait etre le nb de methodes comportant des resultats a *obs obstacles
 
 	out<<"\nlegend style={fill opacity=0.8, draw opacity=1, text opacity=1, at={(0.5,1.21)}, ";
@@ -2340,7 +2343,7 @@ function<string(const methodSS&)> plotOptionSS, function<string(const methodBS&)
 
 	//bool firstTime = true;
 	for (list<methodSS>::iterator method = LSS.begin(); method != LSS.end(); method++) {
-		out<<"\n\\addplot+";
+		out<<"\n\\addplot";
 
 		//out<<"[ color="<<method->color<<", mark=square*, mark options = {color="<<method->color<<"}]";
 		out<<"["<<plotOptionSS(*method)<<"]";
@@ -2358,7 +2361,7 @@ function<string(const methodSS&)> plotOptionSS, function<string(const methodBS&)
 	}
 
 	for (list<methodBS>::iterator method = LBS.begin(); method != LBS.end(); method++) {
-		out<<"\n\\addplot+";
+		out<<"\n\\addplot";
 
 		//out<<"[ color="<<method->color<<", mark=square*, mark options = {color="<<method->color<<"}]";
 		out<<"["<<plotOptionBS(*method)<<"]";
@@ -2433,6 +2436,115 @@ double getT2(const meanResultBS& res) {
 	return 1000*res.T2;
 }
 
+
+void T1T2comp(list<methodBS>& LBS, ostream& out, string pref_Fig="") {
+	list<methodSS> emptyList = list<methodSS>();
+	list<int>* obstacles = makeObstacles(emptyList, LBS);
+
+
+	out<<"\n\\begin{figure}[htb]"
+	"\n\\centering"
+	"\n\\small\n";
+	for (list<int>::iterator obs = obstacles->begin(); obs != obstacles->end(); obs++) {
+
+		list<meanResultSS>* labels = makeLabels(emptyList, LBS, *obs);
+		out<<"\n\\begin{subfigure}[h]{0.45\\textwidth}"
+		"\n\\centering"
+		"\n\\begin{tikzpicture}[xscale=.8, yscale=.8]";
+		out<<"\n\\begin{axis}["
+        "\naxis lines=left,"
+        "\ngrid style=dashed,"
+        "\nlegend cell align={left},";
+
+        //out<<"\nlegend columns="<<(int) (LSS.size() + LBS.size())<<",";
+		out<<"\nlegend columns=4,";
+		//Pour etre exact ca devrait etre le nb de methodes comportant des resultats a *obs obstacles
+
+        out<<"\nlegend style={fill opacity=0.8, draw opacity=1, text opacity=1, at={(0.5,1.21)}, "
+		"anchor=north, draw=white!80!black}, tick align=outside, ylabel={time (ms)},";
+		out<<"\nxtick={";
+		list<meanResultSS>::iterator lab = labels->begin();
+		//out<<"$P_{"<<lab->nb_nodes<<","<<((double) lab->nb_arcs)/lab->nb_nodes<<"}$";
+		out<<res_to_lab<meanResultSS>(*lab);
+		lab++;
+		while (lab != labels->end()) {
+			//out<<",$P_{"<<lab->nb_nodes<<","<<((double) lab->nb_arcs)/lab->nb_nodes<<"}$";
+			out<<","<<res_to_lab<meanResultSS>(*lab);
+			lab++;
+		}
+		out<<"},";
+
+
+		out<<"\nsymbolic x coords={";
+		lab = labels->begin();
+		//out<<"$P_{"<<lab->nb_nodes<<","<<((double) lab->nb_arcs)/lab->nb_nodes<<"}$";
+		out<<res_to_lab<meanResultSS>(*lab);
+		lab++;
+		while (lab != labels->end()) {
+			//out<<",$P_{"<<lab->nb_nodes<<","<<((double) lab->nb_arcs)/lab->nb_nodes<<"}$";
+			out<<","<<res_to_lab<meanResultSS>(*lab);
+			lab++;
+		}
+		out<<"},";
+		
+		out<<"x tick label style={rotate=45,anchor=east},"
+		"\nymajorgrids=true]\n";
+
+
+
+
+
+		//bool firstTime = true;
+
+		for (list<methodBS>::iterator method = LBS.begin(); method != LBS.end(); method++) {
+			out<<"\n\\addplot";
+
+			out<<"[ color="<<method->color<<", mark=o*, mark options = {color="<<method->color<<"}]";
+			out<<"\ncoordinates {";
+			for (list<meanResultBS>::iterator locRes = method->data->begin(); locRes != method->data->end(); locRes++) {
+				if (locRes->n_obs == *obs) {
+					//out<<"\n($P_{"<<locRes->nb_nodes<<","<<((double) locRes->nb_arcs)/locRes->nb_nodes<<"}$,";
+					out<<"\n("<<res_to_lab<meanResultBS>(*locRes)<<",";
+					out<<locRes->T1<<")";
+				}
+			}
+			out<<"\n};";
+			out<<"\n\\addlegendentry{T1:\\texttt{"<<method->name<<"}}";
+
+			out<<"\n\\addplot";
+
+			out<<"[ color="<<method->color<<", mark=diamond*, dashed, thick, mark options = {color="<<method->color<<"}]";
+			out<<"\ncoordinates {";
+			for (list<meanResultBS>::iterator locRes = method->data->begin(); locRes != method->data->end(); locRes++) {
+				if (locRes->n_obs == *obs) {
+					//out<<"\n($P_{"<<locRes->nb_nodes<<","<<((double) locRes->nb_arcs)/locRes->nb_nodes<<"}$,";
+					out<<"\n("<<res_to_lab<meanResultBS>(*locRes)<<",";
+					out<<locRes->T2<<")";
+				}
+			}
+			out<<"\n};";
+			out<<"\n\\addlegendentry{T2:\\texttt{"<<method->name<<"}}";
+
+		}
+		
+		out<<"\n\\end{axis}"
+		"\n\\end{tikzpicture}";
+
+
+		out<<"\n\\caption{$|S|="<<*obs<<"$}";
+		out<<"\n\\label{fig:T1T2-"<<pref_Fig<<*obs<<"}";
+		out<<"\n\\end{subfigure}";
+
+		delete labels;
+	}
+	out<<"\n\\caption{Runtime}";
+	out<<"\n\\label{fig:T1T2-"<<pref_Fig<<"}";
+	out<<"\n\\end{figure}";
+
+	delete obstacles;
+}
+
+
 void superComparison(list<methodSS>& l, ostream& out, string pref_Fig="") {
 	list<methodBS> emptyList = list<methodBS>();
 	list<int>* obstacles = makeObstacles(l, emptyList);
@@ -2441,7 +2553,7 @@ void superComparison(list<methodSS>& l, ostream& out, string pref_Fig="") {
 	"\n\\centering"
 	"\n\\small\n";
 	for (list<int>::iterator obs = obstacles->begin(); obs != obstacles->end(); obs++) {
-		printSub(l, emptyList, out, *obs, "lab-"+pref_Fig+to_string(*obs), "Number of labelled nodes",
+		printSub(l, emptyList, out, *obs, "lab-"+pref_Fig+to_string(*obs), "Number of label updates",
 		getLabels<meanResultSS>, getLabels<meanResultBS>,
 		regularOp<methodSS>, regularOp<methodBS>);
 	}
@@ -2459,7 +2571,7 @@ void superComparison(list<methodBS>& l, ostream& out, string pref_Fig="") {
 	"\n\\centering"
 	"\n\\small\n";
 	for (list<int>::iterator obs = obstacles->begin(); obs != obstacles->end(); obs++) {
-		printSub(emptyList, l, out, *obs, "lab-"+pref_Fig+to_string(*obs), "Number of labelled nodes",
+		printSub(emptyList, l, out, *obs, "lab-"+pref_Fig+to_string(*obs), "Number of label updates",
 		getLabels<meanResultSS>, getLabels<meanResultBS>,
 		regularOp<methodSS>, regularOp<methodBS>);
 	}
@@ -2492,6 +2604,8 @@ void superComparison(list<methodBS>& l, ostream& out, string pref_Fig="") {
 	out<<"\n\\label{fig:D2-"<<pref_Fig<<"}\n";
 	out<<"\n\\end{figure}";
 
+	
+	/*
 	out<<"\n\\begin{figure}[htb]"
 	"\n\\centering"
 	"\n\\small\n";
@@ -2515,7 +2629,9 @@ void superComparison(list<methodBS>& l, ostream& out, string pref_Fig="") {
 	out<<"\n\\caption{\\texttt{BS} comparison}\n";
 	out<<"\n\\label{fig:T2-"<<pref_Fig<<"}\n";
 	out<<"\n\\end{figure}";
+	*/
 	delete obstacles;
+	T1T2comp(l, out, pref_Fig);
 }
 
 
@@ -2569,7 +2685,7 @@ void timeComparison(list<methodSS>& LSS, list<methodBS>& LBS, ostream& out, stri
 		"\nymajorgrids=true]\n";
 
 
-		out<<"\n\\addplot+";
+		out<<"\n\\addplot";
 
 		out<<"[ color=black, mark=square*, mark options = {color=black}, forget plot]";
 		out<<"\ncoordinates {";
@@ -2615,7 +2731,8 @@ void timeComparison(list<methodSS>& LSS, list<methodBS>& LBS, ostream& out, stri
         "\ngrid style=dashed,"
         "\nlegend cell align={left},";
 
-        out<<"\nlegend columns="<<(int) (LSS.size() + LBS.size())<<",";
+        //out<<"\nlegend columns="<<(int) (LSS.size() + LBS.size())<<",";
+		out<<"\nlegend columns=4,";
 		//Pour etre exact ca devrait etre le nb de methodes comportant des resultats a *obs obstacles
 
         out<<"\nlegend style={fill opacity=0.8, draw opacity=1, text opacity=1, at={(0.5,1.21)}, "
@@ -2654,7 +2771,7 @@ void timeComparison(list<methodSS>& LSS, list<methodBS>& LBS, ostream& out, stri
 
 		//bool firstTime = true;
 		for (list<methodSS>::iterator method = LSS.begin(); method != LSS.end(); method++) {
-			out<<"\n\\addplot+";
+			out<<"\n\\addplot";
 
 			out<<"[ color="<<method->color<<", mark=square*, mark options = {color="<<method->color<<"}]";
 			out<<"\ncoordinates {";
@@ -2668,7 +2785,7 @@ void timeComparison(list<methodSS>& LSS, list<methodBS>& LBS, ostream& out, stri
 			out<<"\n};";
 			out<<"\n\\addlegendentry{\\texttt{"<<method->name<<"}}";
 
-			out<<"\n\\addplot+";
+			out<<"\n\\addplot";
 
 			out<<"[ color="<<method->color<<", mark=diamond, only marks, forget plot]";
 			out<<"\ncoordinates {";
@@ -2681,7 +2798,7 @@ void timeComparison(list<methodSS>& LSS, list<methodBS>& LBS, ostream& out, stri
 			}
 			out<<"\n};";
 
-			out<<"\n\\addplot+";
+			out<<"\n\\addplot";
 
 			out<<"[ color="<<method->color<<", mark=diamond, only marks, forget plot]";
 			out<<"\ncoordinates {";
@@ -2697,7 +2814,7 @@ void timeComparison(list<methodSS>& LSS, list<methodBS>& LBS, ostream& out, stri
 		}
 
 		for (list<methodBS>::iterator method = LBS.begin(); method != LBS.end(); method++) {
-			out<<"\n\\addplot+";
+			out<<"\n\\addplot";
 
 			out<<"[ color="<<method->color<<", mark=square*, mark options = {color="<<method->color<<"}]";
 			out<<"\ncoordinates {";
@@ -2711,7 +2828,7 @@ void timeComparison(list<methodSS>& LSS, list<methodBS>& LBS, ostream& out, stri
 			out<<"\n};";
 			out<<"\n\\addlegendentry{\\texttt{"<<method->name<<"}}";
 
-			out<<"\n\\addplot+";
+			out<<"\n\\addplot";
 
 			out<<"[ color="<<method->color<<", mark=diamond, only marks, forget plot]";
 			out<<"\ncoordinates {";
@@ -2724,7 +2841,7 @@ void timeComparison(list<methodSS>& LSS, list<methodBS>& LBS, ostream& out, stri
 			}
 			out<<"\n};";
 
-			out<<"\n\\addplot+";
+			out<<"\n\\addplot";
 
 			out<<"[ color="<<method->color<<", mark=diamond, only marks, forget plot]";
 			out<<"\ncoordinates {";
@@ -2837,22 +2954,31 @@ void writeComparisonSS() {
 
 	list<filesystem::path> ss_cl = list<filesystem::path>();
 	list<filesystem::path> ss_ads = list<filesystem::path>();
+	list<filesystem::path> ss_ads_rm = list<filesystem::path>();
+	list<filesystem::path> ss_add = list<filesystem::path>();
 
 	filepath = filesystem::current_path()/"data";
 	ss_cl.push_back(filepath/"SS-CL_newDB.txt");
-	//filepath = filesystem::current_path()/"data";
-	//ss_cl.push_back(filepath/"ss_cl_completeDB.txt");
+	filepath = filesystem::current_path()/"data";
+	ss_cl.push_back(filepath/"SS-CL_completeDB.txt");
 
 	filepath = filesystem::current_path()/"data";
 	ss_ads.push_back(filepath/"SS-ADS_newDB.txt");
-	//filepath = filesystem::current_path()/"data";
-	//ss_ads.push_back(filepath/"ss_ads_completeDB.txt");
+
+	filepath = filesystem::current_path()/"data";
+	ss_ads_rm.push_back(filepath/"SS-ADS-RM_newDB.txt");
+
+	filepath = filesystem::current_path()/"data";
+	ss_add.push_back(filepath/"SS-ADD_newDB.txt");
+
 
 
 
 	list<list<filesystem::path>> testsList = list<list<filesystem::path>>();
 	testsList.push_back(ss_cl);
 	testsList.push_back(ss_ads);
+	testsList.push_back(ss_ads_rm);
+	testsList.push_back(ss_add);
 
 	list<methodSS>* methodList = filesToResultSS(testsList);
 
@@ -2864,6 +2990,7 @@ void writeComparisonSS() {
 	begin_document(writing);
 	superComparison(*methodList, writing, ID);
 	writing<<"\n\\end{document}";
+	writing.close();
 	for (list<methodSS>::iterator it = methodList->begin(); it != methodList->end(); it++) {
 		delete it->data;
 	}
@@ -2879,8 +3006,18 @@ void writeComparisonBS() {
 
 	filesystem::path filepath;
 
+	list<filesystem::path> bs_cl = list<filesystem::path>();
+	list<filesystem::path> bs_ads = list<filesystem::path>();
 	list<filesystem::path> bs_cstar = list<filesystem::path>();
 	list<filesystem::path> bs_ads_cstar = list<filesystem::path>();
+
+	filepath = filesystem::current_path()/"data";
+	bs_cl.push_back(filepath/"BS-CL_newDB.txt");
+	filepath = filesystem::current_path()/"data";
+	bs_cl.push_back(filepath/"BS-CL_completeDB.txt");
+
+	filepath = filesystem::current_path()/"data";
+	bs_ads.push_back(filepath/"BS-ADS_newDB.txt");
 
 	filepath = filesystem::current_path()/"data";
 	bs_cstar.push_back(filepath/"BS-CSTAR_newDB.txt");
@@ -2895,6 +3032,8 @@ void writeComparisonBS() {
 
 
 	list<list<filesystem::path>> testsList = list<list<filesystem::path>>();
+	testsList.push_back(bs_cl);
+	testsList.push_back(bs_ads);
 	testsList.push_back(bs_cstar);
 	testsList.push_back(bs_ads_cstar);
 
@@ -2908,6 +3047,7 @@ void writeComparisonBS() {
 	begin_document(writing);
 	superComparison(*methodList, writing, ID);
 	writing<<"\n\\end{document}";
+	writing.close();
 	for (list<methodBS>::iterator it = methodList->begin(); it != methodList->end(); it++) {
 		delete it->data;
 	}
@@ -2966,10 +3106,139 @@ void writeTimeComparison() {
 	begin_document(writing);
 	timeComparison(*methodListSS, *methodListBS, writing, ID);
 	writing<<"\n\\end{document}";
+	writing.close();
 	for (list<methodSS>::iterator it = methodListSS->begin(); it != methodListSS->end(); it++) {
 		delete it->data;
 	}
 	delete methodListSS;
+	for (list<methodBS>::iterator it = methodListBS->begin(); it != methodListBS->end(); it++) {
+		delete it->data;
+	}
+	delete methodListBS;
+}
+
+
+void writeAllComparison() {
+	string ID = "justNewSS";
+	filesystem::path outfilepath = filesystem::current_path();
+	outfilepath /= "data";
+	outfilepath /= "comparisonSS" + ID + ".tex";
+
+	filesystem::path filepath;
+
+	list<filesystem::path> ss_cl = list<filesystem::path>();
+	list<filesystem::path> ss_ads = list<filesystem::path>();
+	list<filesystem::path> ss_ads_rm = list<filesystem::path>();
+	list<filesystem::path> ss_add = list<filesystem::path>();
+
+	filepath = filesystem::current_path()/"data";
+	ss_cl.push_back(filepath/"SS-CL_newDB.txt");
+	//filepath = filesystem::current_path()/"data";
+	//ss_cl.push_back(filepath/"SS-CL_completeDB.txt");
+
+	filepath = filesystem::current_path()/"data";
+	ss_ads.push_back(filepath/"SS-ADS_newDB.txt");
+
+	filepath = filesystem::current_path()/"data";
+	ss_ads_rm.push_back(filepath/"SS-ADS-RM_newDB.txt");
+
+	filepath = filesystem::current_path()/"data";
+	ss_add.push_back(filepath/"SS-ADD_newDB.txt");
+
+
+
+
+	list<list<filesystem::path>> testsListSS = list<list<filesystem::path>>();
+	testsListSS.push_back(ss_cl);
+	testsListSS.push_back(ss_ads);
+	testsListSS.push_back(ss_ads_rm);
+	testsListSS.push_back(ss_add);
+
+	list<methodSS>* methodListSS = filesToResultSS(testsListSS);
+
+
+
+	ofstream writing(outfilepath, ios::out);
+	begin_document(writing);
+	superComparison(*methodListSS, writing, ID);
+	writing<<"\n\\end{document}";
+	writing.close();
+
+
+
+
+	ID = "justNewBS";
+	outfilepath = filesystem::current_path();
+	outfilepath /= "data";
+	outfilepath /= "comparisonBS" + ID + ".tex";
+
+
+	list<filesystem::path> bs_cl = list<filesystem::path>();
+	list<filesystem::path> bs_ads = list<filesystem::path>();
+	//list<filesystem::path> bs_cstar = list<filesystem::path>();
+	list<filesystem::path> bs_ads_cstar = list<filesystem::path>();
+
+	filepath = filesystem::current_path()/"data";
+	bs_cl.push_back(filepath/"BS-CL_newDB.txt");
+	//filepath = filesystem::current_path()/"data";
+	//bs_cl.push_back(filepath/"BS-CL_completeDB.txt");
+
+	filepath = filesystem::current_path()/"data";
+	bs_ads.push_back(filepath/"BS-ADS_newDB.txt");
+
+	//filepath = filesystem::current_path()/"data";
+	//bs_cstar.push_back(filepath/"BS-CSTAR_newDB.txt");
+	//filepath = filesystem::current_path()/"data";
+	//ss_cl.push_back(filepath/"ss_cl_completeDB.txt");
+
+	filepath = filesystem::current_path()/"data";
+	bs_ads_cstar.push_back(filepath/"BS-ADS-CSTAR_newDB.txt");
+	//filepath = filesystem::current_path()/"data";
+	//ss_ads.push_back(filepath/"ss_ads_completeDB.txt");
+
+
+
+	list<list<filesystem::path>> testsListBS = list<list<filesystem::path>>();
+	testsListBS.push_back(bs_cl);
+	testsListBS.push_back(bs_ads);
+	//testsListBS.push_back(bs_cstar);
+	testsListBS.push_back(bs_ads_cstar);
+
+	list<methodBS>* methodListBS = filesToResultBS(testsListBS);
+
+
+
+	writing = ofstream(outfilepath, ios::out);
+	begin_document(writing);
+	superComparison(*methodListBS, writing, ID);
+	writing<<"\n\\end{document}";
+	writing.close();
+
+
+
+
+	ID = "timeNew";
+	outfilepath = filesystem::current_path();
+	outfilepath /= "data";
+	outfilepath /= "comparisonTime" + ID + ".tex";
+
+	writing = ofstream(outfilepath, ios::out);
+	begin_document(writing);
+	timeComparison(*methodListSS, *methodListBS, writing, ID);
+	writing<<"\n\\end{document}";
+	writing.close();
+
+
+
+
+
+
+
+	for (list<methodSS>::iterator it = methodListSS->begin(); it != methodListSS->end(); it++) {
+		delete it->data;
+	}
+	delete methodListSS;
+
 	for (list<methodBS>::iterator it = methodListBS->begin(); it != methodListBS->end(); it++) {
 		delete it->data;
 	}
@@ -3044,9 +3313,10 @@ int main(int argc, char *argv[])
 	//checkSPPAO();
 	//writeComparison("dataSPPAO_labelUpdate.txt", "dataSPPAO_addArcs.txt", "SPPAOcomparison_labUpdate_addaArcs.tex");
 	//writeCompareMethod("dataSPPAO_CstarD.txt", "methodsCompareCstar.tex");
-	testEngine(BS, "newDB");
+	testEngine(BS, "completeDB");
 	//writeComparisonSS();
 	//writeComparisonBS();
 	//writeTimeComparison();
+	//writeAllComparison();
 }
 
