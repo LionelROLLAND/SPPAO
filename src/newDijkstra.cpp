@@ -792,6 +792,7 @@ infoPath labelUpdating_OptiCD_condD(list<Node*>& graph, Node* s, Node* t, double
             }
             //cout<<"Adding : "<<to_process<<endl;
             to_process->tree = heap->insert(to_process);
+            //cout<<"No : "<<to_process->no<<"\n";
         }
     }
 
@@ -809,29 +810,38 @@ infoPath labelUpdating_OptiCD_condD(list<Node*>& graph, Node* s, Node* t, double
             if (neighb->arc_d > strict_min_d) {
                 newLength = to_relax->c_to_s + neighb->arc_c;
                 if (newLength < neighb->c_to_s()) {
-                    n_labels++;
-                    //cout<<"     Considered neighb : "<<neighb->node;
-                    //cout<<" -> c = "<<neighb->c_to_s()<<", d = "<<neighb->d_to_S()<<endl;
-                    neighb->c_to_s() = newLength;
-                    neighb->d_to_S() = min(to_relax->d_to_S, neighb->arc_d);
-                    
-                    heap->decreasedKey( static_cast<markTree<Node*>*>(neighb->tree()) );
-                    neighb->pred()->node = to_relax;
-                    neighb->pred()->arc_c = neighb->arc_c;
-                    neighb->pred()->arc_d = neighb->arc_d;
+                    if (neighb->tree() == nullptr) {
+                        cerr<<"CRITICAL FLOATING POINT ERROR"<<endl;
+                    } else {
+                        n_labels++;
+                        //cout<<"     Considered neighb : "<<neighb->node;
+                        //cout<<" -> c = "<<neighb->c_to_s()<<", d = "<<neighb->d_to_S()<<endl;
+                        neighb->c_to_s() = newLength;
+                        neighb->d_to_S() = min(to_relax->d_to_S, neighb->arc_d);
+                        
+                        heap->decreasedKey( static_cast<markTree<Node*>*>(neighb->tree()) );
+                        neighb->pred()->node = to_relax;
+                        neighb->pred()->arc_c = neighb->arc_c;
+                        neighb->pred()->arc_d = neighb->arc_d;
+                    }
                 } else if (newLength == neighb->c_to_s()) {
                     //cout<<"     Considered neighb : "<<neighb->node;
                     //cout<<" -> c = "<<neighb->c_to_s()<<", d = "<<neighb->d_to_S()<<endl;
                     newDist = min(to_relax->d_to_S, neighb->arc_d);
                     if (newDist > neighb->d_to_S()) {
-                        n_labels++;
-                        neighb->c_to_s() = newLength;
-                        neighb->d_to_S() = newDist;
+                        if (neighb->tree() == nullptr) {
+                            cerr<<"CRITICAL FLOATING POINT ERROR"<<endl;
+                        } else {
+                            n_labels++;
+                            neighb->c_to_s() = newLength;
+                            neighb->d_to_S() = newDist;
 
-                        heap->decreasedKey( static_cast<markTree<Node*>*>(neighb->tree()) );
-                        neighb->pred()->node = to_relax;
-                        neighb->pred()->arc_c = neighb->arc_c;
-                        neighb->pred()->arc_d = neighb->arc_d;
+                            heap->decreasedKey( static_cast<markTree<Node*>*>(neighb->tree()) );
+                            neighb->pred()->node = to_relax;
+                            neighb->pred()->arc_c = neighb->arc_c;
+                            neighb->pred()->arc_d = neighb->arc_d;
+                        }
+
                     }
                 }
             }

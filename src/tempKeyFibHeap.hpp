@@ -403,6 +403,14 @@ void fibHeap<T>::decreasedKey(markTree<T>* Tr) {
     //if (is_empty()) {cout<<"EMPTY FIBHEAP"<<endl;}
     //cout<<Tr->get.data<<endl;
     //cout<<"    "<<min_root->get.data<<endl;
+    /*
+    if (Tr == nullptr) {
+        cerr<<"ERROR : Tr = nullptr"<<endl;
+    }
+    if (min_root == nullptr) {
+        cerr<<"ERROR : min_root = nullptr"<<endl;
+    }
+    */
     if (lesser(Tr->get.data, min_root->get.data)) {min_root = Tr;}
     Tree<infoFib<T>>* parInit = Tr->parent;
     markTree<T>* par = static_cast<markTree<T>*>(parInit);

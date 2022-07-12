@@ -21,7 +21,7 @@ bool compare_d(infoPath p1, infoPath p2) {return p1.d < p2.d;}
 
 
 list<infoPath>* secondSPPAO(list<Node*>& graph, Node* s, Node* t, int* n1, int* n2,
-double* t1, double* t2) {
+double* t1, double* t2, list<logSPPAO2>* history) {
     //cout<<"\nInto secondSPPAO"<<endl;
     int nbD1 = 0;
     int step = 0;
@@ -29,6 +29,7 @@ double* t1, double* t2) {
     if (n2 != nullptr) {*n2 = 0;}
     if (t1 != nullptr) {*t1 = 0;}
     if (t2 != nullptr) {*t2 = 0;}
+    if (history != nullptr) {*history = list<logSPPAO2>();}
     filesystem::path filepath = filesystem::current_path();
     filepath /= "data";
     filepath /= "SPPAO2.log";
@@ -50,7 +51,6 @@ double* t1, double* t2) {
 
     //cout<<"\nAfter maxDpath"<<endl;
 
-
     if (logs) {cout<<"result : d = "<<maxDpath.d<<", c = "<<maxDpath.c<<"\n";}
     //resetGraph(graph);
     simpleResetGraph(graph);
@@ -63,14 +63,13 @@ double* t1, double* t2) {
     //infoPath minCpath = superDijkstra(s, t, compCD, changeComplexKey,
     //        newComplexKey, noCond);
     
-    infoPath minCpath = dijkstraOptiCD_noCond(s, t);
+    //infoPath minCpath = dijkstraOptiCD_noCond(s, t);
     //infoPath minCpath = dijkstraOptiC_noCond(s, t);
 
     //infoPath minCpath = computeCstar_andPathOptiC_noCond(s, t);
-    //infoPath minCpath = computeCstar_andPathOptiCD_noCond(s, t);
+    infoPath minCpath = computeCstar_andPathOptiCD_noCond(s, t);
 
     //cout<<"\nAfter computeCstar"<<endl;
-
 
     if (logs) {cout<<"result : d = "<<minCpath.d<<", c = "<<minCpath.c<<"\n";}
     list<infoPath>* res = new list<infoPath>();
@@ -81,6 +80,10 @@ double* t1, double* t2) {
         logStream<<(int) PSr<<" "<<(int) PSg<<" "<<(int) PSb<<"\n";
     }
     res->push_front(minCpath);
+    if (history != nullptr) {
+        list<Node*>* resPath = new list<Node*>(*(minCpath.path));
+        history->push_back(logSPPAO2({infoPath({resPath, minCpath.c, minCpath.d}), inf, 0}));
+    }
     if (minCpath.d == d_max) {
         return res;
     }
@@ -121,10 +124,10 @@ double* t1, double* t2) {
         //upper = superDijkstra(s, t, compCD, changeComplexKey, newComplexKey, condCD,
         //        d_bar, Irect.c_max);
 
-        upper = dijkstraOptiCD_condCD(s, t, d_bar, Irect.c_max);
+        //upper = dijkstraOptiCD_condCD(s, t, d_bar, Irect.c_max);
         //upper = dijkstraOptiC_condCD(s, t, d_bar, Irect.c_max);
 
-        //upper = dijkstraOptiCD_condCstarD(s, t, d_bar, Irect.c_max);
+        upper = dijkstraOptiCD_condCstarD(s, t, d_bar, Irect.c_max);
         //upper = dijkstraOptiC_condCstarD(s, t, d_bar, Irect.c_max);
 
 
@@ -144,6 +147,10 @@ double* t1, double* t2) {
                 logStream<<(int) PSr<<" "<<(int) PSg<<" "<<(int) PSb<<"\n";
             }
             res->push_front(upper);
+            if (history != nullptr) {
+                list<Node*>* resPath = new list<Node*>(*(upper.path));
+                history->push_back(logSPPAO2({infoPath({resPath, upper.c, upper.d}), Irect.c_max, d_bar}));
+            }
             if (upper.d == d_max) {is_dmax_reached = true;}
             if (upper.d != Irect.d_max) {
                 if (logs) {
@@ -183,10 +190,10 @@ double* t1, double* t2) {
                 //lower = superDijkstra(s, t, compCD, changeComplexKey, newComplexKey,
                 //        condCD, Irect.pathMin->d, upper.c);
 
-                lower = dijkstraOptiCD_condCD(s, t, Irect.pathMin->d, upper.c);
+                //lower = dijkstraOptiCD_condCD(s, t, Irect.pathMin->d, upper.c);
                 //lower = dijkstraOptiC_condCD(s, t, Irect.pathMin->d, upper.c);
 
-                //lower = dijkstraOptiCD_condCstarD(s, t, Irect.pathMin->d, upper.c);
+                lower = dijkstraOptiCD_condCstarD(s, t, Irect.pathMin->d, upper.c);
                 //lower = dijkstraOptiC_condCstarD(s, t, Irect.pathMin->d, upper.c);
 
 
@@ -196,13 +203,16 @@ double* t1, double* t2) {
                 if (logs) {cout<<"result : d = "<<lower.d<<", c = "<<lower.c<<"\n";}
 
                 if (lower.path->size() > 1) {
-
                     if (logs) {
                         cout<<"Adding path : d = "<<lower.d<<", c = "<<lower.c<<"\n";
                         logStream<<"point "<<step+1<<" "<<lower.c<<" "<<lower.d<<" ";
                         logStream<<(int) PSr<<" "<<(int) PSg<<" "<<(int) PSb<<"\n";
                     }
                     res->push_front(lower);
+                    if (history != nullptr) {
+                        list<Node*>* resPath = new list<Node*>(*(lower.path));
+                        history->push_back(logSPPAO2({infoPath({resPath, lower.c, lower.d}), upper.c, Irect.pathMin->d}));
+                    }
                     if (lower.d != d_bar) {
                         if (logs) {
                             cout<<"Adding rectangle : bottom = "<<res->begin()->d<<", top = ";
@@ -258,10 +268,10 @@ double* t1, double* t2) {
             //lower = superDijkstra(s, t, compCD, changeComplexKey, newComplexKey,
             //        condCD, Irect.pathMin->d, Irect.c_max);
 
-            lower = dijkstraOptiCD_condCD(s, t, Irect.pathMin->d, Irect.c_max);
+            //lower = dijkstraOptiCD_condCD(s, t, Irect.pathMin->d, Irect.c_max);
             //lower = dijkstraOptiC_condCD(s, t, Irect.pathMin->d, Irect.c_max);
 
-            //lower = dijkstraOptiCD_condCstarD(s, t, Irect.pathMin->d, Irect.c_max);
+            lower = dijkstraOptiCD_condCstarD(s, t, Irect.pathMin->d, Irect.c_max);
             //lower = dijkstraOptiC_condCstarD(s, t, Irect.pathMin->d, Irect.c_max);
 
 
@@ -278,6 +288,10 @@ double* t1, double* t2) {
                     logStream<<(int) PSr<<" "<<(int) PSg<<" "<<(int) PSb<<"\n";
                 }
                 res->push_front(lower);
+                if (history != nullptr) {
+                    list<Node*>* resPath = new list<Node*>(*(lower.path));
+                    history->push_back(logSPPAO2({infoPath({resPath, lower.c, lower.d}), Irect.c_max, Irect.pathMin->d}));
+                }
                 if (logs) {
                     cout<<"Adding rectangle : bottom = "<<res->begin()->d<<", top = ";
                     cout<<d_bar<<", left = "<<res->begin()->c<<", right = "<<Irect.c_max<<"\n";
@@ -313,8 +327,12 @@ double* t1, double* t2) {
     }
     if (!is_dmax_reached) {
         res->push_front(maxDpath);
+        if (history != nullptr) {
+            list<Node*>* resPath = new list<Node*>(*(maxDpath.path));
+            history->push_front(logSPPAO2({infoPath({resPath, maxDpath.c, maxDpath.d}), inf, 0}));
+        }
         if (logs) {
-            cout<<"Adding path : d = "<<minCpath.d<<", c = "<<minCpath.c<<"\n";
+            cout<<"Adding path : d = "<<maxDpath.d<<", c = "<<maxDpath.c<<"\n";
             logStream<<"point 0 "<<maxDpath.c<<" "<<maxDpath.d<<" ";
             logStream<<(int) PSr<<" "<<(int) PSg<<" "<<(int) PSb<<"\n";
         }
@@ -326,6 +344,18 @@ double* t1, double* t2) {
         cout<<setprecision(12)<<elapsed.count()<<endl;
     }
     res->sort(compare_d);
+    if (history != nullptr) {
+        for (list<infoPath>::iterator locRes = res->begin(); locRes != res->end(); locRes++) {
+            list<logSPPAO2>::iterator locLog = history->begin();
+            while (locLog != history->end()) {
+                if (locLog->path.c == locRes->c && locLog->path.d < locRes->d) {
+                    history->erase(locLog++);
+                } else {
+                    locLog++;
+                }
+            }
+        }
+    }
     logStream.close();
     return res;
 }

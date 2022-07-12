@@ -97,7 +97,16 @@ def getBetterGraph(lines):
 			plotings.append(( "arc", int(sep[1]), int(sep[2]), float(sep[3]), int(sep[4]), 
 								int(sep[5]), int(sep[7]), int(sep[8]), int(sep[9]) ))
 		if sep[0] == "info":
-			plotings.append(( "info", int(sep[1]), int(sep[2]), float(sep[3]), float(sep[4]) ))
+			if (len(sep) == 5):
+				plotings.append(( "info", int(sep[1]), int(sep[2]), float(sep[3]), float(sep[4]) ))
+			else:
+				to_app = 0
+				if sep[5] == "inf":
+					to_app = "inf"
+				else:
+					to_app = float(sep[5])
+				plotings.append(( "info", int(sep[1]), int(sep[2]), float(sep[3]), float(sep[4]),
+					to_app, float(sep[6]) ))
 
 
 		i+=1
@@ -246,7 +255,11 @@ def displayBetterGraph(tab_points, plotings):
 					end_pos=pos2, width=scale)
 
 			if to_plot[0] == "info":
-				pygame.display.set_caption("c = " + str(to_plot[3]) + ", d = " + str(to_plot[4]) )
+				if len(to_plot) == 5:
+					pygame.display.set_caption("c = " + str(to_plot[3]) + ", d = " + str(to_plot[4]) )
+				else:
+					pygame.display.set_caption("c = " + str(to_plot[3]) + ", d = " + str(to_plot[4]) +
+						", c_cons = " + str(to_plot[5]) + ", d_cons = " + str(to_plot[6]) )
 
 
 

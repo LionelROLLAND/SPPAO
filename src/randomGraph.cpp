@@ -347,7 +347,9 @@ list<Node*>* makeGraph2(int nb_points, double prop_square, double expand_max_pro
 
 
 list<Node*>* createObstacles(double infx, double infy, double supx, double supy, int n_min, int n) {
-    default_random_engine generator(rand());
+    int locSeed = rand();
+    cout<<"Obstacles seed : "<<locSeed<<"\n";
+    default_random_engine generator(locSeed);
     uniform_real_distribution distribx(infx, supx);
     uniform_real_distribution distriby(infy, supy);
     double x;
