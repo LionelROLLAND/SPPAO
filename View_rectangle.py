@@ -10,6 +10,7 @@ filename = args.logs
 
 animated = False
 BLACK = (0,0,0)
+WHITE = (255, 255, 255)
 
 lines = []
 with open(filename, "r") as fd:
@@ -75,7 +76,7 @@ def displayRects(plotings):
 	step = 0
 	nb_plots = 1
 	while nb_plots:
-		screen.fill(BLACK)
+		screen.fill(WHITE)
 		nb_plots = 0
 		varPlot = 0
 		while varPlot < len(plotings):
@@ -115,7 +116,7 @@ def displayRects(plotings):
 			varPlot += 1
 
 
-		#pygame.image.save(screen, "data/ex_rec_" + str(step) + ".png")
+		pygame.image.save(screen, "data/bothEx2_rec_" + str(step) + ".png")
 		playing = True
 		clock = pygame.time.Clock()
 

@@ -137,7 +137,9 @@ void writeDijSol(list<Node*>& graph, /* list<Node*>& */ infoPath& path, ofstream
 
 
 void writeSolSPPAO(list<Node*>& graph, list<Node*>& obstacles, list<infoPath>& optPaths, ofstream& w_stream, double scale=1) {
+	int mul = 5;
 	list<cNode>* cGraph = graphToCNode(graph);
+	list<cNode>* cZone = graphToCNode(obstacles, rZ, gZ, bZ);
 	list<cNode>* cObst = graphToCNode(obstacles, rO, gO, bO);
 	list<cArc>* cArcGraph = graphToCArc(graph);
 
@@ -151,11 +153,11 @@ void writeSolSPPAO(list<Node*>& graph, list<Node*>& obstacles, list<infoPath>& o
 
 	w_stream<<"\n";
 	for (list<cArc>::iterator it = cArcGraph->begin(); it != cArcGraph->end(); it++) {
-		w_stream<<"arc 0 0 "<<scale*0.3<<" "<<*it<<"\n";
+		w_stream<<"arc 0 0 "<<scale*0.19<<" "<<*it<<"\n";
 	}
 
 	for (list<cNode>::iterator it = cObst->begin(); it != cObst->end(); it++) {
-		w_stream<<"point 4 3 "<<scale*0.4<<" ";
+		w_stream<<"point "<<mul<<" 4 "<<scale*0.4<<" ";
 		printRCNode(w_stream, *it);
 		w_stream<<"\n";
 	}
@@ -171,22 +173,28 @@ void writeSolSPPAO(list<Node*>& graph, list<Node*>& obstacles, list<infoPath>& o
         	child != (*it)->l_adj.end(); child++) {
 				if (child->arc_d <= min_d) {
             		aN = cArc({*it, child->node, child->arc_c, rAi, gAi, bAi});
-					w_stream<<"arc "<<4*(indPath+1)<<" 1 "<<scale*0.4<<" "<<aN<<"\n";
+					w_stream<<"arc "<<mul*(indPath+1)<<" 1 "<<scale*0.2<<" "<<aN<<"\n";
 				}
 			}
 		}
 
+		for (list<cNode>::iterator it = cZone->begin(); it != cZone->end(); it++) {
+			w_stream<<"point "<<mul*(indPath+1)<<" 3 "<<min_d<<" ";
+			printRCNode(w_stream, *it);
+			w_stream<<"\n";
+		}
+
 		for (list<cNode>::iterator it = cObst->begin(); it != cObst->end(); it++) {
-			w_stream<<"point "<<4*(indPath+1)<<" 3 "<<min_d<<" ";
+			w_stream<<"point "<<mul*(indPath+1)<<" 4 "<<scale*0.24<<" ";
 			printRCNode(w_stream, *it);
 			w_stream<<"\n";
 		}
 
 		list<cArc>* currPath = simplePathToCArc(*(it->path));
 		for (list<cArc>::iterator arcPath = currPath->begin(); arcPath != currPath->end(); arcPath++) {
-			w_stream<<"arc "<<4*indPath<<" 1 "<<to_string(scale*0.4)<<" "<<*arcPath<<"\n";
+			w_stream<<"arc "<<mul*indPath<<" 1 "<<to_string(scale*0.2)<<" "<<*arcPath<<"\n";
 		}
-		w_stream<<"info "<<4*indPath<<" 0 "<<it->c<<" "<<it->d<<"\n";
+		w_stream<<"info "<<mul*indPath<<" 0 "<<it->c<<" "<<it->d<<"\n";
 		indPath++;
 	}
 	for (list<cNode>::iterator it = cGraph->begin(); it != cGraph->end(); it++) {
@@ -198,7 +206,9 @@ void writeSolSPPAO(list<Node*>& graph, list<Node*>& obstacles, list<infoPath>& o
 
 
 void writeSolSPPAO2(list<Node*>& graph, list<Node*>& obstacles, list<logSPPAO2>& optPaths, ostream& w_stream, double scale=1) {
+	int mul = 5;
 	list<cNode>* cGraph = graphToCNode(graph);
+	list<cNode>* cZone = graphToCNode(obstacles, rZ, gZ, bZ);
 	list<cNode>* cObst = graphToCNode(obstacles, rO, gO, bO);
 	list<cArc>* cArcGraph = graphToCArc(graph);
 
@@ -212,11 +222,11 @@ void writeSolSPPAO2(list<Node*>& graph, list<Node*>& obstacles, list<logSPPAO2>&
 
 	w_stream<<"\n";
 	for (list<cArc>::iterator it = cArcGraph->begin(); it != cArcGraph->end(); it++) {
-		w_stream<<"arc 0 0 "<<scale*0.3<<" "<<*it<<"\n";
+		w_stream<<"arc 0 0 "<<scale*0.19<<" "<<*it<<"\n";
 	}
 
 	for (list<cNode>::iterator it = cObst->begin(); it != cObst->end(); it++) {
-		w_stream<<"point 4 3 "<<scale*0.4<<" ";
+		w_stream<<"point "<<mul<<" 3 "<<scale*0.4<<" ";
 		printRCNode(w_stream, *it);
 		w_stream<<"\n";
 	}
@@ -232,22 +242,28 @@ void writeSolSPPAO2(list<Node*>& graph, list<Node*>& obstacles, list<logSPPAO2>&
         	child != (*it)->l_adj.end(); child++) {
 				if (child->arc_d <= min_d) {
             		aN = cArc({*it, child->node, child->arc_c, rAi, gAi, bAi});
-					w_stream<<"arc "<<4*indPath<<" 1 "<<scale*0.4<<" "<<aN<<"\n";
+					w_stream<<"arc "<<mul*indPath<<" 1 "<<scale*0.2<<" "<<aN<<"\n";
 				}
 			}
 		}
 
+		for (list<cNode>::iterator it = cZone->begin(); it != cZone->end(); it++) {
+			w_stream<<"point "<<mul*indPath<<" 3 "<<min_d<<" ";
+			printRCNode(w_stream, *it);
+			w_stream<<"\n";
+		}
+
 		for (list<cNode>::iterator it = cObst->begin(); it != cObst->end(); it++) {
-			w_stream<<"point "<<4*indPath<<" 3 "<<min_d<<" ";
+			w_stream<<"point "<<mul*indPath<<" 4 "<<scale*0.24<<" ";
 			printRCNode(w_stream, *it);
 			w_stream<<"\n";
 		}
 
 		list<cArc>* currPath = simplePathToCArc(*(it->path.path));
 		for (list<cArc>::iterator arcPath = currPath->begin(); arcPath != currPath->end(); arcPath++) {
-			w_stream<<"arc "<<4*indPath<<" 1 "<<to_string(scale*0.4)<<" "<<*arcPath<<"\n";
+			w_stream<<"arc "<<mul*indPath<<" 1 "<<to_string(scale*0.2)<<" "<<*arcPath<<"\n";
 		}
-		w_stream<<"info "<<4*indPath<<" 0 "<<it->path.c<<" "<<it->path.d<<" "<<it->c_cons<<" "<<it->d_cons<<"\n";
+		w_stream<<"info "<<mul*indPath<<" 0 "<<it->path.c<<" "<<it->path.d<<" "<<it->c_cons<<" "<<it->d_cons<<"\n";
 		indPath++;
 	}
 	for (list<cNode>::iterator it = cGraph->begin(); it != cGraph->end(); it++) {
@@ -477,16 +493,35 @@ void testSPPAO2(int P=10, int Q=10, int O=5, double prop_square=0.5, double prop
 	naturalWeight(*l);
 	*/
 
+
+
+
+
+
 	filesystem::path infilepath = filesystem::current_path();
 	infilepath /= "data";
-	infilepath /= "testDB";
-	infilepath /= "test_15.txt";
+	infilepath /= "exDB";
+	infilepath /= "instance1.txt";
 	ifstream reading(infilepath, ios::in);
 	list<Node*>* l = new list<Node*>();
 	reading>>*l;
 	reading.close();
 
 
+
+
+
+
+	double n_points = nbNodes(*l);
+	double n_arcs = nbArcs(*l);
+	cout<<"Nb nodes : "<<n_points<<endl;
+	cout<<"Nb arcs : "<<n_arcs<<endl;
+
+
+
+
+
+	/*
 	double x_min = l->front()->x;
 	double x_max = l->front()->x;
 	double y_min = l->front()->y;
@@ -499,10 +534,6 @@ void testSPPAO2(int P=10, int Q=10, int O=5, double prop_square=0.5, double prop
 		if ((*point)->y > y_max) {y_max = (*point)->y;}
 		if ((*point)->no > max_no) {max_no = (*point)->no;}
 	}
-	double n_points = nbNodes(*l);
-	double n_arcs = nbArcs(*l);
-	cout<<"Nb nodes : "<<n_points<<endl;
-	cout<<"Nb arcs : "<<n_arcs<<endl;
 	Node* node1 = l->front();
 	Node* node2 = l->front();
 	for (list<Node*>::iterator it = l->begin(); it != l->end(); it++) {
@@ -515,10 +546,33 @@ void testSPPAO2(int P=10, int Q=10, int O=5, double prop_square=0.5, double prop
 			node2 = *it;
 		}
 	}
+	*/
+
+
+
+
+	Node* node1;
+	Node* node2;
+	list<Node*>* obstacles = new list<Node*>();
+	for (list<Node*>::iterator it = l->begin(); it != l->end(); it++) {
+		if ((*it)->no == 1) {node1 = *it;}
+		if ((*it)->no == 100) {node2 = *it;}
+		if ((*it)->no == 31 || (*it)->no == 60) {obstacles->push_back(*it);}
+	}
+
+
+
+
+
 	cout<<"Node 1 : "<<node1<<"\nNode 2 : "<<node2<<endl;
 
 
-	list<Node*>* obstacles = createObstacles(x_min, y_min, x_max, y_max, max_no+1, O);
+
+
+	//list<Node*>* obstacles = createObstacles(x_min, y_min, x_max, y_max, max_no+1, O);
+	
+	
+	
 	computeArcD(*l, *obstacles);
 	//list<list<bunchOfArcs>>* arcsToAddLists = buildArcsToAdd(*l);
 
@@ -553,7 +607,7 @@ void testSPPAO2(int P=10, int Q=10, int O=5, double prop_square=0.5, double prop
 
 	filepath = filesystem::current_path();
 	filepath /= "data";
-	filepath /= "testFirstSPPAO.txt";
+	filepath /= "testSPPAO1.txt";
 	writing= ofstream(filepath, ios::out);
 	if (n_arcs/n_points < 6) {
 		writeSolSPPAO(*l, *obstacles, *SPPAOres, writing);
@@ -577,7 +631,8 @@ void testSPPAO2(int P=10, int Q=10, int O=5, double prop_square=0.5, double prop
 	//delete res.path;
 	//delete arcsToAddLists;
 	resetGraph(*l);
-	deleteGraph(obstacles);
+	//deleteGraph(obstacles);
+	delete obstacles;
 	deleteGraph(l);
 }
 
@@ -1349,7 +1404,7 @@ void statSS(string dir, list<int>& obstacles, ostream& out)
 
 			list<Node*>* obsList = createObstacles(x_min, y_min, x_max, y_max, max_no+1, *n_obs);
 			computeArcD(*l, *obsList);
-			//list<list<bunchOfArcs>>* arcsToAddLists = buildArcsToAdd(*l);
+			list<list<bunchOfArcs>>* arcsToAddLists = buildArcsToAdd(*l);
 
 			//cout<<"\nJust before secondSPPAO"<<endl;
 
@@ -1357,8 +1412,8 @@ void statSS(string dir, list<int>& obstacles, ostream& out)
 			start_pb = chrono::system_clock::now();
 
 			//list<infoPath>* SPPAOres = firstSPPAO(*l, node1, node2);
-			list<infoPath>* SPPAOres = firstSPPAO_update(*l, node1, node2);
-			//list<infoPath>* SPPAOres = weirdSPPAO(*arcsToAddLists, node1, node2);
+			//list<infoPath>* SPPAOres = firstSPPAO_update(*l, node1, node2);
+			list<infoPath>* SPPAOres = weirdSPPAO(*arcsToAddLists, node1, node2);
 			
 			elapsed1 = chrono::system_clock::now() - start_pb;
 
@@ -1375,6 +1430,7 @@ void statSS(string dir, list<int>& obstacles, ostream& out)
 
 
 			deleteGraph(obsList);
+			delete arcsToAddLists;
 
 
 
@@ -1452,7 +1508,6 @@ void statBS(string dir, list<int>& obstacles, ostream& out) {
 			list<infoPath>* SPPAOres = secondSPPAO(*l, node1, node2, &n1, &n2, &t1, &t2);
 			
 			elapsed1 = chrono::system_clock::now() - start_pb;
-
 
 			results.push_back(resultBS({n_nodes, n_arcs, *n_obs,
 			(int) SPPAOres->size(), n1, n2, t1, t2, n_labels, elapsed1.count()}));
@@ -1585,7 +1640,11 @@ list<resultBS>* to_resultBS(istream& in) {
 		labs = stol(next(line));
 
 		time = stod(next(line));
-		res->push_back(resultBS({n, m, nObs, nRes, D1, D2, t1, t2, labs, time}));
+		double writeT1 = t1;
+		double writeT2 = t2;
+		if (D1 != 0) {writeT1 /= D1;}
+		if (D2 != 0) {writeT2 /= D2;}
+		res->push_back(resultBS({n, m, nObs, nRes, D1, D2, writeT1, writeT2, labs, time}));
 
         getline(in, line);
     }
@@ -2237,13 +2296,13 @@ void begin_document(ostream& out) {
 
 string newColor() {
 	static int n = 0;
-	string colors[] = {"orange", "olive", "red", "yellow", "blue", "black", "cyan"};
+	string colors[] = {"black", "olive", "red", "yellow", "blue", "green", "cyan"};
 	return colors[n++];
 }
 
 string randomColor() {
 	static int n = 0;
-	string colors[] = {"orange", "olive", "red", "yellow", "blue", "black", "cyan"};
+	string colors[] = {"black", "olive", "red", "yellow", "blue", "green", "cyan"};
 	return colors[(n++)%7];
 }
 
@@ -2390,7 +2449,7 @@ function<string(const methodSS&)> plotOptionSS, function<string(const methodBS&)
 	"\nlegend cell align={left},";
 
 	//out<<"\nlegend columns="<<(int) (LSS.size() + LBS.size())<<",";
-	out<<"\nlegend columns=4,";
+	out<<"\nlegend columns=3,";
 	//Pour etre exact ca devrait etre le nb de methodes comportant des resultats a *obs obstacles
 
 	out<<"\nlegend style={fill opacity=0.8, draw opacity=1, text opacity=1, at={(0.5,1.21)}, ";
@@ -2598,11 +2657,11 @@ void T1T2comp(list<methodBS>& LBS, ostream& out, string pref_Fig="") {
 				if (locRes->n_obs == *obs) {
 					//out<<"\n($P_{"<<locRes->nb_nodes<<","<<((double) locRes->nb_arcs)/locRes->nb_nodes<<"}$,";
 					out<<"\n("<<res_to_lab<meanResultBS>(*locRes)<<",";
-					out<<locRes->T1<<")";
+					out<<1000*locRes->T1<<")";
 				}
 			}
 			out<<"\n};";
-			out<<"\n\\addlegendentry{T1:\\texttt{"<<method->name<<"}}";
+			out<<"\n\\addlegendentry{$T_1$:\\texttt{"<<method->name<<"}}";
 
 			out<<"\n\\addplot";
 
@@ -2612,11 +2671,11 @@ void T1T2comp(list<methodBS>& LBS, ostream& out, string pref_Fig="") {
 				if (locRes->n_obs == *obs) {
 					//out<<"\n($P_{"<<locRes->nb_nodes<<","<<((double) locRes->nb_arcs)/locRes->nb_nodes<<"}$,";
 					out<<"\n("<<res_to_lab<meanResultBS>(*locRes)<<",";
-					out<<locRes->T2<<")";
+					out<<1000*locRes->T2<<")";
 				}
 			}
 			out<<"\n};";
-			out<<"\n\\addlegendentry{T2:\\texttt{"<<method->name<<"}}";
+			out<<"\n\\addlegendentry{$T_2$:\\texttt{"<<method->name<<"}}";
 
 		}
 		
@@ -2630,11 +2689,151 @@ void T1T2comp(list<methodBS>& LBS, ostream& out, string pref_Fig="") {
 
 		delete labels;
 	}
-	out<<"\n\\caption{Runtime}";
+	out<<"\n\\caption{$T_1$ and $T_2$}";
 	out<<"\n\\label{fig:T1T2-"<<pref_Fig<<"}";
 	out<<"\n\\end{figure}";
 
 	delete obstacles;
+}
+
+
+void D1D2comp(list<methodBS>& LBS, ostream& out, string pref_Fig="") {
+	list<methodSS> emptyList = list<methodSS>();
+	list<int>* obstacles = makeObstacles(emptyList, LBS);
+
+	list<meanResultSS>* globLabels = new list<meanResultSS>();
+
+	bool isIn;
+	for (list<methodBS>::iterator method = LBS.begin(); method != LBS.end(); method++) {
+		for (list<meanResultBS>::iterator elt = method->data->begin(); elt != method->data->end(); elt++) {
+			isIn = false;
+			for (list<meanResultSS>::iterator it = globLabels->begin(); it != globLabels->end(); it++) {
+				if (it->nb_nodes == elt->nb_nodes && it->nb_arcs == elt->nb_arcs) {
+					isIn = true;
+					break;
+				}
+			}
+			if (!isIn) {
+				globLabels->push_back(meanResultSS({elt->nb_nodes, elt->nb_arcs, elt->n_obs, elt->n_res, -1, -1, -1}));
+			}
+		}
+	}
+
+
+	list<meanResultBS>* labels = new list<meanResultBS>();
+
+
+	for (list<methodBS>::iterator method = LBS.begin(); method != LBS.end(); method++) {
+		for (list<meanResultBS>::iterator elt = method->data->begin(); elt != method->data->end(); elt++) {
+			isIn = false;
+			for (list<meanResultBS>::iterator it = labels->begin(); it != labels->end(); it++) {
+				if (it->nb_nodes == elt->nb_nodes && it->nb_arcs == elt->nb_arcs && it->n_obs == elt->n_obs) {
+					isIn = true;
+					it->D1 = min(it->D1, elt->D1);
+					it->D2 = min(it->D2, elt->D2);
+					break;
+				}
+			}
+			if (!isIn) {
+				labels->push_back(meanResultBS({elt->nb_nodes, elt->nb_arcs, elt->n_obs, elt->n_res, elt->D1, elt->D2,
+				-1, -1, -1, -1, -1}));
+			}
+		}
+	}
+
+	out<<"\n\\begin{figure}[htb]"
+	"\n\\centering"
+	"\n\\small\n"
+	"\n\\begin{tikzpicture}[xscale=1, yscale=1]";
+	out<<"\n\\begin{axis}["
+	"\naxis lines=left,"
+	"\ngrid style=dashed,";
+	//"\ngrid=both,"
+	out<<"\nxmajorgrids=false,"
+	"\nxminorgrids=false,"
+	"\nymajorgrids=true,"
+	"\nyminorgrids=true,"
+	"\nlegend cell align={left},";
+
+	out<<"\nlegend columns=4,";
+
+	out<<"\nlegend style={fill opacity=0.8, draw opacity=1, text opacity=1, at={(0.5,1.21)}, "
+	"anchor=north, draw=white!80!black}, tick align=outside, ylabel={},";
+
+
+	out<<"\nxtick={";
+	list<meanResultSS>::iterator lab = globLabels->begin();
+	//out<<"$P_{"<<lab->nb_nodes<<","<<((double) lab->nb_arcs)/lab->nb_nodes<<"}$";
+	out<<res_to_lab<meanResultSS>(*lab);
+	lab++;
+	while (lab != globLabels->end()) {
+		//out<<",$P_{"<<lab->nb_nodes<<","<<((double) lab->nb_arcs)/lab->nb_nodes<<"}$";
+		out<<","<<res_to_lab<meanResultSS>(*lab);
+		lab++;
+	}
+	out<<"},";
+
+
+	out<<"\nsymbolic x coords={";
+	lab = globLabels->begin();
+	//out<<"$P_{"<<lab->nb_nodes<<","<<((double) lab->nb_arcs)/lab->nb_nodes<<"}$";
+	out<<res_to_lab<meanResultSS>(*lab);
+	lab++;
+	while (lab != globLabels->end()) {
+		//out<<",$P_{"<<lab->nb_nodes<<","<<((double) lab->nb_arcs)/lab->nb_nodes<<"}$";
+		out<<","<<res_to_lab<meanResultSS>(*lab);
+		lab++;
+	}
+	out<<"},";
+	
+	out<<"x tick label style={rotate=45,anchor=east},"
+	"\nminor y tick num = 1]";
+
+
+	for (list<int>::iterator obs = obstacles->begin(); obs != obstacles->end(); obs++) {
+		string colPlot = randomColor();
+
+		out<<"\n\\addplot";
+
+		out<<"[ color="<<colPlot<<", mark=square*, mark options = {color="<<colPlot<<"}]";
+		out<<"\ncoordinates {";
+		for (list<meanResultBS>::iterator locRes = labels->begin(); locRes != labels->end(); locRes++) {
+			if (locRes->n_obs == *obs) {
+				//out<<"\n($P_{"<<locRes->nb_nodes<<","<<((double) locRes->nb_arcs)/locRes->nb_nodes<<"}$,";
+				out<<"\n("<<res_to_lab<meanResultBS>(*locRes)<<",";
+				out<<locRes->D1<<")";
+			}
+		}
+		out<<"\n};";
+		out<<"\n\\addlegendentry{$|S|="<<*obs<<"$}";
+
+		/*
+		out<<"\n\\addplot";
+
+		out<<"[ color="<<colPlot<<", mark=diamond*, mark options = {color="<<colPlot<<"}, dashed, thick]";
+		out<<"\ncoordinates {";
+		for (list<meanResultBS>::iterator locRes = labels->begin(); locRes != labels->end(); locRes++) {
+			if (locRes->n_obs == *obs) {
+				//out<<"\n($P_{"<<locRes->nb_nodes<<","<<((double) locRes->nb_arcs)/locRes->nb_nodes<<"}$,";
+				out<<"\n("<<res_to_lab<meanResultBS>(*locRes)<<",";
+				out<<locRes->D2<<")";
+			}
+		}
+		out<<"\n};";
+		out<<"\n\\addlegendentry{D2 : $|S|="<<*obs<<"$}";
+		*/
+
+	}
+
+	out<<"\n\\end{axis}"
+	"\n\\end{tikzpicture}";
+
+	out<<"\n\\caption{$D_1$ and $D_2$}";
+	out<<"\n\\label{fig:D1D2-"<<pref_Fig<<"}";
+	out<<"\n\\end{figure}";
+
+	delete labels;
+	delete globLabels;
 }
 
 
@@ -2646,7 +2845,7 @@ void superComparison(list<methodSS>& l, ostream& out, string pref_Fig="") {
 	"\n\\centering"
 	"\n\\small\n";
 	for (list<int>::iterator obs = obstacles->begin(); obs != obstacles->end(); obs++) {
-		printSub(l, emptyList, out, *obs, "lab-"+pref_Fig+to_string(*obs), "Number of label updates",
+		printSub(l, emptyList, out, *obs, "labSS-"+pref_Fig+to_string(*obs), "Number of label updates",
 		getLabels<meanResultSS>, getLabels<meanResultBS>,
 		regularOp<methodSS>, regularOp<methodBS>);
 	}
@@ -2664,15 +2863,16 @@ void superComparison(list<methodBS>& l, ostream& out, string pref_Fig="") {
 	"\n\\centering"
 	"\n\\small\n";
 	for (list<int>::iterator obs = obstacles->begin(); obs != obstacles->end(); obs++) {
-		printSub(emptyList, l, out, *obs, "lab-"+pref_Fig+to_string(*obs), "Number of label updates",
+		printSub(emptyList, l, out, *obs, "labBS-"+pref_Fig+to_string(*obs), "Number of label updates",
 		getLabels<meanResultSS>, getLabels<meanResultBS>,
 		regularOp<methodSS>, regularOp<methodBS>);
 	}
 	out<<"\n\\caption{\\texttt{BS} comparison}\n";
-	out<<"\n\\label{fig:lab-"<<pref_Fig<<"}\n";
+	out<<"\n\\label{fig:labBS-"<<pref_Fig<<"}\n";
 	out<<"\n\\end{figure}";
 
 
+	/*
 	out<<"\n\\begin{figure}[htb]"
 	"\n\\centering"
 	"\n\\small\n";
@@ -2696,6 +2896,9 @@ void superComparison(list<methodBS>& l, ostream& out, string pref_Fig="") {
 	out<<"\n\\caption{\\texttt{BS} comparison}\n";
 	out<<"\n\\label{fig:D2-"<<pref_Fig<<"}\n";
 	out<<"\n\\end{figure}";
+	*/
+
+	D1D2comp(l, out, pref_Fig);
 
 	
 	/*
@@ -2735,42 +2938,40 @@ void timeComparison(list<methodSS>& LSS, list<methodBS>& LBS, ostream& out, stri
 	list<meanResultSS>* globLabels = new list<meanResultSS>();
 
 	bool isIn;
-	for (list<int>::iterator obs = obstacles->begin(); obs != obstacles->end(); obs++) {
-		for (list<methodSS>::iterator method = LSS.begin(); method != LSS.end(); method++) {
-			for (list<meanResultSS>::iterator elt = method->data->begin(); elt != method->data->end(); elt++) {
-				isIn = false;
-				for (list<meanResultSS>::iterator it = globLabels->begin(); it != globLabels->end(); it++) {
-					if (it->nb_nodes == elt->nb_nodes && it->nb_arcs == elt->nb_arcs) {
-						isIn = true;
-						break;
-					}
-				}
-				if (!isIn) {
-					globLabels->push_back(meanResultSS({elt->nb_nodes, elt->nb_arcs, elt->n_obs, elt->n_res, -1, -1, -1}));
+	for (list<methodSS>::iterator method = LSS.begin(); method != LSS.end(); method++) {
+		for (list<meanResultSS>::iterator elt = method->data->begin(); elt != method->data->end(); elt++) {
+			isIn = false;
+			for (list<meanResultSS>::iterator it = globLabels->begin(); it != globLabels->end(); it++) {
+				if (it->nb_nodes == elt->nb_nodes && it->nb_arcs == elt->nb_arcs) {
+					isIn = true;
+					break;
 				}
 			}
+			if (!isIn) {
+				globLabels->push_back(meanResultSS({elt->nb_nodes, elt->nb_arcs, elt->n_obs, elt->n_res, -1, -1, -1}));
+			}
 		}
+	}
 
-		for (list<methodBS>::iterator method = LBS.begin(); method != LBS.end(); method++) {
-			for (list<meanResultBS>::iterator elt = method->data->begin(); elt != method->data->end(); elt++) {
-				isIn = false;
-				for (list<meanResultSS>::iterator it = globLabels->begin(); it != globLabels->end(); it++) {
-					if (it->nb_nodes == elt->nb_nodes && it->nb_arcs == elt->nb_arcs) {
-						isIn = true;
-						break;
-					}
+	for (list<methodBS>::iterator method = LBS.begin(); method != LBS.end(); method++) {
+		for (list<meanResultBS>::iterator elt = method->data->begin(); elt != method->data->end(); elt++) {
+			isIn = false;
+			for (list<meanResultSS>::iterator it = globLabels->begin(); it != globLabels->end(); it++) {
+				if (it->nb_nodes == elt->nb_nodes && it->nb_arcs == elt->nb_arcs) {
+					isIn = true;
+					break;
 				}
-				if (!isIn) {
-					globLabels->push_back(meanResultSS({elt->nb_nodes, elt->nb_arcs, elt->n_obs, elt->n_res, -1, -1, -1}));
-				}
-		}
+			}
+			if (!isIn) {
+				globLabels->push_back(meanResultSS({elt->nb_nodes, elt->nb_arcs, elt->n_obs, elt->n_res, -1, -1, -1}));
+			}
 		}
 	}
 
 	out<<"\n\\begin{figure}[htb]"
 	"\n\\centering"
 	"\n\\small\n"
-	"\n\\begin{tikzpicture}[xscale=.8, yscale=.8]";
+	"\n\\begin{tikzpicture}[xscale=1, yscale=1]";
 	out<<"\n\\begin{axis}["
 	"\naxis lines=left,"
 	"\ngrid style=dashed,";
@@ -2784,7 +2985,7 @@ void timeComparison(list<methodSS>& LSS, list<methodBS>& LBS, ostream& out, stri
 	out<<"\nlegend columns=4,";
 
 	out<<"\nlegend style={fill opacity=0.8, draw opacity=1, text opacity=1, at={(0.5,1.21)}, "
-	"anchor=north, draw=white!80!black}, tick align=outside, ylabel={Runtime (ms)},";
+	"anchor=north, draw=white!80!black}, tick align=outside, ylabel={$|X_E|$},";
 
 
 	out<<"\nxtick={";
@@ -2851,6 +3052,25 @@ void timeComparison(list<methodSS>& LSS, list<methodBS>& LBS, ostream& out, stri
 	delete globLabels;
 
 
+
+	out<<"\n\\begin{figure}[htb]"
+	"\n\\centering"
+	"\n\\small\n";
+	for (list<int>::iterator obs = obstacles->begin(); obs != obstacles->end(); obs++) {
+		printSub(LSS, LBS, out, *obs, "labSSBS-"+pref_Fig+to_string(*obs), "Number of label updates",
+		getLabels<meanResultSS>, getLabels<meanResultBS>,
+		regularOp<methodSS>, regularOp<methodBS>);
+	}
+	out<<"\n\\caption{\\texttt{SS} and \\texttt{BS} comparison}\n";
+	out<<"\n\\label{fig:labSSBS-"<<pref_Fig<<"}\n";
+	out<<"\n\\end{figure}";
+
+
+
+
+
+
+
 	out<<"\n\\begin{figure}[htb]"
 	"\n\\centering"
 	"\n\\small\n";
@@ -2870,7 +3090,7 @@ void timeComparison(list<methodSS>& LSS, list<methodBS>& LBS, ostream& out, stri
 		"\nyminorgrids=true,"
         "\nlegend cell align={left},";
 
-		out<<"\nlegend columns=4,";
+		out<<"\nlegend columns=3,";
 
         out<<"\nlegend style={fill opacity=0.8, draw opacity=1, text opacity=1, at={(0.5,1.21)}, "
 		"anchor=north, draw=white!80!black}, tick align=outside, ylabel={Runtime (ms)},";
@@ -3257,7 +3477,7 @@ void writeTimeComparison() {
 
 
 void writeAllComparison() {
-	string ID = "testSS";
+	string ID = "NewDB";
 	filesystem::path outfilepath = filesystem::current_path();
 	outfilepath /= "data";
 	outfilepath /= "comparisonSS" + ID + ".tex";
@@ -3287,7 +3507,7 @@ void writeAllComparison() {
 
 
 	list<list<filesystem::path>> testsListSS = list<list<filesystem::path>>();
-	testsListSS.push_back(ss_cl);
+	//testsListSS.push_back(ss_cl);
 	testsListSS.push_back(ss_ads);
 	testsListSS.push_back(ss_ads_rm);
 	testsListSS.push_back(ss_add);
@@ -3305,7 +3525,7 @@ void writeAllComparison() {
 
 
 
-	ID = "testBS";
+	ID = "NewDB";
 	outfilepath = filesystem::current_path();
 	outfilepath /= "data";
 	outfilepath /= "comparisonBS" + ID + ".tex";
@@ -3337,7 +3557,7 @@ void writeAllComparison() {
 
 
 	list<list<filesystem::path>> testsListBS = list<list<filesystem::path>>();
-	testsListBS.push_back(bs_cl);
+	//testsListBS.push_back(bs_cl);
 	testsListBS.push_back(bs_ads);
 	//testsListBS.push_back(bs_cstar);
 	testsListBS.push_back(bs_ads_cstar);
@@ -3355,7 +3575,7 @@ void writeAllComparison() {
 
 
 
-	ID = "testTime";
+	ID = "NewDB";
 	outfilepath = filesystem::current_path();
 	outfilepath /= "data";
 	outfilepath /= "comparisonTime" + ID + ".tex";
@@ -3418,7 +3638,7 @@ int main(int argc, char *argv[])
 	cout<<p_square<<p_merge<<P<<Q<<O<<logs<<endl;
 
 	int seed = vm["seed"].as<int>();
-	seed = 0;
+	//seed = 0;
 	//int seed = time(nullptr);
 	//int seed = 1654611373; ./output/main --P 30 --Q 30 --O 2 --seed 1654611373 > ./data/logs.log && cat ./data/logs.log | grep "Deleting path"
 	//int seed = 1654680670; ./output/main --P 100 --Q 100 --O 2 --p_merge 0 --p_square 1 --seed 1654680670 --v
@@ -3439,7 +3659,7 @@ int main(int argc, char *argv[])
 	//testSPPAO1(P, Q, O, p_square, p_merge);
 	//testLoading();
 	//testPathMinD(P, Q, O, p_square, p_merge);
-	testSPPAO2(P, Q, O, p_square, p_merge);
+	//testSPPAO2(P, Q, O, p_square, p_merge);
 	//compareSPPAOs(P, Q, O, p_square, p_merge);
 	//testGraph2(2000, 1, 0);
 	//testDB();
@@ -3452,10 +3672,10 @@ int main(int argc, char *argv[])
 	//checkSPPAO();
 	//writeComparison("dataSPPAO_labelUpdate.txt", "dataSPPAO_addArcs.txt", "SPPAOcomparison_labUpdate_addaArcs.tex");
 	//writeCompareMethod("dataSPPAO_CstarD.txt", "methodsCompareCstar.tex");
-	//testEngine(SS, "completeDB");
+	//testEngine(BS, "completeDB");
 	//writeComparisonSS();
 	//writeComparisonBS();
 	//writeTimeComparison();
-	//writeAllComparison();
+	writeAllComparison();
 }
 

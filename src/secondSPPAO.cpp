@@ -30,10 +30,13 @@ double* t1, double* t2, list<logSPPAO2>* history) {
     if (t1 != nullptr) {*t1 = 0;}
     if (t2 != nullptr) {*t2 = 0;}
     if (history != nullptr) {*history = list<logSPPAO2>();}
-    filesystem::path filepath = filesystem::current_path();
-    filepath /= "data";
-    filepath /= "SPPAO2.log";
-    ofstream logStream(filepath, ios::out);
+    ofstream logStream;
+    if (logs) {
+        filesystem::path filepath = filesystem::current_path();
+        filepath /= "data";
+        filepath /= "SPPAO2.log";
+        logStream = ofstream(filepath, ios::out);
+    }
 
     auto startSub = chrono::system_clock::now();
     chrono::duration<double> elapsed;
@@ -63,11 +66,11 @@ double* t1, double* t2, list<logSPPAO2>* history) {
     //infoPath minCpath = superDijkstra(s, t, compCD, changeComplexKey,
     //        newComplexKey, noCond);
     
-    //infoPath minCpath = dijkstraOptiCD_noCond(s, t);
+    infoPath minCpath = dijkstraOptiCD_noCond(s, t);
     //infoPath minCpath = dijkstraOptiC_noCond(s, t);
 
     //infoPath minCpath = computeCstar_andPathOptiC_noCond(s, t);
-    infoPath minCpath = computeCstar_andPathOptiCD_noCond(s, t);
+    //infoPath minCpath = computeCstar_andPathOptiCD_noCond(s, t);
 
     //cout<<"\nAfter computeCstar"<<endl;
 
@@ -124,10 +127,10 @@ double* t1, double* t2, list<logSPPAO2>* history) {
         //upper = superDijkstra(s, t, compCD, changeComplexKey, newComplexKey, condCD,
         //        d_bar, Irect.c_max);
 
-        //upper = dijkstraOptiCD_condCD(s, t, d_bar, Irect.c_max);
+        upper = dijkstraOptiCD_condCD(s, t, d_bar, Irect.c_max);
         //upper = dijkstraOptiC_condCD(s, t, d_bar, Irect.c_max);
 
-        upper = dijkstraOptiCD_condCstarD(s, t, d_bar, Irect.c_max);
+        //upper = dijkstraOptiCD_condCstarD(s, t, d_bar, Irect.c_max);
         //upper = dijkstraOptiC_condCstarD(s, t, d_bar, Irect.c_max);
 
 
@@ -190,10 +193,10 @@ double* t1, double* t2, list<logSPPAO2>* history) {
                 //lower = superDijkstra(s, t, compCD, changeComplexKey, newComplexKey,
                 //        condCD, Irect.pathMin->d, upper.c);
 
-                //lower = dijkstraOptiCD_condCD(s, t, Irect.pathMin->d, upper.c);
+                lower = dijkstraOptiCD_condCD(s, t, Irect.pathMin->d, upper.c);
                 //lower = dijkstraOptiC_condCD(s, t, Irect.pathMin->d, upper.c);
 
-                lower = dijkstraOptiCD_condCstarD(s, t, Irect.pathMin->d, upper.c);
+                //lower = dijkstraOptiCD_condCstarD(s, t, Irect.pathMin->d, upper.c);
                 //lower = dijkstraOptiC_condCstarD(s, t, Irect.pathMin->d, upper.c);
 
 
@@ -268,15 +271,14 @@ double* t1, double* t2, list<logSPPAO2>* history) {
             //lower = superDijkstra(s, t, compCD, changeComplexKey, newComplexKey,
             //        condCD, Irect.pathMin->d, Irect.c_max);
 
-            //lower = dijkstraOptiCD_condCD(s, t, Irect.pathMin->d, Irect.c_max);
+            lower = dijkstraOptiCD_condCD(s, t, Irect.pathMin->d, Irect.c_max);
             //lower = dijkstraOptiC_condCD(s, t, Irect.pathMin->d, Irect.c_max);
 
-            lower = dijkstraOptiCD_condCstarD(s, t, Irect.pathMin->d, Irect.c_max);
+            //lower = dijkstraOptiCD_condCstarD(s, t, Irect.pathMin->d, Irect.c_max);
             //lower = dijkstraOptiC_condCstarD(s, t, Irect.pathMin->d, Irect.c_max);
 
 
             if (t2 != nullptr) {*t2 += elapsed.count();}
-            if (n2 != nullptr) {(*n2)++;}
             if (n2 != nullptr) {(*n2)++;}
             if (logs) {cout<<"result : d = "<<lower.d<<", c = "<<lower.c<<"\n";}
 

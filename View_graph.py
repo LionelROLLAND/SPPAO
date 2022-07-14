@@ -23,6 +23,7 @@ with open(filename, "r") as fd:
 
 
 BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
 GRUE = (0, 255, 255)
 RED = (255, 0, 0)
 
@@ -141,7 +142,7 @@ def display_graph(tab_points, connections):
 
 	pygame.display.set_caption("Random planar graph")
 
-	screen.fill(BLACK)
+	screen.fill(WHITE)
 
 	for seg in connections:
 		tab = tab_points[seg[0]-1]
@@ -198,7 +199,7 @@ def displayBetterGraph(tab_points, plotings):
 	pygame.init()
 	screen = pygame.display.set_mode(size)
 
-	pygame.display.set_caption("SPPAO1 result")
+	pygame.display.set_caption("SPPAO result")
 
 	varPlot = 0
 	while varPlot < len(plotings) and plotings[varPlot][1] == 0:
@@ -213,7 +214,7 @@ def displayBetterGraph(tab_points, plotings):
 		executed = True
 
 
-		screen.fill(BLACK)
+		screen.fill(WHITE)
 		constPlot = 0
 		if varPlot < len(plotings):
 			currentLayer = plotings[varPlot][1]
@@ -263,7 +264,7 @@ def displayBetterGraph(tab_points, plotings):
 
 
 
-		#pygame.image.save(screen, "data/ex_" + str(currentLayer) + ".png")
+		pygame.image.save(screen, "data/bothEx2_" + str(currentLayer) + ".png")
 		playing = True
 		clock = pygame.time.Clock()
 

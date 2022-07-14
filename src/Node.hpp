@@ -67,6 +67,11 @@ extern unsigned char gO;
 extern unsigned char bO;
 
 
+extern unsigned char rZ;
+extern unsigned char gZ;
+extern unsigned char bZ;
+
+
 struct cArc
 {
     Node* node1;

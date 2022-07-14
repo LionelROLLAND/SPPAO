@@ -3,26 +3,41 @@
 
 using namespace std;
 
-unsigned char rN = 80;
-unsigned char gN = 80;
-unsigned char bN = 80;
+unsigned char rN = 148;
+unsigned char gN = 148;
+unsigned char bN = 148;
 
 unsigned char rO = 255;
 unsigned char gO = 0;
 unsigned char bO = 0;
 
+unsigned char rZ = 255;
+unsigned char gZ = 180;
+unsigned char bZ = 180;
 
+/*
 unsigned char rA = 5;
 unsigned char gA = 0;
 unsigned char bA = 71;
+*/
+
+unsigned char rA = 148;
+unsigned char gA = 148;
+unsigned char bA = 148;
 
 unsigned char rAp = 38;
 unsigned char gAp = 255;
 unsigned char bAp = 41;
 
+/*
 unsigned char rAi = 143;
 unsigned char gAi = 0;
 unsigned char bAi = 155;
+*/
+
+unsigned char rAi = 213;
+unsigned char gAi = 213;
+unsigned char bAi = 213;
 
 
 ostream& operator<< (ostream& out, const Node& t) {
