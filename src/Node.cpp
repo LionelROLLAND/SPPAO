@@ -100,15 +100,15 @@ Node& Node::operator= (const Node& t) {
 }
 
 
-ostream& operator<<(ostream& out, struct cNode& cN) {
+ostream& operator<<(ostream& out, cNode& cN) {
     out<<cN.node->no<<" "<<cN.node->x<<" "<<cN.node->y<<" ";
-    out<<(int) cN.r<<" "<<(int) cN.g<<" "<<(int) cN.b;
+    out<<(int) cN.r<<" "<<(int) cN.g<<" "<<(int) cN.b<<" "<<(int) cN.a;
     return out;
 }
 
 
 void printRCNode(ostream& out, struct cNode& cN) {
-    out<<cN.node->no<<" "<<(int) cN.r<<" "<<(int) cN.g<<" "<<(int) cN.b;
+    out<<cN.node->no<<" "<<(int) cN.r<<" "<<(int) cN.g<<" "<<(int) cN.b<<" "<<(int) cN.a;
 }
 
 
@@ -119,10 +119,10 @@ ostream& operator<<(ostream& out, struct cArc& cA) {
 }
 
 
-list<cNode>* graphToCNode(list<Node*>&graph, unsigned char r, unsigned char g, unsigned char b) {
+list<cNode>* graphToCNode(list<Node*>&graph, unsigned char r, unsigned char g, unsigned char b, unsigned char a) {
     list<cNode>* res = new list<cNode>();
     for (list<Node*>::iterator it = graph.begin(); it != graph.end(); it++) {
-        res->push_back(cNode({*it, r, g, b}));
+        res->push_back(cNode(*it, r, g, b, a));
     }
     return res;
 }

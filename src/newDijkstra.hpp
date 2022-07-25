@@ -4,6 +4,8 @@
 #include <iostream>
 #include <vector>
 #include <functional>
+#include <ctime>
+#include <chrono>
 #include "Node.hpp"
 #include "tempKeyFibHeap.hpp"
 
@@ -23,6 +25,7 @@ struct complexKey
 
 
 extern long int n_labels;
+extern long int n_checks;
 
 
 infoPath makePath(Node* t);

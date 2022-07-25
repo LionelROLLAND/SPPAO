@@ -1,0 +1,2968 @@
+0.50.5101050
+seed : 0
+
+
+101050.50.5
+Nb nodes : 600
+Nb arcs : 359400
+Node 1 : Node 126 : (0.00156743,0.0696168)
+Node 2 : Node 223 : (33.4546,18.4773)
+Obstacles seed : 1804289383
+mean = 2.6746e-07
+update % = 1.02825
+passTest % = 18.6667
+totTime = 0.0181039
+compTime = 70.1745 % totTime
+compTime = 1.89368e-07
+n_checks = 67688, passTest = 112
+
+
+mean = 2.65862e-07
+update % = 1.12254
+passTest % = 14.3333
+totTime = 0.0138551
+compTime = 70.2865 % totTime
+compTime = 1.89042e-07
+n_checks = 52114, passTest = 86
+
+
+mean = 2.6723e-07
+update % = 1.04751
+passTest % = 23.5
+totTime = 0.0227303
+compTime = 70.7386 % totTime
+compTime = 1.90377e-07
+n_checks = 85059, passTest = 141
+
+
+mean = 2.67453e-07
+update % = 1.00734
+passTest % = 24.3333
+totTime = 0.0235503
+compTime = 70.8025 % totTime
+compTime = 1.90663e-07
+n_checks = 88054, passTest = 146
+
+
+mean = 2.67239e-07
+update % = 1.06073
+passTest % = 21.5
+totTime = 0.0208102
+compTime = 70.5015 % totTime
+compTime = 1.89871e-07
+n_checks = 77871, passTest = 129
+
+
+mean = 2.65802e-07
+update % = 1.34262
+passTest % = 7.66667
+totTime = 0.00748338
+compTime = 70.3954 % totTime
+compTime = 1.91186e-07
+n_checks = 28154, passTest = 46
+
+
+mean = 2.68927e-07
+update % = 0.977444
+passTest % = 21.6667
+totTime = 0.0211027
+compTime = 69.255 % totTime
+compTime = 1.8768e-07
+n_checks = 78470, passTest = 130
+
+
+mean = 2.56759e-07
+update % = 1.23037
+passTest % = 4.33333
+totTime = 0.00415282
+compTime = 68.6596 % totTime
+compTime = 1.83081e-07
+n_checks = 16174, passTest = 26
+
+
+mean = 2.53527e-07
+update % = 1.03867
+passTest % = 2.83333
+totTime = 0.00273379
+compTime = 66.0013 % totTime
+compTime = 1.77191e-07
+n_checks = 10783, passTest = 17
+
+
+mean = 2.77324e-07
+update % = 1.26803
+passTest % = 7.66667
+totTime = 0.00780777
+compTime = 65.9228 % totTime
+compTime = 1.868e-07
+n_checks = 28154, passTest = 46
+
+
+mean = 3.51897e-07
+update % = 1.42825
+passTest % = 7.33333
+totTime = 0.00948573
+compTime = 60.6782 % totTime
+compTime = 2.18385e-07
+n_checks = 26956, passTest = 44
+
+
+mean = 2.62439e-07
+update % = 0.986343
+passTest % = 1.66667
+totTime = 0.00172948
+compTime = 66.917 % totTime
+compTime = 1.93208e-07
+n_checks = 6590, passTest = 10
+
+
+mean = 2.81586e-07
+update % = 1.15428
+passTest % = 11.5
+totTime = 0.0118072
+compTime = 66.5765 % totTime
+compTime = 1.90191e-07
+n_checks = 41931, passTest = 69
+
+
+mean = 2.84949e-07
+update % = 1.23102
+passTest % = 19
+totTime = 0.019629
+compTime = 66.6211 % totTime
+compTime = 1.91504e-07
+n_checks = 68886, passTest = 114
+
+
+mean = 4.70842e-07
+update % = 0.915455
+passTest % = 5
+totTime = 0.00874354
+compTime = 54.4825 % totTime
+compTime = 2.65092e-07
+n_checks = 18570, passTest = 30
+
+
+mean = 4.42298e-07
+update % = 1.17853
+passTest % = 13.8333
+totTime = 0.0222551
+compTime = 57.5763 % totTime
+compTime = 2.57732e-07
+n_checks = 50317, passTest = 83
+
+
+mean = 2.57857e-07
+update % = 0.89382
+passTest % = 7.83333
+totTime = 0.00741418
+compTime = 67.8141 % totTime
+compTime = 1.7859e-07
+n_checks = 28753, passTest = 47
+
+
+mean = 2.75198e-07
+update % = 0.891025
+passTest % = 13.6667
+totTime = 0.0136823
+compTime = 67.1939 % totTime
+compTime = 1.87175e-07
+n_checks = 49718, passTest = 82
+
+
+mean = 2.77454e-07
+update % = 1.43684
+passTest % = 29.5
+totTime = 0.0295829
+compTime = 67.3861 % totTime
+compTime = 1.88023e-07
+n_checks = 106623, passTest = 177
+
+
+mean = 2.80365e-07
+update % = 1.14397
+passTest % = 20.1667
+totTime = 0.0204888
+compTime = 66.4255 % totTime
+compTime = 1.87775e-07
+n_checks = 73079, passTest = 121
+
+
+mean = 2.83775e-07
+update % = 1.20711
+passTest % = 12.8333
+totTime = 0.0132588
+compTime = 65.54 % totTime
+compTime = 1.88405e-07
+n_checks = 46723, passTest = 77
+
+
+mean = 2.82153e-07
+update % = 1.27553
+passTest % = 10.5
+totTime = 0.0108169
+compTime = 65.6758 % totTime
+compTime = 1.88252e-07
+n_checks = 38337, passTest = 63
+
+
+mean = 2.76239e-07
+update % = 1.08049
+passTest % = 17.8333
+totTime = 0.0178707
+compTime = 67.3156 % totTime
+compTime = 1.87693e-07
+n_checks = 64693, passTest = 107
+
+
+mean = 2.25884e-07
+update % = 0.890125
+passTest % = 0.833333
+totTime = 0.000812052
+compTime = 67.7475 % totTime
+compTime = 1.83688e-07
+n_checks = 3595, passTest = 5
+
+
+mean = 2.63888e-07
+update % = 0.912837
+passTest % = 7.66667
+totTime = 0.00742949
+compTime = 66.271 % totTime
+compTime = 1.78689e-07
+n_checks = 28154, passTest = 46
+
+
+mean = 2.7578e-07
+update % = 1.46733
+passTest % = 12.5
+totTime = 0.0125549
+compTime = 67.3287 % totTime
+compTime = 1.88159e-07
+n_checks = 45525, passTest = 75
+
+
+mean = 2.83223e-07
+update % = 1.51307
+passTest % = 23.5
+totTime = 0.0240907
+compTime = 66.6084 % totTime
+compTime = 1.89991e-07
+n_checks = 85059, passTest = 141
+
+
+mean = 2.29613e-07
+update % = 1.08492
+passTest % = 1.16667
+totTime = 0.00110053
+compTime = 67.1701 % totTime
+compTime = 1.76301e-07
+n_checks = 4793, passTest = 7
+
+
+mean = 2.76545e-07
+update % = 1.59422
+passTest % = 18.3333
+totTime = 0.0183875
+compTime = 66.3511 % totTime
+compTime = 1.85161e-07
+n_checks = 66490, passTest = 110
+
+
+mean = 2.81122e-07
+update % = 1.54997
+passTest % = 19.1667
+totTime = 0.0195338
+compTime = 66.3827 % totTime
+compTime = 1.88242e-07
+n_checks = 69485, passTest = 115
+
+
+mean = 2.57761e-07
+update % = 1.11639
+passTest % = 5.16667
+totTime = 0.00494102
+compTime = 67.5811 % totTime
+compTime = 1.79826e-07
+n_checks = 19169, passTest = 31
+
+
+mean = 2.79184e-07
+update % = 0.91812
+passTest % = 3.16667
+totTime = 0.00334491
+compTime = 66.2067 % totTime
+compTime = 1.94583e-07
+n_checks = 11981, passTest = 19
+
+
+mean = 2.675e-07
+update % = 0.707799
+passTest % = 4
+totTime = 0.00400608
+compTime = 64.8213 % totTime
+compTime = 1.80634e-07
+n_checks = 14976, passTest = 24
+
+
+mean = 2.68447e-07
+update % = 0.961018
+passTest % = 6
+totTime = 0.00594985
+compTime = 68.1446 % totTime
+compTime = 1.88022e-07
+n_checks = 22164, passTest = 36
+
+
+mean = 2.8348e-07
+update % = 1.48432
+passTest % = 24.3333
+totTime = 0.0249616
+compTime = 66.7578 % totTime
+compTime = 1.90544e-07
+n_checks = 88054, passTest = 146
+
+
+mean = 2.71402e-07
+update % = 1.20215
+passTest % = 34.6667
+totTime = 0.0339774
+compTime = 69.1613 % totTime
+compTime = 1.8861e-07
+n_checks = 125192, passTest = 208
+
+
+mean = 2.79237e-07
+update % = 1.26852
+passTest % = 22.6667
+totTime = 0.0229153
+compTime = 67.0094 % totTime
+compTime = 1.88493e-07
+n_checks = 82064, passTest = 136
+
+
+mean = 2.82123e-07
+update % = 1.22089
+passTest % = 13.6667
+totTime = 0.0140266
+compTime = 66.3422 % totTime
+compTime = 1.89453e-07
+n_checks = 49718, passTest = 82
+
+
+mean = 2.7586e-07
+update % = 1.20009
+passTest % = 17.5
+totTime = 0.0175157
+compTime = 67.211 % totTime
+compTime = 1.87177e-07
+n_checks = 63495, passTest = 105
+
+
+mean = 2.81402e-07
+update % = 1.27349
+passTest % = 5.66667
+totTime = 0.00589988
+compTime = 65.6056 % totTime
+compTime = 1.90055e-07
+n_checks = 20966, passTest = 34
+
+
+mean = 2.34224e-07
+update % = 0.980597
+passTest % = 1.16667
+totTime = 0.00112264
+compTime = 68.1039 % totTime
+compTime = 1.82342e-07
+n_checks = 4793, passTest = 7
+
+
+mean = 2.64895e-07
+update % = 1.20653
+passTest % = 10.8333
+totTime = 0.0104726
+compTime = 68.4847 % totTime
+compTime = 1.84208e-07
+n_checks = 39535, passTest = 65
+
+
+mean = 2.61708e-07
+update % = 1.11276
+passTest % = 1.33333
+totTime = 0.00141113
+compTime = 65.9765 % totTime
+compTime = 1.94285e-07
+n_checks = 5392, passTest = 8
+
+
+mean = 1.85346e-07
+update % = 0.667557
+passTest % = 0.666667
+totTime = 0.000555297
+compTime = 55.8973 % totTime
+compTime = 1.29548e-07
+n_checks = 2996, passTest = 4
+
+
+mean = 2.7054e-07
+update % = 1.27641
+passTest % = 15.8333
+totTime = 0.0155574
+compTime = 66.947 % totTime
+compTime = 1.83028e-07
+n_checks = 57505, passTest = 95
+
+
+mean = 2.6845e-07
+update % = 1.16848
+passTest % = 2.16667
+totTime = 0.00225149
+compTime = 65.7145 % totTime
+compTime = 1.90003e-07
+n_checks = 8387, passTest = 13
+
+
+mean = 2.7824e-07
+update % = 1.12645
+passTest % = 17
+totTime = 0.0171669
+compTime = 66.9724 % totTime
+compTime = 1.88174e-07
+n_checks = 61698, passTest = 102
+
+
+mean = 2.74905e-07
+update % = 1.16955
+passTest % = 29.1667
+totTime = 0.0289819
+compTime = 67.1209 % totTime
+compTime = 1.85575e-07
+n_checks = 105425, passTest = 175
+
+
+mean = 3.07861e-07
+update % = 1.22008
+passTest % = 17.6667
+totTime = 0.019732
+compTime = 64.1779 % totTime
+compTime = 1.99446e-07
+n_checks = 64094, passTest = 106
+
+
+mean = 2.64451e-07
+update % = 1.15245
+passTest % = 25.6667
+totTime = 0.0245532
+compTime = 69.8262 % totTime
+compTime = 1.85857e-07
+n_checks = 92846, passTest = 154
+
+
+mean = 2.26495e-07
+update % = 0.867824
+passTest % = 0.666667
+totTime = 0.00067858
+compTime = 62.4115 % totTime
+compTime = 1.76758e-07
+n_checks = 2996, passTest = 4
+
+
+mean = 2.30514e-07
+update % = 1.13131
+passTest % = 1.33333
+totTime = 0.00124293
+compTime = 63.2463 % totTime
+compTime = 1.64046e-07
+n_checks = 5392, passTest = 8
+
+
+mean = 1.97099e-07
+update % = 0.70922
+passTest % = 0.5
+totTime = 0.000472447
+compTime = 63.6855 % totTime
+compTime = 1.67435e-07
+n_checks = 2397, passTest = 3
+
+
+mean = 2.4657e-07
+update % = 0.858506
+passTest % = 3.33333
+totTime = 0.00310185
+compTime = 68.1464 % totTime
+compTime = 1.76444e-07
+n_checks = 12580, passTest = 20
+
+
+mean = 2.61373e-07
+update % = 1.17212
+passTest % = 7.66667
+totTime = 0.00735869
+compTime = 69.0193 % totTime
+compTime = 1.84326e-07
+n_checks = 28154, passTest = 46
+
+
+mean = 2.59859e-07
+update % = 1.17574
+passTest % = 11.5
+totTime = 0.0108961
+compTime = 68.7864 % totTime
+compTime = 1.81342e-07
+n_checks = 41931, passTest = 69
+
+
+mean = 2.6182e-07
+update % = 1.12018
+passTest % = 16.5
+totTime = 0.0156833
+compTime = 68.8395 % totTime
+compTime = 1.82059e-07
+n_checks = 59901, passTest = 99
+
+
+mean = 2.51204e-07
+update % = 1.10127
+passTest % = 10.1667
+totTime = 0.00932948
+compTime = 67.6669 % totTime
+compTime = 1.72774e-07
+n_checks = 37139, passTest = 61
+
+
+mean = 2.64538e-07
+update % = 1.27695
+passTest % = 25
+totTime = 0.0239275
+compTime = 69.7959 % totTime
+compTime = 1.8587e-07
+n_checks = 90450, passTest = 150
+
+
+mean = 2.63954e-07
+update % = 0.9791
+passTest % = 30.6667
+totTime = 0.0292504
+compTime = 70.038 % totTime
+compTime = 1.85875e-07
+n_checks = 110816, passTest = 184
+
+
+mean = 2.65574e-07
+update % = 1.0647
+passTest % = 7.33333
+totTime = 0.0071588
+compTime = 69.8052 % totTime
+compTime = 1.89604e-07
+n_checks = 26956, passTest = 44
+
+
+mean = 2.19366e-07
+update % = 0.801068
+passTest % = 0.666667
+totTime = 0.000657222
+compTime = 68.5365 % totTime
+compTime = 1.87995e-07
+n_checks = 2996, passTest = 4
+
+
+mean = 2.57607e-07
+update % = 1.47044
+passTest % = 16.3333
+totTime = 0.0152766
+compTime = 68.9027 % totTime
+compTime = 1.79312e-07
+n_checks = 59302, passTest = 98
+
+
+mean = 2.60677e-07
+update % = 1.123
+passTest % = 34
+totTime = 0.03201
+compTime = 70.1504 % totTime
+compTime = 1.83764e-07
+n_checks = 122796, passTest = 204
+
+
+mean = 2.64785e-07
+update % = 1.33283
+passTest % = 10.1667
+totTime = 0.00983383
+compTime = 69.7803 % totTime
+compTime = 1.87802e-07
+n_checks = 37139, passTest = 61
+
+
+mean = 2.55862e-07
+update % = 1.30268
+passTest % = 10
+totTime = 0.00934921
+compTime = 68.733 % totTime
+compTime = 1.78798e-07
+n_checks = 36540, passTest = 60
+
+
+mean = 2.63446e-07
+update % = 1.30852
+passTest % = 11.1667
+totTime = 0.0107309
+compTime = 69.9698 % totTime
+compTime = 1.87088e-07
+n_checks = 40733, passTest = 67
+
+
+mean = 2.68404e-07
+update % = 1.27766
+passTest % = 12.3333
+totTime = 0.0120583
+compTime = 70.2521 % totTime
+compTime = 1.91112e-07
+n_checks = 44926, passTest = 74
+
+
+mean = 2.63043e-07
+update % = 1.13835
+passTest % = 24.6667
+totTime = 0.0234771
+compTime = 69.7074 % totTime
+compTime = 1.84601e-07
+n_checks = 89252, passTest = 148
+
+
+mean = 1.50666e-07
+update % = 0.333611
+passTest % = 0.166667
+totTime = 0.000180648
+compTime = 65.8236 % totTime
+compTime = 1.98513e-07
+n_checks = 1199, passTest = 1
+
+
+mean = 2.6556e-07
+update % = 1.3959
+passTest % = 21.5
+totTime = 0.0206794
+compTime = 69.8088 % totTime
+compTime = 1.86824e-07
+n_checks = 77871, passTest = 129
+
+
+mean = 2.63508e-07
+update % = 1.09149
+passTest % = 4.16667
+totTime = 0.00410414
+compTime = 70.0226 % totTime
+compTime = 1.91908e-07
+n_checks = 15575, passTest = 25
+
+
+mean = 2.55514e-07
+update % = 1.01312
+passTest % = 4.66667
+totTime = 0.00443879
+compTime = 68.8718 % totTime
+compTime = 1.82272e-07
+n_checks = 17372, passTest = 28
+
+
+mean = 2.53586e-07
+update % = 0.988764
+passTest % = 4.16667
+totTime = 0.0039496
+compTime = 68.6403 % totTime
+compTime = 1.81036e-07
+n_checks = 15575, passTest = 25
+
+
+mean = 2.65394e-07
+update % = 1.07475
+passTest % = 30.6667
+totTime = 0.0294099
+compTime = 70.6401 % totTime
+compTime = 1.88495e-07
+n_checks = 110816, passTest = 184
+
+
+mean = 2.75343e-07
+update % = 1.17415
+passTest % = 9.83333
+totTime = 0.00989611
+compTime = 66.3894 % totTime
+compTime = 1.85902e-07
+n_checks = 35941, passTest = 59
+
+
+mean = 3.1836e-07
+update % = 1.08771
+passTest % = 32.1667
+totTime = 0.0369956
+compTime = 66.2108 % totTime
+compTime = 2.11882e-07
+n_checks = 116207, passTest = 193
+
+
+mean = 2.81417e-07
+update % = 1.08943
+passTest % = 16
+totTime = 0.0163515
+compTime = 66.6901 % totTime
+compTime = 1.89636e-07
+n_checks = 58104, passTest = 96
+
+
+mean = 2.70186e-07
+update % = 1.15228
+passTest % = 6.66667
+totTime = 0.00663577
+compTime = 68.0182 % totTime
+compTime = 1.88378e-07
+n_checks = 24560, passTest = 40
+
+
+mean = 2.80483e-07
+update % = 1.01673
+passTest % = 23.8333
+totTime = 0.0241936
+compTime = 69.1732 % totTime
+compTime = 1.95378e-07
+n_checks = 86257, passTest = 143
+
+
+mean = 2.73071e-07
+update % = 1.1315
+passTest % = 16.3333
+totTime = 0.0161937
+compTime = 69.7345 % totTime
+compTime = 1.92371e-07
+n_checks = 59302, passTest = 98
+
+
+mean = 2.65093e-07
+update % = 1.14823
+passTest % = 13.5
+totTime = 0.0130211
+compTime = 69.1098 % totTime
+compTime = 1.85471e-07
+n_checks = 49119, passTest = 81
+
+
+mean = 3.22198e-07
+update % = 1.16859
+passTest % = 11.5
+totTime = 0.0135101
+compTime = 62.5753 % totTime
+compTime = 2.04543e-07
+n_checks = 41931, passTest = 69
+
+
+mean = 2.84448e-07
+update % = 1.27208
+passTest % = 40.1667
+totTime = 0.0412333
+compTime = 70.0464 % totTime
+compTime = 2.00074e-07
+n_checks = 144959, passTest = 241
+
+
+mean = 2.71631e-07
+update % = 1.61824
+passTest % = 10.1667
+totTime = 0.0100881
+compTime = 70.3972 % totTime
+compTime = 1.9436e-07
+n_checks = 37139, passTest = 61
+
+
+mean = 2.74187e-07
+update % = 1.35261
+passTest % = 14.5
+totTime = 0.0144532
+compTime = 70.1419 % totTime
+compTime = 1.94534e-07
+n_checks = 52713, passTest = 87
+
+
+mean = 2.6913e-07
+update % = 1.0875
+passTest % = 11.5
+totTime = 0.0112849
+compTime = 71.6742 % totTime
+compTime = 1.95697e-07
+n_checks = 41931, passTest = 69
+
+
+mean = 2.45677e-07
+update % = 1.06574
+passTest % = 2
+totTime = 0.00191333
+compTime = 70.0944 % totTime
+compTime = 1.8658e-07
+n_checks = 7788, passTest = 12
+
+
+mean = 2.33675e-07
+update % = 1.18511
+passTest % = 1.5
+totTime = 0.00139995
+compTime = 68.7684 % totTime
+compTime = 1.78579e-07
+n_checks = 5991, passTest = 9
+
+
+mean = 2.66348e-07
+update % = 1.21228
+passTest % = 17.6667
+totTime = 0.0170713
+compTime = 71.168 % totTime
+compTime = 1.91345e-07
+n_checks = 64094, passTest = 106
+
+
+mean = 2.69896e-07
+update % = 1.23954
+passTest % = 13.1667
+totTime = 0.0129337
+compTime = 71.0167 % totTime
+compTime = 1.94101e-07
+n_checks = 47921, passTest = 79
+
+
+mean = 2.69424e-07
+update % = 1.46794
+passTest % = 19.1667
+totTime = 0.0187209
+compTime = 71.3781 % totTime
+compTime = 1.93984e-07
+n_checks = 69485, passTest = 115
+
+
+mean = 2.63548e-07
+update % = 1.27984
+passTest % = 4.83333
+totTime = 0.00473623
+compTime = 68.9073 % totTime
+compTime = 1.87877e-07
+n_checks = 17971, passTest = 29
+
+
+mean = 2.69659e-07
+update % = 1.03936
+passTest % = 41.1667
+totTime = 0.0400587
+compTime = 72.3759 % totTime
+compTime = 1.9596e-07
+n_checks = 148553, passTest = 247
+
+
+mean = 2.7252e-07
+update % = 1.20554
+passTest % = 20.1667
+totTime = 0.0199155
+compTime = 69.4381 % totTime
+compTime = 1.90799e-07
+n_checks = 73079, passTest = 121
+
+
+mean = 2.77066e-07
+update % = 0.924559
+passTest % = 4.16667
+totTime = 0.00431531
+compTime = 65.1947 % totTime
+compTime = 1.8787e-07
+n_checks = 15575, passTest = 25
+
+
+mean = 2.70248e-07
+update % = 1.25964
+passTest % = 9
+totTime = 0.00890361
+compTime = 69.9355 % totTime
+compTime = 1.92505e-07
+n_checks = 32946, passTest = 54
+
+
+mean = 2.79057e-07
+update % = 1.36155
+passTest % = 12.6667
+totTime = 0.0128712
+compTime = 66.7255 % totTime
+compTime = 1.88656e-07
+n_checks = 46124, passTest = 76
+
+
+mean = 2.90195e-07
+update % = 1.48161
+passTest % = 18.5
+totTime = 0.0194689
+compTime = 67.1322 % totTime
+compTime = 1.96572e-07
+n_checks = 67089, passTest = 111
+
+
+mean = 2.91044e-07
+update % = 1.32323
+passTest % = 20.1667
+totTime = 0.0212692
+compTime = 68.2605 % totTime
+compTime = 2.00313e-07
+n_checks = 73079, passTest = 121
+
+
+mean = 2.99469e-07
+update % = 1.35511
+passTest % = 21.1667
+totTime = 0.0229612
+compTime = 68.7668 % totTime
+compTime = 2.07559e-07
+n_checks = 76673, passTest = 127
+
+
+mean = 2.67146e-07
+update % = 1.23407
+passTest % = 25.3333
+totTime = 0.0244834
+compTime = 71.4129 % totTime
+compTime = 1.92034e-07
+n_checks = 91648, passTest = 152
+
+
+mean = 2.88201e-07
+update % = 0.942171
+passTest % = 45.6667
+totTime = 0.0474742
+compTime = 68.6438 % totTime
+compTime = 1.98555e-07
+n_checks = 164726, passTest = 274
+
+
+mean = 2.69412e-07
+update % = 1.10243
+passTest % = 8.66667
+totTime = 0.00855329
+compTime = 70.2292 % totTime
+compTime = 1.92851e-07
+n_checks = 31748, passTest = 52
+
+
+mean = 2.79288e-07
+update % = 1.4315
+passTest % = 21
+totTime = 0.0212466
+compTime = 69.4342 % totTime
+compTime = 1.95463e-07
+n_checks = 76074, passTest = 126
+
+
+mean = 2.71708e-07
+update % = 1.29717
+passTest % = 43.3333
+totTime = 0.0424788
+compTime = 71.7228 % totTime
+compTime = 1.95627e-07
+n_checks = 156340, passTest = 260
+
+
+mean = 2.63732e-07
+update % = 1.28684
+passTest % = 11.8333
+totTime = 0.0113745
+compTime = 70.8253 % totTime
+compTime = 1.89425e-07
+n_checks = 43129, passTest = 71
+
+
+mean = 2.63501e-07
+update % = 1.26785
+passTest % = 12.1667
+totTime = 0.0116802
+compTime = 71.307 % totTime
+compTime = 1.90473e-07
+n_checks = 44327, passTest = 73
+
+
+mean = 2.59663e-07
+update % = 1.43569
+passTest % = 10.6667
+totTime = 0.0101103
+compTime = 70.2992 % totTime
+compTime = 1.85398e-07
+n_checks = 38936, passTest = 64
+
+
+mean = 2.68765e-07
+update % = 1.0818
+passTest % = 54
+totTime = 0.0523222
+compTime = 71.7973 % totTime
+compTime = 1.93563e-07
+n_checks = 194676, passTest = 324
+
+
+mean = 2.69469e-07
+update % = 1.23374
+passTest % = 13.5
+totTime = 0.0132361
+compTime = 70.7061 % totTime
+compTime = 1.92887e-07
+n_checks = 49119, passTest = 81
+
+
+mean = 3.0505e-07
+update % = 1.03018
+passTest % = 53.5
+totTime = 0.0588377
+compTime = 68.3183 % totTime
+compTime = 2.09055e-07
+n_checks = 192879, passTest = 321
+
+
+mean = 2.59054e-07
+update % = 1.39932
+passTest % = 5.5
+totTime = 0.00527615
+compTime = 70.3067 % totTime
+compTime = 1.87661e-07
+n_checks = 20367, passTest = 33
+
+
+mean = 2.37949e-07
+update % = 1.15173
+passTest % = 1.5
+totTime = 0.00142556
+compTime = 69.3895 % totTime
+compTime = 1.83488e-07
+n_checks = 5991, passTest = 9
+
+
+mean = 2.66777e-07
+update % = 1.1646
+passTest % = 41.5
+totTime = 0.0399501
+compTime = 72.265 % totTime
+compTime = 1.93562e-07
+n_checks = 149751, passTest = 249
+
+
+mean = 2.63276e-07
+update % = 1.37322
+passTest % = 10.1667
+totTime = 0.00977782
+compTime = 70.9233 % totTime
+compTime = 1.8979e-07
+n_checks = 37139, passTest = 61
+
+
+mean = 2.68567e-07
+update % = 1.4334
+passTest % = 14.3333
+totTime = 0.0139961
+compTime = 71.4487 % totTime
+compTime = 1.94122e-07
+n_checks = 52114, passTest = 86
+
+
+mean = 2.67394e-07
+update % = 1.34921
+passTest % = 10
+totTime = 0.00977058
+compTime = 70.0443 % totTime
+compTime = 1.90421e-07
+n_checks = 36540, passTest = 60
+
+
+mean = 2.68647e-07
+update % = 1.27443
+passTest % = 18.5
+totTime = 0.0180233
+compTime = 71.2223 % totTime
+compTime = 1.93063e-07
+n_checks = 67089, passTest = 111
+
+
+mean = 2.70771e-07
+update % = 1.02049
+passTest % = 56
+totTime = 0.054659
+compTime = 68.6288 % totTime
+compTime = 1.86381e-07
+n_checks = 201864, passTest = 336
+
+
+mean = 3.25961e-07
+update % = 1.19331
+passTest % = 8.83333
+totTime = 0.0105439
+compTime = 63.4018 % totTime
+compTime = 2.10571e-07
+n_checks = 32347, passTest = 53
+
+
+mean = 2.6388e-07
+update % = 1.04334
+passTest % = 4.5
+totTime = 0.00442607
+compTime = 70.1423 % totTime
+compTime = 1.91959e-07
+n_checks = 16773, passTest = 27
+
+
+mean = 2.65508e-07
+update % = 1.12502
+passTest % = 7.5
+totTime = 0.00731607
+compTime = 68.5936 % totTime
+compTime = 1.86175e-07
+n_checks = 27555, passTest = 45
+
+
+mean = 2.6483e-07
+update % = 1.11949
+passTest % = 11.1667
+totTime = 0.0107873
+compTime = 69.5243 % totTime
+compTime = 1.86874e-07
+n_checks = 40733, passTest = 67
+
+
+mean = 2.65596e-07
+update % = 1.17949
+passTest % = 38.1667
+totTime = 0.0365914
+compTime = 70.6417 % totTime
+compTime = 1.88442e-07
+n_checks = 137771, passTest = 229
+
+
+mean = 2.64804e-07
+update % = 0.992168
+passTest % = 55.5
+totTime = 0.0529786
+compTime = 70.9769 % totTime
+compTime = 1.88515e-07
+n_checks = 200067, passTest = 333
+
+
+mean = 2.63496e-07
+update % = 1.12323
+passTest % = 15.1667
+totTime = 0.014521
+compTime = 69.5003 % totTime
+compTime = 1.85146e-07
+n_checks = 55109, passTest = 91
+
+
+mean = 3.21612e-07
+update % = 1.13574
+passTest % = 10
+totTime = 0.0117517
+compTime = 65.3343 % totTime
+compTime = 2.13631e-07
+n_checks = 36540, passTest = 60
+
+
+mean = 2.71915e-07
+update % = 1.12564
+passTest % = 22.5
+totTime = 0.0221515
+compTime = 69.5443 % totTime
+compTime = 1.90504e-07
+n_checks = 81465, passTest = 135
+
+
+mean = 2.98414e-07
+update % = 1.16516
+passTest % = 32.1667
+totTime = 0.0346778
+compTime = 66.9001 % totTime
+compTime = 2.00676e-07
+n_checks = 116207, passTest = 193
+
+
+mean = 2.66946e-07
+update % = 1.10234
+passTest % = 10.3333
+totTime = 0.010074
+compTime = 69.6211 % totTime
+compTime = 1.88853e-07
+n_checks = 37738, passTest = 62
+
+
+mean = 2.70369e-07
+update % = 1.27573
+passTest % = 31
+totTime = 0.0302851
+compTime = 70.4598 % totTime
+compTime = 1.91527e-07
+n_checks = 112014, passTest = 186
+
+
+mean = 2.94636e-07
+update % = 1.06425
+passTest % = 11.8333
+totTime = 0.0127073
+compTime = 63.7926 % totTime
+compTime = 1.90607e-07
+n_checks = 43129, passTest = 71
+
+
+mean = 3.32033e-07
+update % = 1.15913
+passTest % = 8.66667
+totTime = 0.0105414
+compTime = 62.3795 % totTime
+compTime = 2.1111e-07
+n_checks = 31748, passTest = 52
+
+
+mean = 2.76748e-07
+update % = 1.35434
+passTest % = 11.6667
+totTime = 0.0117701
+compTime = 66.5268 % totTime
+compTime = 1.86746e-07
+n_checks = 42530, passTest = 70
+
+
+mean = 2.75697e-07
+update % = 1.31115
+passTest % = 14.6667
+totTime = 0.014698
+compTime = 68.2052 % totTime
+compTime = 1.9018e-07
+n_checks = 53312, passTest = 88
+
+
+mean = 2.71683e-07
+update % = 1.14116
+passTest % = 24.1667
+totTime = 0.02376
+compTime = 67.4403 % totTime
+compTime = 1.84489e-07
+n_checks = 87455, passTest = 145
+
+
+mean = 2.75412e-07
+update % = 1.21204
+passTest % = 12
+totTime = 0.0120432
+compTime = 68.549 % totTime
+compTime = 1.91419e-07
+n_checks = 43728, passTest = 72
+
+
+mean = 2.84397e-07
+update % = 1.14078
+passTest % = 26.8333
+totTime = 0.0275976
+compTime = 68.3617 % totTime
+compTime = 1.95628e-07
+n_checks = 97039, passTest = 161
+
+
+mean = 2.92781e-07
+update % = 1.13553
+passTest % = 35.1667
+totTime = 0.03718
+compTime = 65.5543 % totTime
+compTime = 1.92842e-07
+n_checks = 126989, passTest = 211
+
+
+mean = 2.917e-07
+update % = 1.15257
+passTest % = 20.6667
+totTime = 0.0218413
+compTime = 66.0939 % totTime
+compTime = 1.94353e-07
+n_checks = 74876, passTest = 124
+
+
+mean = 3.07439e-07
+update % = 1.14444
+passTest % = 25.1667
+totTime = 0.027992
+compTime = 65.4719 % totTime
+compTime = 2.02621e-07
+n_checks = 91049, passTest = 151
+
+
+mean = 2.64553e-07
+update % = 1.05551
+passTest % = 30.8333
+totTime = 0.0294752
+compTime = 70.7151 % totTime
+compTime = 1.88092e-07
+n_checks = 111415, passTest = 185
+
+
+mean = 2.78571e-07
+update % = 1.25357
+passTest % = 9
+totTime = 0.00917779
+compTime = 69.503 % totTime
+compTime = 1.97206e-07
+n_checks = 32946, passTest = 54
+
+
+mean = 3.14468e-07
+update % = 1.3293
+passTest % = 17.6667
+totTime = 0.0201555
+compTime = 65.5275 % totTime
+compTime = 2.0801e-07
+n_checks = 64094, passTest = 106
+
+
+mean = 2.96157e-07
+update % = 1.14993
+passTest % = 25.1667
+totTime = 0.0269648
+compTime = 67.1574 % totTime
+compTime = 2.00211e-07
+n_checks = 91049, passTest = 151
+
+
+mean = 2.66404e-07
+update % = 1.3082
+passTest % = 9
+totTime = 0.00877694
+compTime = 69.9131 % totTime
+compTime = 1.89706e-07
+n_checks = 32946, passTest = 54
+
+
+mean = 2.76258e-07
+update % = 1.18378
+passTest % = 32.8333
+totTime = 0.032765
+compTime = 70.5242 % totTime
+compTime = 1.95819e-07
+n_checks = 118603, passTest = 197
+
+
+mean = 2.64917e-07
+update % = 0.890349
+passTest % = 10.3333
+totTime = 0.00999743
+compTime = 70.5511 % totTime
+compTime = 1.89921e-07
+n_checks = 37738, passTest = 62
+
+
+mean = 2.62859e-07
+update % = 1.14386
+passTest % = 17.8333
+totTime = 0.0170052
+compTime = 70.8183 % totTime
+compTime = 1.87895e-07
+n_checks = 64693, passTest = 107
+
+
+mean = 2.81159e-07
+update % = 0.934021
+passTest % = 38.5
+totTime = 0.0390724
+compTime = 68.8222 % totTime
+compTime = 1.94339e-07
+n_checks = 138969, passTest = 231
+
+
+mean = 2.66874e-07
+update % = 0.861897
+passTest % = 50
+totTime = 0.0481173
+compTime = 71.0337 % totTime
+compTime = 1.90203e-07
+n_checks = 180300, passTest = 300
+
+
+mean = 2.10055e-07
+update % = 0.70922
+passTest % = 0.5
+totTime = 0.000503503
+compTime = 68.2699 % totTime
+compTime = 1.91286e-07
+n_checks = 2397, passTest = 3
+
+
+mean = 1.41039e-07
+update % = 0.611791
+passTest % = 0.333333
+totTime = 0.000253589
+compTime = 57.1567 % totTime
+compTime = 1.20987e-07
+n_checks = 1798, passTest = 2
+
+
+mean = 2.61835e-07
+update % = 1.4754
+passTest % = 12.1667
+totTime = 0.0116064
+compTime = 69.2205 % totTime
+compTime = 1.8373e-07
+n_checks = 44327, passTest = 73
+
+
+mean = 2.68278e-07
+update % = 1.48244
+passTest % = 12.3333
+totTime = 0.0120527
+compTime = 70.4227 % totTime
+compTime = 1.91486e-07
+n_checks = 44926, passTest = 74
+
+
+mean = 2.64243e-07
+update % = 1.55479
+passTest % = 11
+totTime = 0.0106051
+compTime = 70.8795 % totTime
+compTime = 1.90137e-07
+n_checks = 40134, passTest = 66
+
+
+mean = 3.44034e-07
+update % = 1.10993
+passTest % = 12.1667
+totTime = 0.01525
+compTime = 63.1609 % totTime
+compTime = 2.20276e-07
+n_checks = 44327, passTest = 73
+
+
+mean = 2.74563e-07
+update % = 0.8942
+passTest % = 55.5
+totTime = 0.054931
+compTime = 67.9435 % totTime
+compTime = 1.87109e-07
+n_checks = 200067, passTest = 333
+
+
+mean = 2.70192e-07
+update % = 1.08778
+passTest % = 41.8333
+totTime = 0.0407851
+compTime = 68.0548 % totTime
+compTime = 1.84612e-07
+n_checks = 150949, passTest = 251
+
+
+mean = 2.87834e-07
+update % = 0.917942
+passTest % = 55.3333
+totTime = 0.0574137
+compTime = 66.5969 % totTime
+compTime = 1.92267e-07
+n_checks = 199468, passTest = 332
+
+
+mean = 2.79251e-07
+update % = 0.870315
+passTest % = 55.3333
+totTime = 0.0557017
+compTime = 67.2142 % totTime
+compTime = 1.88263e-07
+n_checks = 199468, passTest = 332
+
+
+mean = 2.71289e-07
+update % = 1.16109
+passTest % = 33.1667
+totTime = 0.0325007
+compTime = 68.1091 % totTime
+compTime = 1.85702e-07
+n_checks = 119801, passTest = 199
+
+
+mean = 2.60635e-07
+update % = 1.07425
+passTest % = 42
+totTime = 0.0394987
+compTime = 69.6914 % totTime
+compTime = 1.82362e-07
+n_checks = 151548, passTest = 252
+
+
+mean = 2.61752e-07
+update % = 0.871539
+passTest % = 55
+totTime = 0.0518976
+compTime = 70.5073 % totTime
+compTime = 1.85115e-07
+n_checks = 198270, passTest = 330
+
+
+mean = 2.60037e-07
+update % = 0.920921
+passTest % = 20.1667
+totTime = 0.0190033
+compTime = 70.4801 % totTime
+compTime = 1.84792e-07
+n_checks = 73079, passTest = 121
+
+
+mean = 2.70616e-07
+update % = 1.16456
+passTest % = 54.8333
+totTime = 0.053493
+compTime = 69.8426 % totTime
+compTime = 1.89581e-07
+n_checks = 197671, passTest = 329
+
+
+mean = 2.66846e-07
+update % = 0.929677
+passTest % = 36.1667
+totTime = 0.0348456
+compTime = 72.5444 % totTime
+compTime = 1.94476e-07
+n_checks = 130583, passTest = 217
+
+
+mean = 2.51899e-07
+update % = 0.755167
+passTest % = 3.33333
+totTime = 0.00316889
+compTime = 70.0885 % totTime
+compTime = 1.85394e-07
+n_checks = 12580, passTest = 20
+
+
+mean = 2.65924e-07
+update % = 0.817289
+passTest % = 30.1667
+totTime = 0.0289907
+compTime = 72.4287 % totTime
+compTime = 1.93671e-07
+n_checks = 109019, passTest = 181
+
+
+mean = 2.69526e-07
+update % = 0.998112
+passTest % = 46.8333
+totTime = 0.045528
+compTime = 69.8705 % totTime
+compTime = 1.8899e-07
+n_checks = 168919, passTest = 281
+
+
+mean = 2.79705e-07
+update % = 0.848748
+passTest % = 39.5
+totTime = 0.0398756
+compTime = 67.9976 % totTime
+compTime = 1.90997e-07
+n_checks = 142563, passTest = 237
+
+
+mean = 2.67418e-07
+update % = 0.873815
+passTest % = 52.5
+totTime = 0.0506181
+compTime = 69.8379 % totTime
+compTime = 1.87353e-07
+n_checks = 189285, passTest = 315
+
+
+mean = 1.77541e-07
+update % = 0.667408
+passTest % = 0.333333
+totTime = 0.000319218
+compTime = 65.0252 % totTime
+compTime = 1.73265e-07
+n_checks = 1798, passTest = 2
+
+
+mean = 2.00958e-07
+update % = 0.786838
+passTest % = 1
+totTime = 0.000842818
+compTime = 64.3034 % totTime
+compTime = 1.50796e-07
+n_checks = 4194, passTest = 6
+
+
+mean = 2.69423e-07
+update % = 0.904501
+passTest % = 20.1667
+totTime = 0.0196892
+compTime = 68.848 % totTime
+compTime = 1.87028e-07
+n_checks = 73079, passTest = 121
+
+
+mean = 2.77552e-07
+update % = 0.876187
+passTest % = 51.5
+totTime = 0.0515388
+compTime = 69.1724 % totTime
+compTime = 1.92611e-07
+n_checks = 185691, passTest = 309
+
+
+mean = 2.60981e-07
+update % = 0.944799
+passTest % = 38
+totTime = 0.0357993
+compTime = 71.4713 % totTime
+compTime = 1.87346e-07
+n_checks = 137172, passTest = 228
+
+
+mean = 2.61254e-07
+update % = 0.859897
+passTest % = 8.66667
+totTime = 0.00829428
+compTime = 71.7565 % totTime
+compTime = 1.91078e-07
+n_checks = 31748, passTest = 52
+
+
+mean = 2.64697e-07
+update % = 1.1642
+passTest % = 12.5
+totTime = 0.0120503
+compTime = 71.4877 % totTime
+compTime = 1.91753e-07
+n_checks = 45525, passTest = 75
+
+
+mean = 2.55989e-07
+update % = 0.857088
+passTest % = 50.8333
+totTime = 0.0469216
+compTime = 71.5423 % totTime
+compTime = 1.83742e-07
+n_checks = 183295, passTest = 305
+
+
+mean = 2.58825e-07
+update % = 0.856596
+passTest % = 10
+totTime = 0.00945748
+compTime = 70.7549 % totTime
+compTime = 1.86189e-07
+n_checks = 36540, passTest = 60
+
+
+mean = 3.09125e-07
+update % = 0.80895
+passTest % = 49.5
+totTime = 0.0551797
+compTime = 67.1806 % totTime
+compTime = 2.08372e-07
+n_checks = 178503, passTest = 297
+
+
+mean = 2.6303e-07
+update % = 0.985487
+passTest % = 10.1667
+totTime = 0.00976867
+compTime = 70.7268 % totTime
+compTime = 1.89087e-07
+n_checks = 37139, passTest = 61
+
+
+mean = 2.75316e-07
+update % = 0.861599
+passTest % = 39.1667
+totTime = 0.03892
+compTime = 71.6506 % totTime
+compTime = 1.98106e-07
+n_checks = 141365, passTest = 235
+
+
+mean = 2.60897e-07
+update % = 1.03943
+passTest % = 22.6667
+totTime = 0.0214102
+compTime = 72.962 % totTime
+compTime = 1.91757e-07
+n_checks = 82064, passTest = 136
+
+
+mean = 2.602e-07
+update % = 1.19641
+passTest % = 12.8333
+totTime = 0.0121573
+compTime = 71.9248 % totTime
+compTime = 1.89583e-07
+n_checks = 46723, passTest = 77
+
+
+mean = 2.36466e-07
+update % = 1.19414
+passTest % = 2
+totTime = 0.0018416
+compTime = 69.5158 % totTime
+compTime = 1.78103e-07
+n_checks = 7788, passTest = 12
+
+
+mean = 2.62652e-07
+update % = 0.788689
+passTest % = 40.3333
+totTime = 0.0382311
+compTime = 73.4037 % totTime
+compTime = 1.93594e-07
+n_checks = 145558, passTest = 242
+
+
+mean = 2.62363e-07
+update % = 1.29379
+passTest % = 11.1667
+totTime = 0.0106868
+compTime = 72.1655 % totTime
+compTime = 1.92166e-07
+n_checks = 40733, passTest = 67
+
+
+mean = 2.58179e-07
+update % = 0.820917
+passTest % = 42.1667
+totTime = 0.0392812
+compTime = 72.1185 % totTime
+compTime = 1.86932e-07
+n_checks = 152147, passTest = 253
+
+
+mean = 2.5749e-07
+update % = 1.2791
+passTest % = 11.6667
+totTime = 0.010951
+compTime = 70.7131 % totTime
+compTime = 1.84685e-07
+n_checks = 42530, passTest = 70
+
+
+mean = 2.60069e-07
+update % = 0.82878
+passTest % = 42
+totTime = 0.0394129
+compTime = 71.9659 % totTime
+compTime = 1.87905e-07
+n_checks = 151548, passTest = 252
+
+
+mean = 2.91888e-07
+update % = 0.824584
+passTest % = 46.5
+totTime = 0.0489558
+compTime = 68.915 % totTime
+compTime = 2.01877e-07
+n_checks = 167721, passTest = 279
+
+
+mean = 3.5166e-07
+update % = 1.004
+passTest % = 11.6667
+totTime = 0.0149561
+compTime = 63.2728 % totTime
+compTime = 2.25689e-07
+n_checks = 42530, passTest = 70
+
+
+mean = 3.79696e-07
+update % = 1.29
+passTest % = 10.8333
+totTime = 0.0150113
+compTime = 61.6062 % totTime
+compTime = 2.37521e-07
+n_checks = 39535, passTest = 65
+
+
+mean = 2.59678e-07
+update % = 1.13606
+passTest % = 19.5
+totTime = 0.0183548
+compTime = 71.4295 % totTime
+compTime = 1.87075e-07
+n_checks = 70683, passTest = 117
+
+
+mean = 2.58812e-07
+update % = 0.97099
+passTest % = 16.1667
+totTime = 0.015193
+compTime = 70.8649 % totTime
+compTime = 1.85301e-07
+n_checks = 58703, passTest = 97
+
+
+mean = 2.93189e-07
+update % = 0.911842
+passTest % = 28.3333
+totTime = 0.0300313
+compTime = 68.2435 % totTime
+compTime = 2.01261e-07
+n_checks = 102430, passTest = 170
+
+
+mean = 2.70252e-07
+update % = 0.935764
+passTest % = 44.1667
+totTime = 0.0430606
+compTime = 70.4579 % totTime
+compTime = 1.91134e-07
+n_checks = 159335, passTest = 265
+
+
+mean = 2.9464e-07
+update % = 0.988913
+passTest % = 21.6667
+totTime = 0.0231204
+compTime = 66.5164 % totTime
+compTime = 1.97494e-07
+n_checks = 78470, passTest = 130
+
+
+mean = 2.63655e-07
+update % = 1.17541
+passTest % = 16.1667
+totTime = 0.0154774
+compTime = 69.5386 % totTime
+compTime = 1.85236e-07
+n_checks = 58703, passTest = 97
+
+
+mean = 2.60132e-07
+update % = 1.25637
+passTest % = 3
+totTime = 0.00296082
+compTime = 66.0391 % totTime
+compTime = 1.81348e-07
+n_checks = 11382, passTest = 18
+
+
+mean = 2.75607e-07
+update % = 0.822219
+passTest % = 31
+totTime = 0.0308719
+compTime = 68.0844 % totTime
+compTime = 1.88656e-07
+n_checks = 112014, passTest = 186
+
+
+mean = 2.55844e-07
+update % = 0.893205
+passTest % = 22.6667
+totTime = 0.0209956
+compTime = 70.0742 % totTime
+compTime = 1.80601e-07
+n_checks = 82064, passTest = 136
+
+
+mean = 2.88775e-07
+update % = 0.697322
+passTest % = 37.5
+totTime = 0.039093
+compTime = 68.8069 % totTime
+compTime = 1.99582e-07
+n_checks = 135375, passTest = 225
+
+
+mean = 2.64503e-07
+update % = 0.926895
+passTest % = 11
+totTime = 0.0106156
+compTime = 71.7324 % totTime
+compTime = 1.92614e-07
+n_checks = 40134, passTest = 66
+
+
+mean = 2.5935e-07
+update % = 0.801984
+passTest % = 33.8333
+totTime = 0.0316918
+compTime = 71.6509 % totTime
+compTime = 1.86744e-07
+n_checks = 122197, passTest = 203
+
+
+mean = 2.73005e-07
+update % = 0.844887
+passTest % = 32.6667
+totTime = 0.0322157
+compTime = 70.6802 % totTime
+compTime = 1.93947e-07
+n_checks = 118004, passTest = 196
+
+
+mean = 2.57951e-07
+update % = 0.977627
+passTest % = 21.8333
+totTime = 0.020396
+compTime = 71.6982 % totTime
+compTime = 1.86361e-07
+n_checks = 79069, passTest = 131
+
+
+mean = 2.77968e-07
+update % = 0.955768
+passTest % = 48.3333
+totTime = 0.0484525
+compTime = 69.6783 % totTime
+compTime = 1.94352e-07
+n_checks = 174310, passTest = 290
+
+
+mean = 2.79188e-07
+update % = 0.882654
+passTest % = 50.3333
+totTime = 0.050672
+compTime = 69.758 % totTime
+compTime = 1.95402e-07
+n_checks = 181498, passTest = 302
+
+
+mean = 2.76203e-07
+update % = 0.997562
+passTest % = 27
+totTime = 0.0269679
+compTime = 68.5953 % totTime
+compTime = 1.90633e-07
+n_checks = 97638, passTest = 162
+
+
+mean = 2.87095e-07
+update % = 0.975807
+passTest % = 49.3333
+totTime = 0.0510753
+compTime = 69.2628 % totTime
+compTime = 1.99523e-07
+n_checks = 177904, passTest = 296
+
+
+mean = 3.49629e-07
+update % = 0.961422
+passTest % = 13.6667
+totTime = 0.0173828
+compTime = 64.17 % totTime
+compTime = 2.27097e-07
+n_checks = 49718, passTest = 82
+
+
+mean = 2.58558e-07
+update % = 0.816444
+passTest % = 10.5
+totTime = 0.00991235
+compTime = 71.6987 % totTime
+compTime = 1.88331e-07
+n_checks = 38337, passTest = 63
+
+
+mean = 1.92753e-07
+update % = 1.04297
+passTest % = 0.5
+totTime = 0.000462028
+compTime = 66.0728 % totTime
+compTime = 1.6988e-07
+n_checks = 2397, passTest = 3
+
+
+mean = 2.62262e-07
+update % = 0.940332
+passTest % = 24.3333
+totTime = 0.0230932
+compTime = 72.4265 % totTime
+compTime = 1.9125e-07
+n_checks = 88054, passTest = 146
+
+
+mean = 2.39264e-07
+update % = 1.11834
+passTest % = 1.5
+totTime = 0.00143343
+compTime = 69.585 % totTime
+compTime = 1.85022e-07
+n_checks = 5991, passTest = 9
+
+
+mean = 2.48289e-07
+update % = 0.838863
+passTest % = 6.5
+totTime = 0.00594925
+compTime = 71.0858 % totTime
+compTime = 1.81031e-07
+n_checks = 23961, passTest = 39
+
+
+mean = 2.18538e-07
+update % = 0.945758
+passTest % = 0.833333
+totTime = 0.000785645
+compTime = 68.3988 % totTime
+compTime = 1.79423e-07
+n_checks = 3595, passTest = 5
+
+
+mean = 2.58942e-07
+update % = 1.04378
+passTest % = 17.6667
+totTime = 0.0165966
+compTime = 72.3105 % totTime
+compTime = 1.89012e-07
+n_checks = 64094, passTest = 106
+
+
+mean = 2.61651e-07
+update % = 1.09796
+passTest % = 48.6667
+totTime = 0.0459218
+compTime = 72.2744 % totTime
+compTime = 1.89755e-07
+n_checks = 175508, passTest = 292
+
+
+mean = 3.00632e-07
+update % = 1.0991
+passTest % = 48.6667
+totTime = 0.0527634
+compTime = 68.7652 % totTime
+compTime = 2.07439e-07
+n_checks = 175508, passTest = 292
+
+
+mean = 2.61276e-07
+update % = 0.898876
+passTest % = 4.16667
+totTime = 0.00406938
+compTime = 71.547 % totTime
+compTime = 1.94425e-07
+n_checks = 15575, passTest = 25
+
+
+mean = 2.7451e-07
+update % = 1.09226
+passTest % = 48.6667
+totTime = 0.0481788
+compTime = 70.7796 % totTime
+compTime = 1.94964e-07
+n_checks = 175508, passTest = 292
+
+
+mean = 2.66164e-07
+update % = 0.985406
+passTest % = 44.3333
+totTime = 0.0425687
+compTime = 73.2089 % totTime
+compTime = 1.9559e-07
+n_checks = 159934, passTest = 266
+
+
+mean = 2.64262e-07
+update % = 0.845006
+passTest % = 24.1667
+totTime = 0.023111
+compTime = 72.292 % totTime
+compTime = 1.9236e-07
+n_checks = 87455, passTest = 145
+
+
+mean = 3.14487e-07
+update % = 1.09367
+passTest % = 29.1667
+totTime = 0.0331548
+compTime = 68.4519 % totTime
+compTime = 2.16505e-07
+n_checks = 105425, passTest = 175
+
+
+mean = 2.85586e-07
+update % = 1.01736
+passTest % = 14
+totTime = 0.0145409
+compTime = 69.1024 % totTime
+compTime = 1.997e-07
+n_checks = 50916, passTest = 84
+
+
+mean = 2.60804e-07
+update % = 0.920715
+passTest % = 21.8333
+totTime = 0.0206215
+compTime = 73.1049 % totTime
+compTime = 1.92118e-07
+n_checks = 79069, passTest = 131
+
+
+mean = 2.62309e-07
+update % = 1.01957
+passTest % = 43.3333
+totTime = 0.0410095
+compTime = 73.6892 % totTime
+compTime = 1.94038e-07
+n_checks = 156340, passTest = 260
+
+
+mean = 2.96072e-07
+update % = 0.888314
+passTest % = 45
+totTime = 0.0480613
+compTime = 69.6476 % totTime
+compTime = 2.06972e-07
+n_checks = 162330, passTest = 270
+
+
+mean = 2.60586e-07
+update % = 0.959236
+passTest % = 20.1667
+totTime = 0.0190434
+compTime = 73.167 % totTime
+compTime = 1.92241e-07
+n_checks = 73079, passTest = 121
+
+
+mean = 2.51813e-07
+update % = 1.10958
+passTest % = 2.66667
+totTime = 0.00256446
+compTime = 69.9079 % totTime
+compTime = 1.87058e-07
+n_checks = 10184, passTest = 16
+
+
+mean = 2.6448e-07
+update % = 1.03176
+passTest % = 30.3333
+totTime = 0.0289918
+compTime = 72.9113 % totTime
+compTime = 1.93897e-07
+n_checks = 109618, passTest = 182
+
+
+mean = 2.62548e-07
+update % = 0.956132
+passTest % = 40.1667
+totTime = 0.0380586
+compTime = 73.8833 % totTime
+compTime = 1.94785e-07
+n_checks = 144959, passTest = 241
+
+
+mean = 2.61621e-07
+update % = 0.837173
+passTest % = 33.8333
+totTime = 0.0319694
+compTime = 73.6301 % totTime
+compTime = 1.93583e-07
+n_checks = 122197, passTest = 203
+
+
+mean = 2.60533e-07
+update % = 0.893487
+passTest % = 11.6667
+totTime = 0.0110805
+compTime = 72.3198 % totTime
+compTime = 1.91113e-07
+n_checks = 42530, passTest = 70
+
+
+mean = 2.52497e-07
+update % = 0.990485
+passTest % = 4.83333
+totTime = 0.00453762
+compTime = 71.1659 % totTime
+compTime = 1.85898e-07
+n_checks = 17971, passTest = 29
+
+
+mean = 2.58827e-07
+update % = 0.980781
+passTest % = 13.1667
+totTime = 0.0124033
+compTime = 72.4398 % totTime
+compTime = 1.89871e-07
+n_checks = 47921, passTest = 79
+
+
+mean = 2.60131e-07
+update % = 1.00246
+passTest % = 34.6667
+totTime = 0.0325663
+compTime = 73.6571 % totTime
+compTime = 1.92527e-07
+n_checks = 125192, passTest = 208
+
+
+mean = 2.61841e-07
+update % = 0.82966
+passTest % = 43.8333
+totTime = 0.0414068
+compTime = 74.012 % totTime
+compTime = 1.94532e-07
+n_checks = 158137, passTest = 263
+
+
+mean = 2.6054e-07
+update % = 0.824986
+passTest % = 37
+totTime = 0.0348024
+compTime = 74.0192 % totTime
+compTime = 1.93719e-07
+n_checks = 133578, passTest = 222
+
+
+mean = 2.40525e-07
+update % = 0.834585
+passTest % = 1.5
+totTime = 0.00144098
+compTime = 71.4983 % totTime
+compTime = 1.91111e-07
+n_checks = 5991, passTest = 9
+
+
+mean = 2.55414e-07
+update % = 0.950281
+passTest % = 12.8333
+totTime = 0.0119337
+compTime = 72.9749 % totTime
+compTime = 1.88813e-07
+n_checks = 46723, passTest = 77
+
+
+mean = 2.44977e-07
+update % = 0.715421
+passTest % = 3.33333
+totTime = 0.00308181
+compTime = 71.0087 % totTime
+compTime = 1.82667e-07
+n_checks = 12580, passTest = 20
+
+
+mean = 3.13157e-07
+update % = 0.875769
+passTest % = 30.3333
+totTime = 0.0343276
+compTime = 68.6294 % totTime
+compTime = 2.161e-07
+n_checks = 109618, passTest = 182
+
+
+mean = 1.84623e-07
+update % = 0.556174
+passTest % = 0.333333
+totTime = 0.000331952
+compTime = 68.4638 % totTime
+compTime = 1.89705e-07
+n_checks = 1798, passTest = 2
+
+
+mean = 2.53421e-07
+update % = 0.868085
+passTest % = 8.16667
+totTime = 0.00759021
+compTime = 72.669 % totTime
+compTime = 1.87923e-07
+n_checks = 29951, passTest = 49
+
+
+mean = 2.47697e-07
+update % = 0.63193
+passTest % = 2.16667
+totTime = 0.00207744
+compTime = 71.3184 % totTime
+compTime = 1.90265e-07
+n_checks = 8387, passTest = 13
+
+
+mean = 2.93595e-07
+update % = 0.879801
+passTest % = 39.3333
+totTime = 0.0416799
+compTime = 69.2601 % totTime
+compTime = 2.04207e-07
+n_checks = 141964, passTest = 236
+
+
+mean = 2.62102e-07
+update % = 0.802549
+passTest % = 18
+totTime = 0.0171132
+compTime = 73.4854 % totTime
+compTime = 1.94393e-07
+n_checks = 65292, passTest = 108
+
+
+mean = 1.85052e-07
+update % = 0.500556
+passTest % = 0.333333
+totTime = 0.000332723
+compTime = 67.4579 % totTime
+compTime = 1.87352e-07
+n_checks = 1798, passTest = 2
+
+
+mean = 2.2626e-07
+update % = 0.846548
+passTest % = 2.16667
+totTime = 0.00189764
+compTime = 68.6658 % totTime
+compTime = 1.67334e-07
+n_checks = 8387, passTest = 13
+
+
+mean = 2.58886e-07
+update % = 0.747973
+passTest % = 33.8333
+totTime = 0.0316351
+compTime = 73.7688 % totTime
+compTime = 1.9192e-07
+n_checks = 122197, passTest = 203
+
+
+mean = 2.57722e-07
+update % = 0.830636
+passTest % = 13.5
+totTime = 0.0126591
+compTime = 73.232 % totTime
+compTime = 1.91069e-07
+n_checks = 49119, passTest = 81
+
+
+mean = 2.59549e-07
+update % = 0.901497
+passTest % = 42.3333
+totTime = 0.0396451
+compTime = 74.0281 % totTime
+compTime = 1.92897e-07
+n_checks = 152746, passTest = 254
+
+
+mean = 2.60612e-07
+update % = 0.910035
+passTest % = 13.5
+totTime = 0.012801
+compTime = 73.5742 % totTime
+compTime = 1.94114e-07
+n_checks = 49119, passTest = 81
+
+
+mean = 2.58055e-07
+update % = 0.812662
+passTest % = 17.5
+totTime = 0.0163852
+compTime = 73.9081 % totTime
+compTime = 1.92543e-07
+n_checks = 63495, passTest = 105
+
+
+mean = 2.58424e-07
+update % = 0.912525
+passTest % = 19.5
+totTime = 0.0182662
+compTime = 73.4239 % totTime
+compTime = 1.91369e-07
+n_checks = 70683, passTest = 117
+
+
+mean = 2.2911e-07
+update % = 0.704748
+passTest % = 1.33333
+totTime = 0.00123536
+compTime = 71.8746 % totTime
+compTime = 1.8529e-07
+n_checks = 5392, passTest = 8
+
+
+mean = 2.61309e-07
+update % = 1.02234
+passTest % = 18.6667
+totTime = 0.0176875
+compTime = 73.6402 % totTime
+compTime = 1.9415e-07
+n_checks = 67688, passTest = 112
+
+
+mean = 2.60625e-07
+update % = 0.830516
+passTest % = 46.1667
+totTime = 0.0434001
+compTime = 74.2681 % totTime
+compTime = 1.94261e-07
+n_checks = 166523, passTest = 277
+
+
+mean = 2.59524e-07
+update % = 0.825006
+passTest % = 45.6667
+totTime = 0.0427503
+compTime = 74.1266 % totTime
+compTime = 1.93079e-07
+n_checks = 164726, passTest = 274
+
+
+mean = 2.52889e-07
+update % = 0.792878
+passTest % = 1.83333
+totTime = 0.00181802
+compTime = 70.8754 % totTime
+compTime = 1.95557e-07
+n_checks = 7189, passTest = 11
+
+
+mean = 2.58171e-07
+update % = 1.0573
+passTest % = 16.8333
+totTime = 0.015774
+compTime = 73.0099 % totTime
+compTime = 1.9036e-07
+n_checks = 61099, passTest = 101
+
+
+mean = 2.55034e-07
+update % = 0.883797
+passTest % = 8.33333
+totTime = 0.00779128
+compTime = 72.895 % totTime
+compTime = 1.89631e-07
+n_checks = 30550, passTest = 50
+
+
+mean = 2.3813e-07
+update % = 0.7739
+passTest % = 1.66667
+totTime = 0.00156928
+compTime = 71.5234 % totTime
+compTime = 1.87379e-07
+n_checks = 6590, passTest = 10
+
+
+mean = 2.36991e-07
+update % = 0.736485
+passTest % = 5.5
+totTime = 0.0048268
+compTime = 71.0817 % totTime
+compTime = 1.73571e-07
+n_checks = 20367, passTest = 33
+
+
+mean = 2.59822e-07
+update % = 0.707835
+passTest % = 16.5
+totTime = 0.0155636
+compTime = 74.2064 % totTime
+compTime = 1.94755e-07
+n_checks = 59901, passTest = 99
+
+
+mean = 2.51783e-07
+update % = 0.667742
+passTest % = 4.83333
+totTime = 0.00452478
+compTime = 72.239 % totTime
+compTime = 1.88168e-07
+n_checks = 17971, passTest = 29
+
+
+mean = 2.60041e-07
+update % = 0.763085
+passTest % = 45.6667
+totTime = 0.0428356
+compTime = 74.3707 % totTime
+compTime = 1.94102e-07
+n_checks = 164726, passTest = 274
+
+
+mean = 2.56318e-07
+update % = 0.875557
+passTest % = 15.5
+totTime = 0.0144325
+compTime = 73.3144 % totTime
+compTime = 1.89942e-07
+n_checks = 56307, passTest = 93
+
+
+mean = 2.61135e-07
+update % = 0.73175
+passTest % = 45.5
+totTime = 0.0428593
+compTime = 72.9146 % totTime
+compTime = 1.91104e-07
+n_checks = 164127, passTest = 273
+
+
+mean = 2.61975e-07
+update % = 0.966286
+passTest % = 19.5
+totTime = 0.0185172
+compTime = 72.114 % totTime
+compTime = 1.90538e-07
+n_checks = 70683, passTest = 117
+
+
+mean = 2.60388e-07
+update % = 0.923461
+passTest % = 13
+totTime = 0.0123221
+compTime = 72.9248 % totTime
+compTime = 1.92326e-07
+n_checks = 47322, passTest = 78
+
+
+mean = 2.58007e-07
+update % = 0.894066
+passTest % = 14.8333
+totTime = 0.0139094
+compTime = 72.647 % totTime
+compTime = 1.89544e-07
+n_checks = 53911, passTest = 89
+
+
+mean = 2.56656e-07
+update % = 0.886073
+passTest % = 12.8333
+totTime = 0.0119917
+compTime = 73.6963 % totTime
+compTime = 1.91607e-07
+n_checks = 46723, passTest = 77
+
+
+mean = 2.58304e-07
+update % = 0.69665
+passTest % = 30.6667
+totTime = 0.0286242
+compTime = 74.3285 % totTime
+compTime = 1.93038e-07
+n_checks = 110816, passTest = 184
+
+
+mean = 2.59891e-07
+update % = 0.734553
+passTest % = 45.6667
+totTime = 0.0428107
+compTime = 74.4696 % totTime
+compTime = 1.94247e-07
+n_checks = 164726, passTest = 274
+
+
+mean = 2.56913e-07
+update % = 0.863922
+passTest % = 13.1667
+totTime = 0.0123115
+compTime = 73.8132 % totTime
+compTime = 1.9204e-07
+n_checks = 47921, passTest = 79
+
+
+mean = 2.55424e-07
+update % = 0.73336
+passTest % = 37.1667
+totTime = 0.034272
+compTime = 72.7 % totTime
+compTime = 1.86527e-07
+n_checks = 134177, passTest = 223
+
+
+mean = 2.62585e-07
+update % = 0.952688
+passTest % = 24.8333
+totTime = 0.0235936
+compTime = 73.0383 % totTime
+compTime = 1.93077e-07
+n_checks = 89851, passTest = 149
+
+
+mean = 2.61407e-07
+update % = 0.752517
+passTest % = 32.6667
+totTime = 0.0308471
+compTime = 73.8252 % totTime
+compTime = 1.9397e-07
+n_checks = 118004, passTest = 196
+
+
+mean = 2.89885e-07
+update % = 0.860667
+passTest % = 32
+totTime = 0.0335131
+compTime = 70.9102 % totTime
+compTime = 2.06631e-07
+n_checks = 115608, passTest = 192
+
+
+mean = 2.5301e-07
+update % = 0.732488
+passTest % = 8
+totTime = 0.00742636
+compTime = 72.5809 % totTime
+compTime = 1.87469e-07
+n_checks = 29352, passTest = 48
+
+
+mean = 2.58601e-07
+update % = 0.675251
+passTest % = 44.5
+totTime = 0.041514
+compTime = 74.3871 % totTime
+compTime = 1.93088e-07
+n_checks = 160533, passTest = 267
+
+
+mean = 2.58785e-07
+update % = 0.790956
+passTest % = 34.1667
+totTime = 0.0319328
+compTime = 74.3412 % totTime
+compTime = 1.93324e-07
+n_checks = 123395, passTest = 205
+
+
+mean = 2.59718e-07
+update % = 0.789987
+passTest % = 34.6667
+totTime = 0.0325146
+compTime = 74.4771 % totTime
+compTime = 1.94362e-07
+n_checks = 125192, passTest = 208
+
+
+mean = 2.57629e-07
+update % = 0.692056
+passTest % = 27.3333
+totTime = 0.025463
+compTime = 73.9545 % totTime
+compTime = 1.91692e-07
+n_checks = 98836, passTest = 164
+
+
+mean = 2.57859e-07
+update % = 0.648003
+passTest % = 25.1667
+totTime = 0.0234778
+compTime = 74.338 % totTime
+compTime = 1.92958e-07
+n_checks = 91049, passTest = 151
+
+
+mean = 2.58418e-07
+update % = 0.785931
+passTest % = 36.3333
+totTime = 0.0338998
+compTime = 74.379 % totTime
+compTime = 1.93092e-07
+n_checks = 131182, passTest = 218
+
+
+mean = 2.56848e-07
+update % = 0.729383
+passTest % = 27.8333
+totTime = 0.0258474
+compTime = 74.3089 % totTime
+compTime = 1.92006e-07
+n_checks = 100633, passTest = 167
+
+
+mean = 2.57737e-07
+update % = 0.6939
+passTest % = 43.5
+totTime = 0.0404489
+compTime = 74.4264 % totTime
+compTime = 1.9256e-07
+n_checks = 156939, passTest = 261
+
+
+mean = 2.57103e-07
+update % = 0.717664
+passTest % = 28.8333
+totTime = 0.026797
+compTime = 74.3577 % totTime
+compTime = 1.92283e-07
+n_checks = 104227, passTest = 173
+
+
+mean = 2.55735e-07
+update % = 0.765836
+passTest % = 23.6667
+totTime = 0.0219058
+compTime = 73.5854 % totTime
+compTime = 1.89511e-07
+n_checks = 85658, passTest = 142
+
+
+mean = 2.52864e-07
+update % = 1.02942
+passTest % = 3.83333
+totTime = 0.00363542
+compTime = 71.7378 % totTime
+compTime = 1.89299e-07
+n_checks = 14377, passTest = 23
+
+
+mean = 2.59354e-07
+update % = 0.790592
+passTest % = 37.6667
+totTime = 0.0352654
+compTime = 74.4043 % totTime
+compTime = 1.93826e-07
+n_checks = 135974, passTest = 226
+
+
+mean = 2.58277e-07
+update % = 0.754426
+passTest % = 34.8333
+totTime = 0.0324889
+compTime = 73.1202 % totTime
+compTime = 1.89758e-07
+n_checks = 125791, passTest = 209
+
+
+mean = 2.47258e-07
+update % = 0.852223
+passTest % = 3
+totTime = 0.00281429
+compTime = 70.9366 % totTime
+compTime = 1.85157e-07
+n_checks = 11382, passTest = 18
+
+
+mean = 2.59685e-07
+update % = 0.721352
+passTest % = 35.6667
+totTime = 0.0334438
+compTime = 73.3142 % totTime
+compTime = 1.91277e-07
+n_checks = 128786, passTest = 214
+
+
+mean = 2.55455e-07
+update % = 0.986443
+passTest % = 5.33333
+totTime = 0.00504984
+compTime = 72.5037 % totTime
+compTime = 1.91012e-07
+n_checks = 19768, passTest = 32
+
+
+mean = 2.56028e-07
+update % = 0.860011
+passTest % = 27.3333
+totTime = 0.0253048
+compTime = 73.9863 % totTime
+compTime = 1.90583e-07
+n_checks = 98836, passTest = 164
+
+
+mean = 2.58196e-07
+update % = 0.712161
+passTest % = 41.8333
+totTime = 0.0389744
+compTime = 74.4483 % totTime
+compTime = 1.92989e-07
+n_checks = 150949, passTest = 251
+
+
+mean = 2.45012e-07
+update % = 0.927386
+passTest % = 2.83333
+totTime = 0.00264196
+compTime = 72.2045 % totTime
+compTime = 1.87333e-07
+n_checks = 10783, passTest = 17
+
+
+mean = 2.5838e-07
+update % = 0.666476
+passTest % = 42.6667
+totTime = 0.039776
+compTime = 74.5037 % totTime
+compTime = 1.93256e-07
+n_checks = 153944, passTest = 256
+
+
+mean = 2.59463e-07
+update % = 0.725225
+passTest % = 41
+totTime = 0.0383886
+compTime = 74.458 % totTime
+compTime = 1.93978e-07
+n_checks = 147954, passTest = 246
+
+
+mean = 2.60147e-07
+update % = 0.663156
+passTest % = 42
+totTime = 0.0394248
+compTime = 74.4731 % totTime
+compTime = 1.9451e-07
+n_checks = 151548, passTest = 252
+
+
+mean = 2.5858e-07
+update % = 0.630099
+passTest % = 42.6667
+totTime = 0.0398068
+compTime = 74.3256 % totTime
+compTime = 1.92943e-07
+n_checks = 153944, passTest = 256
+
+
+mean = 2.59005e-07
+update % = 0.764318
+passTest % = 27.5
+totTime = 0.0257541
+compTime = 73.9078 % totTime
+compTime = 1.92587e-07
+n_checks = 99435, passTest = 165
+
+
+mean = 2.58853e-07
+update % = 0.640721
+passTest % = 42
+totTime = 0.0392286
+compTime = 74.4574 % totTime
+compTime = 1.93501e-07
+n_checks = 151548, passTest = 252
+
+
+mean = 2.56558e-07
+update % = 0.626523
+passTest % = 43
+totTime = 0.039803
+compTime = 74.1622 % totTime
+compTime = 1.91008e-07
+n_checks = 155142, passTest = 258
+
+
+mean = 2.56536e-07
+update % = 0.748367
+passTest % = 28.8333
+totTime = 0.026738
+compTime = 72.558 % totTime
+compTime = 1.87215e-07
+n_checks = 104227, passTest = 173
+
+
+mean = 2.76912e-07
+update % = 0.754298
+passTest % = 27.1667
+totTime = 0.027203
+compTime = 69.3703 % totTime
+compTime = 1.93275e-07
+n_checks = 98237, passTest = 163
+
+
+mean = 2.66918e-07
+update % = 0.75749
+passTest % = 24.3333
+totTime = 0.0235032
+compTime = 72.5797 % totTime
+compTime = 1.95057e-07
+n_checks = 88054, passTest = 146
+
+
+mean = 2.58668e-07
+update % = 1.03792
+passTest % = 7.5
+totTime = 0.00712761
+compTime = 72.4233 % totTime
+compTime = 1.91506e-07
+n_checks = 27555, passTest = 45
+
+
+mean = 2.54831e-07
+update % = 1.0934
+passTest % = 3.16667
+totTime = 0.00305313
+compTime = 70.5011 % totTime
+compTime = 1.8913e-07
+n_checks = 11981, passTest = 19
+
+
+mean = 2.43118e-07
+update % = 0.792922
+passTest % = 3.16667
+totTime = 0.0029128
+compTime = 70.9885 % totTime
+compTime = 1.81685e-07
+n_checks = 11981, passTest = 19
+
+
+mean = 2.64232e-07
+update % = 0.750174
+passTest % = 25.8333
+totTime = 0.0246912
+compTime = 72.9122 % totTime
+compTime = 1.93902e-07
+n_checks = 93445, passTest = 155
+
+
+mean = 2.57291e-07
+update % = 0.747451
+passTest % = 29.1667
+totTime = 0.0271249
+compTime = 74.3484 % totTime
+compTime = 1.92387e-07
+n_checks = 105425, passTest = 175
+
+
+mean = 2.58105e-07
+update % = 0.774009
+passTest % = 27.3333
+totTime = 0.0255101
+compTime = 74.4431 % totTime
+compTime = 1.93315e-07
+n_checks = 98836, passTest = 164
+
+
+mean = 2.58158e-07
+update % = 0.76021
+passTest % = 20
+totTime = 0.0187113
+compTime = 74.3929 % totTime
+compTime = 1.93655e-07
+n_checks = 72480, passTest = 120
+
+
+mean = 2.50625e-07
+update % = 1.10734
+passTest % = 4.83333
+totTime = 0.00450399
+compTime = 72.9218 % totTime
+compTime = 1.89073e-07
+n_checks = 17971, passTest = 29
+
+
+mean = 2.62016e-07
+update % = 0.757424
+passTest % = 17.8333
+totTime = 0.0169506
+compTime = 72.3363 % totTime
+compTime = 1.91307e-07
+n_checks = 64693, passTest = 107
+
+
+mean = 2.58451e-07
+update % = 1.00806
+passTest % = 8.5
+totTime = 0.0080505
+compTime = 71.1927 % totTime
+compTime = 1.87612e-07
+n_checks = 31149, passTest = 51
+
+
+mean = 2.89979e-07
+update % = 0.778331
+passTest % = 25
+totTime = 0.0262286
+compTime = 69.9352 % totTime
+compTime = 2.04152e-07
+n_checks = 90450, passTest = 150
+
+
+mean = 2.856e-07
+update % = 0.754091
+passTest % = 29.1667
+totTime = 0.0301094
+compTime = 71.1294 % totTime
+compTime = 2.04309e-07
+n_checks = 105425, passTest = 175
+
+
+
+
+
+
+
+

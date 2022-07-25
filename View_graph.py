@@ -93,7 +93,7 @@ def getBetterGraph(lines):
 		sep = line.split(" ")
 		if sep[0] == "point":
 			plotings.append(("point", int(sep[1]), int(sep[2]), float(sep[3]), int(sep[4]),
-								int(sep[5]), int(sep[6]), int(sep[7]) ))
+								int(sep[5]), int(sep[6]), int(sep[7]), int(sep[8]) ))
 		if sep[0] == "arc":
 			plotings.append(( "arc", int(sep[1]), int(sep[2]), float(sep[3]), int(sep[4]), 
 								int(sep[5]), int(sep[7]), int(sep[8]), int(sep[9]) ))
@@ -187,14 +187,16 @@ def displayBetterGraph(tab_points, plotings):
 	Ymin = min(tab_points, key = lambda x: x[1])[1]
 
 	width = 1800
-	height = 980
+	height = 950
 	a = min(width/(Xmax-Xmin), height/(Ymax-Ymin))
 	bX = -a*Xmin
 
 	bY = -a*Ymin
 
-
-	size = ( int(a*(Xmax-Xmin)+1), int(a*(Ymax-Ymin)+1) )
+	margin = 25
+	realWidth = int(a*(Xmax-Xmin)+1) + 2*margin
+	realHeight = int(a*(Ymax-Ymin)+1) + 2*margin
+	size = ( realWidth, realHeight )
 
 	pygame.init()
 	screen = pygame.display.set_mode(size)
@@ -242,14 +244,14 @@ def displayBetterGraph(tab_points, plotings):
 				varPlot += 1
 
 			if to_plot[0] == "point":
-				pos = (a*tab_points[to_plot[4]][0]+bX, a*tab_points[to_plot[4]][1]+bY)
-				col = (to_plot[5], to_plot[6], to_plot[7])
+				pos = (margin+a*tab_points[to_plot[4]][0]+bX, margin+a*tab_points[to_plot[4]][1]+bY)
+				col = (to_plot[5], to_plot[6], to_plot[7], to_plot[8])
 				scale = a*to_plot[3]
 				pygame.draw.circle(screen, col, pos, max(scale,1))
 
 			if to_plot[0] == "arc":
-				pos1 = (a*tab_points[to_plot[4]][0]+bX, a*tab_points[to_plot[4]][1]+bY)
-				pos2 = (a*tab_points[to_plot[5]][0]+bX, a*tab_points[to_plot[5]][1]+bY)
+				pos1 = (margin+a*tab_points[to_plot[4]][0]+bX, margin+a*tab_points[to_plot[4]][1]+bY)
+				pos2 = (margin+a*tab_points[to_plot[5]][0]+bX, margin+a*tab_points[to_plot[5]][1]+bY)
 				col = (to_plot[6], to_plot[7], to_plot[8])
 				scale = int(max(a*to_plot[3], 1))
 				pygame.draw.line(screen, color=col, start_pos=pos1,
@@ -264,7 +266,7 @@ def displayBetterGraph(tab_points, plotings):
 
 
 
-		pygame.image.save(screen, "data/bothEx2_" + str(currentLayer) + ".png")
+		#pygame.image.save(screen, "data/bothEx2_" + str(currentLayer) + ".png")
 		playing = True
 		clock = pygame.time.Clock()
 

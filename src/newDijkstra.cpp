@@ -78,6 +78,7 @@ infoPath dijkstraOptiD_noCond(Node* s, Node* t) {
         if (to_relax == t) {break;}
         for (list<arcNode>::iterator neighb = to_relax->l_adj.begin();
         neighb != to_relax->l_adj.end(); neighb++) {
+            n_checks++;
             newDist = min(to_relax->d_to_S, neighb->arc_d);
             if (newDist > neighb->d_to_S()) {
                 n_labels++;
@@ -114,6 +115,7 @@ infoPath dijkstraOptiC_noCond(Node* s, Node* t) {
         if (to_relax == t) {break;}
         for (list<arcNode>::iterator neighb = to_relax->l_adj.begin();
         neighb != to_relax->l_adj.end(); neighb++) {
+            n_checks++;
             newLength = to_relax->c_to_s + neighb->arc_c;
             if (newLength < neighb->c_to_s()) {
                 n_labels++;
@@ -150,6 +152,7 @@ infoPath dijkstraOptiC_condD(Node* s, Node* t, double strict_min_d) {
         if (to_relax == t) {break;}
         for (list<arcNode>::iterator neighb = to_relax->l_adj.begin();
         neighb != to_relax->l_adj.end(); neighb++) {
+            n_checks++;
             if (neighb->arc_d > strict_min_d) {
                 newLength = to_relax->c_to_s + neighb->arc_c;
                 if (newLength < neighb->c_to_s()) {
@@ -188,6 +191,7 @@ infoPath dijkstraOptiC_condCD(Node* s, Node* t, double strict_min_d, double stri
         if (to_relax == t) {break;}
         for (list<arcNode>::iterator neighb = to_relax->l_adj.begin();
         neighb != to_relax->l_adj.end(); neighb++) {
+            n_checks++;
             if (neighb->arc_d > strict_min_d) {
                 newLength = to_relax->c_to_s + neighb->arc_c;
                 if (newLength < strict_max_c && newLength < neighb->c_to_s()) {
@@ -227,6 +231,7 @@ infoPath dijkstraOptiCD_noCond(Node* s, Node* t) {
         if (to_relax == t) {break;}
         for (list<arcNode>::iterator neighb = to_relax->l_adj.begin();
         neighb != to_relax->l_adj.end(); neighb++) {
+            n_checks++;
             newLength = to_relax->c_to_s + neighb->arc_c;
             if (newLength < neighb->c_to_s()) {
                 n_labels++;
@@ -269,12 +274,31 @@ infoPath dijkstraOptiCD_condD(Node* s, Node* t, double strict_min_d) {
     Node* to_relax;
     double newLength;
     double newDist;
+
+
+    /*
+    long int temp_n_checks = n_checks;
+
+
+    chrono::duration<double> elapsed;
+    auto test = chrono::system_clock::now();
+
+    long int n_delete = 0;
+    chrono::duration<double> elapsed1;
+    auto test1 = chrono::system_clock::now();
+    */
+
     while (!heap->is_empty()) {
+        //test1 = chrono::system_clock::now();
         to_relax = heap->deleteMin();
+        //elapsed1 += chrono::system_clock::now()-test1;
+        //n_delete++;
+
         to_relax->tree = nullptr;
         if (to_relax == t) {break;}
         for (list<arcNode>::iterator neighb = to_relax->l_adj.begin();
         neighb != to_relax->l_adj.end(); neighb++) {
+            n_checks++;
             if (neighb->arc_d > strict_min_d) {
                 newLength = to_relax->c_to_s + neighb->arc_c;
                 if (newLength < neighb->c_to_s()) {
@@ -305,6 +329,16 @@ infoPath dijkstraOptiCD_condD(Node* s, Node* t, double strict_min_d) {
             }
         }
     }
+
+    /*
+    elapsed = chrono::system_clock::now()-test;
+    cout<<"mean = "<<elapsed.count()/(n_checks-temp_n_checks)<<"\n";
+
+    cout<<"mean delete = "<<elapsed1.count()/n_delete<<"\n";
+    cout<<"mean total = "<<elapsed.count()/n_delete<<"\n\n";
+    */
+
+
     delete heap;
     return makePath(t);
 }
@@ -325,6 +359,7 @@ infoPath dijkstraOptiCD_condCD(Node* s, Node* t, double strict_min_d, double str
         if (to_relax == t) {break;}
         for (list<arcNode>::iterator neighb = to_relax->l_adj.begin();
         neighb != to_relax->l_adj.end(); neighb++) {
+            n_checks++;
             if (neighb->arc_d > strict_min_d) {
                 newLength = to_relax->c_to_s + neighb->arc_c;
                 if (newLength < strict_max_c && newLength < neighb->c_to_s()) {
@@ -379,6 +414,7 @@ infoPath revDijkstraOptiC_noCond(Node* s, Node* t) {
         if (to_relax == s) {break;}
         for (list<arcNode>::iterator neighb = to_relax->rev_adj.begin();
         neighb != to_relax->rev_adj.end(); neighb++) {
+            n_checks++;
             newLength = to_relax->c_to_t + neighb->arc_c;
             if (newLength < neighb->c_to_t()) {
                 n_labels++;
@@ -415,6 +451,7 @@ infoPath computeCstar_andPathOptiC_noCond(Node* s, Node* t) {
         to_relax->tree = nullptr;
         for (list<arcNode>::iterator neighb = to_relax->rev_adj.begin();
         neighb != to_relax->rev_adj.end(); neighb++) {
+            n_checks++;
             newLength = to_relax->c_to_t + neighb->arc_c;
             if (newLength < neighb->c_to_t()) {
                 n_labels++;
@@ -452,6 +489,7 @@ infoPath computeCstar_andPathOptiCD_noCond(Node* s, Node* t) {
         to_relax->tree = nullptr;
         for (list<arcNode>::iterator neighb = to_relax->rev_adj.begin();
         neighb != to_relax->rev_adj.end(); neighb++) {
+            n_checks++;
             newLength = to_relax->c_to_t + neighb->arc_c;
             if (newLength < neighb->c_to_t()) {
                 n_labels++;
@@ -499,6 +537,7 @@ infoPath dijkstraOptiC_condCstarD(Node* s, Node* t, double strict_min_d, double 
         if (to_relax == t) {break;}
         for (list<arcNode>::iterator neighb = to_relax->l_adj.begin();
         neighb != to_relax->l_adj.end(); neighb++) {
+            n_checks++;
             if (neighb->arc_d > strict_min_d) {
                 newLength = to_relax->c_to_s + neighb->arc_c;
                 if (newLength + neighb->c_to_t() < strict_max_c && newLength < neighb->c_to_s()) {
@@ -538,6 +577,7 @@ infoPath dijkstraOptiCD_condCstarD(Node* s, Node* t, double strict_min_d, double
         if (to_relax == t) {break;}
         for (list<arcNode>::iterator neighb = to_relax->l_adj.begin();
         neighb != to_relax->l_adj.end(); neighb++) {
+            n_checks++;
             if (neighb->arc_d > strict_min_d) {
                 newLength = to_relax->c_to_s + neighb->arc_c;
                 if (newLength + neighb->c_to_t() < strict_max_c && newLength < neighb->c_to_s()) {
@@ -755,6 +795,7 @@ infoPath revDijkstraOptiCD_condCstarD_step(Node* s, Node* t, double strict_min_d
 infoPath labelUpdating_OptiCD_condD(list<Node*>& graph, Node* s, Node* t, double strict_min_d) {
     bool isSok = false;
     for (list<arcNode>::iterator neighb = s->l_adj.begin(); neighb != s->l_adj.end(); neighb++) {
+        n_checks++;
         if (neighb->arc_d > strict_min_d) {isSok = true; break;}
     }
     if (!isSok) {
@@ -764,23 +805,43 @@ infoPath labelUpdating_OptiCD_condD(list<Node*>& graph, Node* s, Node* t, double
         t->pred = temp_t;
         return to_return;
     }
+
     fibHeap<Node*>* heap = new fibHeap<Node*>(compC_to_sD);
     Node* to_process;
     double newLength;
     double newDist;
+
+
+    long int temp_n_checks = n_checks;
+    chrono::duration<double> elapsed;
+    long int temp_n_labels = n_labels;
+    long int passTest = 0;
+    long int takeTest = 0;
+    chrono::duration<double> compTime = chrono::duration<double>(0.);
+    auto compTest = chrono::system_clock::now();
+    auto test = chrono::system_clock::now();
+
     for (list<Node*>::iterator it = graph.begin(); it != graph.end(); it++) {
+        n_checks++;
+        takeTest++;
         if ((*it)->d_to_S <= strict_min_d && (*it)->c_to_s < inf) {
+            passTest++;
             to_process = *it;
             to_process->c_to_s = inf;
             to_process->d_to_S = 0;
             for (list<arcNode>::iterator prev = to_process->rev_adj.begin();
             prev != to_process->rev_adj.end(); prev++) {
-                newLength = prev->c_to_s() + prev->arc_c;
+                n_checks++;
+                compTest = chrono::system_clock::now();
                 newDist = min(prev->d_to_S(), prev->arc_d);
+                compTime += chrono::system_clock::now() - compTest;
+
                 if (newDist > strict_min_d) {
+                    newLength = prev->c_to_s() + prev->arc_c;
                     if (newLength < to_process->c_to_s ||
                     (newLength == to_process->c_to_s && newDist > to_process->d_to_S)) {
                         n_labels++;
+                        
                         to_process->c_to_s = newLength;
                         to_process->d_to_S = newDist;
 
@@ -790,23 +851,43 @@ infoPath labelUpdating_OptiCD_condD(list<Node*>& graph, Node* s, Node* t, double
                     }
                 }
             }
-            //cout<<"Adding : "<<to_process<<endl;
             to_process->tree = heap->insert(to_process);
-            //cout<<"No : "<<to_process->no<<"\n";
         }
     }
 
 
+    elapsed = chrono::system_clock::now()-test;
+    cout<<"mean = "<<elapsed.count()/(n_checks-temp_n_checks)<<"\n";
+    cout<<"update % = "<<100*((double) n_labels-temp_n_labels)/(n_checks-temp_n_checks)<<"\n";
+    cout<<"passTest % = "<<100*((double) passTest)/takeTest<<"\n";
+    cout<<"totTime = "<<elapsed.count()<<"\n";
+    cout<<"compTime = "<<100*compTime.count()/elapsed.count()<<" % totTime\n";
+    cout<<"compTime = "<<compTime.count()/(n_checks-temp_n_checks-takeTest)<<"\n";
+    cout<<"n_checks = "<<n_checks-temp_n_checks<<", passTest = "<<passTest<<"\n\n\n";
+    test = chrono::system_clock::now();
+    temp_n_checks = n_checks;
 
 
+
+    /*
+    long int n_delete = 0;
+    chrono::duration<double> elapsed1 = chrono::duration<double>(0.);
+    auto test1 = chrono::system_clock::now();
+    */
+
+    //cout<<"compTime = "<<compTime.count()/(n_labels-temp_n_labels)<<"\n";
 
     Node* to_relax;
     while (!heap->is_empty()) {
+        //test1 = chrono::system_clock::now();
         to_relax = heap->deleteMin();
+        //elapsed1 += chrono::system_clock::now()-test1;
+        //n_delete++;
+
         to_relax->tree = nullptr;
-        //cout<<"Taking : "<<to_relax<<endl;
         for (list<arcNode>::iterator neighb = to_relax->l_adj.begin();
         neighb != to_relax->l_adj.end(); neighb++) {
+            n_checks++;
             if (neighb->arc_d > strict_min_d) {
                 newLength = to_relax->c_to_s + neighb->arc_c;
                 if (newLength < neighb->c_to_s()) {
@@ -814,8 +895,6 @@ infoPath labelUpdating_OptiCD_condD(list<Node*>& graph, Node* s, Node* t, double
                         cerr<<"CRITICAL FLOATING POINT ERROR"<<endl;
                     } else {
                         n_labels++;
-                        //cout<<"     Considered neighb : "<<neighb->node;
-                        //cout<<" -> c = "<<neighb->c_to_s()<<", d = "<<neighb->d_to_S()<<endl;
                         neighb->c_to_s() = newLength;
                         neighb->d_to_S() = min(to_relax->d_to_S, neighb->arc_d);
                         
@@ -825,8 +904,6 @@ infoPath labelUpdating_OptiCD_condD(list<Node*>& graph, Node* s, Node* t, double
                         neighb->pred()->arc_d = neighb->arc_d;
                     }
                 } else if (newLength == neighb->c_to_s()) {
-                    //cout<<"     Considered neighb : "<<neighb->node;
-                    //cout<<" -> c = "<<neighb->c_to_s()<<", d = "<<neighb->d_to_S()<<endl;
                     newDist = min(to_relax->d_to_S, neighb->arc_d);
                     if (newDist > neighb->d_to_S()) {
                         if (neighb->tree() == nullptr) {
@@ -847,7 +924,17 @@ infoPath labelUpdating_OptiCD_condD(list<Node*>& graph, Node* s, Node* t, double
             }
         }
     }
+
+    /*
+    elapsed = chrono::system_clock::now()-test;
+    cout<<"mean = "<<elapsed.count()/(n_checks-temp_n_checks)<<"\n";
+    cout<<"mean delete = "<<elapsed1.count()/n_delete<<"\n";
+    cout<<"mean total = "<<elapsed.count()/n_delete<<"\n\n";
+    */
+
     delete heap;
+
+
     if (t->c_to_s == inf) {
         arcNode* temp_t = t->pred;
         t->pred = nullptr;
@@ -867,6 +954,7 @@ infoPath labelUpdating_add_OptiC_condD(list<bunchOfArcs>& arcsToAddLists, Node* 
         to_process = arcList->node;
         for (list<arcNode>::iterator neighb = arcList->rev_adj.begin();
         neighb != arcList->rev_adj.end(); neighb++) {
+            n_checks++;
             if (neighb->c_to_s() < inf) {
                 newLength = neighb->c_to_s() + neighb->arc_c;
                 if (newLength < to_process->c_to_s) {
@@ -899,6 +987,7 @@ infoPath labelUpdating_add_OptiC_condD(list<bunchOfArcs>& arcsToAddLists, Node* 
         if (to_relax->c_to_s < inf) {
             for (list<arcNode>::iterator neighb = to_relax->l_adj.begin();
             neighb != to_relax->l_adj.end(); neighb++) {
+                n_checks++;
                 if (neighb->arc_d >= min_d) {
                     newLength = to_relax->c_to_s + neighb->arc_c;
                     if (newLength < neighb->c_to_s()) {
@@ -943,6 +1032,7 @@ infoPath dijkstraOptiCD_noCond_noStop(Node* s, Node* t) {
         to_relax->tree = nullptr;
         for (list<arcNode>::iterator neighb = to_relax->l_adj.begin();
         neighb != to_relax->l_adj.end(); neighb++) {
+            n_checks++;
             newLength = to_relax->c_to_s + neighb->arc_c;
             if (newLength < neighb->c_to_s()) {
                 n_labels++;

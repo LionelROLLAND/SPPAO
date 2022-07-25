@@ -249,8 +249,6 @@ markTree<T>* fibHeap<T>::remOfForest(typename list<Tree<infoFib<T>>*>::iterator 
 
 template<typename T>
 void fibHeap<T>::orderTrees() {
-    //cout<<"orderTrees begins"<<endl;
-    //cout<<*this<<endl;
     if (is_empty()) {
         min_root = nullptr;
         return;
@@ -268,6 +266,7 @@ void fibHeap<T>::orderTrees() {
         //cout<<"expanding :: "<<(*((*it)->get.selfPointer))->get.data->no<<endl;
         tree2 = static_cast<markTree<T>*>(*it);
         deg = tree2->children.size();
+        /*
         if (deg > max_deg) {
             for (typename list<Tree<infoFib<T>>*>::iterator testTree = tree2->children.begin();
             testTree != tree2->children.end(); testTree++) {
@@ -278,6 +277,7 @@ void fibHeap<T>::orderTrees() {
             cout<<*this<<endl;
             cout<<"max_deg = "<<max_deg<<", deg = "<<deg<<endl;
         }
+        */
         tree1 = rootVec[deg];
         if (tree1 == nullptr) {
             rootVec[deg] = tree2;
@@ -361,7 +361,7 @@ void fibHeap<T>::cutTree(Tree<infoFib<T>>* TrInit) {
 
 template<typename T>
 T fibHeap<T>::deleteMin() {
-    //cout<<"n = "<<n<<endl;
+    //cout<<"n="<<n<<"\t \t";
     if (is_empty()) {
         cerr<<"Error : Trying to delete the min of an empty heap"<<endl;
         return T();

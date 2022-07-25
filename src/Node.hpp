@@ -50,12 +50,16 @@ struct augmentedNode
 };
 
 
-struct cNode
+class cNode
 {
-    Node* node;
-    unsigned char r;
-    unsigned char g;
-    unsigned char b;
+    public:
+        Node* node;
+        unsigned char r;
+        unsigned char g;
+        unsigned char b;
+        unsigned char a;
+        cNode(Node* n, unsigned char rr, unsigned char gg, unsigned char bb, unsigned char aa=255) :
+        node(n), r(rr), g(gg), b(bb), a(aa) {}
 };
 
 extern unsigned char rN;
@@ -128,13 +132,13 @@ struct bunchOfArcs
     list<arcNode> rev_adj;
 };
 
-ostream& operator<<(ostream& out, struct cNode& cN);
+ostream& operator<<(ostream& out, cNode& cN);
 
-void printRCNode(ostream& out, struct cNode& cN);
+void printRCNode(ostream& out, cNode& cN);
 
 ostream& operator<<(ostream& out, struct cArc& cA);
 
-list<cNode>* graphToCNode(list<Node*>&graph, unsigned char r=rN, unsigned char g=gN, unsigned char b=bN);
+list<cNode>* graphToCNode(list<Node*>&graph, unsigned char r=rN, unsigned char g=gN, unsigned char b=bN, unsigned char a=255);
 
 list<cArc>* pathToCArc(list<Node*>& graph, list<Node*>& path);
 

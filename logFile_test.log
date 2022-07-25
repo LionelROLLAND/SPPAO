@@ -1,0 +1,5610 @@
+0.50.5101050
+seed : 0
+
+
+101050.50.5
+Nb nodes : 1000
+Nb arcs : 999000
+Node 1 : Node 548 : (1.5221,0.27203)
+Node 2 : Node 795 : (41.3701,23.1153)
+Obstacles seed : 1804289383
+mean = 2.75446e-07
+update % = 0.655279
+passTest % = 10.7
+totTime = 0.0297187
+compTime = 3.00435e-05
+mean = 4.50904e-08
+mean delete = 3.32948e-06
+mean total = 4.50453e-05
+
+mean = 2.76708e-07
+update % = 0.595806
+passTest % = 2
+totTime = 0.00580534
+compTime = 3.3528e-05
+mean = 4.41328e-08
+mean delete = 1.94155e-06
+mean total = 4.40887e-05
+
+mean = 2.67956e-07
+update % = 0.5205
+passTest % = 2.4
+totTime = 0.00669248
+compTime = 3.66517e-05
+mean = 4.46381e-08
+mean delete = 2.17633e-06
+mean total = 4.45935e-05
+
+mean = 2.73621e-07
+update % = 0.581655
+passTest % = 7.3
+totTime = 0.020228
+compTime = 3.36066e-05
+mean = 4.48717e-08
+mean delete = 3.08181e-06
+mean total = 4.48268e-05
+
+mean = 2.75139e-07
+update % = 0.688293
+passTest % = 11.2
+totTime = 0.0310599
+compTime = 2.84899e-05
+mean = 4.57869e-08
+mean delete = 3.48041e-06
+mean total = 4.57411e-05
+
+mean = 2.77837e-07
+update % = 0.600525
+passTest % = 0.7
+totTime = 0.00222075
+compTime = 3.42467e-05
+mean = 4.2694e-08
+mean delete = 1.21371e-06
+mean total = 4.26513e-05
+
+mean = 2.7355e-07
+update % = 0.599642
+passTest % = 10.4
+totTime = 0.0286943
+compTime = 3.25482e-05
+mean = 4.54324e-08
+mean delete = 3.42699e-06
+mean total = 4.53869e-05
+
+mean = 2.75192e-07
+update % = 0.638548
+passTest % = 2.8
+totTime = 0.00797285
+compTime = 3.1045e-05
+mean = 4.39159e-08
+mean delete = 2.13114e-06
+mean total = 4.3872e-05
+
+mean = 2.73418e-07
+update % = 0.597879
+passTest % = 3.6
+totTime = 0.0101066
+compTime = 3.27397e-05
+mean = 4.40386e-08
+mean delete = 2.40022e-06
+mean total = 4.39946e-05
+
+mean = 2.73375e-07
+update % = 0.698762
+passTest % = 5.1
+totTime = 0.0142016
+compTime = 2.79437e-05
+mean = 4.47643e-08
+mean delete = 2.91733e-06
+mean total = 4.47195e-05
+
+mean = 2.7336e-07
+update % = 0.839682
+passTest % = 1.7
+totTime = 0.00491584
+compTime = 2.34536e-05
+mean = 4.39277e-08
+mean delete = 1.81582e-06
+mean total = 4.38838e-05
+
+mean = 2.7283e-07
+update % = 0.712812
+passTest % = 3.2
+totTime = 0.00899466
+compTime = 2.7366e-05
+mean = 4.37566e-08
+mean delete = 2.22988e-06
+mean total = 4.37128e-05
+
+mean = 2.74333e-07
+update % = 0.578202
+passTest % = 7.5
+totTime = 0.0208287
+compTime = 3.39339e-05
+mean = 4.46574e-08
+mean delete = 3.10081e-06
+mean total = 4.46128e-05
+
+mean = 2.71454e-07
+update % = 0.600558
+passTest % = 1.3
+totTime = 0.00379683
+compTime = 3.26083e-05
+mean = 4.30066e-08
+mean delete = 1.63608e-06
+mean total = 4.29636e-05
+
+mean = 2.25332e-07
+update % = 0.675591
+passTest % = 0.7
+totTime = 0.00180108
+compTime = 2.25964e-05
+mean = 4.23073e-08
+mean delete = 1.00329e-06
+mean total = 4.2265e-05
+
+mean = 2.6927e-07
+update % = 0.559809
+passTest % = 5.3
+totTime = 0.0145263
+compTime = 3.42033e-05
+mean = 4.50394e-08
+mean delete = 2.83996e-06
+mean total = 4.49944e-05
+
+mean = 2.75312e-07
+update % = 0.594431
+passTest % = 6.4
+totTime = 0.0178777
+compTime = 3.31613e-05
+mean = 4.45863e-08
+mean delete = 2.84881e-06
+mean total = 4.45417e-05
+
+mean = 2.74667e-07
+update % = 0.695379
+passTest % = 11.2
+totTime = 0.0310066
+compTime = 2.828e-05
+mean = 4.48005e-08
+mean delete = 3.52874e-06
+mean total = 4.47557e-05
+
+mean = 2.75519e-07
+update % = 0.578458
+passTest % = 10.3
+totTime = 0.0286256
+compTime = 3.40867e-05
+mean = 4.47341e-08
+mean delete = 3.50172e-06
+mean total = 4.46894e-05
+
+mean = 2.75115e-07
+update % = 0.687035
+passTest % = 4.3
+totTime = 0.0120932
+compTime = 2.86806e-05
+mean = 4.49609e-08
+mean delete = 2.70556e-06
+mean total = 4.4916e-05
+
+mean = 2.74826e-07
+update % = 0.677451
+passTest % = 5.5
+totTime = 0.0153752
+compTime = 2.90615e-05
+mean = 4.41921e-08
+mean delete = 2.87815e-06
+mean total = 4.41479e-05
+
+mean = 2.72893e-07
+update % = 0.784281
+passTest % = 9.6
+totTime = 0.0264444
+compTime = 2.47343e-05
+mean = 4.46476e-08
+mean delete = 3.28801e-06
+mean total = 4.4603e-05
+
+mean = 2.76288e-07
+update % = 0.579734
+passTest % = 4.7
+totTime = 0.0132488
+compTime = 3.42378e-05
+mean = 4.46003e-08
+mean delete = 2.8034e-06
+mean total = 4.45557e-05
+
+mean = 2.7547e-07
+update % = 0.861655
+passTest % = 12.4
+totTime = 0.0343996
+compTime = 2.28897e-05
+mean = 4.45968e-08
+mean delete = 3.4376e-06
+mean total = 4.45522e-05
+
+mean = 2.74869e-07
+update % = 0.596871
+passTest % = 2.6
+totTime = 0.00741432
+compTime = 3.30487e-05
+mean = 4.33834e-08
+mean delete = 2.28127e-06
+mean total = 4.334e-05
+
+mean = 2.85129e-07
+update % = 0.69225
+passTest % = 8.2
+totTime = 0.0236423
+compTime = 2.85769e-05
+mean = 5.17322e-08
+mean delete = 4.3807e-06
+mean total = 5.16805e-05
+
+mean = 2.88106e-07
+update % = 0.672543
+passTest % = 15.9
+totTime = 0.0460511
+compTime = 2.93262e-05
+mean = 6.02455e-08
+mean delete = 4.71253e-06
+mean total = 6.01852e-05
+
+mean = 2.78144e-07
+update % = 0.792265
+passTest % = 4.6
+totTime = 0.01306
+compTime = 2.51888e-05
+mean = 4.36709e-08
+mean delete = 2.65465e-06
+mean total = 4.36272e-05
+
+mean = 2.74839e-07
+update % = 0.513665
+passTest % = 7.5
+totTime = 0.0208671
+compTime = 3.82752e-05
+mean = 4.47028e-08
+mean delete = 3.27289e-06
+mean total = 4.46581e-05
+
+mean = 2.76756e-07
+update % = 0.509577
+passTest % = 2.1
+totTime = 0.00608281
+compTime = 3.91823e-05
+mean = 4.35241e-08
+mean delete = 2.25181e-06
+mean total = 4.34806e-05
+
+mean = 2.74661e-07
+update % = 0.836544
+passTest % = 12.5
+totTime = 0.0345729
+compTime = 2.34774e-05
+mean = 4.44627e-08
+mean delete = 3.47691e-06
+mean total = 4.44182e-05
+
+mean = 2.7535e-07
+update % = 0.731267
+passTest % = 3.5
+totTime = 0.00990295
+compTime = 2.70143e-05
+mean = 4.3291e-08
+mean delete = 2.41594e-06
+mean total = 4.32477e-05
+
+mean = 2.70597e-07
+update % = 0.61059
+passTest % = 2.9
+totTime = 0.00811006
+compTime = 3.18062e-05
+mean = 4.36469e-08
+mean delete = 2.22148e-06
+mean total = 4.36032e-05
+
+mean = 2.75185e-07
+update % = 0.875564
+passTest % = 8.2
+totTime = 0.0228178
+compTime = 2.25152e-05
+mean = 4.426e-08
+mean delete = 3.34248e-06
+mean total = 4.42158e-05
+
+mean = 2.76116e-07
+update % = 0.644094
+passTest % = 2.2
+totTime = 0.00634459
+compTime = 3.08617e-05
+mean = 4.31933e-08
+mean delete = 1.99518e-06
+mean total = 4.31501e-05
+
+mean = 2.70711e-07
+update % = 0.66882
+passTest % = 2.1
+totTime = 0.00594996
+compTime = 2.89284e-05
+mean = 4.2953e-08
+mean delete = 1.86367e-06
+mean total = 4.291e-05
+
+mean = 2.73888e-07
+update % = 0.722062
+passTest % = 8.8
+totTime = 0.0243519
+compTime = 2.71141e-05
+mean = 4.41577e-08
+mean delete = 3.25872e-06
+mean total = 4.41135e-05
+
+mean = 2.71689e-07
+update % = 0.640598
+passTest % = 1.4
+totTime = 0.00407153
+compTime = 3.07045e-05
+mean = 4.29964e-08
+mean delete = 1.67821e-06
+mean total = 4.29534e-05
+
+mean = 2.71337e-07
+update % = 0.638118
+passTest % = 3.1
+totTime = 0.00867437
+compTime = 3.03764e-05
+mean = 4.37012e-08
+mean delete = 2.36319e-06
+mean total = 4.36575e-05
+
+mean = 2.69257e-07
+update % = 0.541262
+passTest % = 2.6
+totTime = 0.00726294
+compTime = 3.54691e-05
+mean = 4.35902e-08
+mean delete = 2.35673e-06
+mean total = 4.35466e-05
+
+mean = 2.73009e-07
+update % = 0.506374
+passTest % = 3.3
+totTime = 0.00927328
+compTime = 3.86237e-05
+mean = 4.34968e-08
+mean delete = 2.26985e-06
+mean total = 4.34533e-05
+
+mean = 2.7078e-07
+update % = 0.619955
+passTest % = 3
+totTime = 0.00838606
+compTime = 3.11994e-05
+mean = 4.31234e-08
+mean delete = 2.23903e-06
+mean total = 4.30802e-05
+
+mean = 2.75335e-07
+update % = 0.843689
+passTest % = 6.9
+totTime = 0.0192544
+compTime = 2.33399e-05
+mean = 4.36322e-08
+mean delete = 3.0317e-06
+mean total = 4.35886e-05
+
+mean = 2.75589e-07
+update % = 0.929222
+passTest % = 10.5
+totTime = 0.0291835
+compTime = 2.12532e-05
+mean = 4.39717e-08
+mean delete = 3.38511e-06
+mean total = 4.39278e-05
+
+mean = 2.75049e-07
+update % = 0.685527
+passTest % = 9.8
+totTime = 0.0272029
+compTime = 2.87303e-05
+mean = 4.39846e-08
+mean delete = 3.30712e-06
+mean total = 4.39406e-05
+
+mean = 2.73814e-07
+update % = 0.874359
+passTest % = 21.4
+totTime = 0.0588114
+compTime = 2.24454e-05
+mean = 4.48232e-08
+mean delete = 4.03889e-06
+mean total = 4.47784e-05
+
+mean = 2.75363e-07
+update % = 0.60329
+passTest % = 3.6
+totTime = 0.0101785
+compTime = 3.28794e-05
+mean = 4.37358e-08
+mean delete = 2.48922e-06
+mean total = 4.3692e-05
+
+mean = 2.75408e-07
+update % = 0.886537
+passTest % = 1.3
+totTime = 0.00385213
+compTime = 2.2531e-05
+mean = 4.08703e-08
+mean delete = 1.62923e-06
+mean total = 4.08295e-05
+
+mean = 2.74068e-07
+update % = 0.870307
+passTest % = 10.7
+totTime = 0.02957
+compTime = 2.25417e-05
+mean = 4.42825e-08
+mean delete = 3.47538e-06
+mean total = 4.42382e-05
+
+mean = 2.82024e-07
+update % = 0.690786
+passTest % = 20.1
+totTime = 0.0569121
+compTime = 2.83303e-05
+mean = 4.57772e-08
+mean delete = 4.23244e-06
+mean total = 4.57314e-05
+
+mean = 2.77702e-07
+update % = 0.71455
+passTest % = 6.4
+totTime = 0.0180328
+compTime = 2.77217e-05
+mean = 4.43983e-08
+mean delete = 3.08767e-06
+mean total = 4.43539e-05
+
+mean = 2.78467e-07
+update % = 0.618744
+passTest % = 1
+totTime = 0.00306035
+compTime = 3.28561e-05
+mean = 4.28557e-08
+mean delete = 1.4321e-06
+mean total = 4.28128e-05
+
+mean = 2.7404e-07
+update % = 0.714387
+passTest % = 23.3
+totTime = 0.0640614
+compTime = 2.73111e-05
+mean = 4.45312e-08
+mean delete = 4.11385e-06
+mean total = 4.44866e-05
+
+mean = 2.74577e-07
+update % = 0.735512
+passTest % = 11.4
+totTime = 0.031545
+compTime = 2.67185e-05
+mean = 4.43089e-08
+mean delete = 3.50691e-06
+mean total = 4.42646e-05
+
+mean = 2.74044e-07
+update % = 1.02291
+passTest % = 16.8
+totTime = 0.0462673
+compTime = 1.92076e-05
+mean = 4.42277e-08
+mean delete = 3.94051e-06
+mean total = 4.41835e-05
+
+mean = 2.74685e-07
+update % = 0.754521
+passTest % = 10.5
+totTime = 0.0290878
+compTime = 2.60967e-05
+mean = 4.40741e-08
+mean delete = 3.41108e-06
+mean total = 4.40301e-05
+
+mean = 2.75214e-07
+update % = 0.637535
+passTest % = 8.3
+totTime = 0.0230951
+compTime = 3.0983e-05
+mean = 4.44789e-08
+mean delete = 3.23128e-06
+mean total = 4.44345e-05
+
+mean = 2.74748e-07
+update % = 0.894017
+passTest % = 13
+totTime = 0.0359563
+compTime = 2.20058e-05
+mean = 4.40753e-08
+mean delete = 3.51705e-06
+mean total = 4.40312e-05
+
+mean = 2.76483e-07
+update % = 0.874998
+passTest % = 5.7
+totTime = 0.0160203
+compTime = 2.27343e-05
+mean = 4.28761e-08
+mean delete = 2.87511e-06
+mean total = 4.28332e-05
+
+mean = 2.77336e-07
+update % = 0.818926
+passTest % = 1
+totTime = 0.00304792
+compTime = 2.48325e-05
+mean = 4.35426e-08
+mean delete = 1.5052e-06
+mean total = 4.34991e-05
+
+mean = 2.71871e-07
+update % = 0.613873
+passTest % = 9.7
+totTime = 0.026617
+compTime = 3.16034e-05
+mean = 4.39456e-08
+mean delete = 3.30239e-06
+mean total = 4.39016e-05
+
+mean = 2.73257e-07
+update % = 0.861815
+passTest % = 25
+totTime = 0.0685191
+compTime = 2.27549e-05
+mean = 4.45019e-08
+mean delete = 4.10094e-06
+mean total = 4.44574e-05
+
+mean = 2.75179e-07
+update % = 0.767124
+passTest % = 10.9
+totTime = 0.0302397
+compTime = 2.57193e-05
+mean = 4.41261e-08
+mean delete = 3.34981e-06
+mean total = 4.4082e-05
+
+mean = 2.75616e-07
+update % = 0.69234
+passTest % = 3.5
+totTime = 0.00991251
+compTime = 2.87371e-05
+mean = 4.34288e-08
+mean delete = 2.428e-06
+mean total = 4.33854e-05
+
+mean = 2.7454e-07
+update % = 0.705463
+passTest % = 14.6
+totTime = 0.0403173
+compTime = 2.78529e-05
+mean = 4.3862e-08
+mean delete = 3.62411e-06
+mean total = 4.38182e-05
+
+mean = 2.75059e-07
+update % = 0.805303
+passTest % = 11
+totTime = 0.0305013
+compTime = 2.44784e-05
+mean = 4.41618e-08
+mean delete = 3.33674e-06
+mean total = 4.41176e-05
+
+mean = 2.73779e-07
+update % = 0.813667
+passTest % = 20.9
+totTime = 0.0574364
+compTime = 2.41317e-05
+mean = 4.40743e-08
+mean delete = 4.11182e-06
+mean total = 4.40302e-05
+
+mean = 2.73765e-07
+update % = 0.540432
+passTest % = 0.4
+totTime = 0.00136773
+compTime = 3.83335e-05
+mean = 4.23506e-08
+mean delete = 9.42e-07
+mean total = 4.23082e-05
+
+mean = 2.78372e-07
+update % = 0.700683
+passTest % = 3.9
+totTime = 0.011124
+compTime = 2.78529e-05
+mean = 5.11371e-08
+mean delete = 3.72003e-06
+mean total = 5.1086e-05
+
+mean = 2.8648e-07
+update % = 0.739862
+passTest % = 9.1
+totTime = 0.0263301
+compTime = 2.66993e-05
+mean = 4.48972e-08
+mean delete = 3.53004e-06
+mean total = 4.48523e-05
+
+mean = 2.7329e-07
+update % = 0.743998
+passTest % = 17.7
+totTime = 0.0485973
+compTime = 2.62757e-05
+mean = 4.43103e-08
+mean delete = 3.87294e-06
+mean total = 4.4266e-05
+
+mean = 2.72835e-07
+update % = 0.713124
+passTest % = 0.7
+totTime = 0.00218077
+compTime = 2.84242e-05
+mean = 3.97455e-08
+mean delete = 1.11057e-06
+mean total = 3.97057e-05
+
+mean = 2.72709e-07
+update % = 0.78125
+passTest % = 4
+totTime = 0.0111701
+compTime = 2.49556e-05
+mean = 4.31046e-08
+mean delete = 2.7032e-06
+mean total = 4.30615e-05
+
+mean = 2.90084e-07
+update % = 0.729606
+passTest % = 23.1
+totTime = 0.0672324
+compTime = 2.6974e-05
+mean = 4.64973e-08
+mean delete = 4.42542e-06
+mean total = 4.64508e-05
+
+mean = 2.7569e-07
+update % = 0.710995
+passTest % = 6.7
+totTime = 0.0187285
+compTime = 2.78184e-05
+mean = 4.32555e-08
+mean delete = 2.91003e-06
+mean total = 4.32122e-05
+
+mean = 2.7385e-07
+update % = 0.690449
+passTest % = 12.6
+totTime = 0.0347444
+compTime = 2.84582e-05
+mean = 4.37723e-08
+mean delete = 3.52291e-06
+mean total = 4.37286e-05
+
+mean = 2.72475e-07
+update % = 0.811603
+passTest % = 31.4
+totTime = 0.0857441
+compTime = 2.41441e-05
+mean = 4.46038e-08
+mean delete = 4.47261e-06
+mean total = 4.45592e-05
+
+mean = 2.73266e-07
+update % = 0.7763
+passTest % = 9.3
+totTime = 0.0256616
+compTime = 2.51474e-05
+mean = 4.41918e-08
+mean delete = 3.32498e-06
+mean total = 4.41476e-05
+
+mean = 2.61052e-07
+update % = 0.650542
+passTest % = 0.5
+totTime = 0.00156501
+compTime = 2.88262e-05
+mean = 4.46859e-08
+mean delete = 1.1744e-06
+mean total = 4.46412e-05
+
+mean = 1.83068e-07
+update % = 0.580464
+passTest % = 0.4
+totTime = 0.000914606
+compTime = 2.01364e-05
+mean = 3.90711e-08
+mean delete = 7.9875e-07
+mean total = 3.9032e-05
+
+mean = 2.73605e-07
+update % = 0.841359
+passTest % = 15.2
+totTime = 0.04182
+compTime = 2.32367e-05
+mean = 4.34714e-08
+mean delete = 3.66824e-06
+mean total = 4.34279e-05
+
+mean = 2.73052e-07
+update % = 0.801265
+passTest % = 21.3
+totTime = 0.058375
+compTime = 2.45043e-05
+mean = 4.3687e-08
+mean delete = 3.96887e-06
+mean total = 4.36433e-05
+
+mean = 2.74444e-07
+update % = 0.824211
+passTest % = 17
+totTime = 0.0468833
+compTime = 2.38735e-05
+mean = 4.37199e-08
+mean delete = 3.85448e-06
+mean total = 4.36761e-05
+
+mean = 2.74702e-07
+update % = 0.705109
+passTest % = 29.4
+totTime = 0.0809563
+compTime = 2.77562e-05
+mean = 4.36907e-08
+mean delete = 4.28204e-06
+mean total = 4.3647e-05
+
+mean = 2.29307e-07
+update % = 0.366911
+passTest % = 0.2
+totTime = 0.000687462
+compTime = 4.50018e-05
+mean = 4.09289e-08
+mean delete = 4.755e-07
+mean total = 4.0888e-05
+
+mean = 2.72719e-07
+update % = 0.69229
+passTest % = 24.9
+totTime = 0.0681117
+compTime = 2.81725e-05
+mean = 4.39952e-08
+mean delete = 4.19241e-06
+mean total = 4.39512e-05
+
+mean = 2.75937e-07
+update % = 0.790775
+passTest % = 4.9
+totTime = 0.0137833
+compTime = 2.50907e-05
+mean = 4.27946e-08
+mean delete = 2.78473e-06
+mean total = 4.27518e-05
+
+mean = 2.74362e-07
+update % = 0.80487
+passTest % = 4.8
+totTime = 0.0134306
+compTime = 2.4518e-05
+mean = 4.17345e-08
+mean delete = 2.69654e-06
+mean total = 4.16927e-05
+
+mean = 2.73172e-07
+update % = 0.774329
+passTest % = 8.6
+totTime = 0.0237424
+compTime = 2.53216e-05
+mean = 4.24497e-08
+mean delete = 3.3662e-06
+mean total = 4.24072e-05
+
+mean = 2.73018e-07
+update % = 0.534107
+passTest % = 13.6
+totTime = 0.0373664
+compTime = 3.66941e-05
+mean = 4.34711e-08
+mean delete = 3.58039e-06
+mean total = 4.34276e-05
+
+mean = 2.76337e-07
+update % = 0.872593
+passTest % = 4.5
+totTime = 0.0126991
+compTime = 2.29011e-05
+mean = 4.14084e-08
+mean delete = 2.68956e-06
+mean total = 4.1367e-05
+
+mean = 2.7194e-07
+update % = 0.735684
+passTest % = 20.5
+totTime = 0.055964
+compTime = 2.65488e-05
+mean = 4.36122e-08
+mean delete = 3.98305e-06
+mean total = 4.35685e-05
+
+mean = 2.74726e-07
+update % = 0.748097
+passTest % = 3.7
+totTime = 0.0104294
+compTime = 2.64572e-05
+mean = 4.323e-08
+mean delete = 2.58689e-06
+mean total = 4.31868e-05
+
+mean = 2.74152e-07
+update % = 0.771952
+passTest % = 11.7
+totTime = 0.0323179
+compTime = 2.54512e-05
+mean = 4.2955e-08
+mean delete = 3.40643e-06
+mean total = 4.29121e-05
+
+mean = 2.71507e-07
+update % = 0.623461
+passTest % = 32.3
+totTime = 0.0878806
+compTime = 3.13966e-05
+mean = 4.38843e-08
+mean delete = 4.48495e-06
+mean total = 4.38404e-05
+
+mean = 2.70227e-07
+update % = 0.533778
+passTest % = 0.5
+totTime = 0.00162001
+compTime = 3.79915e-05
+mean = 3.72503e-08
+mean delete = 9.078e-07
+mean total = 3.7213e-05
+
+mean = 2.72979e-07
+update % = 0.689777
+passTest % = 16.4
+totTime = 0.0449968
+compTime = 2.839e-05
+mean = 4.33692e-08
+mean delete = 3.89962e-06
+mean total = 4.33258e-05
+
+mean = 2.88024e-07
+update % = 0.782399
+passTest % = 4.8
+totTime = 0.0140993
+compTime = 2.5531e-05
+mean = 4.63976e-08
+mean delete = 3.5869e-06
+mean total = 4.63512e-05
+
+mean = 3.30901e-07
+update % = 0.673492
+passTest % = 9.1
+totTime = 0.0304128
+compTime = 3.17985e-05
+mean = 5.33537e-08
+mean delete = 5.13989e-06
+mean total = 5.33003e-05
+
+mean = 2.81581e-07
+update % = 0.585937
+passTest % = 19.7
+totTime = 0.0556976
+compTime = 3.35897e-05
+mean = 4.64563e-08
+mean delete = 4.61604e-06
+mean total = 4.64099e-05
+
+mean = 3.4439e-07
+update % = 0.765972
+passTest % = 6.8
+totTime = 0.0237395
+compTime = 2.98439e-05
+mean = 4.22716e-08
+mean delete = 2.99722e-06
+mean total = 4.22293e-05
+
+mean = 2.74361e-07
+update % = 0.822522
+passTest % = 12.8
+totTime = 0.0353574
+compTime = 2.40132e-05
+mean = 4.2652e-08
+mean delete = 3.48603e-06
+mean total = 4.26093e-05
+
+mean = 2.7157e-07
+update % = 0.629199
+passTest % = 33.5
+totTime = 0.0911564
+compTime = 3.11388e-05
+mean = 4.35546e-08
+mean delete = 4.42436e-06
+mean total = 4.3511e-05
+
+mean = 2.74004e-07
+update % = 0.714089
+passTest % = 14.1
+totTime = 0.03887
+compTime = 2.76168e-05
+mean = 4.30643e-08
+mean delete = 3.70874e-06
+mean total = 4.30213e-05
+
+mean = 2.73575e-07
+update % = 0.856045
+passTest % = 15.3
+totTime = 0.0420886
+compTime = 2.30319e-05
+mean = 4.297e-08
+mean delete = 4.07618e-06
+mean total = 4.29271e-05
+
+mean = 2.73998e-07
+update % = 0.701666
+passTest % = 10.2
+totTime = 0.0281939
+compTime = 2.81161e-05
+mean = 4.2743e-08
+mean delete = 3.34025e-06
+mean total = 4.27003e-05
+
+mean = 2.74325e-07
+update % = 0.797642
+passTest % = 12.6
+totTime = 0.0348047
+compTime = 2.47828e-05
+mean = 4.27448e-08
+mean delete = 3.47229e-06
+mean total = 4.27021e-05
+
+mean = 2.72506e-07
+update % = 0.78888
+passTest % = 20.9
+totTime = 0.0571692
+compTime = 2.4894e-05
+mean = 4.32436e-08
+mean delete = 4.01013e-06
+mean total = 4.32003e-05
+
+mean = 2.70892e-07
+update % = 0.670062
+passTest % = 32.9
+totTime = 0.0893052
+compTime = 2.91519e-05
+mean = 4.36642e-08
+mean delete = 4.55934e-06
+mean total = 4.36206e-05
+
+mean = 2.74984e-07
+update % = 0.694437
+passTest % = 9.5
+totTime = 0.0263724
+compTime = 2.84455e-05
+mean = 4.2829e-08
+mean delete = 3.31024e-06
+mean total = 4.27862e-05
+
+mean = 2.72482e-07
+update % = 0.603147
+passTest % = 15.6
+totTime = 0.0427372
+compTime = 3.2347e-05
+mean = 4.43466e-08
+mean delete = 3.98331e-06
+mean total = 4.43023e-05
+
+mean = 2.78519e-07
+update % = 0.681754
+passTest % = 7.3
+totTime = 0.02059
+compTime = 2.91953e-05
+mean = 4.24178e-08
+mean delete = 3.03621e-06
+mean total = 4.23754e-05
+
+mean = 2.73054e-07
+update % = 0.592254
+passTest % = 13.1
+totTime = 0.0360073
+compTime = 3.31713e-05
+mean = 4.26397e-08
+mean delete = 3.54465e-06
+mean total = 4.2597e-05
+
+mean = 2.74769e-07
+update % = 0.68818
+passTest % = 7.9
+totTime = 0.0219598
+compTime = 2.87875e-05
+mean = 4.24538e-08
+mean delete = 3.32156e-06
+mean total = 4.24113e-05
+
+mean = 2.70493e-07
+update % = 0.72165
+passTest % = 42.9
+totTime = 0.116196
+compTime = 2.71452e-05
+mean = 4.35863e-08
+mean delete = 4.68807e-06
+mean total = 4.35427e-05
+
+mean = 2.73646e-07
+update % = 0.71709
+passTest % = 11.5
+totTime = 0.0317115
+compTime = 2.74967e-05
+mean = 4.19298e-08
+mean delete = 3.35974e-06
+mean total = 4.18879e-05
+
+mean = 2.74033e-07
+update % = 0.720549
+passTest % = 12
+totTime = 0.0331251
+compTime = 2.74064e-05
+mean = 4.23741e-08
+mean delete = 3.58581e-06
+mean total = 4.23317e-05
+
+mean = 2.74472e-07
+update % = 0.714708
+passTest % = 9.9
+totTime = 0.0274201
+compTime = 2.76982e-05
+mean = 4.21559e-08
+mean delete = 3.452e-06
+mean total = 4.21137e-05
+
+mean = 2.70889e-07
+update % = 0.692248
+passTest % = 30.7
+totTime = 0.0833507
+compTime = 2.83115e-05
+mean = 4.30209e-08
+mean delete = 4.49679e-06
+mean total = 4.29779e-05
+
+mean = 2.71917e-07
+update % = 0.686528
+passTest % = 21.8
+totTime = 0.0594905
+compTime = 2.85875e-05
+mean = 4.30393e-08
+mean delete = 4.07823e-06
+mean total = 4.29963e-05
+
+mean = 2.76471e-07
+update % = 0.712981
+passTest % = 5.6
+totTime = 0.0157434
+compTime = 2.80442e-05
+mean = 4.21477e-08
+mean delete = 2.71821e-06
+mean total = 4.21056e-05
+
+mean = 2.72314e-07
+update % = 0.552002
+passTest % = 24
+totTime = 0.0655622
+compTime = 3.48259e-05
+mean = 4.73636e-08
+mean delete = 4.56545e-06
+mean total = 4.73162e-05
+
+mean = 2.80902e-07
+update % = 0.557897
+passTest % = 36
+totTime = 0.101304
+compTime = 3.55259e-05
+mean = 4.38512e-08
+mean delete = 4.51199e-06
+mean total = 4.38074e-05
+
+mean = 2.72154e-07
+update % = 0.538504
+passTest % = 18.6
+totTime = 0.0508421
+compTime = 3.63417e-05
+mean = 4.33048e-08
+mean delete = 3.77975e-06
+mean total = 4.32615e-05
+
+mean = 2.71766e-07
+update % = 0.71141
+passTest % = 27
+totTime = 0.0735753
+compTime = 2.76041e-05
+mean = 4.25121e-08
+mean delete = 4.18323e-06
+mean total = 4.24696e-05
+
+mean = 2.72814e-07
+update % = 0.643695
+passTest % = 14.3
+totTime = 0.0392462
+compTime = 3.05275e-05
+mean = 4.26871e-08
+mean delete = 3.78599e-06
+mean total = 4.26444e-05
+
+mean = 2.72693e-07
+update % = 0.659532
+passTest % = 10.6
+totTime = 0.0291493
+compTime = 2.97183e-05
+mean = 4.26463e-08
+mean delete = 3.43394e-06
+mean total = 4.26037e-05
+
+mean = 2.7002e-07
+update % = 0.654536
+passTest % = 41.1
+totTime = 0.111137
+compTime = 2.98893e-05
+mean = 4.33516e-08
+mean delete = 4.64042e-06
+mean total = 4.33083e-05
+
+mean = 2.71885e-07
+update % = 0.853186
+passTest % = 21.3
+totTime = 0.0581255
+compTime = 2.298e-05
+mean = 4.24761e-08
+mean delete = 4.01127e-06
+mean total = 4.24336e-05
+
+mean = 2.71782e-07
+update % = 0.634054
+passTest % = 37.6
+totTime = 0.10236
+compTime = 3.08641e-05
+mean = 4.45567e-08
+mean delete = 4.71331e-06
+mean total = 4.45121e-05
+
+mean = 2.73896e-07
+update % = 0.677559
+passTest % = 19.8
+totTime = 0.0544511
+compTime = 2.88928e-05
+mean = 4.31244e-08
+mean delete = 4.01215e-06
+mean total = 4.30813e-05
+
+mean = 2.7157e-07
+update % = 0.756523
+passTest % = 25.9
+totTime = 0.0705378
+compTime = 2.59345e-05
+mean = 4.27985e-08
+mean delete = 4.17444e-06
+mean total = 4.27557e-05
+
+mean = 2.71202e-07
+update % = 0.679946
+passTest % = 32.7
+totTime = 0.0888656
+compTime = 2.88218e-05
+mean = 4.30484e-08
+mean delete = 4.51841e-06
+mean total = 4.30054e-05
+
+mean = 2.72939e-07
+update % = 0.534343
+passTest % = 13.8
+totTime = 0.0379008
+compTime = 3.67334e-05
+mean = 4.28821e-08
+mean delete = 3.6047e-06
+mean total = 4.28392e-05
+
+mean = 2.72478e-07
+update % = 0.706137
+passTest % = 18.3
+totTime = 0.050086
+compTime = 2.7767e-05
+mean = 4.30677e-08
+mean delete = 3.91435e-06
+mean total = 4.30247e-05
+
+mean = 2.73262e-07
+update % = 0.594225
+passTest % = 10.9
+totTime = 0.0300291
+compTime = 3.31168e-05
+mean = 4.27844e-08
+mean delete = 3.55817e-06
+mean total = 4.27416e-05
+
+mean = 2.71115e-07
+update % = 0.656096
+passTest % = 29.3
+totTime = 0.0796285
+compTime = 2.98568e-05
+mean = 4.30416e-08
+mean delete = 4.24267e-06
+mean total = 4.29986e-05
+
+mean = 2.75534e-07
+update % = 0.698963
+passTest % = 5.7
+totTime = 0.0159653
+compTime = 2.83923e-05
+mean = 4.1889e-08
+mean delete = 2.72904e-06
+mean total = 4.18471e-05
+
+mean = 2.73458e-07
+update % = 0.685858
+passTest % = 5.3
+totTime = 0.0147523
+compTime = 2.87081e-05
+mean = 4.1891e-08
+mean delete = 2.75594e-06
+mean total = 4.18492e-05
+
+mean = 2.73609e-07
+update % = 0.701834
+passTest % = 17.5
+totTime = 0.0481073
+compTime = 2.79061e-05
+mean = 4.41402e-08
+mean delete = 4.03691e-06
+mean total = 4.40961e-05
+
+mean = 2.7633e-07
+update % = 0.519941
+passTest % = 13.8
+totTime = 0.0383718
+compTime = 3.79348e-05
+mean = 4.33493e-08
+mean delete = 3.70017e-06
+mean total = 4.33059e-05
+
+mean = 2.69831e-07
+update % = 0.568288
+passTest % = 31.5
+totTime = 0.0851817
+compTime = 3.42097e-05
+mean = 4.32919e-08
+mean delete = 4.39425e-06
+mean total = 4.32486e-05
+
+mean = 2.72007e-07
+update % = 0.538752
+passTest % = 15.6
+totTime = 0.0426626
+compTime = 3.63305e-05
+mean = 4.28475e-08
+mean delete = 3.8659e-06
+mean total = 4.28047e-05
+
+mean = 2.70726e-07
+update % = 0.587272
+passTest % = 33.7
+totTime = 0.0914141
+compTime = 3.33978e-05
+mean = 4.27868e-08
+mean delete = 4.46308e-06
+mean total = 4.2744e-05
+
+mean = 2.74517e-07
+update % = 0.601758
+passTest % = 8.5
+totTime = 0.0235851
+compTime = 3.29734e-05
+mean = 4.08434e-08
+mean delete = 3.09004e-06
+mean total = 4.08026e-05
+
+mean = 2.87746e-07
+update % = 0.698948
+passTest % = 34.2
+totTime = 0.0985986
+compTime = 2.85905e-05
+mean = 4.34107e-08
+mean delete = 4.64123e-06
+mean total = 4.33672e-05
+
+mean = 2.73914e-07
+update % = 0.657794
+passTest % = 9.7
+totTime = 0.026817
+compTime = 3.00899e-05
+mean = 4.1541e-08
+mean delete = 3.37314e-06
+mean total = 4.14994e-05
+
+mean = 2.71617e-07
+update % = 0.740438
+passTest % = 26.6
+totTime = 0.0724494
+compTime = 2.6499e-05
+mean = 4.27771e-08
+mean delete = 4.34629e-06
+mean total = 4.27344e-05
+
+mean = 2.73868e-07
+update % = 0.641344
+passTest % = 11.2
+totTime = 0.0309165
+compTime = 3.06371e-05
+mean = 4.47083e-08
+mean delete = 3.77971e-06
+mean total = 4.46636e-05
+
+mean = 2.76283e-07
+update % = 0.575759
+passTest % = 13.2
+totTime = 0.0367092
+compTime = 3.43361e-05
+mean = 4.34531e-08
+mean delete = 3.78152e-06
+mean total = 4.34096e-05
+
+mean = 2.74675e-07
+update % = 0.742978
+passTest % = 11.5
+totTime = 0.0318308
+compTime = 2.65955e-05
+mean = 4.19318e-08
+mean delete = 3.44931e-06
+mean total = 4.18899e-05
+
+mean = 2.7547e-07
+update % = 0.750733
+passTest % = 4.1
+totTime = 0.0115584
+compTime = 2.65898e-05
+mean = 4.05195e-08
+mean delete = 2.72807e-06
+mean total = 4.0479e-05
+
+mean = 2.70664e-07
+update % = 0.488352
+passTest % = 3.2
+totTime = 0.00892325
+compTime = 4.01093e-05
+mean = 3.99189e-08
+mean delete = 2.37756e-06
+mean total = 3.9879e-05
+
+mean = 2.73245e-07
+update % = 0.656113
+passTest % = 11.8
+totTime = 0.0324839
+compTime = 2.9967e-05
+mean = 4.26449e-08
+mean delete = 3.61495e-06
+mean total = 4.26023e-05
+
+mean = 2.73605e-07
+update % = 0.638326
+passTest % = 12.9
+totTime = 0.0355333
+compTime = 3.08973e-05
+mean = 4.22618e-08
+mean delete = 3.55835e-06
+mean total = 4.22195e-05
+
+mean = 2.71494e-07
+update % = 0.580578
+passTest % = 20.9
+totTime = 0.056957
+compTime = 3.39201e-05
+mean = 4.18114e-08
+mean delete = 4.0455e-06
+mean total = 4.17696e-05
+
+mean = 2.71196e-07
+update % = 0.592954
+passTest % = 27.4
+totTime = 0.0745045
+compTime = 3.31592e-05
+mean = 4.24595e-08
+mean delete = 4.29747e-06
+mean total = 4.2417e-05
+
+mean = 2.74534e-07
+update % = 0.689145
+passTest % = 12.9
+totTime = 0.035654
+compTime = 2.87115e-05
+mean = 4.20764e-08
+mean delete = 3.66554e-06
+mean total = 4.20343e-05
+
+mean = 2.74397e-07
+update % = 0.612147
+passTest % = 15.5
+totTime = 0.0427634
+compTime = 3.22776e-05
+mean = 4.3101e-08
+mean delete = 3.8103e-06
+mean total = 4.30579e-05
+
+mean = 2.71819e-07
+update % = 0.621587
+passTest % = 30.9
+totTime = 0.08418
+compTime = 3.15956e-05
+mean = 4.27786e-08
+mean delete = 4.38862e-06
+mean total = 4.27358e-05
+
+mean = 2.72261e-07
+update % = 0.695479
+passTest % = 21
+totTime = 0.0573899
+compTime = 2.82882e-05
+mean = 4.31901e-08
+mean delete = 4.16403e-06
+mean total = 4.31469e-05
+
+mean = 2.77114e-07
+update % = 0.635535
+passTest % = 10.5
+totTime = 0.029345
+compTime = 3.11234e-05
+mean = 4.26624e-08
+mean delete = 3.42584e-06
+mean total = 4.26198e-05
+
+mean = 2.73518e-07
+update % = 0.660398
+passTest % = 23
+totTime = 0.0631197
+compTime = 2.97841e-05
+mean = 4.30109e-08
+mean delete = 4.21867e-06
+mean total = 4.29679e-05
+
+mean = 2.71727e-07
+update % = 0.616032
+passTest % = 22.6
+totTime = 0.0616207
+compTime = 3.17933e-05
+mean = 4.29434e-08
+mean delete = 4.04221e-06
+mean total = 4.29004e-05
+
+mean = 2.75058e-07
+update % = 0.646342
+passTest % = 3.4
+totTime = 0.00961766
+compTime = 3.08443e-05
+mean = 4.04747e-08
+mean delete = 2.39224e-06
+mean total = 4.04343e-05
+
+mean = 2.67668e-07
+update % = 0.629171
+passTest % = 2
+totTime = 0.00561567
+compTime = 3.03693e-05
+mean = 4.11466e-08
+mean delete = 1.98585e-06
+mean total = 4.11054e-05
+
+mean = 2.73332e-07
+update % = 0.586897
+passTest % = 9.4
+totTime = 0.0259408
+compTime = 3.34961e-05
+mean = 4.24446e-08
+mean delete = 3.38796e-06
+mean total = 4.24021e-05
+
+mean = 2.6949e-07
+update % = 0.607682
+passTest % = 42.3
+totTime = 0.11415
+compTime = 3.22898e-05
+mean = 4.27327e-08
+mean delete = 4.6861e-06
+mean total = 4.26899e-05
+
+mean = 2.7173e-07
+update % = 0.682964
+passTest % = 25.3
+totTime = 0.0689506
+compTime = 2.87346e-05
+mean = 4.27131e-08
+mean delete = 4.17651e-06
+mean total = 4.26704e-05
+
+mean = 2.85826e-07
+update % = 0.670415
+passTest % = 43.2
+totTime = 0.123639
+compTime = 3.00469e-05
+mean = 4.32535e-08
+mean delete = 4.73499e-06
+mean total = 4.32102e-05
+
+mean = 2.73936e-07
+update % = 0.749128
+passTest % = 9.2
+totTime = 0.0254509
+compTime = 2.62541e-05
+mean = 4.3947e-08
+mean delete = 3.4268e-06
+mean total = 4.39031e-05
+
+mean = 2.70279e-07
+update % = 0.686285
+passTest % = 49.9
+totTime = 0.135005
+compTime = 2.86827e-05
+mean = 4.27311e-08
+mean delete = 4.75169e-06
+mean total = 4.26884e-05
+
+mean = 2.75012e-07
+update % = 0.755748
+passTest % = 9.9
+totTime = 0.027474
+compTime = 2.62605e-05
+mean = 4.21531e-08
+mean delete = 3.46485e-06
+mean total = 4.21109e-05
+
+mean = 2.68285e-07
+update % = 0.671997
+passTest % = 55.7
+totTime = 0.149554
+compTime = 2.91912e-05
+mean = 4.29672e-08
+mean delete = 4.964e-06
+mean total = 4.29242e-05
+
+mean = 2.72374e-07
+update % = 0.615181
+passTest % = 15
+totTime = 0.0410877
+compTime = 3.19178e-05
+mean = 4.18717e-08
+mean delete = 3.68111e-06
+mean total = 4.18298e-05
+
+mean = 2.68985e-07
+update % = 0.557318
+passTest % = 48.7
+totTime = 0.131134
+compTime = 3.53067e-05
+mean = 4.25787e-08
+mean delete = 4.82619e-06
+mean total = 4.25361e-05
+
+mean = 2.7212e-07
+update % = 0.578376
+passTest % = 53.5
+totTime = 0.145711
+compTime = 3.41384e-05
+mean = 4.28578e-08
+mean delete = 4.86864e-06
+mean total = 4.2815e-05
+
+mean = 2.69794e-07
+update % = 0.69425
+passTest % = 35.6
+totTime = 0.0962205
+compTime = 2.83308e-05
+mean = 4.17432e-08
+mean delete = 4.47944e-06
+mean total = 4.17015e-05
+
+mean = 2.72811e-07
+update % = 0.57878
+passTest % = 15.5
+totTime = 0.0425162
+compTime = 3.4106e-05
+mean = 4.23435e-08
+mean delete = 3.74066e-06
+mean total = 4.23011e-05
+
+mean = 2.69207e-07
+update % = 0.685616
+passTest % = 43.7
+totTime = 0.117795
+compTime = 2.86913e-05
+mean = 4.19694e-08
+mean delete = 4.71068e-06
+mean total = 4.19275e-05
+
+mean = 2.72082e-07
+update % = 0.674696
+passTest % = 15.3
+totTime = 0.0418589
+compTime = 2.93703e-05
+mean = 4.01429e-08
+mean delete = 3.80431e-06
+mean total = 4.01028e-05
+
+mean = 2.75669e-07
+update % = 0.547887
+passTest % = 1.8
+totTime = 0.00523275
+compTime = 3.66865e-05
+mean = 4.03378e-08
+mean delete = 1.66767e-06
+mean total = 4.02975e-05
+
+mean = 2.70374e-07
+update % = 0.651748
+passTest % = 4.4
+totTime = 0.012155
+compTime = 2.99858e-05
+mean = 4.01984e-08
+mean delete = 2.73455e-06
+mean total = 4.01583e-05
+
+mean = 2.70087e-07
+update % = 0.631084
+passTest % = 43.9
+totTime = 0.11872
+compTime = 3.10518e-05
+mean = 4.44086e-08
+mean delete = 5.03654e-06
+mean total = 4.43642e-05
+
+mean = 2.77446e-07
+update % = 0.574844
+passTest % = 3.4
+totTime = 0.00970117
+compTime = 3.49274e-05
+mean = 4.10523e-08
+mean delete = 2.72226e-06
+mean total = 4.10112e-05
+
+mean = 2.6839e-07
+update % = 0.840243
+passTest % = 57
+totTime = 0.153098
+compTime = 2.33602e-05
+mean = 4.23401e-08
+mean delete = 4.99546e-06
+mean total = 4.22978e-05
+
+mean = 2.74896e-07
+update % = 0.579496
+passTest % = 1.8
+totTime = 0.00521808
+compTime = 3.47417e-05
+mean = 3.7611e-08
+mean delete = 1.82461e-06
+mean total = 3.75734e-05
+
+mean = 2.71538e-07
+update % = 0.746503
+passTest % = 11.7
+totTime = 0.0320098
+compTime = 2.64863e-05
+mean = 3.9564e-08
+mean delete = 3.70317e-06
+mean total = 3.95244e-05
+
+mean = 2.71569e-07
+update % = 0.72969
+passTest % = 14.4
+totTime = 0.0393384
+compTime = 2.70855e-05
+mean = 4.01057e-08
+mean delete = 3.69754e-06
+mean total = 4.00656e-05
+
+mean = 2.69024e-07
+update % = 1.0065
+passTest % = 61.8
+totTime = 0.166359
+compTime = 1.96058e-05
+mean = 4.2957e-08
+mean delete = 5.04953e-06
+mean total = 4.2914e-05
+
+mean = 2.69456e-07
+update % = 1.01056
+passTest % = 61.7
+totTime = 0.166358
+compTime = 1.94875e-05
+mean = 4.29575e-08
+mean delete = 5.06656e-06
+mean total = 4.29146e-05
+
+mean = 2.68963e-07
+update % = 0.917114
+passTest % = 60.4
+totTime = 0.16256
+compTime = 2.15152e-05
+mean = 4.26892e-08
+mean delete = 5.09023e-06
+mean total = 4.26465e-05
+
+mean = 2.72989e-07
+update % = 0.550546
+passTest % = 13.3
+totTime = 0.0365443
+compTime = 3.58689e-05
+mean = 4.15134e-08
+mean delete = 3.63392e-06
+mean total = 4.14719e-05
+
+mean = 2.71487e-07
+update % = 0.598788
+passTest % = 16.5
+totTime = 0.0450221
+compTime = 3.28759e-05
+mean = 4.21302e-08
+mean delete = 4.0575e-06
+mean total = 4.2088e-05
+
+mean = 2.79852e-07
+update % = 0.598468
+passTest % = 23.4
+totTime = 0.0656997
+compTime = 3.31195e-05
+mean = 4.27224e-08
+mean delete = 4.25658e-06
+mean total = 4.26797e-05
+
+mean = 2.69043e-07
+update % = 0.668235
+passTest % = 51.7
+totTime = 0.139225
+compTime = 2.95041e-05
+mean = 4.43785e-08
+mean delete = 5.23879e-06
+mean total = 4.43341e-05
+
+mean = 2.8761e-07
+update % = 1.00132
+passTest % = 31.3
+totTime = 0.0902194
+compTime = 2.03792e-05
+mean = 4.19816e-08
+mean delete = 4.42342e-06
+mean total = 4.19396e-05
+
+mean = 2.72777e-07
+update % = 0.535876
+passTest % = 11.5
+totTime = 0.0316108
+compTime = 3.6915e-05
+mean = 4.12194e-08
+mean delete = 3.50401e-06
+mean total = 4.11782e-05
+
+mean = 2.6803e-07
+update % = 0.616473
+passTest % = 61.7
+totTime = 0.165477
+compTime = 3.1935e-05
+mean = 4.2387e-08
+mean delete = 5.09829e-06
+mean total = 4.23446e-05
+
+mean = 2.71135e-07
+update % = 0.655546
+passTest % = 23.4
+totTime = 0.0636534
+compTime = 2.99857e-05
+mean = 4.13458e-08
+mean delete = 4.05994e-06
+mean total = 4.13045e-05
+
+mean = 2.71124e-07
+update % = 0.545781
+passTest % = 20.9
+totTime = 0.0568793
+compTime = 3.60401e-05
+mean = 4.12275e-08
+mean delete = 4.01948e-06
+mean total = 4.11862e-05
+
+mean = 2.74041e-07
+update % = 0.523183
+passTest % = 7.4
+totTime = 0.0205328
+compTime = 3.79733e-05
+mean = 4.08249e-08
+mean delete = 3.15584e-06
+mean total = 4.07841e-05
+
+mean = 2.73021e-07
+update % = 0.529472
+passTest % = 11.3
+totTime = 0.0310936
+compTime = 3.73468e-05
+mean = 4.1007e-08
+mean delete = 3.55689e-06
+mean total = 4.0966e-05
+
+mean = 2.79585e-07
+update % = 0.926844
+passTest % = 51.6
+totTime = 0.144401
+compTime = 2.16583e-05
+mean = 4.18472e-08
+mean delete = 4.85007e-06
+mean total = 4.18053e-05
+
+mean = 2.69309e-07
+update % = 0.608368
+passTest % = 33.4
+totTime = 0.0901285
+compTime = 3.23801e-05
+mean = 4.04321e-08
+mean delete = 4.51295e-06
+mean total = 4.03917e-05
+
+mean = 2.68768e-07
+update % = 0.922242
+passTest % = 46.8
+totTime = 0.125926
+compTime = 2.12732e-05
+mean = 4.19058e-08
+mean delete = 4.79484e-06
+mean total = 4.18639e-05
+
+mean = 2.69391e-07
+update % = 0.653235
+passTest % = 32.8
+totTime = 0.0885412
+compTime = 3.01635e-05
+mean = 4.09113e-08
+mean delete = 4.434e-06
+mean total = 4.08704e-05
+
+mean = 2.72553e-07
+update % = 0.536703
+passTest % = 14
+totTime = 0.0383919
+compTime = 3.68148e-05
+mean = 4.10364e-08
+mean delete = 3.66912e-06
+mean total = 4.09953e-05
+
+mean = 2.70006e-07
+update % = 0.534767
+passTest % = 22.1
+totTime = 0.0598816
+compTime = 3.68802e-05
+mean = 4.02821e-08
+mean delete = 4.18839e-06
+mean total = 4.02419e-05
+
+mean = 2.87542e-07
+update % = 0.546108
+passTest % = 24.7
+totTime = 0.0712394
+compTime = 3.72062e-05
+mean = 4.30536e-08
+mean delete = 4.95667e-06
+mean total = 4.30106e-05
+
+mean = 2.69118e-07
+update % = 0.757618
+passTest % = 35.6
+totTime = 0.0959792
+compTime = 2.59318e-05
+mean = 4.0851e-08
+mean delete = 4.51869e-06
+mean total = 4.08102e-05
+
+mean = 2.7046e-07
+update % = 0.753242
+passTest % = 30
+totTime = 0.0813273
+compTime = 2.61318e-05
+mean = 4.11039e-08
+mean delete = 4.29127e-06
+mean total = 4.10628e-05
+
+mean = 2.70656e-07
+update % = 0.683412
+passTest % = 24.8
+totTime = 0.0673262
+compTime = 2.87944e-05
+mean = 4.14048e-08
+mean delete = 4.15068e-06
+mean total = 4.13634e-05
+
+mean = 2.70672e-07
+update % = 0.632421
+passTest % = 17.2
+totTime = 0.0467796
+compTime = 3.10324e-05
+mean = 4.33228e-08
+mean delete = 4.15458e-06
+mean total = 4.32795e-05
+
+mean = 2.75939e-07
+update % = 0.538438
+passTest % = 34.2
+totTime = 0.0945526
+compTime = 3.64142e-05
+mean = 4.16198e-08
+mean delete = 4.62095e-06
+mean total = 4.15782e-05
+
+mean = 2.74712e-07
+update % = 0.615419
+passTest % = 5.3
+totTime = 0.0148199
+compTime = 3.22976e-05
+mean = 4.02769e-08
+mean delete = 2.85494e-06
+mean total = 4.02366e-05
+
+mean = 2.71979e-07
+update % = 0.589537
+passTest % = 18
+totTime = 0.0491793
+compTime = 3.35025e-05
+mean = 4.06911e-08
+mean delete = 4.01753e-06
+mean total = 4.06504e-05
+
+mean = 2.7226e-07
+update % = 0.638293
+passTest % = 23.8
+totTime = 0.0650053
+compTime = 3.06716e-05
+mean = 4.23421e-08
+mean delete = 4.39595e-06
+mean total = 4.22997e-05
+
+mean = 2.88676e-07
+update % = 0.751325
+passTest % = 52.1
+totTime = 0.150539
+compTime = 2.70912e-05
+mean = 4.10917e-08
+mean delete = 4.97958e-06
+mean total = 4.10506e-05
+
+mean = 2.72448e-07
+update % = 0.62312
+passTest % = 19.9
+totTime = 0.0544354
+compTime = 3.18913e-05
+mean = 3.97975e-08
+mean delete = 4.02253e-06
+mean total = 3.97577e-05
+
+mean = 2.84253e-07
+update % = 0.619712
+passTest % = 19.8
+totTime = 0.05651
+compTime = 3.29114e-05
+mean = 3.98885e-08
+mean delete = 4.10035e-06
+mean total = 3.98486e-05
+
+mean = 2.7071e-07
+update % = 0.912385
+passTest % = 36.5
+totTime = 0.0989811
+compTime = 2.17356e-05
+mean = 4.06775e-08
+mean delete = 4.45909e-06
+mean total = 4.06368e-05
+
+mean = 2.71336e-07
+update % = 0.665411
+passTest % = 27.7
+totTime = 0.0753562
+compTime = 2.98872e-05
+mean = 3.99159e-08
+mean delete = 4.62896e-06
+mean total = 3.9876e-05
+
+mean = 2.71733e-07
+update % = 0.672704
+passTest % = 23.5
+totTime = 0.0640652
+compTime = 2.96107e-05
+mean = 3.92784e-08
+mean delete = 4.27187e-06
+mean total = 3.92391e-05
+
+mean = 2.72268e-07
+update % = 0.985574
+passTest % = 31.7
+totTime = 0.0864949
+compTime = 2.00418e-05
+mean = 4.13624e-08
+mean delete = 4.59044e-06
+mean total = 4.1321e-05
+
+mean = 2.794e-07
+update % = 0.584418
+passTest % = 53.1
+totTime = 0.148492
+compTime = 3.46397e-05
+mean = 4.04751e-08
+mean delete = 4.81587e-06
+mean total = 4.04346e-05
+
+mean = 2.71808e-07
+update % = 0.534324
+passTest % = 14.4
+totTime = 0.039373
+compTime = 3.70809e-05
+mean = 3.95055e-08
+mean delete = 3.73833e-06
+mean total = 3.9466e-05
+
+mean = 2.73632e-07
+update % = 0.569604
+passTest % = 4.1
+totTime = 0.0114813
+compTime = 3.51045e-05
+mean = 3.82813e-08
+mean delete = 2.76534e-06
+mean total = 3.8243e-05
+
+mean = 2.71813e-07
+update % = 0.537199
+passTest % = 11.9
+totTime = 0.0325852
+compTime = 3.68616e-05
+mean = 3.96637e-08
+mean delete = 3.42733e-06
+mean total = 3.96241e-05
+
+mean = 2.69332e-07
+update % = 0.63967
+passTest % = 30.9
+totTime = 0.0834097
+compTime = 3.08825e-05
+mean = 3.94503e-08
+mean delete = 4.4269e-06
+mean total = 3.94108e-05
+
+mean = 2.67019e-07
+update % = 0.642536
+passTest % = 47.4
+totTime = 0.126707
+compTime = 3.05344e-05
+mean = 3.9725e-08
+mean delete = 4.80568e-06
+mean total = 3.96853e-05
+
+mean = 2.70377e-07
+update % = 0.578194
+passTest % = 20.9
+totTime = 0.0567227
+compTime = 3.38891e-05
+mean = 4.11329e-08
+mean delete = 4.20783e-06
+mean total = 4.10918e-05
+
+mean = 3.42068e-07
+update % = 0.594411
+passTest % = 17.7
+totTime = 0.0608275
+compTime = 3.83853e-05
+mean = 3.91673e-08
+mean delete = 3.89069e-06
+mean total = 3.91281e-05
+
+mean = 2.67796e-07
+update % = 0.949808
+passTest % = 61.3
+totTime = 0.164262
+compTime = 2.08039e-05
+mean = 4.08804e-08
+mean delete = 5.01867e-06
+mean total = 4.08395e-05
+
+mean = 2.72377e-07
+update % = 0.568304
+passTest % = 9.2
+totTime = 0.025306
+compTime = 3.4957e-05
+mean = 3.81676e-08
+mean delete = 3.36804e-06
+mean total = 3.81294e-05
+
+mean = 2.71024e-07
+update % = 0.545423
+passTest % = 12.6
+totTime = 0.0343859
+compTime = 3.62697e-05
+mean = 3.92169e-08
+mean delete = 3.57093e-06
+mean total = 3.91777e-05
+
+mean = 2.7174e-07
+update % = 0.600595
+passTest % = 10.9
+totTime = 0.0298618
+compTime = 3.30408e-05
+mean = 3.88204e-08
+mean delete = 3.51566e-06
+mean total = 3.87816e-05
+
+mean = 2.7338e-07
+update % = 0.467766
+passTest % = 5.1
+totTime = 0.0142018
+compTime = 4.25776e-05
+mean = 3.83279e-08
+mean delete = 2.70229e-06
+mean total = 3.82896e-05
+
+mean = 2.68621e-07
+update % = 0.616252
+passTest % = 24.2
+totTime = 0.0652098
+compTime = 3.20704e-05
+mean = 3.79206e-08
+mean delete = 4.12872e-06
+mean total = 3.78827e-05
+
+mean = 2.67605e-07
+update % = 0.943371
+passTest % = 60
+totTime = 0.16067
+compTime = 2.08778e-05
+mean = 4.07482e-08
+mean delete = 5.046e-06
+mean total = 4.07074e-05
+
+mean = 2.67929e-07
+update % = 0.945703
+passTest % = 60
+totTime = 0.160865
+compTime = 2.09032e-05
+mean = 4.08316e-08
+mean delete = 5.12432e-06
+mean total = 4.07907e-05
+
+mean = 2.72765e-07
+update % = 0.620614
+passTest % = 9.4
+totTime = 0.0258871
+compTime = 3.21558e-05
+mean = 3.85737e-08
+mean delete = 3.43884e-06
+mean total = 3.85352e-05
+
+mean = 3.06142e-07
+update % = 0.76708
+passTest % = 28.4
+totTime = 0.0871634
+compTime = 2.73413e-05
+mean = 4.10504e-08
+mean delete = 4.84283e-06
+mean total = 4.10093e-05
+
+mean = 2.77456e-07
+update % = 0.516496
+passTest % = 2.4
+totTime = 0.00692974
+compTime = 3.87103e-05
+mean = 4.0466e-08
+mean delete = 2.29996e-06
+mean total = 4.04255e-05
+
+mean = 2.71115e-07
+update % = 0.707113
+passTest % = 15.5
+totTime = 0.0422519
+compTime = 2.80429e-05
+mean = 3.78016e-08
+mean delete = 3.84228e-06
+mean total = 3.77638e-05
+
+mean = 2.7037e-07
+update % = 0.615522
+passTest % = 27.4
+totTime = 0.0742777
+compTime = 3.21442e-05
+mean = 3.92667e-08
+mean delete = 4.33043e-06
+mean total = 3.92275e-05
+
+mean = 2.70335e-07
+update % = 0.931158
+passTest % = 56.8
+totTime = 0.153667
+compTime = 2.12577e-05
+mean = 4.10274e-08
+mean delete = 5.1042e-06
+mean total = 4.09864e-05
+
+mean = 2.73279e-07
+update % = 0.633755
+passTest % = 15.9
+totTime = 0.0436812
+compTime = 3.13386e-05
+mean = 3.96463e-08
+mean delete = 3.85591e-06
+mean total = 3.96066e-05
+
+mean = 2.69369e-07
+update % = 0.611399
+passTest % = 48.1
+totTime = 0.129706
+compTime = 3.2365e-05
+mean = 4.02344e-08
+mean delete = 4.97892e-06
+mean total = 4.01941e-05
+
+mean = 2.73975e-07
+update % = 0.489035
+passTest % = 13
+totTime = 0.0358551
+compTime = 4.06245e-05
+mean = 3.93948e-08
+mean delete = 3.62522e-06
+mean total = 3.93554e-05
+
+mean = 2.71404e-07
+update % = 0.504913
+passTest % = 13.5
+totTime = 0.0368744
+compTime = 3.91506e-05
+mean = 3.96116e-08
+mean delete = 3.60321e-06
+mean total = 3.9572e-05
+
+mean = 2.68535e-07
+update % = 0.607826
+passTest % = 27.6
+totTime = 0.0743101
+compTime = 3.24381e-05
+mean = 3.85678e-08
+mean delete = 4.3747e-06
+mean total = 3.85292e-05
+
+mean = 2.73151e-07
+update % = 0.545104
+passTest % = 9.1
+totTime = 0.025105
+compTime = 3.65195e-05
+mean = 3.76865e-08
+mean delete = 3.26807e-06
+mean total = 3.76488e-05
+
+mean = 2.70287e-07
+update % = 0.559232
+passTest % = 12
+totTime = 0.0326723
+compTime = 3.54157e-05
+mean = 3.74101e-08
+mean delete = 3.68952e-06
+mean total = 3.73727e-05
+
+mean = 2.71537e-07
+update % = 0.578159
+passTest % = 11.5
+totTime = 0.0314671
+compTime = 3.43222e-05
+mean = 3.84462e-08
+mean delete = 3.42625e-06
+mean total = 3.84078e-05
+
+mean = 2.70439e-07
+update % = 0.613513
+passTest % = 15.4
+totTime = 0.0418763
+compTime = 3.19404e-05
+mean = 3.98426e-08
+mean delete = 3.97843e-06
+mean total = 3.98027e-05
+
+mean = 2.69008e-07
+update % = 0.672375
+passTest % = 25.7
+totTime = 0.069335
+compTime = 2.91491e-05
+mean = 3.87725e-08
+mean delete = 4.32222e-06
+mean total = 3.87338e-05
+
+mean = 2.70625e-07
+update % = 0.721705
+passTest % = 16.1
+totTime = 0.0437977
+compTime = 2.73763e-05
+mean = 3.90423e-08
+mean delete = 3.74309e-06
+mean total = 3.90033e-05
+
+mean = 2.67297e-07
+update % = 0.621002
+passTest % = 47
+totTime = 0.125771
+compTime = 3.17711e-05
+mean = 3.91197e-08
+mean delete = 4.83816e-06
+mean total = 3.90806e-05
+
+mean = 2.67486e-07
+update % = 0.771621
+passTest % = 46.9
+totTime = 0.125593
+compTime = 2.5562e-05
+mean = 3.92319e-08
+mean delete = 4.85555e-06
+mean total = 3.91926e-05
+
+mean = 2.71484e-07
+update % = 0.496477
+passTest % = 2.4
+totTime = 0.00678059
+compTime = 3.99825e-05
+mean = 3.69625e-08
+mean delete = 2.79329e-06
+mean total = 3.69255e-05
+
+mean = 2.67676e-07
+update % = 0.550529
+passTest % = 2.5
+totTime = 0.00695289
+compTime = 3.53539e-05
+mean = 3.7546e-08
+mean delete = 2.2082e-06
+mean total = 3.75084e-05
+
+mean = 2.69099e-07
+update % = 0.660754
+passTest % = 20.7
+totTime = 0.055917
+compTime = 2.97107e-05
+mean = 3.92597e-08
+mean delete = 3.91512e-06
+mean total = 3.92205e-05
+
+mean = 2.6905e-07
+update % = 0.769961
+passTest % = 21
+totTime = 0.056713
+compTime = 2.55889e-05
+mean = 3.84151e-08
+mean delete = 3.97842e-06
+mean total = 3.83767e-05
+
+mean = 2.70171e-07
+update % = 0.827723
+passTest % = 17
+totTime = 0.0461534
+compTime = 2.36903e-05
+mean = 3.93238e-08
+mean delete = 3.97894e-06
+mean total = 3.92845e-05
+
+mean = 2.71078e-07
+update % = 0.580577
+passTest % = 14.4
+totTime = 0.0392672
+compTime = 3.41001e-05
+mean = 3.85527e-08
+mean delete = 3.82574e-06
+mean total = 3.85142e-05
+
+mean = 2.71787e-07
+update % = 0.830825
+passTest % = 13.9
+totTime = 0.0380124
+compTime = 2.33875e-05
+mean = 4.05138e-08
+mean delete = 4.00719e-06
+mean total = 4.04733e-05
+
+mean = 2.68018e-07
+update % = 0.864338
+passTest % = 56.3
+totTime = 0.151011
+compTime = 2.27873e-05
+mean = 3.96899e-08
+mean delete = 4.99872e-06
+mean total = 3.96502e-05
+
+mean = 2.70071e-07
+update % = 0.605392
+passTest % = 16.6
+totTime = 0.0450571
+compTime = 3.25679e-05
+mean = 3.86089e-08
+mean delete = 3.79443e-06
+mean total = 3.85703e-05
+
+mean = 2.68811e-07
+update % = 0.669791
+passTest % = 21.6
+totTime = 0.058274
+compTime = 2.95086e-05
+mean = 3.77305e-08
+mean delete = 4.13075e-06
+mean total = 3.76928e-05
+
+mean = 2.66303e-07
+update % = 0.844201
+passTest % = 54.1
+totTime = 0.144192
+compTime = 2.32595e-05
+mean = 3.9162e-08
+mean delete = 4.90192e-06
+mean total = 3.91229e-05
+
+mean = 2.72838e-07
+update % = 0.375369
+passTest % = 5.5
+totTime = 0.0152639
+compTime = 5.28915e-05
+mean = 3.87051e-08
+mean delete = 2.85842e-06
+mean total = 3.86664e-05
+
+mean = 2.70936e-07
+update % = 0.609638
+passTest % = 15.4
+totTime = 0.0419534
+compTime = 3.21234e-05
+mean = 3.95719e-08
+mean delete = 4.13377e-06
+mean total = 3.95324e-05
+
+mean = 2.71153e-07
+update % = 0.54844
+passTest % = 18.9
+totTime = 0.0514678
+compTime = 3.60492e-05
+mean = 3.80406e-08
+mean delete = 3.85966e-06
+mean total = 3.80026e-05
+
+mean = 2.70288e-07
+update % = 0.590657
+passTest % = 14
+totTime = 0.0380728
+compTime = 3.35066e-05
+mean = 3.72724e-08
+mean delete = 3.61371e-06
+mean total = 3.72352e-05
+
+mean = 2.69925e-07
+update % = 0.592675
+passTest % = 13.8
+totTime = 0.0374824
+compTime = 3.33615e-05
+mean = 3.74e-08
+mean delete = 3.67458e-06
+mean total = 3.73626e-05
+
+mean = 2.67087e-07
+update % = 0.647778
+passTest % = 40
+totTime = 0.106995
+compTime = 3.03825e-05
+mean = 3.80839e-08
+mean delete = 4.65636e-06
+mean total = 3.80458e-05
+
+mean = 2.67945e-07
+update % = 0.65514
+passTest % = 31.1
+totTime = 0.0835157
+compTime = 3.0098e-05
+mean = 3.81658e-08
+mean delete = 4.38667e-06
+mean total = 3.81277e-05
+
+mean = 2.69641e-07
+update % = 0.709644
+passTest % = 17.8
+totTime = 0.0482177
+compTime = 2.78248e-05
+mean = 3.8249e-08
+mean delete = 4.07386e-06
+mean total = 3.82108e-05
+
+mean = 2.74707e-07
+update % = 0.528637
+passTest % = 3.1
+totTime = 0.0087821
+compTime = 3.78857e-05
+mean = 3.81829e-08
+mean delete = 2.52571e-06
+mean total = 3.81447e-05
+
+mean = 2.68545e-07
+update % = 0.902236
+passTest % = 59.8
+totTime = 0.160698
+compTime = 2.16243e-05
+mean = 4.06193e-08
+mean delete = 5.17893e-06
+mean total = 4.05787e-05
+
+mean = 2.67471e-07
+update % = 0.898226
+passTest % = 59.8
+totTime = 0.160055
+compTime = 2.20244e-05
+mean = 3.94635e-08
+mean delete = 5.06061e-06
+mean total = 3.94241e-05
+
+mean = 2.68023e-07
+update % = 0.795173
+passTest % = 17.7
+totTime = 0.0476606
+compTime = 2.45304e-05
+mean = 3.83986e-08
+mean delete = 3.8531e-06
+mean total = 3.83602e-05
+
+mean = 2.66771e-07
+update % = 0.65908
+passTest % = 46.8
+totTime = 0.124991
+compTime = 2.99e-05
+mean = 3.84392e-08
+mean delete = 4.80433e-06
+mean total = 3.84007e-05
+
+mean = 2.70311e-07
+update % = 0.649166
+passTest % = 16.8
+totTime = 0.0456371
+compTime = 3.04057e-05
+mean = 3.86998e-08
+mean delete = 3.82243e-06
+mean total = 3.86611e-05
+
+mean = 2.6713e-07
+update % = 0.638347
+passTest % = 29.6
+totTime = 0.0792586
+compTime = 3.08429e-05
+mean = 3.69575e-08
+mean delete = 4.37563e-06
+mean total = 3.69206e-05
+
+mean = 2.6751e-07
+update % = 0.825606
+passTest % = 57.2
+totTime = 0.15313
+compTime = 2.38572e-05
+mean = 3.92817e-08
+mean delete = 5.05355e-06
+mean total = 3.92424e-05
+
+mean = 2.7045e-07
+update % = 0.573149
+passTest % = 12.3
+totTime = 0.0335025
+compTime = 3.45745e-05
+mean = 3.64399e-08
+mean delete = 3.46315e-06
+mean total = 3.64035e-05
+
+mean = 2.69691e-07
+update % = 0.763723
+passTest % = 21.5
+totTime = 0.0581954
+compTime = 2.5803e-05
+mean = 3.8984e-08
+mean delete = 4.08093e-06
+mean total = 3.8945e-05
+
+mean = 2.70072e-07
+update % = 0.845842
+passTest % = 19.9
+totTime = 0.0539606
+compTime = 2.3322e-05
+mean = 3.88411e-08
+mean delete = 4.07703e-06
+mean total = 3.88022e-05
+
+mean = 2.71799e-07
+update % = 0.71385
+passTest % = 27.3
+totTime = 0.0743988
+compTime = 2.73357e-05
+mean = 3.99035e-08
+mean delete = 4.408e-06
+mean total = 3.98636e-05
+
+mean = 2.73541e-07
+update % = 0.575142
+passTest % = 5.8
+totTime = 0.016123
+compTime = 3.44334e-05
+mean = 3.91187e-08
+mean delete = 3.06098e-06
+mean total = 3.90796e-05
+
+mean = 2.69404e-07
+update % = 0.937472
+passTest % = 25.9
+totTime = 0.0699751
+compTime = 2.1006e-05
+mean = 3.84682e-08
+mean delete = 4.17018e-06
+mean total = 3.84298e-05
+
+mean = 2.69983e-07
+update % = 0.321327
+passTest % = 11.8
+totTime = 0.0320961
+compTime = 6.16996e-05
+mean = 3.76283e-08
+mean delete = 3.56252e-06
+mean total = 3.75907e-05
+
+mean = 2.68823e-07
+update % = 0.914457
+passTest % = 25
+totTime = 0.0674074
+compTime = 2.15043e-05
+mean = 3.99434e-08
+mean delete = 4.1559e-06
+mean total = 3.99035e-05
+
+mean = 2.73687e-07
+update % = 0.335331
+passTest % = 7.9
+totTime = 0.0218733
+compTime = 5.90422e-05
+mean = 3.89172e-08
+mean delete = 3.26701e-06
+mean total = 3.88783e-05
+
+mean = 2.71684e-07
+update % = 0.656328
+passTest % = 18.4
+totTime = 0.0502116
+compTime = 3.02106e-05
+mean = 3.64711e-08
+mean delete = 3.89926e-06
+mean total = 3.64347e-05
+
+mean = 2.67738e-07
+update % = 0.675017
+passTest % = 19
+totTime = 0.0510871
+compTime = 2.91905e-05
+mean = 3.62678e-08
+mean delete = 4.04493e-06
+mean total = 3.62315e-05
+
+mean = 2.65974e-07
+update % = 0.710988
+passTest % = 57.3
+totTime = 0.152516
+compTime = 2.76957e-05
+mean = 3.86603e-08
+mean delete = 5.05545e-06
+mean total = 3.86216e-05
+
+mean = 2.66498e-07
+update % = 0.772097
+passTest % = 55.7
+totTime = 0.148557
+compTime = 2.55595e-05
+mean = 3.81298e-08
+mean delete = 4.96763e-06
+mean total = 3.80917e-05
+
+mean = 2.67633e-07
+update % = 0.532399
+passTest % = 27.2
+totTime = 0.072991
+compTime = 3.70925e-05
+mean = 3.66298e-08
+mean delete = 4.30225e-06
+mean total = 3.65932e-05
+
+mean = 2.7167e-07
+update % = 0.533856
+passTest % = 4.7
+totTime = 0.0130274
+compTime = 3.74343e-05
+mean = 3.50769e-08
+mean delete = 2.77749e-06
+mean total = 3.50418e-05
+
+mean = 2.66842e-07
+update % = 0.791992
+passTest % = 59
+totTime = 0.157546
+compTime = 2.48893e-05
+mean = 3.83282e-08
+mean delete = 5.04512e-06
+mean total = 3.82899e-05
+
+mean = 2.66394e-07
+update % = 0.693965
+passTest % = 54.9
+totTime = 0.146371
+compTime = 2.84476e-05
+mean = 3.80381e-08
+mean delete = 4.90209e-06
+mean total = 3.8e-05
+
+mean = 2.67415e-07
+update % = 0.506781
+passTest % = 23.8
+totTime = 0.0638484
+compTime = 3.90906e-05
+mean = 3.57426e-08
+mean delete = 4.19825e-06
+mean total = 3.57068e-05
+
+mean = 2.65672e-07
+update % = 0.615159
+passTest % = 38.4
+totTime = 0.102182
+compTime = 3.19407e-05
+mean = 3.6128e-08
+mean delete = 4.61918e-06
+mean total = 3.60918e-05
+
+mean = 2.67838e-07
+update % = 0.751935
+passTest % = 54.8
+totTime = 0.146897
+compTime = 2.63067e-05
+mean = 3.7747e-08
+mean delete = 4.94309e-06
+mean total = 3.77093e-05
+
+mean = 2.67125e-07
+update % = 0.624052
+passTest % = 41.3
+totTime = 0.110479
+compTime = 3.17333e-05
+mean = 3.63345e-08
+mean delete = 4.77145e-06
+mean total = 3.62982e-05
+
+mean = 2.66833e-07
+update % = 0.733873
+passTest % = 51.8
+totTime = 0.138348
+compTime = 2.69638e-05
+mean = 3.73259e-08
+mean delete = 4.90971e-06
+mean total = 3.72886e-05
+
+mean = 2.69729e-07
+update % = 0.663079
+passTest % = 15.6
+totTime = 0.0423054
+compTime = 2.99346e-05
+mean = 3.62566e-08
+mean delete = 3.89928e-06
+mean total = 3.62204e-05
+
+mean = 2.79499e-07
+update % = 0.804007
+passTest % = 46.7
+totTime = 0.130675
+compTime = 2.52502e-05
+mean = 3.76454e-08
+mean delete = 5.10213e-06
+mean total = 3.76077e-05
+
+mean = 2.70872e-07
+update % = 0.658225
+passTest % = 40.2
+totTime = 0.109052
+compTime = 3.01943e-05
+mean = 3.67415e-08
+mean delete = 4.7602e-06
+mean total = 3.67047e-05
+
+mean = 2.68472e-07
+update % = 0.618664
+passTest % = 33.7
+totTime = 0.0906532
+compTime = 3.22006e-05
+mean = 3.54668e-08
+mean delete = 4.57406e-06
+mean total = 3.54314e-05
+
+mean = 2.70975e-07
+update % = 0.671141
+passTest % = 10.4
+totTime = 0.0284242
+compTime = 2.9971e-05
+mean = 3.31773e-08
+mean delete = 3.36156e-06
+mean total = 3.31441e-05
+
+mean = 2.67436e-07
+update % = 0.628841
+passTest % = 27.9
+totTime = 0.0748075
+compTime = 3.10744e-05
+mean = 3.61169e-08
+mean delete = 4.36144e-06
+mean total = 3.60808e-05
+
+mean = 2.72613e-07
+update % = 0.686957
+passTest % = 15.2
+totTime = 0.0416683
+compTime = 2.91045e-05
+mean = 3.66029e-08
+mean delete = 3.79741e-06
+mean total = 3.65663e-05
+
+mean = 2.6824e-07
+update % = 0.695271
+passTest % = 33.1
+totTime = 0.0889668
+compTime = 2.85972e-05
+mean = 3.55915e-08
+mean delete = 4.71575e-06
+mean total = 3.55559e-05
+
+mean = 2.71351e-07
+update % = 0.683404
+passTest % = 10.9
+totTime = 0.029819
+compTime = 2.94224e-05
+mean = 3.32449e-08
+mean delete = 3.45639e-06
+mean total = 3.32117e-05
+
+mean = 2.68053e-07
+update % = 0.735337
+passTest % = 34
+totTime = 0.0913151
+compTime = 2.70452e-05
+mean = 3.53539e-08
+mean delete = 4.47284e-06
+mean total = 3.53185e-05
+
+mean = 2.68247e-07
+update % = 0.619189
+passTest % = 34.9
+totTime = 0.0937927
+compTime = 3.19957e-05
+mean = 3.50808e-08
+mean delete = 4.54364e-06
+mean total = 3.50458e-05
+
+mean = 2.71444e-07
+update % = 0.583484
+passTest % = 11.6
+totTime = 0.0317274
+compTime = 3.42404e-05
+mean = 3.60255e-08
+mean delete = 3.40247e-06
+mean total = 3.59895e-05
+
+mean = 2.67711e-07
+update % = 0.739288
+passTest % = 34.4
+totTime = 0.0922683
+compTime = 2.68344e-05
+mean = 3.51621e-08
+mean delete = 4.52192e-06
+mean total = 3.5127e-05
+
+mean = 2.69749e-07
+update % = 0.654535
+passTest % = 20.5
+totTime = 0.0555129
+compTime = 3.03296e-05
+mean = 3.7344e-08
+mean delete = 4.25708e-06
+mean total = 3.73067e-05
+
+mean = 2.71936e-07
+update % = 0.615121
+passTest % = 6.1
+totTime = 0.0168434
+compTime = 3.22941e-05
+mean = 3.5641e-08
+mean delete = 3.07108e-06
+mean total = 3.56053e-05
+
+mean = 2.69499e-07
+update % = 0.667473
+passTest % = 23.4
+totTime = 0.0632692
+compTime = 2.97514e-05
+mean = 3.68609e-08
+mean delete = 4.05911e-06
+mean total = 3.68241e-05
+
+mean = 2.67165e-07
+update % = 0.687399
+passTest % = 42.8
+totTime = 0.114499
+compTime = 2.89048e-05
+mean = 3.54332e-08
+mean delete = 4.70127e-06
+mean total = 3.53978e-05
+
+mean = 2.71707e-07
+update % = 0.578202
+passTest % = 7.5
+totTime = 0.0206293
+compTime = 3.46773e-05
+mean = 3.68875e-08
+mean delete = 3.42103e-06
+mean total = 3.68506e-05
+
+mean = 2.68741e-07
+update % = 0.571392
+passTest % = 37.6
+totTime = 0.101214
+compTime = 3.47846e-05
+mean = 3.63839e-08
+mean delete = 4.89187e-06
+mean total = 3.63476e-05
+
+mean = 2.66758e-07
+update % = 0.713675
+passTest % = 48.5
+totTime = 0.129515
+compTime = 2.77776e-05
+mean = 3.57183e-08
+mean delete = 4.82041e-06
+mean total = 3.56826e-05
+
+mean = 2.66739e-07
+update % = 0.688031
+passTest % = 56
+totTime = 0.149491
+compTime = 2.88777e-05
+mean = 3.64786e-08
+mean delete = 4.97569e-06
+mean total = 3.64421e-05
+
+mean = 2.67248e-07
+update % = 0.561889
+passTest % = 33
+totTime = 0.0883709
+compTime = 3.53516e-05
+mean = 3.47337e-08
+mean delete = 4.52877e-06
+mean total = 3.4699e-05
+
+mean = 2.67428e-07
+update % = 0.543399
+passTest % = 28.6
+totTime = 0.0766754
+compTime = 3.6702e-05
+mean = 3.4754e-08
+mean delete = 4.35491e-06
+mean total = 3.47193e-05
+
+mean = 2.68133e-07
+update % = 0.699587
+passTest % = 53.9
+totTime = 0.144648
+compTime = 2.84157e-05
+mean = 3.60724e-08
+mean delete = 4.94323e-06
+mean total = 3.60363e-05
+
+mean = 2.69616e-07
+update % = 0.531912
+passTest % = 18.7
+totTime = 0.0506373
+compTime = 3.72135e-05
+mean = 3.58488e-08
+mean delete = 4.30489e-06
+mean total = 3.58129e-05
+
+mean = 2.69253e-07
+update % = 0.565995
+passTest % = 16.1
+totTime = 0.0435757
+compTime = 3.50967e-05
+mean = 3.60227e-08
+mean delete = 3.89755e-06
+mean total = 3.59867e-05
+
+mean = 2.72329e-07
+update % = 0.535912
+passTest % = 6.4
+totTime = 0.017684
+compTime = 3.7272e-05
+mean = 3.58372e-08
+mean delete = 2.82011e-06
+mean total = 3.58013e-05
+
+mean = 2.66832e-07
+update % = 0.494996
+passTest % = 38.1
+totTime = 0.101828
+compTime = 4.01449e-05
+mean = 3.42595e-08
+mean delete = 4.67077e-06
+mean total = 3.42253e-05
+
+mean = 2.65543e-07
+update % = 0.668074
+passTest % = 53.9
+totTime = 0.14325
+compTime = 2.95758e-05
+mean = 3.60919e-08
+mean delete = 4.98777e-06
+mean total = 3.60558e-05
+
+mean = 2.66628e-07
+update % = 0.609518
+passTest % = 30.2
+totTime = 0.0807077
+compTime = 3.20897e-05
+mean = 7.0415e-08
+mean delete = 8.57986e-06
+mean total = 7.03446e-05
+
+mean = 2.75232e-07
+update % = 0.48216
+passTest % = 39.2
+totTime = 0.108058
+compTime = 4.1789e-05
+mean = 3.43965e-08
+mean delete = 4.63242e-06
+mean total = 3.43621e-05
+
+mean = 2.70786e-07
+update % = 0.590582
+passTest % = 6.9
+totTime = 0.0189363
+compTime = 3.38679e-05
+mean = 3.38503e-08
+mean delete = 2.93558e-06
+mean total = 3.38164e-05
+
+mean = 2.67356e-07
+update % = 0.612404
+passTest % = 19.4
+totTime = 0.0520825
+compTime = 3.22309e-05
+mean = 3.56655e-08
+mean delete = 3.97849e-06
+mean total = 3.56299e-05
+
+mean = 2.65623e-07
+update % = 0.526775
+passTest % = 31.9
+totTime = 0.0849146
+compTime = 3.75751e-05
+mean = 3.40013e-08
+mean delete = 4.50513e-06
+mean total = 3.39673e-05
+
+mean = 2.65424e-07
+update % = 0.609739
+passTest % = 45.9
+totTime = 0.121973
+compTime = 3.24122e-05
+mean = 3.48472e-08
+mean delete = 4.79879e-06
+mean total = 3.48123e-05
+
+mean = 2.66767e-07
+update % = 0.683903
+passTest % = 29.7
+totTime = 0.0794174
+compTime = 2.8907e-05
+mean = 3.47665e-08
+mean delete = 4.45829e-06
+mean total = 3.47318e-05
+
+mean = 2.68692e-07
+update % = 0.739301
+passTest % = 22.2
+totTime = 0.0598588
+compTime = 2.65865e-05
+mean = 3.66717e-08
+mean delete = 4.3743e-06
+mean total = 3.6635e-05
+
+mean = 2.68954e-07
+update % = 0.543797
+passTest % = 21.4
+totTime = 0.0577675
+compTime = 3.65656e-05
+mean = 3.49212e-08
+mean delete = 4.23471e-06
+mean total = 3.48862e-05
+
+mean = 2.66147e-07
+update % = 0.533735
+passTest % = 25.5
+totTime = 0.0680658
+compTime = 3.71334e-05
+mean = 3.38857e-08
+mean delete = 4.27398e-06
+mean total = 3.38518e-05
+
+mean = 2.64066e-07
+update % = 0.522687
+passTest % = 0.8
+totTime = 0.00237448
+compTime = 3.7621e-05
+mean = 3.50143e-08
+mean delete = 1.29625e-06
+mean total = 3.49793e-05
+
+mean = 2.67241e-07
+update % = 0.62248
+passTest % = 39.7
+totTime = 0.106256
+compTime = 3.18343e-05
+mean = 3.39425e-08
+mean delete = 4.60522e-06
+mean total = 3.39086e-05
+
+mean = 2.65128e-07
+update % = 0.578928
+passTest % = 38.7
+totTime = 0.102767
+compTime = 3.41057e-05
+mean = 3.41248e-08
+mean delete = 4.64735e-06
+mean total = 3.40907e-05
+
+mean = 2.67496e-07
+update % = 0.56321
+passTest % = 16.5
+totTime = 0.0443602
+compTime = 3.52201e-05
+mean = 3.45738e-08
+mean delete = 3.90535e-06
+mean total = 3.45392e-05
+
+mean = 2.67276e-07
+update % = 0.577156
+passTest % = 15.7
+totTime = 0.0421877
+compTime = 3.43476e-05
+mean = 3.44975e-08
+mean delete = 3.77134e-06
+mean total = 3.4463e-05
+
+mean = 2.65085e-07
+update % = 0.696992
+passTest % = 43.1
+totTime = 0.114402
+compTime = 2.83458e-05
+mean = 3.40696e-08
+mean delete = 4.75656e-06
+mean total = 3.40356e-05
+
+mean = 2.66647e-07
+update % = 0.610777
+passTest % = 17.6
+totTime = 0.0471496
+compTime = 3.23629e-05
+mean = 3.43327e-08
+mean delete = 4.01013e-06
+mean total = 3.42983e-05
+
+mean = 2.65182e-07
+update % = 0.544151
+passTest % = 26.5
+totTime = 0.0704682
+compTime = 3.63431e-05
+mean = 3.33805e-08
+mean delete = 4.19406e-06
+mean total = 3.33471e-05
+
+mean = 2.66738e-07
+update % = 0.582494
+passTest % = 18.7
+totTime = 0.0500969
+compTime = 3.39246e-05
+mean = 3.44461e-08
+mean delete = 3.84036e-06
+mean total = 3.44116e-05
+
+mean = 2.69676e-07
+update % = 0.494419
+passTest % = 3.2
+totTime = 0.00889068
+compTime = 4.01538e-05
+mean = 3.45476e-08
+mean delete = 2.33738e-06
+mean total = 3.45131e-05
+
+mean = 2.66835e-07
+update % = 0.577395
+passTest % = 15
+totTime = 0.0402521
+compTime = 3.41942e-05
+mean = 3.44841e-08
+mean delete = 3.75434e-06
+mean total = 3.44496e-05
+
+mean = 2.6775e-07
+update % = 0.576082
+passTest % = 14.6
+totTime = 0.0393201
+compTime = 3.43928e-05
+mean = 3.44686e-08
+mean delete = 3.7541e-06
+mean total = 3.44342e-05
+
+mean = 2.64322e-07
+update % = 0.630825
+passTest % = 56.2
+totTime = 0.148665
+compTime = 3.125e-05
+mean = 3.5316e-08
+mean delete = 4.98849e-06
+mean total = 3.52807e-05
+
+mean = 2.64439e-07
+update % = 0.508623
+passTest % = 34.4
+totTime = 0.0911406
+compTime = 3.88639e-05
+mean = 3.31769e-08
+mean delete = 4.68921e-06
+mean total = 3.31437e-05
+
+mean = 2.64967e-07
+update % = 0.559799
+passTest % = 21
+totTime = 0.0558524
+compTime = 3.46163e-05
+mean = 4.40009e-08
+mean delete = 5.26939e-06
+mean total = 4.39569e-05
+
+mean = 2.66323e-07
+update % = 0.543695
+passTest % = 38.6
+totTime = 0.102964
+compTime = 3.64331e-05
+mean = 3.34096e-08
+mean delete = 4.77788e-06
+mean total = 3.33762e-05
+
+mean = 2.31148e-07
+update % = 0.266845
+passTest % = 0.2
+totTime = 0.000692983
+compTime = 6.48846e-05
+mean = 3.3979e-08
+mean delete = 3.915e-07
+mean total = 3.3945e-05
+
+mean = 2.66846e-07
+update % = 0.56677
+passTest % = 14.4
+totTime = 0.0386542
+compTime = 3.48193e-05
+mean = 3.42717e-08
+mean delete = 3.76793e-06
+mean total = 3.42374e-05
+
+mean = 2.7037e-07
+update % = 0.462905
+passTest % = 0.7
+totTime = 0.00216107
+compTime = 4.4401e-05
+mean = 2.99012e-08
+mean delete = 1.18214e-06
+mean total = 2.98713e-05
+
+mean = 2.64498e-07
+update % = 0.695744
+passTest % = 50.4
+totTime = 0.133438
+compTime = 2.83772e-05
+mean = 3.45463e-08
+mean delete = 4.82155e-06
+mean total = 3.45118e-05
+
+mean = 2.64466e-07
+update % = 0.512338
+passTest % = 27.8
+totTime = 0.0737125
+compTime = 3.85703e-05
+mean = 3.24847e-08
+mean delete = 4.30759e-06
+mean total = 3.24522e-05
+
+mean = 2.69037e-07
+update % = 0.415768
+passTest % = 1.2
+totTime = 0.00349425
+compTime = 4.86475e-05
+mean = 2.95936e-08
+mean delete = 1.52542e-06
+mean total = 2.9564e-05
+
+mean = 2.64139e-07
+update % = 0.62843
+passTest % = 44.5
+totTime = 0.117689
+compTime = 3.13569e-05
+mean = 3.36301e-08
+mean delete = 4.6788e-06
+mean total = 3.35965e-05
+
+mean = 2.66991e-07
+update % = 0.686628
+passTest % = 24.8
+totTime = 0.0664145
+compTime = 2.86305e-05
+mean = 3.57697e-08
+mean delete = 4.21242e-06
+mean total = 3.57339e-05
+
+mean = 2.69873e-07
+update % = 0.551659
+passTest % = 13.4
+totTime = 0.0363966
+compTime = 3.61359e-05
+mean = 3.43265e-08
+mean delete = 3.70035e-06
+mean total = 3.42922e-05
+
+mean = 2.65238e-07
+update % = 0.676305
+passTest % = 35.6
+totTime = 0.0945957
+compTime = 2.90825e-05
+mean = 3.57058e-08
+mean delete = 4.55095e-06
+mean total = 3.56701e-05
+
+mean = 2.66326e-07
+update % = 0.513886
+passTest % = 15.6
+totTime = 0.0417717
+compTime = 3.84042e-05
+mean = 3.24572e-08
+mean delete = 3.79246e-06
+mean total = 3.24247e-05
+
+mean = 2.65641e-07
+update % = 0.690688
+passTest % = 23.9
+totTime = 0.0636902
+compTime = 2.845e-05
+mean = 3.52544e-08
+mean delete = 4.146e-06
+mean total = 3.52191e-05
+
+mean = 2.65211e-07
+update % = 0.599282
+passTest % = 30.3
+totTime = 0.0805438
+compTime = 3.29533e-05
+mean = 3.26839e-08
+mean delete = 4.39394e-06
+mean total = 3.26512e-05
+
+mean = 2.63778e-07
+update % = 0.564198
+passTest % = 24.1
+totTime = 0.0637708
+compTime = 3.48125e-05
+mean = 3.15181e-08
+mean delete = 4.1044e-06
+mean total = 3.14866e-05
+
+mean = 2.64365e-07
+update % = 0.564611
+passTest % = 33
+totTime = 0.0874176
+compTime = 3.49767e-05
+mean = 3.2498e-08
+mean delete = 4.54918e-06
+mean total = 3.24655e-05
+
+mean = 2.65901e-07
+update % = 0.632964
+passTest % = 43.2
+totTime = 0.11502
+compTime = 3.11436e-05
+mean = 3.34046e-08
+mean delete = 4.72375e-06
+mean total = 3.33712e-05
+
+mean = 2.65468e-07
+update % = 0.609554
+passTest % = 18.9
+totTime = 0.0503888
+compTime = 3.24478e-05
+mean = 3.18558e-08
+mean delete = 4.05232e-06
+mean total = 3.18239e-05
+
+mean = 2.67242e-07
+update % = 0.646751
+passTest % = 1.2
+totTime = 0.00347094
+compTime = 3.0574e-05
+mean = 3.36788e-08
+mean delete = 1.59383e-06
+mean total = 3.36451e-05
+
+mean = 2.65761e-07
+update % = 0.536202
+passTest % = 15.6
+totTime = 0.041683
+compTime = 3.68783e-05
+mean = 3.33601e-08
+mean delete = 3.96826e-06
+mean total = 3.33268e-05
+
+mean = 2.65352e-07
+update % = 0.646857
+passTest % = 26.3
+totTime = 0.0699831
+compTime = 3.05129e-05
+mean = 3.26775e-08
+mean delete = 4.20998e-06
+mean total = 3.26448e-05
+
+mean = 2.68932e-07
+update % = 0.755292
+passTest % = 8.7
+totTime = 0.0236426
+compTime = 2.62348e-05
+mean = 3.43005e-08
+mean delete = 3.33525e-06
+mean total = 3.42662e-05
+
+mean = 2.65753e-07
+update % = 0.565731
+passTest % = 17.7
+totTime = 0.047257
+compTime = 3.49275e-05
+mean = 3.14435e-08
+mean delete = 3.81467e-06
+mean total = 3.14121e-05
+
+mean = 2.65854e-07
+update % = 0.737701
+passTest % = 21
+totTime = 0.0560394
+compTime = 2.67393e-05
+mean = 3.44873e-08
+mean delete = 3.99701e-06
+mean total = 3.44528e-05
+
+mean = 2.66149e-07
+update % = 0.549516
+passTest % = 19.3
+totTime = 0.0515816
+compTime = 3.524e-05
+mean = 3.38466e-08
+mean delete = 4.12355e-06
+mean total = 3.38128e-05
+
+mean = 2.69504e-07
+update % = 0.54413
+passTest % = 15.5
+totTime = 0.0420009
+compTime = 3.65152e-05
+mean = 3.44095e-08
+mean delete = 3.92479e-06
+mean total = 3.43751e-05
+
+mean = 2.65754e-07
+update % = 0.669452
+passTest % = 36.1
+totTime = 0.096107
+compTime = 2.94051e-05
+mean = 3.43619e-08
+mean delete = 4.73145e-06
+mean total = 3.43276e-05
+
+mean = 2.64761e-07
+update % = 0.662082
+passTest % = 39.3
+totTime = 0.104212
+compTime = 2.98412e-05
+mean = 3.23936e-08
+mean delete = 4.55542e-06
+mean total = 3.23612e-05
+
+mean = 2.62901e-07
+update % = 0.5625
+passTest % = 42.2
+totTime = 0.111096
+compTime = 3.48269e-05
+mean = 3.29237e-08
+mean delete = 4.68015e-06
+mean total = 3.28907e-05
+
+mean = 2.69764e-07
+update % = 0.48183
+passTest % = 5.8
+totTime = 0.0159004
+compTime = 4.12853e-05
+mean = 3.4248e-08
+mean delete = 2.94321e-06
+mean total = 3.42138e-05
+
+mean = 2.65638e-07
+update % = 0.508645
+passTest % = 17.1
+totTime = 0.0456443
+compTime = 3.84806e-05
+mean = 3.33827e-08
+mean delete = 4.06877e-06
+mean total = 3.33493e-05
+
+mean = 2.61952e-07
+update % = 0.644799
+passTest % = 38.4
+totTime = 0.100751
+compTime = 2.9659e-05
+mean = 3.50751e-08
+mean delete = 4.84799e-06
+mean total = 3.504e-05
+
+mean = 2.7174e-07
+update % = 0.449649
+passTest % = 6.2
+totTime = 0.0171028
+compTime = 4.39733e-05
+mean = 3.48225e-08
+mean delete = 3.15652e-06
+mean total = 3.47877e-05
+
+mean = 2.68747e-07
+update % = 0.547641
+passTest % = 15.4
+totTime = 0.0416144
+compTime = 3.60566e-05
+mean = 3.32175e-08
+mean delete = 4.02298e-06
+mean total = 3.31843e-05
+
+mean = 2.68508e-07
+update % = 0.666649
+passTest % = 14.6
+totTime = 0.0394314
+compTime = 2.97044e-05
+mean = 3.26933e-08
+mean delete = 3.75827e-06
+mean total = 3.26606e-05
+
+mean = 2.62479e-07
+update % = 0.661691
+passTest % = 21.2
+totTime = 0.0558524
+compTime = 2.87155e-05
+mean = 3.50148e-08
+mean delete = 4.31205e-06
+mean total = 3.49798e-05
+
+mean = 2.63525e-07
+update % = 0.577738
+passTest % = 28.8
+totTime = 0.0760827
+compTime = 3.33207e-05
+mean = 3.26706e-08
+mean delete = 4.60227e-06
+mean total = 3.26379e-05
+
+mean = 2.668e-07
+update % = 0.617281
+passTest % = 22.7
+totTime = 0.0607699
+compTime = 3.09719e-05
+mean = 4.13952e-08
+mean delete = 6.29397e-06
+mean total = 4.13538e-05
+
+mean = 2.90945e-07
+update % = 0.555028
+passTest % = 13.3
+totTime = 0.0389479
+compTime = 3.54533e-05
+mean = 4.20513e-08
+mean delete = 5.60169e-06
+mean total = 4.20092e-05
+
+mean = 2.8472e-07
+update % = 0.574954
+passTest % = 48.3
+totTime = 0.137667
+compTime = 3.50719e-05
+mean = 3.44405e-08
+mean delete = 4.86954e-06
+mean total = 3.4406e-05
+
+mean = 2.6301e-07
+update % = 0.559955
+passTest % = 43
+totTime = 0.113244
+compTime = 3.50242e-05
+mean = 3.3153e-08
+mean delete = 4.70339e-06
+mean total = 3.31199e-05
+
+mean = 2.64113e-07
+update % = 0.508799
+passTest % = 20.4
+totTime = 0.0540892
+compTime = 3.85708e-05
+mean = 3.23078e-08
+mean delete = 3.96845e-06
+mean total = 3.22755e-05
+
+mean = 2.73644e-07
+update % = 0.556613
+passTest % = 13.1
+totTime = 0.0360852
+compTime = 3.52236e-05
+mean = 4.13798e-08
+mean delete = 5.26966e-06
+mean total = 4.13385e-05
+
+mean = 3.83728e-07
+update % = 0.599268
+passTest % = 37.5
+totTime = 0.144138
+compTime = 4.11213e-05
+mean = 4.16341e-08
+mean delete = 6.57386e-06
+mean total = 4.15924e-05
+
+mean = 2.98255e-07
+update % = 0.648108
+passTest % = 45.2
+totTime = 0.134975
+compTime = 3.09712e-05
+mean = 4.58642e-08
+mean delete = 7.65795e-06
+mean total = 4.58183e-05
+
+mean = 2.80345e-07
+update % = 0.426975
+passTest % = 56.4
+totTime = 0.158237
+compTime = 4.43169e-05
+mean = 4.6667e-08
+mean delete = 7.93565e-06
+mean total = 4.66203e-05
+
+mean = 2.78827e-07
+update % = 0.550858
+passTest % = 16
+totTime = 0.0448466
+compTime = 3.50689e-05
+mean = 5.50995e-08
+mean delete = 6.50666e-06
+mean total = 5.50444e-05
+
+mean = 3.18619e-07
+update % = 0.616451
+passTest % = 22
+totTime = 0.0703447
+compTime = 3.51899e-05
+mean = 3.15918e-08
+mean delete = 4.12588e-06
+mean total = 3.15602e-05
+
+mean = 2.80257e-07
+update % = 0.523599
+passTest % = 33.7
+totTime = 0.0946323
+compTime = 3.78272e-05
+mean = 7.5463e-08
+mean delete = 1.17623e-05
+mean total = 7.53876e-05
+
+mean = 2.62035e-07
+update % = 0.610346
+passTest % = 37.9
+totTime = 0.099474
+compTime = 3.1089e-05
+mean = 5.70471e-08
+mean delete = 8.08856e-06
+mean total = 5.699e-05
+
+mean = 2.88533e-07
+update % = 0.508368
+passTest % = 54.6
+totTime = 0.15767
+compTime = 3.98585e-05
+mean = 3.70889e-08
+mean delete = 5.51528e-06
+mean total = 3.70518e-05
+
+mean = 2.83038e-07
+update % = 0.559835
+passTest % = 19.3
+totTime = 0.0548547
+compTime = 3.63018e-05
+mean = 3.19907e-08
+mean delete = 4.27804e-06
+mean total = 3.19587e-05
+
+mean = 2.85607e-07
+update % = 0.400224
+passTest % = 56.9
+totTime = 0.162633
+compTime = 5.00143e-05
+mean = 4.41481e-08
+mean delete = 7.4496e-06
+mean total = 4.41039e-05
+
+mean = 3.6377e-07
+update % = 0.502218
+passTest % = 5.7
+totTime = 0.021078
+compTime = 4.8942e-05
+mean = 4.43839e-08
+mean delete = 5.08046e-06
+mean total = 4.43396e-05
+
+mean = 3.27833e-07
+update % = 0.374048
+passTest % = 3.7
+totTime = 0.0124455
+compTime = 5.85726e-05
+mean = 4.41383e-08
+mean delete = 4.1607e-06
+mean total = 4.40942e-05
+
+mean = 3.03302e-07
+update % = 0.600599
+passTest % = 44.8
+totTime = 0.136047
+compTime = 3.3885e-05
+mean = 3.76107e-08
+mean delete = 5.74618e-06
+mean total = 3.75731e-05
+
+mean = 2.67877e-07
+update % = 0.572204
+passTest % = 20.7
+totTime = 0.055663
+compTime = 3.28573e-05
+mean = 4.12709e-08
+mean delete = 5.39842e-06
+mean total = 4.12296e-05
+
+mean = 2.67057e-07
+update % = 0.402533
+passTest % = 56.2
+totTime = 0.150203
+compTime = 4.89446e-05
+mean = 3.375e-08
+mean delete = 4.98722e-06
+mean total = 3.37163e-05
+
+mean = 2.67224e-07
+update % = 0.551465
+passTest % = 27.2
+totTime = 0.0728794
+compTime = 3.53401e-05
+mean = 3.40541e-08
+mean delete = 4.78444e-06
+mean total = 3.40201e-05
+
+mean = 2.74704e-07
+update % = 0.518295
+passTest % = 49.4
+totTime = 0.135843
+compTime = 3.80308e-05
+mean = 4.6226e-08
+mean delete = 8.5096e-06
+mean total = 4.61798e-05
+
+mean = 3.1972e-07
+update % = 0.492138
+passTest % = 2.3
+totTime = 0.00766593
+compTime = 4.71189e-05
+mean = 3.45361e-08
+mean delete = 2.63813e-06
+mean total = 3.45015e-05
+
+mean = 2.79448e-07
+update % = 0.576402
+passTest % = 48.3
+totTime = 0.135118
+compTime = 3.54289e-05
+mean = 3.33047e-08
+mean delete = 5.03057e-06
+mean total = 3.32713e-05
+
+mean = 2.63429e-07
+update % = 0.353977
+passTest % = 55.1
+totTime = 0.145268
+compTime = 5.56217e-05
+mean = 3.34073e-08
+mean delete = 4.99976e-06
+mean total = 3.33739e-05
+
+mean = 2.68154e-07
+update % = 0.588145
+passTest % = 20.8
+totTime = 0.0559883
+compTime = 3.39784e-05
+mean = 3.09366e-08
+mean delete = 4.23215e-06
+mean total = 3.09057e-05
+
+mean = 2.70534e-07
+update % = 0.621304
+passTest % = 8.6
+totTime = 0.0235132
+compTime = 3.23029e-05
+mean = 3.25472e-08
+mean delete = 3.32215e-06
+mean total = 3.25146e-05
+
+mean = 2.69083e-07
+update % = 0.537602
+passTest % = 11.5
+totTime = 0.0311826
+compTime = 3.7414e-05
+mean = 2.80877e-08
+mean delete = 3.57457e-06
+mean total = 2.80597e-05
+
+mean = 2.67956e-07
+update % = 0.45283
+passTest % = 12.5
+totTime = 0.033729
+compTime = 4.42096e-05
+mean = 3.20034e-08
+mean delete = 3.67322e-06
+mean total = 3.19714e-05
+
+
+
+
+
+
+
+mean = 5.3156e-08
+mean delete = 5.75338e-06
+mean total = 5.30496e-05
+
+mean = 4.96693e-08
+mean delete = 5.48843e-06
+mean total = 4.95699e-05
+
+mean = 4.9589e-08
+mean delete = 5.48107e-06
+mean total = 4.94897e-05
+
+mean = 4.93607e-08
+mean delete = 5.40752e-06
+mean total = 4.92619e-05
+
+mean = 4.92406e-08
+mean delete = 5.43587e-06
+mean total = 4.9142e-05
+
+mean = 4.92944e-08
+mean delete = 5.50701e-06
+mean total = 4.91957e-05
+
+mean = 4.94169e-08
+mean delete = 5.47439e-06
+mean total = 4.93179e-05
+
+mean = 4.92761e-08
+mean delete = 5.49306e-06
+mean total = 4.91773e-05
+
+mean = 4.93474e-08
+mean delete = 5.5373e-06
+mean total = 4.92485e-05
+
+mean = 5.30693e-08
+mean delete = 5.96037e-06
+mean total = 5.2963e-05
+
+mean = 5.51476e-08
+mean delete = 6.59392e-06
+mean total = 5.50371e-05
+
+mean = 5.07332e-08
+mean delete = 5.64726e-06
+mean total = 5.06315e-05
+
+mean = 5.11219e-08
+mean delete = 5.69313e-06
+mean total = 5.10194e-05
+
+mean = 4.99219e-08
+mean delete = 5.51111e-06
+mean total = 4.98218e-05
+
+mean = 4.91904e-08
+mean delete = 5.49888e-06
+mean total = 4.90918e-05
+
+mean = 5.50905e-08
+mean delete = 6.51565e-06
+mean total = 5.49801e-05
+
+mean = 5.0619e-08
+mean delete = 5.90925e-06
+mean total = 5.05176e-05
+
+mean = 4.89312e-08
+mean delete = 5.43709e-06
+mean total = 4.88331e-05
+
+mean = 4.92237e-08
+mean delete = 5.56611e-06
+mean total = 4.91249e-05
+
+mean = 7.77999e-08
+mean delete = 8.5511e-06
+mean total = 7.76437e-05
+
+mean = 5.13949e-08
+mean delete = 5.82522e-06
+mean total = 5.12918e-05
+
+mean = 7.61588e-08
+mean delete = 9.06775e-06
+mean total = 7.60059e-05
+
+mean = 6.30611e-08
+mean delete = 7.30295e-06
+mean total = 6.29346e-05
+
+mean = 5.29974e-08
+mean delete = 6.01959e-06
+mean total = 5.28911e-05
+
+mean = 4.96729e-08
+mean delete = 5.44631e-06
+mean total = 4.95732e-05
+
+mean = 5.41522e-08
+mean delete = 6.03992e-06
+mean total = 5.40434e-05
+
+mean = 4.95357e-08
+mean delete = 5.46044e-06
+mean total = 4.94361e-05
+
+mean = 5.19789e-08
+mean delete = 5.88912e-06
+mean total = 5.18745e-05
+
+mean = 5.12184e-08
+mean delete = 5.58533e-06
+mean total = 5.11155e-05
+
+mean = 4.94534e-08
+mean delete = 5.42893e-06
+mean total = 4.93541e-05
+
+mean = 4.95318e-08
+mean delete = 5.48119e-06
+mean total = 4.94323e-05
+
+mean = 4.93358e-08
+mean delete = 5.45288e-06
+mean total = 4.92367e-05
+
+mean = 4.92217e-08
+mean delete = 5.58375e-06
+mean total = 4.91228e-05
+
+mean = 4.91336e-08
+mean delete = 5.37298e-06
+mean total = 4.90349e-05
+
+mean = 4.90113e-08
+mean delete = 5.40202e-06
+mean total = 4.89129e-05
+
+mean = 5.00286e-08
+mean delete = 5.68071e-06
+mean total = 4.99281e-05
+
+mean = 4.92135e-08
+mean delete = 5.38246e-06
+mean total = 4.91146e-05
+
+mean = 5.12258e-08
+mean delete = 5.73465e-06
+mean total = 5.11229e-05
+
+mean = 5.11292e-08
+mean delete = 5.91261e-06
+mean total = 5.10265e-05
+
+mean = 4.93401e-08
+mean delete = 5.46456e-06
+mean total = 4.9241e-05
+
+mean = 4.91423e-08
+mean delete = 5.54984e-06
+mean total = 4.90435e-05
+
+mean = 4.9124e-08
+mean delete = 5.43452e-06
+mean total = 4.90253e-05
+
+mean = 4.89663e-08
+mean delete = 5.45686e-06
+mean total = 4.88679e-05
+
+mean = 4.91898e-08
+mean delete = 5.56183e-06
+mean total = 4.90909e-05
+
+mean = 4.91995e-08
+mean delete = 5.48013e-06
+mean total = 4.91006e-05
+
+mean = 5.59639e-08
+mean delete = 6.25244e-06
+mean total = 5.58513e-05
+
+mean = 4.83846e-08
+mean delete = 5.41518e-06
+mean total = 4.82873e-05
+
+mean = 4.93384e-08
+mean delete = 5.50415e-06
+mean total = 4.92391e-05
+
+mean = 5.10303e-08
+mean delete = 5.79825e-06
+mean total = 5.09276e-05
+
+mean = 4.8978e-08
+mean delete = 5.51518e-06
+mean total = 4.88793e-05
+
+mean = 4.82922e-08
+mean delete = 5.36638e-06
+mean total = 4.81949e-05
+
+mean = 4.88471e-08
+mean delete = 5.5175e-06
+mean total = 4.87487e-05
+
+mean = 5.91084e-08
+mean delete = 6.92546e-06
+mean total = 5.89893e-05
+
+mean = 4.91772e-08
+mean delete = 5.5636e-06
+mean total = 4.9078e-05
+
+mean = 5.00567e-08
+mean delete = 5.61124e-06
+mean total = 4.99557e-05
+
+mean = 6.54015e-08
+mean delete = 7.49817e-06
+mean total = 6.52694e-05
+
+mean = 4.97874e-08
+mean delete = 5.56073e-06
+mean total = 4.96869e-05
+
+mean = 5.38991e-08
+mean delete = 6.10742e-06
+mean total = 5.37902e-05
+
+mean = 5.42738e-08
+mean delete = 6.08741e-06
+mean total = 5.41642e-05
+
+mean = 5.94235e-08
+mean delete = 7.12352e-06
+mean total = 5.93034e-05
+
+mean = 5.29935e-08
+mean delete = 5.84047e-06
+mean total = 5.28865e-05
+
+mean = 4.90729e-08
+mean delete = 5.43599e-06
+mean total = 4.89737e-05
+
+mean = 4.89621e-08
+mean delete = 5.4343e-06
+mean total = 4.88631e-05
+
+mean = 5.61634e-08
+mean delete = 6.22625e-06
+mean total = 5.60498e-05
+
+mean = 5.60359e-08
+mean delete = 6.48208e-06
+mean total = 5.59224e-05
+
+mean = 4.89305e-08
+mean delete = 5.6239e-06
+mean total = 4.88315e-05
+
+mean = 4.88779e-08
+mean delete = 5.42731e-06
+mean total = 4.8779e-05
+
+mean = 5.08242e-08
+mean delete = 5.71897e-06
+mean total = 5.07213e-05
+
+mean = 4.9578e-08
+mean delete = 5.67508e-06
+mean total = 4.94776e-05
+
+mean = 5.24475e-08
+mean delete = 5.93951e-06
+mean total = 5.23413e-05
+
+mean = 5.66317e-08
+mean delete = 6.87552e-06
+mean total = 5.6517e-05
+
+mean = 5.11249e-08
+mean delete = 6.00269e-06
+mean total = 5.10213e-05
+
+mean = 5.02083e-08
+mean delete = 5.61034e-06
+mean total = 5.01067e-05
+
+mean = 4.79925e-08
+mean delete = 5.37811e-06
+mean total = 4.78953e-05
+
+mean = 4.78731e-08
+mean delete = 5.40807e-06
+mean total = 4.77761e-05
+
+mean = 4.79015e-08
+mean delete = 5.34755e-06
+mean total = 4.78044e-05
+
+mean = 4.78754e-08
+mean delete = 5.33862e-06
+mean total = 4.77784e-05
+
+mean = 4.96353e-08
+mean delete = 5.74373e-06
+mean total = 4.95347e-05
+
+mean = 4.97504e-08
+mean delete = 5.64609e-06
+mean total = 4.96496e-05
+
+mean = 4.90171e-08
+mean delete = 5.71551e-06
+mean total = 4.89178e-05
+
+mean = 4.85992e-08
+mean delete = 5.45791e-06
+mean total = 4.85006e-05
+
+mean = 4.85186e-08
+mean delete = 5.48536e-06
+mean total = 4.84202e-05
+
+mean = 4.8251e-08
+mean delete = 5.38086e-06
+mean total = 4.81531e-05
+
+mean = 4.86583e-08
+mean delete = 5.46568e-06
+mean total = 4.85595e-05
+
+mean = 4.85364e-08
+mean delete = 5.5392e-06
+mean total = 4.84378e-05
+
+mean = 5.04496e-08
+mean delete = 5.5929e-06
+mean total = 5.03471e-05
+
+mean = 4.76561e-08
+mean delete = 5.40311e-06
+mean total = 4.75592e-05
+
+mean = 4.78191e-08
+mean delete = 5.42853e-06
+mean total = 4.77219e-05
+
+mean = 5.0374e-08
+mean delete = 5.80637e-06
+mean total = 5.02716e-05
+
+mean = 4.85409e-08
+mean delete = 5.5542e-06
+mean total = 4.84421e-05
+
+mean = 4.81423e-08
+mean delete = 5.37149e-06
+mean total = 4.80443e-05
+
+mean = 4.81487e-08
+mean delete = 5.36299e-06
+mean total = 4.80507e-05
+
+mean = 4.82326e-08
+mean delete = 5.34213e-06
+mean total = 4.81344e-05
+
+mean = 4.81867e-08
+mean delete = 5.36064e-06
+mean total = 4.80887e-05
+
+mean = 4.8223e-08
+mean delete = 5.74949e-06
+mean total = 4.81248e-05
+
+mean = 4.81473e-08
+mean delete = 5.40002e-06
+mean total = 4.80492e-05
+
+mean = 4.82563e-08
+mean delete = 5.4635e-06
+mean total = 4.81581e-05
+
+mean = 5.37983e-08
+mean delete = 6.11663e-06
+mean total = 5.36888e-05
+
+mean = 4.93825e-08
+mean delete = 5.67013e-06
+mean total = 4.92819e-05
+
+mean = 4.97173e-08
+mean delete = 5.71161e-06
+mean total = 4.9616e-05
+
+mean = 4.79843e-08
+mean delete = 5.46899e-06
+mean total = 4.78865e-05
+
+mean = 4.79662e-08
+mean delete = 5.62602e-06
+mean total = 4.78685e-05
+
+mean = 4.80068e-08
+mean delete = 5.63526e-06
+mean total = 4.79087e-05
+
+mean = 4.80944e-08
+mean delete = 5.56184e-06
+mean total = 4.79962e-05
+
+mean = 4.81214e-08
+mean delete = 5.39994e-06
+mean total = 4.80231e-05
+
+mean = 4.79535e-08
+mean delete = 5.34555e-06
+mean total = 4.78555e-05
+
+mean = 4.81677e-08
+mean delete = 5.65104e-06
+mean total = 4.80693e-05
+
+mean = 4.78158e-08
+mean delete = 5.51054e-06
+mean total = 4.77181e-05
+
+mean = 5.44074e-08
+mean delete = 5.9308e-06
+mean total = 5.42962e-05
+
+mean = 5.17988e-08
+mean delete = 5.96407e-06
+mean total = 5.16929e-05
+
+mean = 4.81379e-08
+mean delete = 5.47544e-06
+mean total = 4.80395e-05
+
+mean = 4.76628e-08
+mean delete = 5.46182e-06
+mean total = 4.75654e-05
+
+mean = 4.74344e-08
+mean delete = 5.40988e-06
+mean total = 4.73374e-05
+
+mean = 4.74603e-08
+mean delete = 5.38946e-06
+mean total = 4.73633e-05
+
+mean = 4.75503e-08
+mean delete = 5.43983e-06
+mean total = 4.74528e-05
+
+mean = 4.7323e-08
+mean delete = 5.43247e-06
+mean total = 4.7226e-05
+
+mean = 4.70661e-08
+mean delete = 5.323e-06
+mean total = 4.69696e-05
+
+mean = 4.72972e-08
+mean delete = 5.42028e-06
+mean total = 4.72002e-05
+
+mean = 4.70983e-08
+mean delete = 5.33197e-06
+mean total = 4.70017e-05
+
+mean = 4.71534e-08
+mean delete = 5.42109e-06
+mean total = 4.70567e-05
+
+mean = 4.96541e-08
+mean delete = 5.70515e-06
+mean total = 4.95523e-05
+
+mean = 4.87733e-08
+mean delete = 5.71249e-06
+mean total = 4.86733e-05
+
+mean = 4.7808e-08
+mean delete = 5.65459e-06
+mean total = 4.77099e-05
+
+mean = 5.22609e-08
+mean delete = 5.99975e-06
+mean total = 5.21536e-05
+
+mean = 4.86122e-08
+mean delete = 5.5315e-06
+mean total = 4.85123e-05
+
+mean = 4.78722e-08
+mean delete = 5.63273e-06
+mean total = 4.77737e-05
+
+mean = 4.7491e-08
+mean delete = 5.63022e-06
+mean total = 4.73933e-05
+
+mean = 5.54248e-08
+mean delete = 6.26497e-06
+mean total = 5.53105e-05
+
+mean = 4.90494e-08
+mean delete = 5.64965e-06
+mean total = 4.89481e-05
+
+mean = 4.81172e-08
+mean delete = 5.47927e-06
+mean total = 4.80178e-05
+
+mean = 4.76953e-08
+mean delete = 5.44357e-06
+mean total = 4.75967e-05
+
+mean = 5.65415e-08
+mean delete = 6.54216e-06
+mean total = 5.64246e-05
+
+mean = 4.73794e-08
+mean delete = 5.40662e-06
+mean total = 4.72814e-05
+
+mean = 4.70721e-08
+mean delete = 5.34648e-06
+mean total = 4.69746e-05
+
+mean = 4.70439e-08
+mean delete = 5.40433e-06
+mean total = 4.69465e-05
+
+mean = 4.70993e-08
+mean delete = 5.41869e-06
+mean total = 4.70018e-05
+
+mean = 4.69409e-08
+mean delete = 5.46033e-06
+mean total = 4.68437e-05
+
+mean = 4.74224e-08
+mean delete = 5.57298e-06
+mean total = 4.73242e-05
+
+mean = 4.98549e-08
+mean delete = 5.84269e-06
+mean total = 4.97517e-05
+
+mean = 4.87573e-08
+mean delete = 5.62084e-06
+mean total = 4.86563e-05
+
+mean = 4.86291e-08
+mean delete = 5.74073e-06
+mean total = 4.85283e-05
+
+mean = 5.23588e-08
+mean delete = 5.948e-06
+mean total = 5.22501e-05
+
+mean = 4.93804e-08
+mean delete = 5.71329e-06
+mean total = 4.9278e-05
+
+mean = 4.76572e-08
+mean delete = 5.51826e-06
+mean total = 4.75582e-05
+
+mean = 4.73233e-08
+mean delete = 5.4979e-06
+mean total = 4.72249e-05
+
+mean = 4.73625e-08
+mean delete = 5.53971e-06
+mean total = 4.72638e-05
+
+mean = 4.69194e-08
+mean delete = 5.47532e-06
+mean total = 4.68217e-05
+
+mean = 4.721e-08
+mean delete = 5.54705e-06
+mean total = 4.71117e-05
+
+mean = 4.73852e-08
+mean delete = 5.56542e-06
+mean total = 4.72865e-05
+
+mean = 4.68454e-08
+mean delete = 5.43301e-06
+mean total = 4.67478e-05
+
+mean = 4.71995e-08
+mean delete = 5.53612e-06
+mean total = 4.71011e-05
+
+mean = 4.77175e-08
+mean delete = 5.64144e-06
+mean total = 4.7618e-05
+
+mean = 4.7206e-08
+mean delete = 5.60732e-06
+mean total = 4.71076e-05
+
+mean = 4.95661e-08
+mean delete = 5.87655e-06
+mean total = 4.94626e-05
+
+mean = 4.86866e-08
+mean delete = 5.69061e-06
+mean total = 4.8585e-05
+
+mean = 4.71798e-08
+mean delete = 5.56619e-06
+mean total = 4.70814e-05
+
+mean = 4.69862e-08
+mean delete = 5.5121e-06
+mean total = 4.68881e-05
+
+mean = 4.68751e-08
+mean delete = 5.39476e-06
+mean total = 4.67772e-05
+
+mean = 4.6843e-08
+mean delete = 5.40506e-06
+mean total = 4.67452e-05
+
+mean = 4.86946e-08
+mean delete = 5.79781e-06
+mean total = 4.85928e-05
+
+mean = 6.77422e-08
+mean delete = 7.92067e-06
+mean total = 6.76004e-05
+
+mean = 4.78169e-08
+mean delete = 5.50762e-06
+mean total = 4.77167e-05
+
+mean = 4.9936e-08
+mean delete = 5.95377e-06
+mean total = 4.98314e-05
+
+mean = 4.87962e-08
+mean delete = 5.79375e-06
+mean total = 4.86939e-05
+
+mean = 5.19848e-08
+mean delete = 6.55564e-06
+mean total = 5.18758e-05
+
+mean = 5.25504e-08
+mean delete = 6.43367e-06
+mean total = 5.24402e-05
+
+mean = 5.44579e-08
+mean delete = 7.05308e-06
+mean total = 5.43436e-05
+
+mean = 4.99263e-08
+mean delete = 6.15393e-06
+mean total = 4.98216e-05
+
+mean = 5.55488e-08
+mean delete = 6.34977e-06
+mean total = 5.54321e-05
+
+mean = 5.38947e-08
+mean delete = 6.495e-06
+mean total = 5.37814e-05
+
+mean = 4.6183e-08
+mean delete = 5.29757e-06
+mean total = 4.60859e-05
+
+mean = 4.62217e-08
+mean delete = 5.33151e-06
+mean total = 4.61244e-05
+
+mean = 4.92536e-08
+mean delete = 5.96381e-06
+mean total = 4.91499e-05
+
+mean = 4.6492e-08
+mean delete = 5.31183e-06
+mean total = 4.6394e-05
+
+mean = 4.60293e-08
+mean delete = 5.31113e-06
+mean total = 4.59322e-05
+
+mean = 5.50541e-08
+mean delete = 6.36529e-06
+mean total = 5.49379e-05
+
+mean = 4.76475e-08
+mean delete = 5.50443e-06
+mean total = 4.75467e-05
+
+mean = 4.6887e-08
+mean delete = 5.38428e-06
+mean total = 4.67877e-05
+
+mean = 4.69402e-08
+mean delete = 5.33082e-06
+mean total = 4.68408e-05
+
+mean = 4.58037e-08
+mean delete = 5.29877e-06
+mean total = 4.57065e-05
+
+mean = 4.56346e-08
+mean delete = 5.2272e-06
+mean total = 4.55377e-05
+
+mean = 4.56842e-08
+mean delete = 5.22331e-06
+mean total = 4.55873e-05
+
+mean = 4.59668e-08
+mean delete = 5.37492e-06
+mean total = 4.58692e-05
+
+mean = 4.58156e-08
+mean delete = 5.29126e-06
+mean total = 4.57184e-05
+
+mean = 4.58409e-08
+mean delete = 5.30881e-06
+mean total = 4.57436e-05
+
+mean = 4.57145e-08
+mean delete = 5.34363e-06
+mean total = 4.56171e-05
+
+mean = 4.81586e-08
+mean delete = 5.87629e-06
+mean total = 4.8056e-05
+
+mean = 5.31379e-08
+mean delete = 7.29398e-06
+mean total = 5.30246e-05
+
+mean = 4.79173e-08
+mean delete = 5.7759e-06
+mean total = 4.78151e-05
+
+mean = 4.63784e-08
+mean delete = 5.41011e-06
+mean total = 4.62795e-05
+
+mean = 4.55393e-08
+mean delete = 5.27728e-06
+mean total = 4.54422e-05
+
+mean = 4.54191e-08
+mean delete = 5.27081e-06
+mean total = 4.53221e-05
+
+mean = 4.5505e-08
+mean delete = 5.31401e-06
+mean total = 4.54079e-05
+
+mean = 4.54301e-08
+mean delete = 5.27884e-06
+mean total = 4.53331e-05
+
+mean = 4.53296e-08
+mean delete = 5.28589e-06
+mean total = 4.52328e-05
+
+mean = 4.53497e-08
+mean delete = 5.26305e-06
+mean total = 4.52529e-05
+
+mean = 4.52808e-08
+mean delete = 5.27131e-06
+mean total = 4.5184e-05
+
+mean = 4.53372e-08
+mean delete = 5.23938e-06
+mean total = 4.52403e-05
+
+mean = 4.53253e-08
+mean delete = 5.26019e-06
+mean total = 4.52281e-05
+
+mean = 5.04578e-08
+mean delete = 6.43815e-06
+mean total = 5.03495e-05
+
+mean = 4.66263e-08
+mean delete = 5.54916e-06
+mean total = 4.65262e-05
+
+mean = 4.55344e-08
+mean delete = 5.31421e-06
+mean total = 4.54367e-05
+
+mean = 4.53774e-08
+mean delete = 5.24122e-06
+mean total = 4.528e-05
+
+mean = 4.54206e-08
+mean delete = 5.31574e-06
+mean total = 4.53228e-05
+
+mean = 4.52932e-08
+mean delete = 5.30242e-06
+mean total = 4.51953e-05
+
+mean = 4.51792e-08
+mean delete = 5.23769e-06
+mean total = 4.50814e-05
+
+mean = 4.50116e-08
+mean delete = 5.23291e-06
+mean total = 4.49142e-05
+
+mean = 4.50179e-08
+mean delete = 5.24487e-06
+mean total = 4.49205e-05
+
+mean = 4.49476e-08
+mean delete = 5.21482e-06
+mean total = 4.48502e-05
+
+mean = 4.49883e-08
+mean delete = 5.24563e-06
+mean total = 4.48909e-05
+
+mean = 4.49669e-08
+mean delete = 5.24765e-06
+mean total = 4.48693e-05
+
+mean = 4.57102e-08
+mean delete = 5.41912e-06
+mean total = 4.56109e-05
+
+mean = 4.84174e-08
+mean delete = 6.03913e-06
+mean total = 4.83122e-05
+
+mean = 4.55679e-08
+mean delete = 5.37288e-06
+mean total = 4.54687e-05
+
+mean = 4.47811e-08
+mean delete = 5.27639e-06
+mean total = 4.46834e-05
+
+mean = 4.4799e-08
+mean delete = 5.23894e-06
+mean total = 4.47012e-05
+
+mean = 4.48149e-08
+mean delete = 5.20054e-06
+mean total = 4.47171e-05
+
+mean = 4.49866e-08
+mean delete = 5.24512e-06
+mean total = 4.48884e-05
+
+mean = 4.45708e-08
+mean delete = 5.22488e-06
+mean total = 4.4473e-05
+
+mean = 4.45802e-08
+mean delete = 5.23933e-06
+mean total = 4.44821e-05
+
+mean = 4.48387e-08
+mean delete = 5.27183e-06
+mean total = 4.47399e-05
+
+mean = 4.58246e-08
+mean delete = 5.67145e-06
+mean total = 4.57235e-05
+
+mean = 4.43738e-08
+mean delete = 5.18408e-06
+mean total = 4.42757e-05
+
+mean = 4.52193e-08
+mean delete = 5.5293e-06
+mean total = 4.5119e-05
+
+mean = 4.46132e-08
+mean delete = 5.28709e-06
+mean total = 4.45143e-05
+
+mean = 5.51189e-08
+mean delete = 7.34385e-06
+mean total = 5.49963e-05
+
+mean = 4.86826e-08
+mean delete = 5.8636e-06
+mean total = 4.85743e-05
+
+mean = 5.59097e-08
+mean delete = 6.56756e-06
+mean total = 5.57854e-05
+
+mean = 4.38696e-08
+mean delete = 5.17385e-06
+mean total = 4.37719e-05
+
+mean = 4.36717e-08
+mean delete = 5.18504e-06
+mean total = 4.35742e-05
+
+mean = 4.35319e-08
+mean delete = 5.11997e-06
+mean total = 4.34343e-05
+
+mean = 4.35668e-08
+mean delete = 5.19018e-06
+mean total = 4.3469e-05
+
+mean = 4.33994e-08
+mean delete = 5.16081e-06
+mean total = 4.33019e-05
+
+mean = 4.34346e-08
+mean delete = 5.17184e-06
+mean total = 4.3337e-05
+
+mean = 4.34031e-08
+mean delete = 5.14437e-06
+mean total = 4.33056e-05
+
+mean = 4.34374e-08
+mean delete = 5.13514e-06
+mean total = 4.33398e-05
+
+mean = 4.33144e-08
+mean delete = 5.14345e-06
+mean total = 4.3217e-05
+
+mean = 4.33459e-08
+mean delete = 5.18649e-06
+mean total = 4.32482e-05
+
+mean = 4.50928e-08
+mean delete = 5.42906e-06
+mean total = 4.49912e-05
+
+mean = 5.20432e-08
+mean delete = 6.72517e-06
+mean total = 5.19259e-05
+
+mean = 4.3626e-08
+mean delete = 5.1297e-06
+mean total = 4.35275e-05
+
+mean = 4.33256e-08
+mean delete = 5.13261e-06
+mean total = 4.32278e-05
+
+mean = 4.30704e-08
+mean delete = 5.07567e-06
+mean total = 4.29731e-05
+
+mean = 4.89223e-08
+mean delete = 6.54188e-06
+mean total = 4.88119e-05
+
+mean = 5.38676e-08
+mean delete = 7.03082e-06
+mean total = 5.37458e-05
+
+mean = 4.47486e-08
+mean delete = 5.33914e-06
+mean total = 4.46473e-05
+
+mean = 4.33398e-08
+mean delete = 5.16452e-06
+mean total = 4.32417e-05
+
+mean = 4.29524e-08
+mean delete = 5.11146e-06
+mean total = 4.28551e-05
+
+mean = 4.27423e-08
+mean delete = 5.02442e-06
+mean total = 4.26452e-05
+
+mean = 4.28744e-08
+mean delete = 5.08683e-06
+mean total = 4.2777e-05
+
+mean = 4.27177e-08
+mean delete = 5.12982e-06
+mean total = 4.26206e-05
+
+mean = 4.36916e-08
+mean delete = 5.32682e-06
+mean total = 4.35921e-05
+
+mean = 4.49432e-08
+mean delete = 5.51022e-06
+mean total = 4.48409e-05
+
+mean = 4.90492e-08
+mean delete = 6.78559e-06
+mean total = 4.89375e-05
+
+mean = 4.36064e-08
+mean delete = 5.21967e-06
+mean total = 4.3507e-05
+
+mean = 4.28337e-08
+mean delete = 5.17285e-06
+mean total = 4.27361e-05
+
+mean = 4.28868e-08
+mean delete = 5.13231e-06
+mean total = 4.2789e-05
+
+mean = 4.27703e-08
+mean delete = 5.10953e-06
+mean total = 4.26728e-05
+
+mean = 4.26588e-08
+mean delete = 5.1661e-06
+mean total = 4.25614e-05
+
+mean = 4.26474e-08
+mean delete = 5.06328e-06
+mean total = 4.25497e-05
+
+mean = 4.26088e-08
+mean delete = 5.06529e-06
+mean total = 4.2511e-05
+
+mean = 4.2577e-08
+mean delete = 5.06202e-06
+mean total = 4.24793e-05
+
+mean = 4.23784e-08
+mean delete = 5.09154e-06
+mean total = 4.22812e-05
+
+mean = 4.24274e-08
+mean delete = 5.03935e-06
+mean total = 4.23301e-05
+
+mean = 4.24822e-08
+mean delete = 5.09542e-06
+mean total = 4.23845e-05
+
+mean = 4.23811e-08
+mean delete = 5.01051e-06
+mean total = 4.22836e-05
+
+mean = 4.24021e-08
+mean delete = 5.05733e-06
+mean total = 4.23046e-05
+
+mean = 4.55731e-08
+mean delete = 5.69237e-06
+mean total = 4.54684e-05
+
+mean = 4.87431e-08
+mean delete = 6.74731e-06
+mean total = 4.8631e-05
+
+mean = 4.28825e-08
+mean delete = 5.17204e-06
+mean total = 4.27838e-05
+
+mean = 4.31352e-08
+mean delete = 5.22535e-06
+mean total = 4.3036e-05
+
+mean = 4.30297e-08
+mean delete = 5.1911e-06
+mean total = 4.29307e-05
+
+mean = 4.2147e-08
+mean delete = 5.02208e-06
+mean total = 4.205e-05
+
+mean = 4.23172e-08
+mean delete = 5.11824e-06
+mean total = 4.22198e-05
+
+mean = 5.59621e-08
+mean delete = 6.54076e-06
+mean total = 5.5833e-05
+
+mean = 4.3387e-08
+mean delete = 5.1925e-06
+mean total = 4.32869e-05
+
+mean = 4.38198e-08
+mean delete = 5.28864e-06
+mean total = 4.37185e-05
+
+mean = 4.35802e-08
+mean delete = 5.19246e-06
+mean total = 4.34793e-05
+
+mean = 4.40573e-08
+mean delete = 5.32345e-06
+mean total = 4.39553e-05
+
+mean = 4.35568e-08
+mean delete = 5.11344e-06
+mean total = 4.3456e-05
+
+mean = 4.3585e-08
+mean delete = 5.1366e-06
+mean total = 4.34842e-05
+
+mean = 4.57889e-08
+mean delete = 5.52663e-06
+mean total = 4.56828e-05
+
+mean = 4.95219e-08
+mean delete = 5.93684e-06
+mean total = 4.94072e-05
+
+mean = 4.3631e-08
+mean delete = 5.30901e-06
+mean total = 4.35297e-05
+
+mean = 5.05965e-08
+mean delete = 6.21349e-06
+mean total = 5.04791e-05
+
+mean = 4.17944e-08
+mean delete = 5.02135e-06
+mean total = 4.16973e-05
+
+mean = 4.24886e-08
+mean delete = 5.11595e-06
+mean total = 4.23898e-05
+
+mean = 4.24923e-08
+mean delete = 5.25358e-06
+mean total = 4.23934e-05
+
+mean = 4.18213e-08
+mean delete = 5.09862e-06
+mean total = 4.17237e-05
+
+mean = 4.20821e-08
+mean delete = 5.12615e-06
+mean total = 4.19839e-05
+
+mean = 4.20909e-08
+mean delete = 5.02369e-06
+mean total = 4.19925e-05
+
+mean = 4.25957e-08
+mean delete = 5.16579e-06
+mean total = 4.24962e-05
+
+mean = 4.76378e-08
+mean delete = 6.01931e-06
+mean total = 4.75264e-05
+
+mean = 4.52949e-08
+mean delete = 5.82744e-06
+mean total = 4.5189e-05
+
+mean = 4.24255e-08
+mean delete = 5.13971e-06
+mean total = 4.23263e-05
+
+mean = 4.42283e-08
+mean delete = 5.30165e-06
+mean total = 4.41249e-05
+
+mean = 6.65094e-08
+mean delete = 8.47931e-06
+mean total = 6.63536e-05
+
+mean = 4.95831e-08
+mean delete = 7.09072e-06
+mean total = 4.94667e-05
+
+mean = 4.75221e-08
+mean delete = 6.7409e-06
+mean total = 4.74095e-05
+
+mean = 4.32136e-08
+mean delete = 5.64225e-06
+mean total = 4.31107e-05
+
+mean = 4.16628e-08
+mean delete = 5.17175e-06
+mean total = 4.15636e-05
+
+mean = 4.61113e-08
+mean delete = 6.21042e-06
+mean total = 4.60013e-05
+
+mean = 4.73048e-08
+mean delete = 6.86815e-06
+mean total = 4.71915e-05
+
+mean = 4.61986e-08
+mean delete = 6.44134e-06
+mean total = 4.60879e-05
+
+mean = 4.67243e-08
+mean delete = 6.71601e-06
+mean total = 4.66122e-05
+
+mean = 4.16784e-08
+mean delete = 5.35995e-06
+mean total = 4.15775e-05
+
+mean = 4.01279e-08
+mean delete = 5.00399e-06
+mean total = 4.00303e-05
+
+mean = 3.98427e-08
+mean delete = 4.99204e-06
+mean total = 3.97455e-05
+
+mean = 3.9811e-08
+mean delete = 4.93606e-06
+mean total = 3.97139e-05
+
+mean = 3.97799e-08
+mean delete = 4.98862e-06
+mean total = 3.96827e-05
+
+mean = 4.11927e-08
+mean delete = 5.13913e-06
+mean total = 4.1092e-05
+
+mean = 4.12129e-08
+mean delete = 5.17891e-06
+mean total = 4.11119e-05
+
+mean = 4.34472e-08
+mean delete = 5.47307e-06
+mean total = 4.33404e-05
+
+mean = 4.60194e-08
+mean delete = 6.63601e-06
+mean total = 4.59062e-05
+
+mean = 4.29348e-08
+mean delete = 5.90267e-06
+mean total = 4.2829e-05
+
+mean = 3.97761e-08
+mean delete = 5.01137e-06
+mean total = 3.96781e-05
+
+mean = 3.93541e-08
+mean delete = 4.93831e-06
+mean total = 3.9257e-05
+
+mean = 3.93615e-08
+mean delete = 5.02121e-06
+mean total = 3.92641e-05
+
+mean = 3.92849e-08
+mean delete = 4.96217e-06
+mean total = 3.91877e-05
+
+mean = 3.92828e-08
+mean delete = 4.9788e-06
+mean total = 3.91854e-05
+
+mean = 4.10959e-08
+mean delete = 5.50303e-06
+mean total = 4.09938e-05
+
+mean = 3.93344e-08
+mean delete = 5.03324e-06
+mean total = 3.92366e-05
+
+mean = 3.93071e-08
+mean delete = 4.97844e-06
+mean total = 3.92095e-05
+
+mean = 3.91098e-08
+mean delete = 4.93583e-06
+mean total = 3.90124e-05
+
+mean = 3.91349e-08
+mean delete = 5.00211e-06
+mean total = 3.90375e-05
+
+mean = 3.89188e-08
+mean delete = 4.94907e-06
+mean total = 3.88216e-05
+
+mean = 3.89718e-08
+mean delete = 4.98972e-06
+mean total = 3.88745e-05
+
+mean = 5.02676e-08
+mean delete = 6.9181e-06
+mean total = 5.0141e-05
+
+mean = 3.85439e-08
+mean delete = 4.97595e-06
+mean total = 3.84468e-05
+
+mean = 3.85259e-08
+mean delete = 4.99492e-06
+mean total = 3.84284e-05
+
+mean = 3.8581e-08
+mean delete = 5.00361e-06
+mean total = 3.84834e-05
+
+mean = 4.30335e-08
+mean delete = 6.03462e-06
+mean total = 4.29246e-05
+
+mean = 4.36162e-08
+mean delete = 6.47029e-06
+mean total = 4.35057e-05
+
+mean = 3.96451e-08
+mean delete = 5.38831e-06
+mean total = 3.95446e-05
+
+mean = 4.53685e-08
+mean delete = 5.78783e-06
+mean total = 4.52534e-05
+
+mean = 3.81774e-08
+mean delete = 4.99158e-06
+mean total = 3.80805e-05
+
+mean = 3.81138e-08
+mean delete = 4.9748e-06
+mean total = 3.80167e-05
+
+mean = 3.81799e-08
+mean delete = 5.02231e-06
+mean total = 3.80825e-05
+
+mean = 3.85849e-08
+mean delete = 5.1377e-06
+mean total = 3.84865e-05
+
+mean = 3.81268e-08
+mean delete = 4.9776e-06
+mean total = 3.80295e-05
+
+mean = 3.80468e-08
+mean delete = 4.921e-06
+mean total = 3.79497e-05
+
+mean = 3.79104e-08
+mean delete = 4.9225e-06
+mean total = 3.78136e-05
+
+mean = 3.7748e-08
+mean delete = 5.0003e-06
+mean total = 3.76511e-05
+
+mean = 3.77897e-08
+mean delete = 4.98993e-06
+mean total = 3.76927e-05
+
+mean = 3.82649e-08
+mean delete = 5.05106e-06
+mean total = 3.81667e-05
+
+mean = 3.7792e-08
+mean delete = 4.94436e-06
+mean total = 3.7695e-05
+
+mean = 3.77375e-08
+mean delete = 4.94231e-06
+mean total = 3.76405e-05
+
+mean = 3.75953e-08
+mean delete = 4.92728e-06
+mean total = 3.74983e-05
+
+mean = 4.03213e-08
+mean delete = 5.21669e-06
+mean total = 4.02173e-05
+
+mean = 3.94575e-08
+mean delete = 5.31104e-06
+mean total = 3.93555e-05
+
+mean = 3.77982e-08
+mean delete = 5.03629e-06
+mean total = 3.76998e-05
+
+mean = 4.23321e-08
+mean delete = 6.05094e-06
+mean total = 4.22219e-05
+
+mean = 4.24022e-08
+mean delete = 6.27085e-06
+mean total = 4.22918e-05
+
+mean = 4.49231e-08
+mean delete = 5.91783e-06
+mean total = 4.48061e-05
+
+mean = 4.083e-08
+mean delete = 5.36334e-06
+mean total = 4.07237e-05
+
+mean = 4.03313e-08
+mean delete = 5.90538e-06
+mean total = 4.02263e-05
+
+mean = 3.72529e-08
+mean delete = 4.87408e-06
+mean total = 3.71558e-05
+
+mean = 3.72333e-08
+mean delete = 4.88649e-06
+mean total = 3.71362e-05
+
+mean = 4.33885e-08
+mean delete = 6.23165e-06
+mean total = 4.32753e-05
+
+mean = 4.20633e-08
+mean delete = 6.19994e-06
+mean total = 4.19536e-05
+
+mean = 4.33057e-08
+mean delete = 6.63226e-06
+mean total = 4.31928e-05
+
+mean = 4.42616e-08
+mean delete = 6.29163e-06
+mean total = 4.4146e-05
+
+mean = 5.09889e-08
+mean delete = 6.84795e-06
+mean total = 5.08556e-05
+
+mean = 3.70625e-08
+mean delete = 4.80983e-06
+mean total = 3.69647e-05
+
+mean = 3.67857e-08
+mean delete = 4.82255e-06
+mean total = 3.66886e-05
+
+mean = 3.87597e-08
+mean delete = 5.33364e-06
+mean total = 3.86573e-05
+
+mean = 3.78774e-08
+mean delete = 5.23578e-06
+mean total = 3.77772e-05
+
+mean = 3.65112e-08
+mean delete = 4.7857e-06
+mean total = 3.64145e-05
+
+mean = 3.65911e-08
+mean delete = 4.73607e-06
+mean total = 3.64939e-05
+
+mean = 3.66105e-08
+mean delete = 4.78078e-06
+mean total = 3.65134e-05
+
+mean = 3.95452e-08
+mean delete = 5.30544e-06
+mean total = 3.94402e-05
+
+mean = 4.14995e-08
+mean delete = 5.87626e-06
+mean total = 4.13892e-05
+
+mean = 4.12443e-08
+mean delete = 5.9671e-06
+mean total = 4.11347e-05
+
+mean = 4.05914e-08
+mean delete = 5.38475e-06
+mean total = 4.04835e-05
+
+mean = 5.44579e-08
+mean delete = 7.33745e-06
+mean total = 5.43128e-05
+
+mean = 3.64597e-08
+mean delete = 4.71279e-06
+mean total = 3.63625e-05
+
+mean = 3.65952e-08
+mean delete = 4.72018e-06
+mean total = 3.64977e-05
+
+mean = 3.6594e-08
+mean delete = 4.75036e-06
+mean total = 3.6496e-05
+
+mean = 3.63499e-08
+mean delete = 4.68889e-06
+mean total = 3.62523e-05
+
+mean = 3.65061e-08
+mean delete = 4.7309e-06
+mean total = 3.64081e-05
+
+mean = 3.65022e-08
+mean delete = 4.73555e-06
+mean total = 3.64041e-05
+
+mean = 3.63959e-08
+mean delete = 4.74596e-06
+mean total = 3.62981e-05
+
+mean = 5.22406e-08
+mean delete = 6.6318e-06
+mean total = 5.21003e-05
+
+mean = 3.76676e-08
+mean delete = 5.00037e-06
+mean total = 3.75662e-05
+
+mean = 3.693e-08
+mean delete = 4.81794e-06
+mean total = 3.68306e-05
+
+mean = 3.67201e-08
+mean delete = 4.78452e-06
+mean total = 3.66204e-05
+
+mean = 3.70181e-08
+mean delete = 4.78388e-06
+mean total = 3.69177e-05
+
+mean = 3.66749e-08
+mean delete = 4.7354e-06
+mean total = 3.65753e-05
+
+mean = 3.67263e-08
+mean delete = 4.79463e-06
+mean total = 3.66265e-05
+
+mean = 3.67551e-08
+mean delete = 4.84649e-06
+mean total = 3.66553e-05
+
+mean = 3.72668e-08
+mean delete = 4.86318e-06
+mean total = 3.71651e-05
+
+mean = 4.45034e-08
+mean delete = 6.15606e-06
+mean total = 4.43816e-05
+
+mean = 4.05168e-08
+mean delete = 5.60806e-06
+mean total = 4.04058e-05
+
+mean = 3.85529e-08
+mean delete = 5.08993e-06
+mean total = 3.84468e-05
+
+mean = 3.82176e-08
+mean delete = 5.05651e-06
+mean total = 3.81124e-05
+
+mean = 3.69222e-08
+mean delete = 4.83963e-06
+mean total = 3.68205e-05
+
+mean = 3.99455e-08
+mean delete = 5.52216e-06
+mean total = 3.98349e-05
+
+mean = 3.68723e-08
+mean delete = 4.92628e-06
+mean total = 3.67703e-05
+
+mean = 3.67688e-08
+mean delete = 4.84377e-06
+mean total = 3.66669e-05
+
+mean = 3.65714e-08
+mean delete = 4.9086e-06
+mean total = 3.64701e-05
+
+mean = 3.69097e-08
+mean delete = 5.05017e-06
+mean total = 3.6807e-05
+
+mean = 3.69524e-08
+mean delete = 4.97345e-06
+mean total = 3.68496e-05
+
+mean = 3.63595e-08
+mean delete = 4.83491e-06
+mean total = 3.6258e-05
+
+mean = 3.64798e-08
+mean delete = 4.92696e-06
+mean total = 3.63779e-05
+
+mean = 3.60136e-08
+mean delete = 4.75434e-06
+mean total = 3.5913e-05
+
+mean = 3.59303e-08
+mean delete = 4.76558e-06
+mean total = 3.58299e-05
+
+mean = 3.63192e-08
+mean delete = 4.89118e-06
+mean total = 3.62177e-05
+
+mean = 3.61865e-08
+mean delete = 4.91813e-06
+mean total = 3.60855e-05
+
+mean = 3.58528e-08
+mean delete = 4.75001e-06
+mean total = 3.57524e-05
+
+mean = 3.58693e-08
+mean delete = 4.79001e-06
+mean total = 3.57689e-05
+
+mean = 3.60113e-08
+mean delete = 4.80609e-06
+mean total = 3.591e-05
+
+mean = 3.58563e-08
+mean delete = 4.82403e-06
+mean total = 3.57546e-05
+
+mean = 3.59545e-08
+mean delete = 4.84291e-06
+mean total = 3.58524e-05
+
+mean = 3.55097e-08
+mean delete = 4.79925e-06
+mean total = 3.54085e-05
+
+mean = 3.54945e-08
+mean delete = 4.76878e-06
+mean total = 3.5393e-05
+
+mean = 3.5339e-08
+mean delete = 4.77799e-06
+mean total = 3.52372e-05
+
+mean = 3.63391e-08
+mean delete = 5.02029e-06
+mean total = 3.62345e-05
+
+mean = 3.74486e-08
+mean delete = 5.10083e-06
+mean total = 3.73408e-05
+
+mean = 3.62732e-08
+mean delete = 4.81863e-06
+mean total = 3.61687e-05
+
+mean = 3.60769e-08
+mean delete = 4.8168e-06
+mean total = 3.5973e-05
+
+mean = 3.58082e-08
+mean delete = 4.82063e-06
+mean total = 3.57049e-05
+
+mean = 3.4487e-08
+mean delete = 4.65214e-06
+mean total = 3.43869e-05
+
+mean = 3.49184e-08
+mean delete = 4.67223e-06
+mean total = 3.48168e-05
+
+mean = 3.4367e-08
+mean delete = 4.55992e-06
+mean total = 3.4267e-05
+
+mean = 3.50671e-08
+mean delete = 4.83355e-06
+mean total = 3.49649e-05
+
+mean = 3.45999e-08
+mean delete = 4.5922e-06
+mean total = 3.4499e-05
+
+mean = 3.45835e-08
+mean delete = 4.61326e-06
+mean total = 3.44823e-05
+
+mean = 3.44573e-08
+mean delete = 4.51975e-06
+mean total = 3.43565e-05
+
+mean = 3.47497e-08
+mean delete = 4.68176e-06
+mean total = 3.46481e-05
+
+mean = 3.43485e-08
+mean delete = 4.53953e-06
+mean total = 3.42481e-05
+
+mean = 1.75916e-08
+mean delete = 2.1e-07
+mean total = 1.7574e-05
+
