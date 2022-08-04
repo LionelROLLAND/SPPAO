@@ -500,7 +500,7 @@ void testSPPAO2(int P=10, int Q=10, int O=5, double prop_square=0.5, double prop
 	filesystem::path infilepath = filesystem::current_path();
 	infilepath /= "data";
 	infilepath /= "completeDB";
-	infilepath /= "instance_531.txt";
+	infilepath /= "instance_569.txt";
 	ifstream reading(infilepath, ios::in);
 	list<Node*>* l = new list<Node*>();
 	reading>>*l;
@@ -839,6 +839,7 @@ double density=1.8, int n_samp=10, string pref="", string suff=".txt") {
 
 
 void showDB(string dir, int n_arcs, double dens) {
+	cout<<n_arcs<<dens<<endl;
 	filesystem::path indirpath = filesystem::current_path();
 	indirpath /= "data";
 	indirpath /= dir;
@@ -850,8 +851,26 @@ void showDB(string dir, int n_arcs, double dens) {
 		reading.close();
 		int n = nbNodes(*graph);
 		double d = ((double) nbArcs(*graph))/n;
+		//long unsigned int nb_max_vois = 0;
+		long unsigned int sum_nisq = 0;
+		long unsigned int sq;
+		for (list<Node*>::iterator node = graph->begin(); node != graph->end(); node++) {
+			//if ((*node)->l_adj.size() > nb_max_vois) {nb_max_vois = (*node)->l_adj.size();}
+			sq = (*node)->l_adj.size();
+			sum_nisq += sq*sq;
+		}
+		/*
 		if (n == n_arcs && d == dens) {
 			cout<<infilepath<<endl;
+		}
+		*/
+		if ((double) sum_nisq/(d*d*n) > 1.25) {
+			cout<<infilepath<<endl;
+			cout<<"sum = "<<sum_nisq<<endl;
+			cout<<"a^2 n = "<<d*d*n<<endl;
+			cout<<"ratio = "<<(double) sum_nisq/(d*d*n)<<endl;
+			cout<<"6 a n = "<<6*d*n<<endl;
+			cout<<"ratio = "<<(double) sum_nisq/(6*d*n)<<endl;
 		}
 		deleteGraph(graph);
 	}
@@ -2468,7 +2487,7 @@ function<string(const methodSS&)> plotOptionSS, function<string(const methodBS&)
 	out<<"\n\\begin{subfigure}[h]{0.45\\textwidth}"
 	"\n\\centering"
 	"\n\\begin{tikzpicture}[xscale=.8, yscale=.8]";
-	out<<"\n\\begin{axis}["
+	out<<"\n\\begin{semilogyaxis}["
 	" axis lines=left,"
 	" grid style=dashed,";
 	//"\ngrid=both,"
@@ -2554,7 +2573,7 @@ function<string(const methodSS&)> plotOptionSS, function<string(const methodBS&)
 
 	}
 	
-	out<<"\n\\end{axis}"
+	out<<"\n\\end{semilogyaxis}"
 	"\n\\end{tikzpicture}";
 
 
@@ -2632,7 +2651,7 @@ void T1T2comp(list<methodBS>& LBS, ostream& out, string pref_Fig="") {
 		out<<"\n\\begin{subfigure}[h]{0.45\\textwidth}"
 		"\n\\centering"
 		"\n\\begin{tikzpicture}[xscale=.8, yscale=.8]";
-		out<<"\n\\begin{axis}["
+		out<<"\n\\begin{semilogyaxis}["
         " axis lines=left,"
         " grid style=dashed,";
 		//"\ngrid=both,"
@@ -2714,7 +2733,7 @@ void T1T2comp(list<methodBS>& LBS, ostream& out, string pref_Fig="") {
 
 		}
 		
-		out<<"\n\\end{axis}"
+		out<<"\n\\end{semilogyaxis}"
 		"\n\\end{tikzpicture}";
 
 
@@ -2726,7 +2745,7 @@ void T1T2comp(list<methodBS>& LBS, ostream& out, string pref_Fig="") {
 	}
 	out<<"\n\\caption{Partial run times $T_1$ and $T_2$ for the binary search methods}";
 	out<<" \\label{fig:T1T2-"<<pref_Fig<<"}";
-	out<<"\n\\end{figure}";
+	out<<"\n\\end{figure}\n\n\n";
 
 	delete obstacles;
 }
@@ -2780,7 +2799,7 @@ void D1D2comp(list<methodBS>& LBS, ostream& out, string pref_Fig="") {
 	"\n\\centering"
 	"\n\\small\n"
 	"\n\\begin{tikzpicture}[xscale=0.8, yscale=0.8]";
-	out<<"\n\\begin{axis}["
+	out<<"\n\\begin{semilogyaxis}["
 	" axis lines=left,"
 	" grid style=dashed,";
 	//"\ngrid=both,"
@@ -2860,12 +2879,12 @@ void D1D2comp(list<methodBS>& LBS, ostream& out, string pref_Fig="") {
 
 	}
 
-	out<<"\n\\end{axis}"
+	out<<"\n\\end{semilogyaxis}"
 	"\n\\end{tikzpicture}";
 
 	out<<"\n\\caption{$D_1$ and $D_2$ for the binary search methods}";
 	out<<" \\label{fig:D1D2-"<<pref_Fig<<"}";
-	out<<"\n\\end{figure}";
+	out<<"\n\\end{figure}\n\n\n";
 
 	delete labels;
 	delete globLabels;
@@ -2924,7 +2943,7 @@ void timeComparison(list<methodSS>& LSS, list<methodBS>& LBS, ostream& out, stri
 	"\n\\centering"
 	"\n\\small\n"
 	"\n\\begin{tikzpicture}[xscale=0.8, yscale=0.8]";
-	out<<"\n\\begin{axis}["
+	out<<"\n\\begin{semilogyaxis}["
 	" axis lines=left,"
 	" grid style=dashed,";
 	//"\ngrid=both,"
@@ -2993,12 +3012,12 @@ void timeComparison(list<methodSS>& LSS, list<methodBS>& LBS, ostream& out, stri
 		delete labels;
 	}
 
-	out<<"\n\\end{axis}"
+	out<<"\n\\end{semilogyaxis}"
 	"\n\\end{tikzpicture}";
 
 	out<<"\n\\caption{Number of non-dominated points}";
 	out<<" \\label{fig:n-res-"<<pref_Fig<<"}";
-	out<<"\n\\end{figure}";
+	out<<"\n\\end{figure}\n\n\n";
 
 
 	delete globLabels;
@@ -3013,9 +3032,9 @@ void timeComparison(list<methodSS>& LSS, list<methodBS>& LBS, ostream& out, stri
 		getLabels<meanResultSS>, getLabels<meanResultBS>,
 		regularOp<methodSS>, regularOp<methodBS>);
 	}
-	out<<"\n\\caption{Number of label updates}\n";
+	out<<"\n\\caption{Number of label updates}";
 	out<<" \\label{fig:labSSBS-"<<pref_Fig<<"}\n";
-	out<<"\n\\end{figure}";
+	out<<"\n\\end{figure}\n\n\n";
 
 
 
@@ -3031,7 +3050,7 @@ void timeComparison(list<methodSS>& LSS, list<methodBS>& LBS, ostream& out, stri
 	}
 	out<<"\n\\caption{Number of visited nodes}";
 	out<<" \\label{fig:checksSSBS-"<<pref_Fig<<"}\n";
-	out<<"\n\\end{figure}";
+	out<<"\n\\end{figure}\n\n\n";
 
 
 
@@ -3048,7 +3067,7 @@ void timeComparison(list<methodSS>& LSS, list<methodBS>& LBS, ostream& out, stri
 		out<<"\n\\begin{subfigure}[h]{0.45\\textwidth}"
 		"\n\\centering"
 		"\n\\begin{tikzpicture}[xscale=.8, yscale=.8]";
-		out<<"\n\\begin{axis}["
+		out<<"\n\\begin{semilogyaxis}["
         " axis lines=left,"
         " grid style=dashed,";
 		//"\ngrid=both,"
@@ -3182,7 +3201,7 @@ void timeComparison(list<methodSS>& LSS, list<methodBS>& LBS, ostream& out, stri
 
 		}
 		
-		out<<"\n\\end{axis}"
+		out<<"\n\\end{semilogyaxis}"
 		"\n\\end{tikzpicture}";
 
 
@@ -3194,7 +3213,7 @@ void timeComparison(list<methodSS>& LSS, list<methodBS>& LBS, ostream& out, stri
 	}
 	out<<"\n\\caption{Run times}";
 	out<<" \\label{fig:time-"<<pref_Fig<<"}";
-	out<<"\n\\end{figure}";
+	out<<"\n\\end{figure}\n\n\n";
 
 	delete obstacles;
 }
@@ -3461,24 +3480,21 @@ void writeAllComparison() {
 	list<filesystem::path> ss_ads_rm = list<filesystem::path>();
 	list<filesystem::path> ss_add = list<filesystem::path>();
 
-	filepath = filesystem::current_path()/"data";
-	ss_cl.push_back(filepath/"SS-CL_newDB.txt");
 	//filepath = filesystem::current_path()/"data";
+	filepath = filesystem::current_path()/"data"/"results VM"/"res1";
+
+
+
+	ss_cl.push_back(filepath/"SS-CL_newDB.txt");
 	//ss_cl.push_back(filepath/"SS-CL_completeDB.txt");
 
-	filepath = filesystem::current_path()/"data";
 	ss_ads.push_back(filepath/"SS-ST_newDB.txt");
-	//filepath = filesystem::current_path()/"data";
 	//ss_ads.push_back(filepath/"SS-ST_completeDB.txt");
 
-	filepath = filesystem::current_path()/"data";
 	ss_ads_rm.push_back(filepath/"SS-DEL_newDB.txt");
-	//filepath = filesystem::current_path()/"data";
 	//ss_ads_rm.push_back(filepath/"SS-DEL_completeDB.txt");
 
-	filepath = filesystem::current_path()/"data";
 	ss_add.push_back(filepath/"SS-ADD_newDB.txt");
-	//filepath = filesystem::current_path()/"data";
 	//ss_add.push_back(filepath/"SS-ADD_completeDB.txt");
 
 
@@ -3504,7 +3520,10 @@ void writeAllComparison() {
 
 
 
-	string ID = "newDB";
+	//string ID = "newDB";
+	//string ID = "completeDB";
+	string ID = "newDBVM";
+	//string ID = "completeDBVM";
 	filesystem::path outfilepath = filesystem::current_path();
 	outfilepath /= "data";
 	outfilepath /= "comparisonBS" + ID + ".tex";
@@ -3515,25 +3534,17 @@ void writeAllComparison() {
 	//list<filesystem::path> bs_cstar = list<filesystem::path>();
 	list<filesystem::path> bs_ads_cstar = list<filesystem::path>();
 
-	filepath = filesystem::current_path()/"data";
 	bs_cl.push_back(filepath/"BS-CL_newDB.txt");
-	//filepath = filesystem::current_path()/"data";
 	//bs_cl.push_back(filepath/"BS-CL_completeDB.txt");
 
-	filepath = filesystem::current_path()/"data";
 	bs_ads.push_back(filepath/"BS-ST_newDB.txt");
-	//filepath = filesystem::current_path()/"data";
 	//bs_ads.push_back(filepath/"BS-ST_completeDB.txt");
 
-	//filepath = filesystem::current_path()/"data";
 	//bs_cstar.push_back(filepath/"BS-CSTAR_newDB.txt");
-	//filepath = filesystem::current_path()/"data";
 	//bs_cstar.push_back(filepath/"BS-CSTAR_completeDB.txt");
 
-	filepath = filesystem::current_path()/"data";
-	bs_ads_cstar.push_back(filepath/"BS-CSTAR_-ADSnewDB.txt");
-	//filepath = filesystem::current_path()/"data";
-	//bs_ads_cstar.push_back(filepath/"BS-CSTAR_-ADScompleteDB.txt");
+	bs_ads_cstar.push_back(filepath/"BS-LB_-ADSnewDB.txt");
+	//bs_ads_cstar.push_back(filepath/"BS-LB_-ADScompleteDB.txt");
 
 
 
@@ -3556,7 +3567,10 @@ void writeAllComparison() {
 
 
 
-	ID = "newDB";
+	//ID = "newDB";
+	//ID = "completeDB";
+	ID = "newDBVM";
+	//ID = "completeDBVM";
 	outfilepath = filesystem::current_path();
 	outfilepath /= "data";
 	outfilepath /= "comparisonTime" + ID + ".tex";
@@ -3619,7 +3633,7 @@ int main(int argc, char *argv[])
 	cout<<p_square<<p_merge<<P<<Q<<O<<logs<<endl;
 
 	int seed = vm["seed"].as<int>();
-	//seed = 0;
+	seed = 0;
 	//int seed = time(nullptr);
 	//int seed = 1654611373; ./output/main --P 30 --Q 30 --O 2 --seed 1654611373 > ./data/logs.log && cat ./data/logs.log | grep "Deleting path"
 	//int seed = 1654680670; ./output/main --P 100 --Q 100 --O 2 --p_merge 0 --p_square 1 --seed 1654680670 --v
@@ -3647,7 +3661,7 @@ int main(int argc, char *argv[])
 	//realDB();
 	//newCompleteDB();
 	//completingDB();
-	//showDB("testDB", 20, 4.2);
+	//showDB("newDB", 20, 4.2);
 	//manuallyCompletingDB(2000, 1, 0, 420, 1.8, 30, "realDB/instance_", ".txt");
 	//writeStatSPPAO("statsSPPAO__addArcs.tex", "dataSPPAO_addArcs.txt");
 	//checkSPPAO();

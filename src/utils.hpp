@@ -33,4 +33,14 @@ ostream& operator<<(ostream& out, const list<T>& l) {
 }
 
 
+template<typename T>
+T lio_min(T a1, T a2) {
+	if (a1 < a2) {
+		return a1;
+	} else {
+		return a2;
+	}
+}
+
+
 #endif

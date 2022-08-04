@@ -20,6 +20,8 @@ void resetGraph(list<Node*>& graph);
 
 void simpleResetGraph(list<Node*>& graph);
 
+void resetTreePred(list<Node*>& graph);
+
 void revResetGraph(list<Node*>& graph);
 
 bool compSimpleArc(const simpleArc& a1, const simpleArc& a2);

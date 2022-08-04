@@ -22,4 +22,7 @@ int* n=nullptr, double* t_comp=nullptr);
 list<infoPath>* weirdSPPAO(list<list<bunchOfArcs>>& arcsToAddLists, Node* s, Node* t,
 int* n=nullptr, double* t_comp=nullptr);
 
+list<infoPath>* weirdSPPAO2(list<Node*>& graph, list<list<bunchOfArcs>>& arcsToAddLists, Node* s, Node* t,
+int* n=nullptr, double* t_comp=nullptr);
+
 #endif

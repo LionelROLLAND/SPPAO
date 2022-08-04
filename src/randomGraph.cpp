@@ -409,6 +409,15 @@ void simpleResetGraph(list<Node*>& graph) {
 }
 
 
+void resetTreePred(list<Node*>& graph) {
+    for (list<Node*>::iterator it = graph.begin(); it != graph.end(); it++) {
+        if ((*it)->pred != nullptr) {delete (*it)->pred;}
+        (*it)->pred = nullptr;
+        (*it)->tree = nullptr;
+    }
+}
+
+
 void revResetGraph(list<Node*>& graph) {
     for (list<Node*>::iterator it = graph.begin(); it != graph.end(); it++) {
         (*it)->marked = false;
