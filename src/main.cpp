@@ -3485,17 +3485,17 @@ void writeAllComparison() {
 
 
 
-	ss_cl.push_back(filepath/"SS-CL_newDB.txt");
-	//ss_cl.push_back(filepath/"SS-CL_completeDB.txt");
+	//ss_cl.push_back(filepath/"SS-CL_newDB.txt");
+	ss_cl.push_back(filepath/"SS-CL_completeDB.txt");
 
-	ss_ads.push_back(filepath/"SS-ST_newDB.txt");
-	//ss_ads.push_back(filepath/"SS-ST_completeDB.txt");
+	//ss_ads.push_back(filepath/"SS-ST_newDB.txt");
+	ss_ads.push_back(filepath/"SS-ST_completeDB.txt");
 
-	ss_ads_rm.push_back(filepath/"SS-DEL_newDB.txt");
-	//ss_ads_rm.push_back(filepath/"SS-DEL_completeDB.txt");
+	//ss_ads_rm.push_back(filepath/"SS-DEL_newDB.txt");
+	ss_ads_rm.push_back(filepath/"SS-DEL_completeDB.txt");
 
-	ss_add.push_back(filepath/"SS-ADD_newDB.txt");
-	//ss_add.push_back(filepath/"SS-ADD_completeDB.txt");
+	//ss_add.push_back(filepath/"SS-ADD_newDB.txt");
+	ss_add.push_back(filepath/"SS-ADD_completeDB.txt");
 
 
 
@@ -3522,8 +3522,8 @@ void writeAllComparison() {
 
 	//string ID = "newDB";
 	//string ID = "completeDB";
-	string ID = "newDBVM";
-	//string ID = "completeDBVM";
+	//string ID = "newDBVM";
+	string ID = "completeDBVM";
 	filesystem::path outfilepath = filesystem::current_path();
 	outfilepath /= "data";
 	outfilepath /= "comparisonBS" + ID + ".tex";
@@ -3534,17 +3534,17 @@ void writeAllComparison() {
 	//list<filesystem::path> bs_cstar = list<filesystem::path>();
 	list<filesystem::path> bs_ads_cstar = list<filesystem::path>();
 
-	bs_cl.push_back(filepath/"BS-CL_newDB.txt");
-	//bs_cl.push_back(filepath/"BS-CL_completeDB.txt");
+	//bs_cl.push_back(filepath/"BS-CL_newDB.txt");
+	bs_cl.push_back(filepath/"BS-CL_completeDB.txt");
 
-	bs_ads.push_back(filepath/"BS-ST_newDB.txt");
-	//bs_ads.push_back(filepath/"BS-ST_completeDB.txt");
+	//bs_ads.push_back(filepath/"BS-ST_newDB.txt");
+	bs_ads.push_back(filepath/"BS-ST_completeDB.txt");
 
 	//bs_cstar.push_back(filepath/"BS-CSTAR_newDB.txt");
 	//bs_cstar.push_back(filepath/"BS-CSTAR_completeDB.txt");
 
-	bs_ads_cstar.push_back(filepath/"BS-LB_-ADSnewDB.txt");
-	//bs_ads_cstar.push_back(filepath/"BS-LB_-ADScompleteDB.txt");
+	//bs_ads_cstar.push_back(filepath/"BS-LB_-ADSnewDB.txt");
+	bs_ads_cstar.push_back(filepath/"BS-LB_-ADScompleteDB.txt");
 
 
 
@@ -3569,8 +3569,8 @@ void writeAllComparison() {
 
 	//ID = "newDB";
 	//ID = "completeDB";
-	ID = "newDBVM";
-	//ID = "completeDBVM";
+	//ID = "newDBVM";
+	ID = "completeDBVM";
 	outfilepath = filesystem::current_path();
 	outfilepath /= "data";
 	outfilepath /= "comparisonTime" + ID + ".tex";
@@ -3654,7 +3654,7 @@ int main(int argc, char *argv[])
 	//testSPPAO1(P, Q, O, p_square, p_merge);
 	//testLoading();
 	//testPathMinD(P, Q, O, p_square, p_merge);
-	testSPPAO2(P, Q, O, p_square, p_merge);
+	//testSPPAO2(P, Q, O, p_square, p_merge);
 	//compareSPPAOs(P, Q, O, p_square, p_merge);
 	//testGraph2(2000, 1, 0);
 	//testDB();
@@ -3671,6 +3671,6 @@ int main(int argc, char *argv[])
 	//writeComparisonSS();
 	//writeComparisonBS();
 	//writeTimeComparison();
-	//writeAllComparison();
+	writeAllComparison();
 }
 

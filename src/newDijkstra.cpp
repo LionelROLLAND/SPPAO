@@ -946,7 +946,7 @@ infoPath labelUpdating_OptiCD_condD(list<Node*>& graph, Node* s, Node* t, double
 }
 
 
-void labelUpdating_add_OptiC_condD(list<bunchOfArcs>& arcsToAddLists, Node* t, double min_d) {
+void labelUpdating_add_OptiC_condD(list<bunchOfArcs>& arcsToAddLists, double min_d) {
     fibHeap<Node*>* heap = new fibHeap<Node*>(compC_to_s);
     Node* to_process;
     double newLength;

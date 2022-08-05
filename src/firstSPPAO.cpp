@@ -133,7 +133,7 @@ list<infoPath>* weirdSPPAO(list<list<bunchOfArcs>>& arcsToAddLists, Node* s, Nod
         if (logs) {cout<<"\nweirdSPPAO -- labelUpdate, strict_min_d = "<<currD<<"\n";}
         startSub = chrono::system_clock::now();
 
-        labelUpdating_add_OptiC_condD(*arcsLists, t, currD);
+        labelUpdating_add_OptiC_condD(*arcsLists, currD);
         if (t->c_to_s < optC) {
             optPath = makePath(t);
             optC = optPath.c;
@@ -190,7 +190,7 @@ list<infoPath>* weirdSPPAO2(list<Node*>& graph, list<list<bunchOfArcs>>& arcsToA
 
         if (logs) {cout<<"\nweirdSPPAO2 -- labelUpdate, strict_min_d = "<<currD<<"\n";}
 
-        labelUpdating_add_OptiC_condD(*arcsLists, t, currD);
+        labelUpdating_add_OptiC_condD(*arcsLists, currD);
         if (t->c_to_s < optC) {
             optPath = makePath(t);
             optC = optPath.c;

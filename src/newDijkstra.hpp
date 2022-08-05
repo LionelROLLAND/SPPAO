@@ -104,7 +104,7 @@ infoPath dijkstraOptiCD_condCstarD(Node* s, Node* t, double strict_min_d, double
 
 infoPath labelUpdating_OptiCD_condD(list<Node*>& graph, Node* s, Node* t, double strict_min_d);
 
-void labelUpdating_add_OptiC_condD(list<bunchOfArcs>& arcsToAddLists, Node* t, double strict_min_d);
+void labelUpdating_add_OptiC_condD(list<bunchOfArcs>& arcsToAddLists, double strict_min_d);
 
 infoPath dijkstraOptiCD_noCond_noStop(Node* s, Node* t);
 
