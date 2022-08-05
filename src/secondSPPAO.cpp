@@ -57,7 +57,7 @@ double* t1, double* t2, list<logSPPAO2>* history) {
 
     if (logs) {cout<<"result : d = "<<maxDpath.d<<", c = "<<maxDpath.c<<"\n";}
     //resetGraph(graph);
-    //simpleResetGraph(graph);
+    resetTreePredMarked(graph);
     if (logs) {cout<<"\n#"<<++nbD1<<" SPPAO2 -- path of min c\n";}
 
 

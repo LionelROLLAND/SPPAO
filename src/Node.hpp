@@ -34,7 +34,7 @@ class Node
         list<arcNode> rev_adj;
         Node(int n=0, double absc=0., double ord=0., list<arcNode> l=list<arcNode>(), bool m=false, double init_lc_st=inf,
                 double init_ld_S_st=0, double init_lc_ts=inf, double init_ld_S_ts=0, double init_hc=inf, double init_hd_S=0,
-                arcNode* init_pred=nullptr, markTree<Node*>* Tr=nullptr, list<arcNode> rev_l=list<arcNode>(), double rev_dist=inf) :
+                arcNode* init_pred=nullptr, markTree<Node*>* Tr=nullptr, list<arcNode> rev_l=list<arcNode>()) :
                 no(n), x(absc), y(ord), l_adj(l), marked(m), lc_st(init_lc_st), ld_S_st(init_ld_S_st), lc_ts(init_lc_ts),
                 ld_S_ts(init_ld_S_ts), hc(init_hc), hd_S(init_hd_S), pred(init_pred), tree(Tr), rev_adj(rev_l) {}
         Node(const Node& n);
