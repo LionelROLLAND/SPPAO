@@ -22,20 +22,21 @@ class Node
         double x;
         double y;
         list<arcNode> l_adj;
-        //Matrix<double>* adj;
         bool marked;
-        double c_to_s;
-        double d_to_S;
+        double lc_st;
+        double ld_S_st;
+        double lc_ts;
+        double ld_S_ts;
+        double hc;
+        double hd_S;
         arcNode* pred;
         markTree<Node*>* tree;
         list<arcNode> rev_adj;
-        double c_to_t;
-        Node(int n=0, double absc=0., double ord=0., list<arcNode> l=list<arcNode>(),
-                /* Matrix<double>* A=nullptr, */ bool m=false, double dist=inf, double d=0, 
-                arcNode* pr=nullptr, markTree<Node*>* Tr=nullptr,
-                list<arcNode> rev_l=list<arcNode>(), double rev_dist=inf) : no(n),
-                x(absc), y(ord), l_adj(l), /* adj(A), */ marked(m), c_to_s(dist), d_to_S(d), pred(pr), tree(Tr),
-                rev_adj(rev_l), c_to_t(rev_dist) {}
+        Node(int n=0, double absc=0., double ord=0., list<arcNode> l=list<arcNode>(), bool m=false, double init_lc_st=inf,
+                double init_ld_S_st=0, double init_lc_ts=inf, double init_ld_S_ts=0, double init_hc=inf, double init_hd_S=0,
+                arcNode* pr=nullptr, markTree<Node*>* Tr=nullptr, list<arcNode> rev_l=list<arcNode>(), double rev_dist=inf) :
+                no(n), x(absc), y(ord), l_adj(l), marked(m), lc_st(init_lc_st), ld_S_st(init_ld_S_st), lc_ts(init_lc_ts),
+                ld_S_ts(init_ld_S_ts), hc(init_hc), hd_S(init_hd_S), pred(pr), tree(Tr), rev_adj(rev_l) {}
         Node(const Node& n);
         ~Node() {}
         Node& operator= (const Node& t);
