@@ -384,48 +384,39 @@ void computeArcD(list<Node*>& graph, list<Node*>& obstacles) {
 }
 
 
-void resetGraph(list<Node*>& graph) {
+void fullReset(list<Node*>& graph) {
     for (list<Node*>::iterator it = graph.begin(); it != graph.end(); it++) {
-        (*it)->marked = false;
-        (*it)->c_to_s = inf;
-        (*it)->c_to_t = inf;
-        (*it)->d_to_S = 0;
         if ((*it)->pred != nullptr) {delete (*it)->pred;}
         (*it)->pred = nullptr;
         (*it)->tree = nullptr;
+        (*it)->marked = true;
+        (*it)->hc = inf;
+        (*it)->hd_S = 0;
+        (*it)->lc_st = inf;
+        (*it)->lc_ts = inf;
+        (*it)->ld_S_st = 0;
+        (*it)->ld_S_ts = 0;
     }
 }
 
 
-void simpleResetGraph(list<Node*>& graph) {
+void resetTreePredMarked(list<Node*>& graph) {
     for (list<Node*>::iterator it = graph.begin(); it != graph.end(); it++) {
-        (*it)->marked = false;
-        (*it)->c_to_s = inf;
-        (*it)->d_to_S = 0;
         if ((*it)->pred != nullptr) {delete (*it)->pred;}
         (*it)->pred = nullptr;
         (*it)->tree = nullptr;
+        (*it)->marked = false;
     }
 }
 
 
-void resetTreePred(list<Node*>& graph) {
+void resetH(list<Node*>& graph) {
     for (list<Node*>::iterator it = graph.begin(); it != graph.end(); it++) {
         if ((*it)->pred != nullptr) {delete (*it)->pred;}
         (*it)->pred = nullptr;
         (*it)->tree = nullptr;
-    }
-}
-
-
-void revResetGraph(list<Node*>& graph) {
-    for (list<Node*>::iterator it = graph.begin(); it != graph.end(); it++) {
-        (*it)->marked = false;
-        (*it)->c_to_t = inf;
-        (*it)->d_to_S = 0;
-        if ((*it)->pred != nullptr) {delete (*it)->pred;}
-        (*it)->pred = nullptr;
-        (*it)->tree = nullptr;
+        (*it)->hc = inf;
+        (*it)->hd_S = 0;
     }
 }
 

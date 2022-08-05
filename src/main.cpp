@@ -30,7 +30,6 @@
 #include "utils.hpp"
 #include "test.hpp"
 #include "newDijkstra.hpp"
-#include "firstSPPAO.hpp"
 #include "secondSPPAO.hpp"
 
 bool logs;
@@ -41,27 +40,6 @@ long int n_checks;
 namespace po = boost::program_options;
 using namespace std;
 
-
-void test_list() {
-	list<int> test = list<int>();
-	for (int i = 0; i < 10; i++) {
-		test.push_back(i);
-	}
-	for (list<int>::iterator it = test.begin(); it != test.end(); it++) {
-		cout<<*it<<" -> ";
-		if (*it == 7 || *it ==2) {
-			test.erase(it++);
-			it--;
-		}
-		cout<<*it<<endl;
-	}
-	cout<<"\n"<<test;
-	cout<<"\n#######\n";
-	test = list<int>();
-	for (list<int>::iterator it = test.begin(); it != test.end(); it++) {
-		cout<<" "<<*it;
-	}
-}
 
 
 void writeNodeList(list<Node*>& l, ofstream& w_stream) {
@@ -275,228 +253,16 @@ void writeSolSPPAO2(list<Node*>& graph, list<Node*>& obstacles, list<logSPPAO2>&
 }
 
 
-void test_graph() {
-	int P = 10;
-	int Q = 10;
-	double prop_square = 0.5;
-	double prop_merge = 0.5;
-	list<Node*>* l = makeGraph(P, Q, prop_square, prop_merge);
-	//cout<<"\n\n"<<*l<<endl;
-	writeFileCwd(*l, "toCopy.txt");
-	//list<Node*>* test = graphCopy(*l);
-	//writeFileCwd(*test, "testCopyGraph2.txt");
-	deleteGraph(l);
-	//deleteGraph(test);
-}
-
-
-/*
-void testMarkTree() {
-	markTree<int>* test = 
-	new markTree<int>(nullptr, list<Tree<infoFib<int>>*>(), infoFib<int>(-1, -1));
-	for (int i = 1; i <= 3; i++) {
-		markTree<int>* baby =
-		new markTree<int>(test, list<Tree<infoFib<int>>*>(), infoFib<int>(10*i, 4*(i-1)));
-		test->addChild(baby);
-		for (int j = 1; j <= 3; j++) {
-			markTree<int>* minibaby =
-			new markTree<int>(baby, list<Tree<infoFib<int>>*>(), infoFib<int>(10*i + j, 4*(i-1)+j));
-			baby->addChild(minibaby);
-		}
-	}
-	cout<<test<<"\n\n\n"<<endl;
-	////////
-	for (list<markTree<int>*>::iterator child = test->children.begin();
-	child != test->children.end(); child++) {
-		for (list<markTree<int>*>::iterator baby = (*child)->children.begin();
-		baby != (*child)->children.end(); baby++) {
-			if( rand()%3 == 0) {
-				markTree<int>* to_delete = (*child)->remChild(baby++);
-				baby--;
-				cout<<to_delete<<endl;
-				delete to_delete;
-			}
-		}
-	}
-	cout<<test<<endl;
-	//cout<<"number of nodes : "<<nb_nodes(*test)<<endl;
-	///////
-}
-*/
-
-/*
-void testFibHeap() {
-	fibHeap<int> test = fibHeap<int>();
-	vector<markTree<int>*> locations = vector<markTree<int>*>(12, nullptr);
-	for (int i = 0; i < 12; i++) {
-		test.insert(rand()%100, i);
-		locations[i] = static_cast<markTree<int>*>(test.forest.back());
-	}
-	cout<<test<<endl;
-	int my_min = test.deleteMin();
-	cout<<"\nThe min : "<<my_min<<"\n\n"<<endl;
-	//cout<<test<<endl;
-	test.decreaseKey(locations[6], 0);
-	test.decreaseKey(locations[7], -1);
-	cout<<"test : "<<test<<endl;
-	fibHeap<int> test2 = fibHeap<int>(test);
-	cout<<"test2 : "<<test2<<endl;
-}
-*/
-
-/*
-
-void testDijkstra() {
-	int P = 100;
-	int Q = 100;
-	double prop_square = 0.5;
-	double prop_merge = 0.5;
-	list<Node*>* l = makeGraph(P, Q, prop_square, prop_merge);
-	naturalWeight(*l);
-	Node* node1;
-	Node* node2;
-	for (list<Node*>::iterator it = l->begin(); it != l->end(); it++) {
-		if ((*it)->x <= 2 && (*it)-> y <= 2) {
-			node1 = *it;
-			break;
-		}
-	}
-	for (list<Node*>::iterator it = l->begin(); it != l->end(); it++) {
-		if ((*it)->x >= Q-2 && (*it)-> y >= P-2) {
-			node2 = *it;
-			break;
-		}
-	}
-	infoPath optPath = genDijkstra(node1, node2);
-	filesystem::path filepath = filesystem::current_path();
-	filepath /= "data";
-	filepath /= "testDijkstra3615.txt";
-	ofstream writing(filepath, ios::out);
-	writeDijSol(*l, *(optPath.path), writing);
-	writing.close();
-	delete optPath.path;
-	deleteGraph(l);
-}
-*/
-
-void testSPPAO1(int P=10, int Q=10, int O=5, double prop_square=0.5, double prop_merge=0.5) {
-	list<Node*>* l = makeGraph(P, Q, prop_square, prop_merge);
-	naturalWeight(*l);
-	Node* node1;
-	Node* node2;
-	for (list<Node*>::iterator it = l->begin(); it != l->end(); it++) {
-		if ((*it)->x <= 2 && (*it)-> y <= 2) {
-			node1 = *it;
-			break;
-		}
-	}
-	for (list<Node*>::iterator it = l->begin(); it != l->end(); it++) {
-		if ((*it)->x >= Q-2 && (*it)-> y >= P-2) {
-			node2 = *it;
-			break;
-		}
-	}
-	list<Node*>* obstacles = createObstacles(1, 1, Q, P, P*Q+1, O);
-	computeArcD(*l, *obstacles);
-	list<infoPath>* res = firstSPPAO(*l, node1, node2);
-
-	filesystem::path filepath = filesystem::current_path();
-	filepath /= "data";
-	filepath /= "testSPPAO1.txt";
-	ofstream writing(filepath, ios::out);
-	writeSolSPPAO(*l, *obstacles, *res, writing);
-	writing.close();
-	for (list<infoPath>::iterator it = res->begin(); it != res->end(); it++) {
-		delete it->path;
-	}
-	delete res;
-	deleteGraph(obstacles);
-	deleteGraph(l);
-}
-
-
-/*
-
-void testPathMinD(int P=10, int Q=10, int O=5, double prop_square=0.5, double prop_merge=0.5) {
-	list<Node*>* l = makeGraph(P, Q, prop_square, prop_merge);
-	naturalWeight(*l);
-	Node* node1;
-	Node* node2;
-	for (list<Node*>::iterator it = l->begin(); it != l->end(); it++) {
-		if ((*it)->x <= 2 && (*it)-> y <= 2) {
-			node1 = *it;
-			break;
-		}
-	}
-	for (list<Node*>::iterator it = l->begin(); it != l->end(); it++) {
-		if ((*it)->x >= Q-2 && (*it)-> y >= P-2) {
-			node2 = *it;
-			break;
-		}
-	}
-	list<Node*>* obstacles = createObstacles(1, 1, Q, P, P*Q+1, O);
-	computeArcD(*l, *obstacles);
-	infoPath pre_res = pathOfMaxD(node1, node2);
-	resetGraph(*l);
-	infoPath res = genDijkstra(node1, node2, -1, pre_res.d);
-	list<infoPath> l_res = list<infoPath>();
-	l_res.push_back(res);
-	filesystem::path filepath = filesystem::current_path();
-	filepath /= "data";
-	filepath /= "testPathMinD.txt";
-	ofstream writing(filepath, ios::out);
-	writeSolSPPAO(*l, *obstacles, l_res, writing);
-	writing.close();
-	resetGraph(*l);
-
-	list<infoPath>* SPPAOres = firstSPPAO(*l, node1, node2);
-
-	filepath = filesystem::current_path();
-	filepath /= "data";
-	filepath /= "testSPPAO1.txt";
-	writing= ofstream(filepath, ios::out);
-	writeSolSPPAO(*l, *obstacles, *SPPAOres, writing);
-	writing.close();
-	for (list<infoPath>::iterator it = SPPAOres->begin(); it != SPPAOres->end(); it++) {
-		delete it->path;
-	}
-	delete SPPAOres;
-
-
-
-
-	//delete pre_res.path;
-	//delete res.path;
-	deleteGraph(obstacles);
-	deleteGraph(l);
-}
-
-*/
-
-
-void testLoading() {
-	filesystem::path infilepath = filesystem::current_path();
-	infilepath /= "data";
-	infilepath /= "toCopy.txt";
-	ifstream reading(infilepath, ios::in);
-	list<Node*>* l = new list<Node*>();
-	reading>>*l;
-	reading.close();
-	writeFileCwd(*l, "testLoading.txt");
-	deleteGraph(l);
-}
-
-
 void testSPPAO2(int P=10, int Q=10, int O=5, double prop_square=0.5, double prop_merge=0.5) {
 	cout<<P<<Q<<O<<prop_square<<prop_merge<<endl;
-	//list<Node*>* l = makeGraph(P, Q, prop_square, prop_merge);
-	//naturalWeight(*l);
+	list<Node*>* l = makeGraph(P, Q, prop_square, prop_merge);
+	naturalWeight(*l);
 
 
 
 
 
-
+	/*
 	filesystem::path infilepath = filesystem::current_path();
 	infilepath /= "data";
 	infilepath /= "completeDB";
@@ -505,6 +271,7 @@ void testSPPAO2(int P=10, int Q=10, int O=5, double prop_square=0.5, double prop
 	list<Node*>* l = new list<Node*>();
 	reading>>*l;
 	reading.close();
+	*/
 
 
 
@@ -575,10 +342,11 @@ void testSPPAO2(int P=10, int Q=10, int O=5, double prop_square=0.5, double prop
 	computeArcD(*l, *obstacles);
 	//list<list<bunchOfArcs>>* arcsToAddLists = buildArcsToAdd(*l);
 
-	//list<logSPPAO2>* history = new list<logSPPAO2>();
+	list<logSPPAO2>* history = new list<logSPPAO2>();
 	//list<infoPath>* l_res = secondSPPAO(*l, node1, node2, nullptr, nullptr, nullptr, nullptr, history);
-	list<infoPath>* l_res = firstSPPAO_update(*l, node1, node2);
-	/*
+	//list<infoPath>* l_res = firstSPPAO_update(*l, node1, node2);
+	list<infoPath>* l_res = superSPPAO(*l, node1, node2, nullptr, nullptr, nullptr, nullptr, history);
+
 	filesystem::path filepath = filesystem::current_path();
 	filepath /= "data";
 	filepath /= "testSPPAO2.txt";
@@ -589,6 +357,8 @@ void testSPPAO2(int P=10, int Q=10, int O=5, double prop_square=0.5, double prop
 		writeSolSPPAO(*l, *obstacles, *l_res, writing, 0.1);
 	}
 	writing.close();
+
+	/*
 	filepath = filesystem::current_path();
 	filepath /= "data";
 	filepath /= "historySPPAO2.txt";
@@ -602,12 +372,12 @@ void testSPPAO2(int P=10, int Q=10, int O=5, double prop_square=0.5, double prop
 	delete history;
 	*/
 
-	resetGraph(*l);
+	//resetGraph(*l);
 
-	cout<<"\n\n\n\n\n\n";
+	//cout<<"\n\n\n\n\n\n";
 
 	//list<infoPath>* SPPAOres = weirdSPPAO(*arcsToAddLists, node1, node2);
-	list<infoPath>* SPPAOres = firstSPPAO(*l, node1, node2);
+	//list<infoPath>* SPPAOres = firstSPPAO(*l, node1, node2);
 	//list<infoPath>* SPPAOres = firstSPPAO_update(*l, node1, node2);
 
 	/*
@@ -622,13 +392,15 @@ void testSPPAO2(int P=10, int Q=10, int O=5, double prop_square=0.5, double prop
 	}
 	writing.close();
 	*/
+	/*
 	for (list<infoPath>::iterator it = SPPAOres->begin(); it != SPPAOres->end(); it++) {
 		delete it->path;
 	}
+	*/
 	for (list<infoPath>::iterator it = l_res->begin(); it != l_res->end(); it++) {
 		delete it->path;
 	}
-	delete SPPAOres;
+	//delete SPPAOres;
 	delete l_res;
 
 
@@ -637,113 +409,13 @@ void testSPPAO2(int P=10, int Q=10, int O=5, double prop_square=0.5, double prop
 	//delete pre_res.path;
 	//delete res.path;
 	//delete arcsToAddLists;
-	resetGraph(*l);
+	//resetGraph(*l);
+	fullReset(*l);
 	//deleteGraph(obstacles);
 	delete obstacles;
 	deleteGraph(l);
 }
 
-/*
-void compareSPPAOs(int P=10, int Q=10, int O=5, double prop_square=0.5, double prop_merge=0.5) {
-	list<Node*>* l = makeGraph(P, Q, prop_square, prop_merge);
-	naturalWeight(*l);
-	int n_nodes = nbNodes(*l);
-	int n_arcs = nbArcs(*l);
-	cout<<"nodes : "<<n_nodes<<", arcs : "<<n_arcs<<", arcs/nodes : "<<((double) n_arcs)/n_nodes<<endl;
-	Node* node1;
-	Node* node2;
-	for (list<Node*>::iterator it = l->begin(); it != l->end(); it++) {
-		if ((*it)->x <= 2 && (*it)-> y <= 2) {
-			node1 = *it;
-			break;
-		}
-	}
-	for (list<Node*>::iterator it = l->begin(); it != l->end(); it++) {
-		if ((*it)->x >= Q-2 && (*it)-> y >= P-2) {
-			node2 = *it;
-			break;
-		}
-	}
-	list<Node*>* obstacles = createObstacles(1, 1, Q, P, P*Q+1, O);
-	computeArcD(*l, *obstacles);
-
-	list<infoPath>* l_res = secondSPPAO(*l, node1, node2);
-	filesystem::path filepath = filesystem::current_path();
-	filepath /= "data";
-	filepath /= "testSPPAO2.txt";
-	ofstream writing(filepath, ios::out);
-	writeSolSPPAO(*l, *obstacles, *l_res, writing);
-	writing.close();
-	for (list<infoPath>::iterator it = l_res->begin(); it != l_res->end(); it++) {
-		delete it->path;
-	}
-
-	resetGraph(*l);
-
-	list<infoPath>* SPPAOres = firstSPPAO(*l, node1, node2);
-
-	filepath = filesystem::current_path();
-	filepath /= "data";
-	filepath /= "testSPPAO1.txt";
-	writing= ofstream(filepath, ios::out);
-	writeSolSPPAO(*l, *obstacles, *SPPAOres, writing);
-	writing.close();
-	for (list<infoPath>::iterator it = SPPAOres->begin(); it != SPPAOres->end(); it++) {
-		delete it->path;
-	}
-
-	resetGraph(*l);
-
-	l_res = secondSPPAO_2(*l, node1, node2);
-	
-	filepath = filesystem::current_path();
-	filepath /= "data";
-	filepath /= "testSPPAO2_2.txt";
-	writing = ofstream(filepath, ios::out);
-	writeSolSPPAO(*l, *obstacles, *l_res, writing);
-	writing.close();
-	for (list<infoPath>::iterator it = l_res->begin(); it != l_res->end(); it++) {
-		delete it->path;
-	}
-
-	resetGraph(*l);
-
-	SPPAOres = firstSPPAO_2(*l, node1, node2);
-
-	filepath = filesystem::current_path();
-	filepath /= "data";
-	filepath /= "testSPPAO1_2.txt";
-	writing= ofstream(filepath, ios::out);
-	writeSolSPPAO(*l, *obstacles, *SPPAOres, writing);
-	writing.close();
-	for (list<infoPath>::iterator it = SPPAOres->begin(); it != SPPAOres->end(); it++) {
-		delete it->path;
-	}
-
-	delete SPPAOres;
-	delete l_res;
-
-
-
-
-	//delete pre_res.path;
-	//delete res.path;
-	deleteGraph(obstacles);
-	deleteGraph(l);
-}
-*/
-
-void testGraph2(int n_points, double prop_square, double prop_expand) {
-	list<Node*>* l = makeGraph2(n_points, prop_square, prop_expand);
-	int n_nodes = nbNodes(*l);
-	int n_arcs = nbArcs(*l);
-	cout<<"nodes : "<<n_nodes<<", arcs : "<<n_arcs<<", arcs/nodes : "<<((double) n_arcs)/n_nodes<<endl;
-	writeFileCwd(*l, "testGraph2.txt");
-	//list<Node*>* test = graphCopy(*l);
-	//writeFileCwd(*test, "testCopyGraph2.txt");
-	deleteGraph(l);
-	//deleteGraph(test);
-}
 
 struct param
 {
@@ -957,7 +629,8 @@ void checkSPPAO() {
 	computeArcD(*l, *obstacles);
 	//list<infoPath>* res = secondSPPAO(*l, node1, node2);
 
-	list<infoPath>* res = firstSPPAO_update(*l, node1, node2);
+	//list<infoPath>* res = firstSPPAO_update(*l, node1, node2);
+	list<infoPath>* res = new list<infoPath>();
 	cout<<"nb res second : "<<res->size()<<endl;
 
 	/*
@@ -999,360 +672,6 @@ void checkSPPAO() {
 }
 
 
-struct resultSPPAO
-{
-	int nb_nodes;
-	double density;
-	int n_obs;
-	int n_result;
-	int n1;
-	int n2;
-	int n;
-	double t1;
-	double t2;
-	double t;
-	double Tss;
-	double Tbs;
-};
-
-
-void statSPPAO(string dir, list<int>& obstacles, ostream& out, ostream& dataOut) {
-	int n1;
-	int n2;
-	int n;
-	double t1;
-	double t2;
-	double t_comp;
-	int n_samp;
-	int nb_rand;
-	auto start_pb = chrono::system_clock::now();
-	chrono::duration<double> elapsed1;
-	chrono::duration<double> elapsed2;
-	list<resultSPPAO> results = list<resultSPPAO>();
-	for (const auto& file : filesystem::directory_iterator(dir)) {
-		filesystem::path infilepath = file.path();
-		//cout<<"\n"<<infilepath<<endl;
-		ifstream reading(infilepath, ios::in);
-		list<Node*>* l = new list<Node*>();
-		reading>>*l;
-		//cout<<"\nAfter reading"<<endl;
-		reading.close();
-		int n_nodes = nbNodes(*l);
-		int n_arcs = nbArcs(*l);
-
-		double x_min = l->front()->x;
-		double x_max = l->front()->x;
-		double y_min = l->front()->y;
-		double y_max = l->front()->y;
-		int max_no = l->front()->no;
-		for (list<Node*>::iterator point = l->begin(); point != l->end(); point++) {
-			if ((*point)->x < x_min) {x_min = (*point)->x;}
-			if ((*point)->x > x_max) {x_max = (*point)->x;}
-			if ((*point)->y < y_min) {y_min = (*point)->y;}
-			if ((*point)->y > y_max) {y_max = (*point)->y;}
-			if ((*point)->no > max_no) {max_no = (*point)->no;}
-		}
-		Node* node1;
-		Node* node2;
-		for (list<Node*>::iterator it = l->begin(); it != l->end(); it++) {
-			if ((*it)->x <= x_min + 1 && (*it)-> y <= y_min + 1) {
-				node1 = *it;
-				break;
-			}
-		}
-		for (list<Node*>::iterator it = l->begin(); it != l->end(); it++) {
-			if ((*it)->x >= x_max-1 && (*it)-> y >= y_max-1) {
-				node2 = *it;
-				break;
-			}
-		}
-		for (list<int>::iterator n_obs = obstacles.begin(); n_obs != obstacles.end(); n_obs++) {
-
-			//cout<<"\nBefore obstacles and arc d"<<endl;
-
-			nb_rand = nb_rand_runs;
-
-			list<Node*>* obsList = createObstacles(x_min, y_min, x_max, y_max, max_no+1, *n_obs);
-			computeArcD(*l, *obsList);
-			list<list<bunchOfArcs>>* arcsToAddLists = buildArcsToAdd(*l);
-
-			//cout<<"\nJust before secondSPPAO"<<endl;
-
-			start_pb = chrono::system_clock::now();
-			list<infoPath>* l_res = secondSPPAO(*l, node1, node2, &n1, &n2, &t1, &t2);
-			elapsed2 = chrono::system_clock::now() - start_pb;
-
-			resetGraph(*l);
-
-
-			start_pb = chrono::system_clock::now();
-
-			//list<infoPath>* SPPAOres = firstSPPAO_update(*l, node1, node2, &n, &t_comp);
-			list<infoPath>* SPPAOres = weirdSPPAO(*arcsToAddLists, node1, node2, &n, &t_comp);
-			
-			elapsed1 = chrono::system_clock::now() - start_pb;
-
-
-			results.push_back(resultSPPAO({n_nodes, ((double) n_arcs)/n_nodes, *n_obs,
-			(int) SPPAOres->size(), n1, n2, n, t1, t2, t_comp,
-			elapsed1.count(), elapsed2.count()}));
-			if (SPPAOres->size() != l_res->size()) {
-				cout<<"NOT THE SAME RESULTS : ";
-				cout<<"nb res second : "<<l_res->size()<<endl;
-				cout<<"nb res weird : "<<SPPAOres->size()<<endl;
-				cout<<infilepath<<endl;
-				cout<<"n_obs = "<<*n_obs<<endl;
-				cout<<"rand_runs = "<<nb_rand<<endl;
-
-				//cout<<"l weird : "<<endl;
-				//for (list<infoPath>::iterator it = SPPAOres)
-
-
-				filesystem::path outfilepath = filesystem::current_path();
-				outfilepath /= "data";
-				outfilepath /= "testSPPAO2.txt";
-				ofstream writing(outfilepath, ios::out);
-				writeSolSPPAO(*l, *obsList, *l_res, writing);
-				writing.close();
-
-				outfilepath = filesystem::current_path();
-				outfilepath /= "data";
-				outfilepath /= "testWeirdSPPAO.txt";
-				writing = ofstream(outfilepath, ios::out);
-				writeSolSPPAO(*l, *obsList, *SPPAOres, writing);
-				writing.close();
-				//return;
-
-			}
-
-			for (list<infoPath>::iterator it = l_res->begin(); it != l_res->end(); it++) {
-				delete it->path;
-			}
-			delete l_res;
-
-			for (list<infoPath>::iterator it = SPPAOres->begin(); it != SPPAOres->end(); it++) {
-				delete it->path;
-			}
-			delete SPPAOres;
-
-			resetGraph(*l);
-
-
-			deleteGraph(obsList);
-
-
-
-
-		}
-		deleteGraph(l);
-	}
-	list<int> nodes = list<int>();
-	list<double> densities = list<double>();
-	bool isin;
-
-	for (list<resultSPPAO>::iterator res = results.begin(); res != results.end(); res++) {
-		isin = false;
-		for (list<int>::iterator new_n_nodes = nodes.begin();
-		new_n_nodes != nodes.end(); new_n_nodes++) {
-			if (*new_n_nodes == res->nb_nodes) {isin = true; break;}
-		}
-		if (!isin) {nodes.push_back(res->nb_nodes);}
-		isin = false;
-		for (list<double>::iterator dens = densities.begin(); dens != densities.end(); dens++) {
-			if (*dens == res->density) {isin = true; break;}
-		}
-		if (!isin) {densities.push_back(res->density);}
-	}
-	obstacles.sort();
-	nodes.sort();
-	densities.sort();
-	int oS = obstacles.size();
-	int nS = nodes.size();
-	int dS = densities.size();
-	list<resultSPPAO>** v_result = new list<resultSPPAO>*[oS*nS*dS];
-
-	for (int i = 0; i != oS*nS*dS; i++) {
-		v_result[i] = new list<resultSPPAO>();
-	}
-
-	for (list<resultSPPAO>::iterator res = results.begin(); res != results.end(); res++) {
-		int oInd = 0;
-		int nInd = 0;
-		int dInd = 0;
-		list<int>::iterator oIt = obstacles.begin();
-		list<int>::iterator nIt = nodes.begin();
-		list<double>::iterator dIt = densities.begin();
-		while (*oIt != res->n_obs) {oIt++; oInd++;}
-		while (*nIt != res->nb_nodes) {nIt++; nInd++;}
-		while (*dIt != res->density) {dIt++; dInd++;}
-		v_result[nS*dS*oInd + dS*nInd + dInd]->push_back(*res);
-	}
-
-
-
-
-
-	out<<"\\documentclass{article}"
-	"\n\\usepackage[french]{babel}"
-	"\n\\usepackage [utf8] {inputenc}"
-	"\n\\usepackage{float}"
-	"\n\\usepackage{booktabs}"
-	"\n\\usepackage{multirow}"
-	"\n\\voffset=-1.5cm"
-	"\n\\hoffset=-1.4cm"
-	"\n\\textwidth=16cm"
-	"\n\\textheight=22.0cm"
-	"\n\\begin{document}\n";
-	double sum_n1;
-	double sum_n2;
-	double sum_n;
-	double sum_n_res;
-
-	double sum_t1;
-	double sum_t2;
-	double sum_t_comp;
-	double sum_tss;
-	double sum_tbs;
-
-	double mean_n1;
-	double mean_n2;
-	double mean_n;
-	double mean_n_res;
-
-	int currObs;
-	int currNbNodes;
-	double currDens;
-	list<int>::iterator oIt = obstacles.begin();
-
-	for (int oInd = 0; oInd != oS; oInd++) {
-		currObs = *oIt;
-		out<<"\\begin{table}[H]"
-		"\n\\caption{Results for solving the SPPAO when $|S|="<<*(oIt++);
-		out<<"$\\label{tab:resSPPAOs"<<oInd<<"}}"
-		"\n\\centering"
-		"\n\\small"
-		"\n\\begin{tabular}{cc c@{ }cc@{ }cccc c@{ }ccc c@{ }c} \\hline"
-		"\n & & \\multicolumn{7}{c}{\\texttt{BS}} & \\multicolumn{4}{c}{\\texttt{SS}} & \\\\"
-		"\n\\cmidrule(lr){3-9} \\cmidrule(lr){10-13}"
-		"\n & & \\multicolumn{2}{c}{$D_1$} & \\multicolumn{2}{c}{$D_2$} & $T_1/D_1$ & $T_2/D_2$"
-		" & $T$ & \\multicolumn{2}{c}{$D$} & $T/D$ & $T$ & "
-		"\\multicolumn{2}{c}{$|P_E|$}\\\\ \\hline"
-		"\n$|N|$ & $d$ & $\\bar{x}$ & $s_X$ & $\\bar{x}$ & $s_X$ & "
-		"$\\bar{x}$ & $\\bar{x}$ & $\\bar{x}$ & $\\bar{x}$ & $s_X$ & "
-		"$\\bar{x}$ & $\\bar{x}$ & $\\bar{x}$ & $s_X$ \\\\ \\hline";
-
-		list<int>::iterator nIt = nodes.begin();
-
-		for (int nInd = 0; nInd != nS; nInd++) {
-			currNbNodes = *nIt;
-			out<<"\n\\multirow{"<<dS<<"}{*}{"<<*(nIt++)<<"}";
-
-			list<double>::iterator dIt = densities.begin();
-			for (int dInd = 0; dInd != dS; dInd++) {
-				currDens = *dIt;
-				out<<"\n & "<<*(dIt++);
-				if (v_result[nS*dS*oInd + dS*nInd + dInd]->empty()) {
-					out<<" & ? & ? & ? & ? & ? & ? & ? & ? & ? & ? & ? & ? & ? ";
-				} else {
-					n_samp = v_result[nS*dS*oInd + dS*nInd + dInd]->size();
-					sum_n1 = 0;
-					sum_n2 = 0;
-					sum_n = 0;
-					sum_n_res = 0;
-
-					sum_t1 = 0;
-					sum_t2 = 0;
-					sum_t_comp = 0;
-					sum_tss = 0;
-					sum_tbs = 0;
-
-					for (list<resultSPPAO>::iterator res = v_result[nS*dS*oInd + dS*nInd + dInd]->begin();
-					res != v_result[nS*dS*oInd + dS*nInd + dInd]->end(); res++) {
-						sum_n1 += res->n1;
-						sum_n2 += res->n2;
-						sum_n += res->n;
-						sum_n_res += res->n_result;
-						sum_tss += res->Tss;
-						sum_tbs += res->Tbs;
-
-						if (res->n1 != 0) {sum_t1 += res->t1/res->n1;}
-						if (res->n2 != 0) {sum_t2 += res->t2/res->n2;}
-						if (res->n != 0) {sum_t_comp += res->t/res->n;}
-					}
-					mean_n1 = sum_n1/n_samp;
-					mean_n2 = sum_n2/n_samp;
-					mean_n = sum_n/n_samp;
-					mean_n_res = sum_n_res/n_samp;
-
-					sum_n1 = 0;
-					sum_n2 = 0;
-					sum_n = 0;
-					sum_n_res = 0;
-
-					for (list<resultSPPAO>::iterator res = v_result[nS*dS*oInd + dS*nInd + dInd]->begin();
-					res != v_result[nS*dS*oInd + dS*nInd + dInd]->end(); res++) {
-						sum_n1 += (res->n1 - mean_n1)*(res->n1 - mean_n1);
-						sum_n2 += (res->n2 - mean_n2)*(res->n2 - mean_n2);
-						sum_n += (res->n - mean_n)*(res->n - mean_n);
-						sum_n_res += (res->n_result - mean_n_res)*(res->n_result - mean_n_res);
-					}
-
-					out<<" & "<<setprecision(3)<<mean_n1;
-					out<<" & "<<setprecision(2)<<sqrt(sum_n1/(n_samp-1));
-					out<<" & "<<setprecision(3)<<mean_n2;
-					out<<" & "<<setprecision(2)<<sqrt(sum_n2/(n_samp-1));
-					out<<" & "<<setprecision(3)<<1000*sum_t1/n_samp;
-					out<<" & "<<setprecision(3)<<1000*sum_t2/n_samp;
-					out<<" & "<<setprecision(3)<<1000*sum_tbs/n_samp;
-					out<<" & "<<setprecision(3)<<mean_n;
-					out<<" & "<<setprecision(2)<<sqrt(sum_n/(n_samp-1));
-					out<<" & "<<setprecision(3)<<1000*sum_t_comp/n_samp;
-					out<<" & "<<setprecision(3)<<1000*sum_tss/n_samp;
-					out<<" & "<<setprecision(3)<<mean_n_res;
-					out<<" & "<<setprecision(2)<<sqrt(sum_n_res/(n_samp-1))<<" \\\\";
-
-
-					dataOut<<setprecision(8)<<currObs<<" "<<currNbNodes<<" "<<currDens<<" ";
-					dataOut<<mean_n1+mean_n2+2<<" "<<mean_n+1<<" "<<500*(sum_t1/n_samp+sum_t2/n_samp)<<" ";
-					dataOut<<1000*sum_t_comp/n_samp<<" "<<1000*sum_tbs/n_samp<<" "<<1000*sum_tss/n_samp<<"\n";
-				}
-			}
-			out<<" \\hline \n";
-		}
-		out<<"\n\\end{tabular}\n\\end{table}\n\n";
-	}
-	out<<"\\end{document}";
-	for (int i = 0; i < oS*nS*dS; i++) {
-		delete v_result[i];
-	}
-	delete v_result;
-}
-
-
-void writeStatSPPAO(string stats="statSPPAO.tex", string dataFile="dataSPPAO.txt") {
-	filesystem::path filepath = filesystem::current_path();
-	filepath /= "data";
-	filepath /= "reportStat";
-	filepath /= stats;
-	ofstream writing(filepath, ios::out);
-
-	filepath = filesystem::current_path();
-	filepath /= "data";
-	filepath /= dataFile;
-	ofstream dataWriting(filepath, ios::out);
-	list<int> obstacles = list<int>();
-	obstacles.push_back(1);
-	obstacles.push_back(3);
-	obstacles.push_back(10);
-	obstacles.push_back(30);
-	obstacles.push_back(100);
-	obstacles.push_back(500);
-	statSPPAO("data/realDB/", obstacles, writing, dataWriting);
-	writing.close();
-	dataWriting.close();
-}
-
-
 struct resultSS
 {
 	int nb_nodes;
@@ -1379,99 +698,6 @@ struct resultBS
 	double T;
 	long int n_checks;
 };
-
-
-void statSS(string dir, list<int>& obstacles, ostream& out)
-{
-	auto start_pb = chrono::system_clock::now();
-	chrono::duration<double> elapsed1;
-	list<resultSS> results = list<resultSS>();
-	for (const auto& file : filesystem::directory_iterator(dir)) {
-		filesystem::path infilepath = file.path();
-		//cout<<"\n"<<infilepath<<endl;
-		ifstream reading(infilepath, ios::in);
-		list<Node*>* l = new list<Node*>();
-		reading>>*l;
-		//cout<<"\nAfter reading"<<endl;
-		reading.close();
-		int n_nodes = nbNodes(*l);
-		int n_arcs = nbArcs(*l);
-		cout<<infilepath<<"\n";
-		cout<<"Nb nodes : "<<n_nodes<<"\n";
-		cout<<"Nb arcs : "<<n_arcs<<endl;
-
-		double x_min = l->front()->x;
-		double x_max = l->front()->x;
-		double y_min = l->front()->y;
-		double y_max = l->front()->y;
-		int max_no = l->front()->no;
-		for (list<Node*>::iterator point = l->begin(); point != l->end(); point++) {
-			if ((*point)->x < x_min) {x_min = (*point)->x;}
-			if ((*point)->x > x_max) {x_max = (*point)->x;}
-			if ((*point)->y < y_min) {y_min = (*point)->y;}
-			if ((*point)->y > y_max) {y_max = (*point)->y;}
-			if ((*point)->no > max_no) {max_no = (*point)->no;}
-		}
-		Node* node1 = l->front();
-		Node* node2 = l->front();
-		for (list<Node*>::iterator it = l->begin(); it != l->end(); it++) {
-			if ((*it)->x + (*it)->y < node1->x + node1->y) {
-				node1 = *it;
-			}
-		}
-		for (list<Node*>::iterator it = l->begin(); it != l->end(); it++) {
-			if ((*it)->x + (*it)->y > node2->x + node2->y) {
-				node2 = *it;
-			}
-		}
-		for (list<int>::iterator n_obs = obstacles.begin(); n_obs != obstacles.end(); n_obs++) {
-			cout<<"\t"<<*n_obs<<" obstacles\n";
-
-			//cout<<"\nBefore obstacles and arc d"<<endl;
-
-
-			list<Node*>* obsList = createObstacles(x_min, y_min, x_max, y_max, max_no+1, *n_obs);
-			computeArcD(*l, *obsList);
-			list<list<bunchOfArcs>>* arcsToAddLists = buildArcsToAdd(*l);
-
-
-			n_labels = 0;
-			n_checks = 0;
-			start_pb = chrono::system_clock::now();
-
-			//list<infoPath>* SPPAOres = firstSPPAO(*l, node1, node2);
-			//list<infoPath>* SPPAOres = firstSPPAO_update(*l, node1, node2);
-			list<infoPath>* SPPAOres = weirdSPPAO(*arcsToAddLists, node1, node2);
-			
-			elapsed1 = chrono::system_clock::now() - start_pb;
-
-
-			results.push_back(resultSS({n_nodes, n_arcs, *n_obs,
-			(int) SPPAOres->size(), n_labels, elapsed1.count(), n_checks}));
-
-			for (list<infoPath>::iterator it = SPPAOres->begin(); it != SPPAOres->end(); it++) {
-				delete it->path;
-			}
-			delete SPPAOres;
-
-			resetGraph(*l);
-
-
-			deleteGraph(obsList);
-			delete arcsToAddLists;
-
-
-
-
-		}
-		deleteGraph(l);
-	}
-	for (list<resultSS>::iterator it = results.begin(); it != results.end(); it++) {
-		out<<setprecision(5);
-		out<<it->nb_nodes<<" "<<it->nb_arcs<<" "<<it->n_obs<<" "<<it->n_res<<" "<<it->n_labels<<" "<<it->T;
-		out<<" "<<it->n_checks<<"\n";
-	}
-}
 
 
 void statBS(string dir, list<int>& obstacles, ostream& out) {
@@ -1535,7 +761,7 @@ void statBS(string dir, list<int>& obstacles, ostream& out) {
 			n_checks = 0;
 			start_pb = chrono::system_clock::now();
 
-			list<infoPath>* SPPAOres = secondSPPAO(*l, node1, node2, &n1, &n2, &t1, &t2);
+			list<infoPath>* SPPAOres = superSPPAO(*l, node1, node2, &n1, &n2, &t1, &t2);
 			
 			elapsed1 = chrono::system_clock::now() - start_pb;
 
@@ -1547,7 +773,7 @@ void statBS(string dir, list<int>& obstacles, ostream& out) {
 			}
 			delete SPPAOres;
 
-			resetGraph(*l);
+			fullReset(*l);
 
 
 			deleteGraph(obsList);
@@ -1638,7 +864,6 @@ list<resultSS>* to_resultSS(istream& in) {
     }
     return res;
 }
-
 
 
 list<resultBS>* to_resultBS(istream& in) {
@@ -1876,441 +1101,6 @@ istream& operator>>(istream& in, list<meanResults>& l) {
         getline(in, line);
     }
     return in;
-}
-
-
-void comparePercentage(istream& file1, istream& file2, ostream& out) {
-	int significantNb = 2;
-	list<meanResults>* l1 = new list<meanResults>();
-	list<meanResults>* l2 = new list<meanResults>();
-	file1>>*l1;
-	file2>>*l2;
-
-	list<int> obstacles = list<int>();
-	list<int> nodes = list<int>();
-	list<double> densities = list<double>();
-	bool isin;
-	bool isinL2;
-
-	for (list<meanResults>::iterator res = l1->begin(); res != l1->end(); res++) {
-		isin = false;
-		for (list<int>::iterator obs = obstacles.begin(); obs != obstacles.end(); obs++) {
-			if (*obs == res->nObs) {isin = true; break;}
-		}
-		if (!isin) {
-			isinL2 = false;
-			for (list<meanResults>::iterator res2 = l2->begin(); res2 != l2->end(); res2++) {
-				if (res2->nObs == res->nObs) {isinL2 = true; break;}
-			}
-			if (!isin && isinL2) {obstacles.push_back(res->nObs);}
-		}
-
-		isin = false;
-		for (list<int>::iterator new_n_nodes = nodes.begin();
-		new_n_nodes != nodes.end(); new_n_nodes++) {
-			if (*new_n_nodes == res->nbNodes) {isin = true; break;}
-		}
-		if (!isin) {
-			isinL2 = false;
-			for (list<meanResults>::iterator res2 = l2->begin(); res2 != l2->end(); res2++) {
-				if (res2->nbNodes == res->nbNodes) {isinL2 = true; break;}
-			}
-			if (!isin && isinL2) {nodes.push_back(res->nbNodes);}
-		}
-
-		isin = false;
-		for (list<double>::iterator dens = densities.begin(); dens != densities.end(); dens++) {
-			if (*dens == res->dens) {isin = true; break;}
-		}
-		if (!isin) {
-			isinL2 = false;
-			for (list<meanResults>::iterator res2 = l2->begin(); res2 != l2->end(); res2++) {
-				if (res2->dens == res->dens) {isinL2 = true; break;}
-			}
-			if (!isin && isinL2) {densities.push_back(res->dens);}
-		}
-	}
-	obstacles.sort();
-	nodes.sort();
-	densities.sort();
-	int oS = obstacles.size();
-	int nS = nodes.size();
-	int dS = densities.size();
-	meanResults** v_result1 = new meanResults*[oS*nS*dS];
-	meanResults** v_result2 = new meanResults*[oS*nS*dS];
-
-	meanResults* res1;
-	meanResults* res2;
-
-	for (int i = 0; i != oS*nS*dS; i++) {
-		v_result1[i] = nullptr;
-		v_result2[i] = nullptr;
-	}
-
-	for (list<meanResults>::iterator res = l1->begin(); res != l1->end(); res++) {
-		int oInd = 0;
-		int nInd = 0;
-		int dInd = 0;
-		list<int>::iterator oIt = obstacles.begin();
-		list<int>::iterator nIt = nodes.begin();
-		list<double>::iterator dIt = densities.begin();
-		while (*oIt != res->nObs) {oIt++; oInd++;}
-		while (*nIt != res->nbNodes) {nIt++; nInd++;}
-		while (*dIt != res->dens) {dIt++; dInd++;}
-		v_result1[nS*dS*oInd + dS*nInd + dInd] = new meanResults({res->nObs, res->nbNodes, res->dens,
-		res->binSubs, res->seqSubs, res->binSubTime, res->seqSubTime, res->binTime, res->seqTime});
-	}
-
-	for (list<meanResults>::iterator res = l2->begin(); res != l2->end(); res++) {
-		int oInd = 0;
-		int nInd = 0;
-		int dInd = 0;
-		list<int>::iterator oIt = obstacles.begin();
-		list<int>::iterator nIt = nodes.begin();
-		list<double>::iterator dIt = densities.begin();
-		while (*oIt != res->nObs) {oIt++; oInd++;}
-		while (*nIt != res->nbNodes) {nIt++; nInd++;}
-		while (*dIt != res->dens) {dIt++; dInd++;}
-		v_result2[nS*dS*oInd + dS*nInd + dInd] = new meanResults({res->nObs, res->nbNodes, res->dens,
-		res->binSubs, res->seqSubs, res->binSubTime, res->seqSubTime, res->binTime, res->seqTime});
-	}
-
-	out<<"\\documentclass{article}"
-	"\n\\usepackage[french]{babel}"
-	"\n\\usepackage [utf8] {inputenc}"
-	"\n\\usepackage{float}"
-	"\n\\usepackage{booktabs}"
-	"\n\\usepackage{multirow}"
-	"\n\\usepackage{xcolor}"
-	"\n\\voffset=-1.5cm"
-	"\n\\hoffset=-1.4cm"
-	"\n\\textwidth=16cm"
-	"\n\\textheight=22.0cm"
-	"\n\\begin{document}\n";
-
-	double to_write;
-	list<int>::iterator oIt = obstacles.begin();
-
-
-	for (int oInd = 0; oInd != oS; oInd++) {
-		out<<"\\begin{table}[H]"
-		"\n\\caption{Results for solving the SPPAO when $|S|="<<*(oIt++);
-		out<<"$\\label{tab:resSPPAOs"<<oInd<<"}}"
-		"\n\\centering"
-		"\n\\small"
-		"\n\\begin{tabular}{cc ccc ccc} \\hline"
-		"\n & & \\multicolumn{3}{c}{\\texttt{BS}} & \\multicolumn{3}{c}{\\texttt{SS}} \\\\"
-		"\n\\cmidrule(lr){3-5} \\cmidrule(lr){6-8}"
-		"\n$|N|$ & $a$ & $\\Delta D$ (\\%) & $\\Delta t $ (\\%) & $\\Delta T $ (\\%) & "
-		"$\\Delta D$ (\\%) & $\\Delta t $ (\\%) & $\\Delta T (\\%) $"
-		"\\\\ \\hline";
-
-		list<int>::iterator nIt = nodes.begin();
-
-		for (int nInd = 0; nInd != nS; nInd++) {
-			out<<"\n\\multirow{"<<dS<<"}{*}{"<<*(nIt++)<<"}";
-
-			list<double>::iterator dIt = densities.begin();
-			for (int dInd = 0; dInd != dS; dInd++) {
-				out<<"\n & "<<setprecision(2)<<*(dIt++);
-				res1 = v_result1[nS*dS*oInd + dS*nInd + dInd];
-				res2 = v_result2[nS*dS*oInd + dS*nInd + dInd];
-				if (res1 == nullptr || res2 == nullptr) {
-					out<<" & ? & ? & ? & ? ";
-				} else {
-					to_write = 100*(res2->binSubs-res1->binSubs)/res1->binSubs;
-					out<<" & ";
-					if (to_write < 0) {
-						out<<"\\color{olive}{$";
-					} else if (to_write > 0) {
-						out<<"\\color{red}{$+";
-					}
-					out<<setprecision(significantNb)<<to_write;
-					if (to_write != 0) {out<<"$}";}
-
-					to_write = 100*(res2->binSubTime-res1->binSubTime)/res1->binSubTime;
-					out<<" & ";
-					if (to_write < 0) {
-						out<<"\\color{olive}{$";
-					} else if (to_write > 0) {
-						out<<"\\color{red}{$+";
-					}
-					out<<setprecision(significantNb)<<to_write;
-					if (to_write != 0) {out<<"$}";}
-
-					to_write = 100*(res2->binTime-res1->binTime)/res1->binTime;
-					out<<" & ";
-					if (to_write < 0) {
-						out<<"\\color{olive}{$";
-					} else if (to_write > 0) {
-						out<<"\\color{red}{$+";
-					}
-					out<<setprecision(significantNb)<<to_write;
-					if (to_write != 0) {out<<"$}";}
-
-					to_write = 100*(res2->seqSubs-res1->seqSubs)/res1->seqSubs;
-					out<<" & ";
-					if (to_write < 0) {
-						out<<"\\color{olive}{$";
-					} else if (to_write > 0) {
-						out<<"\\color{red}{$+";
-					}
-					out<<setprecision(significantNb)<<to_write;
-					if (to_write != 0) {out<<"$}";}
-
-					to_write = 100*(res2->seqSubTime-res1->seqSubTime)/res1->seqSubTime;
-					out<<" & ";
-					if (to_write < 0) {
-						out<<"\\color{olive}{$";
-					} else if (to_write > 0) {
-						out<<"\\color{red}{$+";
-					}
-					out<<setprecision(significantNb)<<to_write;
-					if (to_write != 0) {out<<"$}";}
-
-					to_write = 100*(res2->seqTime-res1->seqTime)/res1->seqTime;
-					out<<" & ";
-					if (to_write < 0) {
-						out<<"\\color{olive}{$";
-					} else if (to_write > 0) {
-						out<<"\\color{red}{$+";
-					}
-					out<<setprecision(significantNb)<<to_write;
-					if (to_write != 0) {out<<"$}";}
-
-					out<<" \\\\";
-				}
-			}
-
-			out<<" \\hline \\\\ \n";
-		}
-		out<<"\n\\end{tabular}\n\\end{table}\n\n";
-	}
-	out<<"\n\\end{document}";
-
-	for (int i = 0; i < oS*nS*dS; i++) {
-		delete v_result1[i];
-		delete v_result2[i];
-	}
-	delete v_result1;
-	delete v_result2;
-
-	delete l1;
-	delete l2;
-}
-
-
-void writeComparison(string filename1="dataSPPAO1.txt", string filename2="dataSPPAO2.txt",
-string fileOut="SPPAOcomparison.tex") {
-	filesystem::path filepath = filesystem::current_path();
-	filepath /= "data";
-	filepath /= fileOut;
-	ofstream writing(filepath, ios::out);
-
-	filesystem::path file1 = filesystem::current_path();
-	file1 /= "data";
-	file1 /= filename1;
-	ifstream stream1(file1, ios::in);
-
-	filesystem::path file2 = filesystem::current_path();
-	file2 /= "data";
-	file2 /= filename2;
-	ifstream stream2(file2, ios::in);
-
-	comparePercentage(stream1, stream2, writing);
-
-	stream1.close();
-	stream2.close();
-	writing.close();
-}
-
-
-void testDijkstra(int P=100, int Q=100, double prop_square=0.5, double prop_merge=0.5) {
-	list<Node*>* l = makeGraph(P, Q, prop_square, prop_merge);
-	naturalWeight(*l);
-	Node* node1;
-	Node* node2;
-	for (list<Node*>::iterator it = l->begin(); it != l->end(); it++) {
-		if ((*it)->x <= 2 && (*it)-> y <= 2) {
-			node1 = *it;
-			break;
-		}
-	}
-	for (list<Node*>::iterator it = l->begin(); it != l->end(); it++) {
-		if ((*it)->x >= Q-2 && (*it)-> y >= P-2) {
-			node2 = *it;
-			break;
-		}
-	}
-	infoPath optPath = revDijkstraOptiC_noCond(node1, node2);
-
-	resetGraph(*l);
-	infoPath optPathRef = dijkstraOptiC_noCond(node1, node2);
-
-	filesystem::path filepath = filesystem::current_path();
-	filepath /= "data";
-	filepath /= "testRevDijkstra.txt";
-	ofstream writing(filepath, ios::out);
-	writeDijSol(*l, optPath, writing);
-	writing.close();
-
-	filepath = filesystem::current_path();
-	filepath /= "data";
-	filepath /= "testDijkstra.txt";
-	writing = ofstream(filepath, ios::out);
-	writeDijSol(*l, optPathRef, writing);
-
-	delete optPath.path;
-	delete optPathRef.path;
-	deleteGraph(l);
-}
-
-
-void compareMethods(istream& file1, ostream& out) {
-	int significantNb = 2;
-	list<meanResults>* l1 = new list<meanResults>();
-	file1>>*l1;
-
-	list<int> obstacles = list<int>();
-	list<int> nodes = list<int>();
-	list<double> densities = list<double>();
-	bool isin;
-
-	for (list<meanResults>::iterator res = l1->begin(); res != l1->end(); res++) {
-		isin = false;
-		for (list<int>::iterator new_n_nodes = nodes.begin();
-		new_n_nodes != nodes.end(); new_n_nodes++) {
-			if (*new_n_nodes == res->nbNodes) {isin = true; break;}
-		}
-		if (!isin) {nodes.push_back(res->nbNodes);}
-		isin = false;
-		for (list<double>::iterator dens = densities.begin(); dens != densities.end(); dens++) {
-			if (*dens == res->dens) {isin = true; break;}
-		}
-		if (!isin) {densities.push_back(res->dens);}
-		isin = false;
-		for (list<int>::iterator new_n_obs = obstacles.begin(); new_n_obs != obstacles.end();
-		new_n_obs++) {
-			if (*new_n_obs == res->nObs) {isin = true; break;}
-		}
-		if (!isin) {obstacles.push_back(res->nObs);}
-	}
-	obstacles.sort();
-	nodes.sort();
-	densities.sort();
-	int oS = obstacles.size();
-	int nS = nodes.size();
-	int dS = densities.size();
-	meanResults** v_result1 = new meanResults*[oS*nS*dS];
-
-	meanResults* res1;
-
-	for (int i = 0; i != oS*nS*dS; i++) {
-		v_result1[i] = nullptr;
-	}
-
-	for (list<meanResults>::iterator res = l1->begin(); res != l1->end(); res++) {
-		int oInd = 0;
-		int nInd = 0;
-		int dInd = 0;
-		list<int>::iterator oIt = obstacles.begin();
-		list<int>::iterator nIt = nodes.begin();
-		list<double>::iterator dIt = densities.begin();
-		while (*oIt != res->nObs) {oIt++; oInd++;}
-		while (*nIt != res->nbNodes) {nIt++; nInd++;}
-		while (*dIt != res->dens) {dIt++; dInd++;}
-		v_result1[nS*dS*oInd + dS*nInd + dInd] = new meanResults({res->nObs, res->nbNodes, res->dens,
-		res->binSubs, res->seqSubs, res->binSubTime, res->seqSubTime, res->binTime, res->seqTime});
-	}
-
-	out<<"\\documentclass{article}"
-	"\n\\usepackage[french]{babel}"
-	"\n\\usepackage [utf8] {inputenc}"
-	"\n\\usepackage{float}"
-	"\n\\usepackage{booktabs}"
-	"\n\\usepackage{multirow}"
-	"\n\\usepackage{xcolor}"
-	"\n\\voffset=-1.5cm"
-	"\n\\hoffset=-1.4cm"
-	"\n\\textwidth=16cm"
-	"\n\\textheight=22.0cm"
-	"\n\\begin{document}\n";
-
-	double to_write;
-
-
-	out<<"\\begin{table}[H]"
-	"\n\\caption{Improvements for the time solving the SPPAO (\\%) \\label{tab:resSPPAOcompMeth}}"
-	"\n\\centering"
-	"\n\\small"
-	"\n\\begin{tabular}{cc";
-	for (int i = 0; i < oS; i++) {out<<"c";}
-	out<<"} \\hline"
-	"\n & & \\multicolumn{"<<oS<<"}{c}{\\texttt{$|S|$}} \\\\"
-	"\n\\cmidrule(lr){3-"<<2+oS<<"}"
-	"\n$|N|$ & $a$";
-	for (list<int>::iterator oIt = obstacles.begin(); oIt != obstacles.end(); oIt++) {
-		out<<" & "<<*oIt;
-	}
-	out<<"\\\\ \\hline";
-
-	list<int>::iterator nIt = nodes.begin();
-
-	for (int nInd = 0; nInd != nS; nInd++) {
-		out<<"\n\\multirow{"<<dS<<"}{*}{"<<*(nIt++)<<"}";
-
-		list<double>::iterator dIt = densities.begin();
-		for (int dInd = 0; dInd != dS; dInd++) {
-			out<<"\n & "<<setprecision(2)<<*(dIt++);
-			for (int oInd = 0; oInd != oS; oInd++) {
-				res1 = v_result1[nS*dS*oInd + dS*nInd + dInd];
-				if (res1 == nullptr) {
-					out<<" & ?";
-				} else {
-					to_write = 100*(res1->binTime - res1->seqTime)/res1->seqTime;
-					out<<" & ";
-					if (to_write < 0) {
-						out<<"\\color{olive}{";
-					} else if (to_write > 0) {
-						out<<"\\color{red}{+";
-					}
-					out<<setprecision(significantNb)<<to_write;
-					if (to_write != 0) {out<<"}";}
-				}
-			}
-			out<<" \\\\";
-		}
-
-		out<<" \\hline \\\\ \n";
-	}
-	out<<"\n\\end{tabular}\n\\end{table}\n\n";
-
-	out<<"\n\\end{document}";
-
-	for (int i = 0; i < oS*nS*dS; i++) {
-		delete v_result1[i];
-	}
-	delete v_result1;
-
-	delete l1;
-}
-
-
-void writeCompareMethod(string filename="dataSPPAO1.txt", string fileOut="SPPAOcomparison.tex") {
-	filesystem::path filepath = filesystem::current_path();
-	filepath /= "data";
-	filepath /= fileOut;
-	ofstream writing(filepath, ios::out);
-
-	filesystem::path file1 = filesystem::current_path();
-	file1 /= "data";
-	file1 /= filename;
-	ifstream stream1(file1, ios::in);
-
-	compareMethods(stream1, writing);
-
-	stream1.close();
-	writing.close();
 }
 
 
@@ -2891,9 +1681,6 @@ void D1D2comp(list<methodBS>& LBS, ostream& out, string pref_Fig="") {
 }
 
 
-//void superComparison(list<methodSS>& l, ostream& out, string pref_Fig="") {}
-
-
 void superComparison(list<methodBS>& l, ostream& out, string pref_Fig="") {
 
 	D1D2comp(l, out, pref_Fig);
@@ -3236,7 +2023,7 @@ void testEngine(enum meth m=SS, string dir="testDB") {
 	infilepath /= dir;
 	ofstream fout(outfilepath, ios::out);
 	if (m==SS) {
-		statSS(infilepath, obstacles, fout);
+		//statSS(infilepath, obstacles, fout);
 	} else if (m==BS) {
 		statBS(infilepath, obstacles, fout);
 	}
@@ -3287,62 +2074,6 @@ list<methodBS>* filesToResultBS(list<list<filesystem::path>>& l) {
 	return res;
 }
 //Templating meanResult and method to avoid this kind of multiple implementation
-
-
-/*
-void writeComparisonSS() {
-	string ID = "Test";
-	filesystem::path outfilepath = filesystem::current_path();
-	outfilepath /= "data";
-	outfilepath /= "comparisonSS" + ID + ".tex";
-
-	filesystem::path filepath;
-
-	list<filesystem::path> ss_cl = list<filesystem::path>();
-	list<filesystem::path> ss_ads = list<filesystem::path>();
-	list<filesystem::path> ss_ads_rm = list<filesystem::path>();
-	list<filesystem::path> ss_add = list<filesystem::path>();
-
-	filepath = filesystem::current_path()/"data";
-	ss_cl.push_back(filepath/"SS-CL_newDB.txt");
-	filepath = filesystem::current_path()/"data";
-	ss_cl.push_back(filepath/"SS-CL_completeDB.txt");
-
-	filepath = filesystem::current_path()/"data";
-	ss_ads.push_back(filepath/"SS-ADS_newDB.txt");
-
-	filepath = filesystem::current_path()/"data";
-	ss_ads_rm.push_back(filepath/"SS-ADS-RM_newDB.txt");
-
-	filepath = filesystem::current_path()/"data";
-	ss_add.push_back(filepath/"SS-ADD_newDB.txt");
-
-
-
-
-	list<list<filesystem::path>> testsList = list<list<filesystem::path>>();
-	testsList.push_back(ss_cl);
-	testsList.push_back(ss_ads);
-	testsList.push_back(ss_ads_rm);
-	testsList.push_back(ss_add);
-
-	list<methodSS>* methodList = filesToResultSS(testsList);
-
-
-
-
-
-	ofstream writing(outfilepath, ios::out);
-	begin_document(writing);
-	superComparison(*methodList, writing, ID);
-	writing<<"\n\\end{document}";
-	writing.close();
-	for (list<methodSS>::iterator it = methodList->begin(); it != methodList->end(); it++) {
-		delete it->data;
-	}
-	delete methodList;
-}
-*/
 
 
 void writeComparisonBS() {

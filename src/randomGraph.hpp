@@ -16,13 +16,11 @@ list<Node*>* createObstacles(double infx, double infy, double supx, double supy,
 
 void computeArcD(list<Node*>& graph, list<Node*>& obstacles);
 
-void resetGraph(list<Node*>& graph);
+void fullReset(list<Node*>& graph);
 
-void simpleResetGraph(list<Node*>& graph);
+void resetTreePredMarked(list<Node*>& graph);
 
-void resetTreePred(list<Node*>& graph);
-
-void revResetGraph(list<Node*>& graph);
+void resetH(list<Node*>& graph);
 
 bool compSimpleArc(const simpleArc& a1, const simpleArc& a2);
 

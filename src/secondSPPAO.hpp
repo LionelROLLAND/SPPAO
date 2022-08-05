@@ -46,16 +46,10 @@ struct logSPPAO2
     double d_cons;
 };
 
-infoPath pathOfMaxD(Node* s, Node* t);
-
-infoPath newPathOfMaxD(Node* s, Node* t);
-
-infoPath optiPathOfMaxD(Node* s, Node* t);
-
 bool compare_d(infoPath p1, infoPath p2);
 
-list<infoPath>* secondSPPAO(list<Node*>& graph, Node* s, Node* t,
-int* n1=nullptr, int* n2=nullptr, double* t1=nullptr, double* t2=nullptr, list<logSPPAO2>* history=nullptr);
+list<infoPath>* superSPPAO(list<Node*>& graph, Node* s, Node* t, int* n1=nullptr, int* n2=nullptr,
+double* t1=nullptr, double* t2=nullptr, list<logSPPAO2>* history=nullptr);
 
 
 #endif
