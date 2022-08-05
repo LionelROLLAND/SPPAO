@@ -34,9 +34,9 @@ class Node
         list<arcNode> rev_adj;
         Node(int n=0, double absc=0., double ord=0., list<arcNode> l=list<arcNode>(), bool m=false, double init_lc_st=inf,
                 double init_ld_S_st=0, double init_lc_ts=inf, double init_ld_S_ts=0, double init_hc=inf, double init_hd_S=0,
-                arcNode* pr=nullptr, markTree<Node*>* Tr=nullptr, list<arcNode> rev_l=list<arcNode>(), double rev_dist=inf) :
+                arcNode* init_pred=nullptr, markTree<Node*>* Tr=nullptr, list<arcNode> rev_l=list<arcNode>(), double rev_dist=inf) :
                 no(n), x(absc), y(ord), l_adj(l), marked(m), lc_st(init_lc_st), ld_S_st(init_ld_S_st), lc_ts(init_lc_ts),
-                ld_S_ts(init_ld_S_ts), hc(init_hc), hd_S(init_hd_S), pred(pr), tree(Tr), rev_adj(rev_l) {}
+                ld_S_ts(init_ld_S_ts), hc(init_hc), hd_S(init_hd_S), pred(init_pred), tree(Tr), rev_adj(rev_l) {}
         Node(const Node& n);
         ~Node() {}
         Node& operator= (const Node& t);
@@ -110,9 +110,14 @@ class arcNode
         arcNode(const arcNode& aN) : node(aN.node), arc_c(aN.arc_c), arc_d(aN.arc_d) {}
         ~arcNode() {}
         arcNode& operator=(const arcNode& aN);
-        double& c_to_s() {return node->c_to_s;}
-        double& c_to_t() {return node->c_to_t;}
-        double& d_to_S() {return node->d_to_S;}
+
+        double& lc_st() {return node->lc_st;};
+        double& ld_S_st() {return node->ld_S_st;};
+        double& lc_ts() {return node->lc_ts;};
+        double& ld_S_ts() {return node->ld_S_ts;};
+        double& hc() {return node->hc;};
+        double& hd_S() {return node->hd_S;};
+
         bool& marked() {return node->marked;}
         arcNode*& pred() {return node->pred;}
         markTree<Node*>*& tree() {return node->tree;}

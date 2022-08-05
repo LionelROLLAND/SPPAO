@@ -72,14 +72,18 @@ Node::Node(const Node& n) {
     x = n.x;
     y = n.y;
     l_adj = n.l_adj;
-    //adj = n.adj;
     marked = n.marked;
-    c_to_s = n.c_to_s;
-    d_to_S = n.d_to_S;
+    
+    lc_st = n.lc_st;
+    ld_S_st = n.ld_S_st;
+    lc_ts = n.lc_ts;
+    ld_S_ts = n.ld_S_ts;
+    hc = n.hc;
+    hd_S = n.hd_S;
+
     pred = n.pred;
     tree = n.tree;
     rev_adj = n.rev_adj;
-    c_to_t = n.c_to_t;
 }
 
 
@@ -88,14 +92,18 @@ Node& Node::operator= (const Node& t) {
     x = t.x;
     y = t.y;
     l_adj = t.l_adj;
-    //adj = t.adj;
     marked = t.marked;
-    c_to_s = t.c_to_s;
-    d_to_S = t.d_to_S;
+    
+    lc_st = t.lc_st;
+    ld_S_st = t.ld_S_st;
+    lc_ts = t.lc_ts;
+    ld_S_ts = t.ld_S_ts;
+    hc = t.hc;
+    hd_S = t.hd_S;
+
     pred = t.pred;
     tree = t.tree;
     rev_adj = t.rev_adj;
-    c_to_t = t.c_to_t;
     return *this;
 }
 
@@ -170,6 +178,7 @@ list<cArc>* graphToCArc(list<Node*>& graph) {
     return res;
 }
 
+
 list<cArc>* simplePathToCArc(list<Node*>& path) {
     list<cArc>* res = new list<cArc>();
     list<Node*>::iterator next;
@@ -189,20 +198,6 @@ arcNode& arcNode::operator= (const arcNode& aN) {
     return *this;
 }
 
-/*
-bool check_mat(const Node* v1, const Node* v2) {
-    if (v1->adj == v2->adj) {return true;}
-    cerr<<"Nodes "<<v1->no<<" and "<<v2->no<<" : Adjacency matrix not corresponding. \n";
-    return false;
-}
-
-
-double& c(Node* v1, Node* v2) {
-    if (!check_mat(v1, v2)) {return min_inf;}
-    return (*v1->adj)(v1->no, v2->no);
-}
-*/
-
 
 double c(Node* v1, Node* v2) {
     for (list<arcNode>::iterator neighb = v1->l_adj.begin(); neighb != v1->l_adj.end(); neighb++) {
@@ -219,7 +214,6 @@ void connect(Node* v1, Node* v2, double weight) {
         cerr<<"Error : trying to connect nodes with infinity weight"<<endl;
         return;
     }
-    //if (check_mat(v1, v2)) {
 
     bool isV2In = false;
     list<arcNode>::iterator it = v1->l_adj.begin();
@@ -242,9 +236,6 @@ void connect(Node* v1, Node* v2, double weight) {
         v1->l_adj.push_front(arcNode(v2, weight));
         v2->rev_adj.push_front(arcNode(v1, weight));
     }
-    //c(v1, v2) = weight;
-
-    //}
 } //Ca prend quand meme beaucoup de temps -> a cogiter
 
 
@@ -255,7 +246,6 @@ void sym_con(Node* v1, Node* v2, double weight) {
 
 
 void disconnect(Node* v1, Node* v2) {
-    //if (check_mat(v1, v2)) {
 
     for (list<arcNode>::iterator it = v1->l_adj.begin(); it != v1->l_adj.end(); it++) {
         if (it->node == v2) {
@@ -270,9 +260,6 @@ void disconnect(Node* v1, Node* v2) {
             break;
         }
     }
-    //c(v1, v2) = inf;
-
-    //}
     
 }
 
@@ -390,8 +377,7 @@ list<Node*>* graphCopy(list<Node*>& l) {
     for (list<Node*>::const_iterator node = l.begin(); node != l.end(); node++) {
         oNode = *node;
         //newNode = new Node(no, x, y, l_adj, adj, marked, d, pred, tree, rev_adj, c_to_t);
-        newNode = new Node(oNode->no, oNode->x, oNode->y, list<arcNode>(), /* newAdjacency, */
-                false, inf, 0, nullptr, nullptr, list<arcNode>(), inf);
+        newNode = new Node(oNode->no, oNode->x, oNode->y);
         locations[oNode->no] = newNode;
         res->push_back(newNode);
     }

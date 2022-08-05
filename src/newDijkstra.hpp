@@ -28,51 +28,21 @@ extern long int n_labels;
 extern long int n_checks;
 
 
-infoPath makePath(Node* t);
+infoPath makePath_lst(Node* t);
 
-infoPath revMakePath(Node* s);
+infoPath makePath_lts(Node* s);
 
-bool compC_to_sD(const Node* i, const Node* j);
+infoPath makePath_h(Node* n);
 
-bool compC_to_tD(const Node* i, const Node* j);
+bool comp__lc_st__d_st(const Node* i, const Node* j);
+
+bool comp__lc_ts__d_ts(const Node* i, const Node* j);
+
+bool comp__hc__hd_S(const Node* i, const Node* j);
 
 //bool compDC(const Node* i, const Node* j);
 
-bool compC_to_s(const Node* i, const Node* j);
 
-bool compC_to_t(const Node* i, const Node* j);
-
-bool compD(const Node* i, const Node* j);
-
-/*
-void newComplexKey(Node& i, const Node& j, const arcNode& neighb);
-
-void newPathLength(Node& i, const Node& j, const arcNode& neighb);
-
-void newDistToS(Node& i, const Node& j, const arcNode& neighb);
-
-void changePathLength(Node& i, const Node& j);
-
-void changeDist(Node& i, const Node& j);
-
-void changeComplexKey(Node& i, const Node& j);
-
-
-bool noCond(double arc_d, double strict_min_d, double k, double strict_max_c);
-
-bool condD(double arc_d, double strict_min_d, double k, double strict_max_c);
-
-bool condCD(double arc_d, double strict_min_d, double k, double strict_max_c);
-
-
-infoPath superDijkstra(Node* s, Node* t,
-function<bool(const Node*, const Node*)> lesser,
-function<void(Node&, const Node&)> changeKey,
-function<void(Node&, const Node&, const arcNode&)> newKey,
-function<bool(double, double, double, double)> isAllowed,
-double strict_min_d=-1,
-double strict_max_c=inf);
-*/
 
 infoPath dijkstraOptiD_noCond(Node* s, Node* t);
 
@@ -109,5 +79,7 @@ void labelUpdating_add_OptiC_condD(list<bunchOfArcs>& arcsToAddLists, Node* t, d
 infoPath dijkstraOptiCD_noCond_noStop(Node* s, Node* t);
 
 infoPath dijkstraOptiCD_condD_noStop(Node* s, Node* t, double strict_min_d);
+
+infoPath dijkstraOptiCD_condEvoD_withoutInitCD_lst(Node* s, Node* t, double strict_min_d);
 
 #endif
