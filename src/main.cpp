@@ -2354,6 +2354,7 @@ int main(int argc, char *argv[])
 	}
 
 	logs = vm.count("v")?true:false;
+	cout<<"\nLogs : "<<logs<<endl;
 
 	double p_square = vm["p_square"].as<double>();
 	double p_merge = vm["p_merge"].as<double>();
@@ -2364,7 +2365,7 @@ int main(int argc, char *argv[])
 	cout<<p_square<<p_merge<<P<<Q<<O<<logs<<endl;
 
 	int seed = vm["seed"].as<int>();
-	seed = 0;
+	//seed = 0;
 	//int seed = time(nullptr);
 	//int seed = 1654611373; ./output/main --P 30 --Q 30 --O 2 --seed 1654611373 > ./data/logs.log && cat ./data/logs.log | grep "Deleting path"
 	//int seed = 1654680670; ./output/main --P 100 --Q 100 --O 2 --p_merge 0 --p_square 1 --seed 1654680670 --v
