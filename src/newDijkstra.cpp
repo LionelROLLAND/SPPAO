@@ -1415,3 +1415,40 @@ infoPath dijkstraOptiCD_noCond_noStop_lts(Node* s, Node* t) {
     delete heap;
     return makePath_lts(s);
 }
+
+
+infoPath dijkstraOptiD_noCond_h(Node* s, Node* t) {
+    s->c_to_s = 0;
+    s->d_to_S = inf;
+    s->pred = nullptr;
+    fibHeap<Node*>* heap = new fibHeap<Node*>(compD);
+    s->tree = heap->insert(s);
+    Node* to_relax;
+    double newDist;
+    while (!heap->is_empty()) {
+        to_relax = heap->deleteMin();
+        to_relax->tree = nullptr;
+        if (to_relax == t) {break;}
+        for (list<arcNode>::iterator neighb = to_relax->l_adj.begin();
+        neighb != to_relax->l_adj.end(); neighb++) {
+            n_checks++;
+            newDist = min(to_relax->d_to_S, neighb->arc_d);
+            if (newDist > neighb->d_to_S()) {
+                n_labels++;
+                neighb->c_to_s() = to_relax->c_to_s + neighb->arc_c;
+                neighb->d_to_S() = newDist;
+                if (neighb->tree() != nullptr) {
+                    heap->decreasedKey( static_cast<markTree<Node*>*>(neighb->tree()) );
+                    neighb->pred()->node = to_relax;
+                    neighb->pred()->arc_c = neighb->arc_c;
+                    neighb->pred()->arc_d = neighb->arc_d;
+                } else {
+                    neighb->tree() = heap->insert(neighb->node);
+                    neighb->pred() = new arcNode(to_relax, neighb->arc_c, neighb->arc_d);
+                }
+            }
+        }
+    }
+    delete heap;
+    return makePath(t);
+}
