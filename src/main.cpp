@@ -2386,7 +2386,7 @@ int main(int argc, char *argv[])
 	//testSPPAO1(P, Q, O, p_square, p_merge);
 	//testLoading();
 	//testPathMinD(P, Q, O, p_square, p_merge);
-	testSPPAO2(P, Q, O, p_square, p_merge);
+	//testSPPAO2(P, Q, O, p_square, p_merge);
 	//compareSPPAOs(P, Q, O, p_square, p_merge);
 	//testGraph2(2000, 1, 0);
 	//testDB();
@@ -2399,7 +2399,7 @@ int main(int argc, char *argv[])
 	//checkSPPAO();
 	//writeComparison("dataSPPAO_labelUpdate.txt", "dataSPPAO_addArcs.txt", "SPPAOcomparison_labUpdate_addaArcs.tex");
 	//writeCompareMethod("dataSPPAO_CstarD.txt", "methodsCompareCstar.tex");
-	//testEngine(BS, "newDB");
+	testEngine(BS, "completeDB");
 	//writeComparisonSS();
 	//writeComparisonBS();
 	//writeTimeComparison();
