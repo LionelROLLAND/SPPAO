@@ -61,7 +61,7 @@ bool comp__hd_S(const Node* i, const Node* j) {
 }
 
 
-infoPath dijkstraOptiCD_condEvoD_withoutInitCD_lst(Node* s, Node* t, double strict_min_d, double strict_max_c) {
+infoPath dijkstraOptiCD_condEvoD_withoutInitCD_lst(Node* s, Node* t, double strict_min_d, double strict_max_c, double& c_warranty) {
     t->pred = nullptr;
     s->pred = nullptr;
     s->lc_st = 0;
@@ -81,7 +81,7 @@ infoPath dijkstraOptiCD_condEvoD_withoutInitCD_lst(Node* s, Node* t, double stri
             n_checks++;
             if (neighb->arc_d > strict_min_d) {
                 newLength = to_relax->lc_st + neighb->arc_c;
-                if (newLength + neighb->lc_ts() < strict_max_c) {
+                if (newLength + neighb->lc_ts() < strict_max_c || (neighb->lc_ts() >= c_warranty && newLength < strict_max_c)) {
                     if (newLength < neighb->lc_st() || neighb->ld_S_st() <= strict_min_d) {
                         n_labels++;
                         neighb->lc_st() = newLength;
@@ -124,11 +124,12 @@ infoPath dijkstraOptiCD_condEvoD_withoutInitCD_lst(Node* s, Node* t, double stri
         }
     }
     delete heap;
+    c_warranty = to_relax->lc_st;
     return makePath_lst(t);
 }
 
 
-infoPath dijkstraOptiCD_condEvoD_withoutInitCD_lts(Node* s, Node* t, double strict_min_d, double strict_max_c) {
+infoPath dijkstraOptiCD_condEvoD_withoutInitCD_lts(Node* s, Node* t, double strict_min_d, double strict_max_c, double& c_warranty) {
     s->pred = nullptr;
     t->pred = nullptr;
     t->lc_ts = 0;
@@ -148,7 +149,7 @@ infoPath dijkstraOptiCD_condEvoD_withoutInitCD_lts(Node* s, Node* t, double stri
             n_checks++;
             if (neighb->arc_d > strict_min_d) {
                 newLength = to_relax->lc_ts + neighb->arc_c;
-                if (newLength + neighb->lc_st() < strict_max_c) {
+                if (newLength + neighb->lc_st() < strict_max_c || (neighb->lc_st() >= c_warranty && newLength < strict_max_c)) {
                     if (newLength < neighb->lc_ts() || neighb->ld_S_ts() <= strict_min_d) {
                         n_labels++;
                         neighb->lc_ts() = newLength;
@@ -191,11 +192,12 @@ infoPath dijkstraOptiCD_condEvoD_withoutInitCD_lts(Node* s, Node* t, double stri
         }
     }
     delete heap;
+    c_warranty = to_relax->lc_ts;
     return makePath_lts(s);
 }
 
 
-infoPath dijkstraOptiCD_condEvoD_hst(Node* s, Node* t, double strict_min_d, double strict_max_c) {
+infoPath dijkstraOptiCD_condEvoD_hst(Node* s, Node* t, double strict_min_d, double strict_max_c, double c_warranty) {
     t->pred = nullptr;
     s->hc = 0;
     s->hd_S = inf;
@@ -214,34 +216,31 @@ infoPath dijkstraOptiCD_condEvoD_hst(Node* s, Node* t, double strict_min_d, doub
             n_checks++;
             if (neighb->arc_d > strict_min_d) {
                 newLength = to_relax->hc + neighb->arc_c;
-                if (newLength + neighb->lc_ts() < strict_max_c && newLength < neighb->hc()) {
-                    n_labels++;
-                    neighb->hc() = newLength;
-                    neighb->hd_S() = min(to_relax->hd_S, neighb->arc_d);
-                    if (neighb->tree() != nullptr) {
-                        heap->decreasedKey( static_cast<markTree<Node*>*>(neighb->tree()) );
-                        neighb->pred()->node = to_relax;
-                        neighb->pred()->arc_c = neighb->arc_c;
-                        neighb->pred()->arc_d = neighb->arc_d;
-                    } else {
-                        neighb->tree() = heap->insert(neighb->node);
-                        neighb->pred() = new arcNode(to_relax, neighb->arc_c, neighb->arc_d);
-                    }
-                } else if (newLength == neighb->hc()) {
-                //No need for newLength + neighb->c_to_t() < strict_max_c because that's guaranteed by
-                //this condition already : newLength == neighb->c_to_s() with newLength != infinity
-                //So neighb->c_to_s() != infinity
-                //Meaning that previously the neighb->c_to_s() that has been set complied with
-                //neighb->c_to_s() + neighb->c_to_t() < strict_max_c
-                    newDist = min(to_relax->hd_S, neighb->arc_d);
-                    if (newDist > neighb->hd_S()) {
+                if (newLength + neighb->lc_ts() < strict_max_c || (neighb->lc_ts() >= c_warranty && newLength < strict_max_c)) {
+                    if (newLength < neighb->hc()) {
                         n_labels++;
                         neighb->hc() = newLength;
-                        neighb->hd_S() = newDist;
-                        heap->decreasedKey( static_cast<markTree<Node*>*>(neighb->tree()) );
-                        neighb->pred()->node = to_relax;
-                        neighb->pred()->arc_c = neighb->arc_c;
-                        neighb->pred()->arc_d = neighb->arc_d;
+                        neighb->hd_S() = min(to_relax->hd_S, neighb->arc_d);
+                        if (neighb->tree() != nullptr) {
+                            heap->decreasedKey( static_cast<markTree<Node*>*>(neighb->tree()) );
+                            neighb->pred()->node = to_relax;
+                            neighb->pred()->arc_c = neighb->arc_c;
+                            neighb->pred()->arc_d = neighb->arc_d;
+                        } else {
+                            neighb->tree() = heap->insert(neighb->node);
+                            neighb->pred() = new arcNode(to_relax, neighb->arc_c, neighb->arc_d);
+                        }
+                    } else if (newLength == neighb->hc()) {
+                        newDist = min(to_relax->hd_S, neighb->arc_d);
+                        if (newDist > neighb->hd_S()) {
+                            n_labels++;
+                            neighb->hc() = newLength;
+                            neighb->hd_S() = newDist;
+                            heap->decreasedKey( static_cast<markTree<Node*>*>(neighb->tree()) );
+                            neighb->pred()->node = to_relax;
+                            neighb->pred()->arc_c = neighb->arc_c;
+                            neighb->pred()->arc_d = neighb->arc_d;
+                        }
                     }
                 }
             }
@@ -252,7 +251,7 @@ infoPath dijkstraOptiCD_condEvoD_hst(Node* s, Node* t, double strict_min_d, doub
 }
 
 
-infoPath dijkstraOptiCD_condEvoD_hts(Node* s, Node* t, double strict_min_d, double strict_max_c) {
+infoPath dijkstraOptiCD_condEvoD_hts(Node* s, Node* t, double strict_min_d, double strict_max_c, double c_warranty) {
     s->pred = nullptr;
     t->hc = 0;
     t->hd_S = inf;
@@ -271,34 +270,31 @@ infoPath dijkstraOptiCD_condEvoD_hts(Node* s, Node* t, double strict_min_d, doub
             n_checks++;
             if (neighb->arc_d > strict_min_d) {
                 newLength = to_relax->hc + neighb->arc_c;
-                if (newLength + neighb->lc_st() < strict_max_c && newLength < neighb->hc()) {
-                    n_labels++;
-                    neighb->hc() = newLength;
-                    neighb->hd_S() = min(to_relax->hd_S, neighb->arc_d);
-                    if (neighb->tree() != nullptr) {
-                        heap->decreasedKey( static_cast<markTree<Node*>*>(neighb->tree()) );
-                        neighb->pred()->node = to_relax;
-                        neighb->pred()->arc_c = neighb->arc_c;
-                        neighb->pred()->arc_d = neighb->arc_d;
-                    } else {
-                        neighb->tree() = heap->insert(neighb->node);
-                        neighb->pred() = new arcNode(to_relax, neighb->arc_c, neighb->arc_d);
-                    }
-                } else if (newLength == neighb->hc()) {
-                //No need for newLength + neighb->c_to_t() < strict_max_c because that's guaranteed by
-                //this condition already : newLength == neighb->c_to_s() with newLength != infinity
-                //So neighb->c_to_s() != infinity
-                //Meaning that previously the neighb->c_to_s() that has been set complied with
-                //neighb->c_to_s() + neighb->c_to_t() < strict_max_c
-                    newDist = min(to_relax->hd_S, neighb->arc_d);
-                    if (newDist > neighb->hd_S()) {
+                if (newLength + neighb->lc_st() < strict_max_c || (neighb->lc_st() >= c_warranty && newLength < strict_max_c)) {
+                    if (newLength < neighb->hc()) {
                         n_labels++;
                         neighb->hc() = newLength;
-                        neighb->hd_S() = newDist;
-                        heap->decreasedKey( static_cast<markTree<Node*>*>(neighb->tree()) );
-                        neighb->pred()->node = to_relax;
-                        neighb->pred()->arc_c = neighb->arc_c;
-                        neighb->pred()->arc_d = neighb->arc_d;
+                        neighb->hd_S() = min(to_relax->hd_S, neighb->arc_d);
+                        if (neighb->tree() != nullptr) {
+                            heap->decreasedKey( static_cast<markTree<Node*>*>(neighb->tree()) );
+                            neighb->pred()->node = to_relax;
+                            neighb->pred()->arc_c = neighb->arc_c;
+                            neighb->pred()->arc_d = neighb->arc_d;
+                        } else {
+                            neighb->tree() = heap->insert(neighb->node);
+                            neighb->pred() = new arcNode(to_relax, neighb->arc_c, neighb->arc_d);
+                        }
+                    } else if (newLength == neighb->hc()) {
+                        newDist = min(to_relax->hd_S, neighb->arc_d);
+                        if (newDist > neighb->hd_S()) {
+                            n_labels++;
+                            neighb->hc() = newLength;
+                            neighb->hd_S() = newDist;
+                            heap->decreasedKey( static_cast<markTree<Node*>*>(neighb->tree()) );
+                            neighb->pred()->node = to_relax;
+                            neighb->pred()->arc_c = neighb->arc_c;
+                            neighb->pred()->arc_d = neighb->arc_d;
+                        }
                     }
                 }
             }
@@ -306,6 +302,59 @@ infoPath dijkstraOptiCD_condEvoD_hts(Node* s, Node* t, double strict_min_d, doub
     }
     delete heap;
     return makePath_h(s);
+}
+
+
+infoPath dijkstraOptiCD_noCond_noStop_lst(Node* s, Node* t) {
+    t->pred = nullptr;
+    s->lc_st = 0;
+    s->ld_S_st = inf;
+    s->pred = nullptr;
+    fibHeap<Node*>* heap = new fibHeap<Node*>(comp__lc_st__d_st);
+    s->tree = heap->insert(s);
+    Node* to_relax;
+    double newLength;
+    double newDist;
+    while (!heap->is_empty()) {
+        to_relax = heap->deleteMin();
+        to_relax->tree = nullptr;
+        for (list<arcNode>::iterator neighb = to_relax->l_adj.begin();
+        neighb != to_relax->l_adj.end(); neighb++) {
+            n_checks++;
+            newLength = to_relax->lc_st + neighb->arc_c;
+            if (newLength < neighb->lc_st()) {
+                n_labels++;
+                neighb->lc_st() = newLength;
+                neighb->ld_S_st() = min(to_relax->ld_S_st, neighb->arc_d);
+                if (neighb->tree() != nullptr) {
+                    heap->decreasedKey( static_cast<markTree<Node*>*>(neighb->tree()) );
+                    if (neighb->pred() == nullptr) {
+                        cout<<neighb->node<<endl;
+                        cout<<"newLength = "<<newLength<<endl;
+                    }
+                    neighb->pred()->node = to_relax;
+                    neighb->pred()->arc_c = neighb->arc_c;
+                    neighb->pred()->arc_d = neighb->arc_d;
+                } else {
+                    neighb->tree() = heap->insert(neighb->node);
+                    neighb->pred() = new arcNode(to_relax, neighb->arc_c, neighb->arc_d);
+                }
+            } else if (newLength == neighb->lc_st()) {
+                newDist = min(to_relax->ld_S_st, neighb->arc_d);
+                if (newDist > neighb->ld_S_st()) {
+                    n_labels++;
+                    neighb->lc_st() = newLength;
+                    neighb->ld_S_st() = newDist;
+                    heap->decreasedKey( static_cast<markTree<Node*>*>(neighb->tree()) );
+                    neighb->pred()->node = to_relax;
+                    neighb->pred()->arc_c = neighb->arc_c;
+                    neighb->pred()->arc_d = neighb->arc_d;
+                }
+            }
+        }
+    }
+    delete heap;
+    return makePath_lst(t);
 }
 
 

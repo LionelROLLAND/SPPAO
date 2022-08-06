@@ -389,7 +389,7 @@ void fullReset(list<Node*>& graph) {
         if ((*it)->pred != nullptr) {delete (*it)->pred;}
         (*it)->pred = nullptr;
         (*it)->tree = nullptr;
-        (*it)->marked = true;
+        (*it)->marked = false;
         (*it)->hc = inf;
         (*it)->hd_S = 0;
         (*it)->lc_st = inf;

@@ -762,6 +762,7 @@ void statBS(string dir, list<int>& obstacles, ostream& out) {
 			start_pb = chrono::system_clock::now();
 
 			list<infoPath>* SPPAOres = superSPPAO(*l, node1, node2, &n1, &n2, &t1, &t2);
+			if (SPPAOres == nullptr) {return;}
 			
 			elapsed1 = chrono::system_clock::now() - start_pb;
 
@@ -2399,7 +2400,7 @@ int main(int argc, char *argv[])
 	//checkSPPAO();
 	//writeComparison("dataSPPAO_labelUpdate.txt", "dataSPPAO_addArcs.txt", "SPPAOcomparison_labUpdate_addaArcs.tex");
 	//writeCompareMethod("dataSPPAO_CstarD.txt", "methodsCompareCstar.tex");
-	testEngine(BS, "completeDB");
+	testEngine(BS, "newDB");
 	//writeComparisonSS();
 	//writeComparisonBS();
 	//writeTimeComparison();
