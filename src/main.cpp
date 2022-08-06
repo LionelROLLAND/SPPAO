@@ -375,7 +375,7 @@ void testSPPAO2(int P=10, int Q=10, int O=5, double prop_square=0.5, double prop
 	
 	
 	computeArcD(*l, *obstacles);
-	//list<list<bunchOfArcs>>* arcsToAddLists = buildArcsToAdd(*l);
+	list<list<bunchOfArcs>>* arcsToAddLists = buildArcsToAdd(*l);
 
 	//list<logSPPAO2>* history = new list<logSPPAO2>();
 	//list<infoPath>* l_res = secondSPPAO(*l, node1, node2, nullptr, nullptr, nullptr, nullptr, history);
@@ -383,7 +383,7 @@ void testSPPAO2(int P=10, int Q=10, int O=5, double prop_square=0.5, double prop
 
 	filesystem::path filepath = filesystem::current_path();
 	filepath /= "data";
-	filepath /= "testSPPAO2.txt";
+	filepath /= "testSPPAO3.txt";
 	ofstream writing(filepath, ios::out);
 	if (n_arcs/n_points < 6) {
 		writeSolSPPAO(*l, *obstacles, *l_res, writing);
@@ -411,13 +411,14 @@ void testSPPAO2(int P=10, int Q=10, int O=5, double prop_square=0.5, double prop
 	cout<<"\n\n\n\n\n\n";
 
 	//list<infoPath>* SPPAOres = weirdSPPAO(*arcsToAddLists, node1, node2);
-	list<infoPath>* SPPAOres = firstSPPAO(*l, node1, node2);
+	//list<infoPath>* SPPAOres = firstSPPAO(*l, node1, node2);
 	//list<infoPath>* SPPAOres = firstSPPAO_update(*l, node1, node2);
+	list<infoPath>* SPPAOres = weirdSPPAO2(*l, *arcsToAddLists, node1, node2);
 
-	/*
+	
 	filepath = filesystem::current_path();
 	filepath /= "data";
-	filepath /= "testSPPAO1.txt";
+	filepath /= "testSPPAO4.txt";
 	writing= ofstream(filepath, ios::out);
 	if (n_arcs/n_points < 6) {
 		writeSolSPPAO(*l, *obstacles, *SPPAOres, writing);
@@ -425,7 +426,7 @@ void testSPPAO2(int P=10, int Q=10, int O=5, double prop_square=0.5, double prop
 		writeSolSPPAO(*l, *obstacles, *SPPAOres, writing, 0.1);
 	}
 	writing.close();
-	*/
+
 	for (list<infoPath>::iterator it = SPPAOres->begin(); it != SPPAOres->end(); it++) {
 		delete it->path;
 	}
@@ -440,7 +441,7 @@ void testSPPAO2(int P=10, int Q=10, int O=5, double prop_square=0.5, double prop
 
 	//delete pre_res.path;
 	//delete res.path;
-	//delete arcsToAddLists;
+	delete arcsToAddLists;
 	resetGraph(*l);
 	//deleteGraph(obstacles);
 	delete obstacles;
@@ -2549,7 +2550,7 @@ int main(int argc, char *argv[])
 	//testSPPAO1(P, Q, O, p_square, p_merge);
 	//testLoading();
 	//testPathMinD(P, Q, O, p_square, p_merge);
-	//testSPPAO2(P, Q, O, p_square, p_merge);
+	testSPPAO2(P, Q, O, p_square, p_merge);
 	//compareSPPAOs(P, Q, O, p_square, p_merge);
 	//testGraph2(2000, 1, 0);
 	//testDB();

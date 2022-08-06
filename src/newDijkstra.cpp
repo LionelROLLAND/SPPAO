@@ -437,7 +437,6 @@ infoPath revDijkstraOptiC_noCond(Node* s, Node* t) {
 }
 
 
-
 infoPath computeCstar_andPathOptiC_noCond(Node* s, Node* t) {
     t->c_to_t = 0;
     t->d_to_S = inf;
@@ -617,180 +616,6 @@ infoPath dijkstraOptiCD_condCstarD(Node* s, Node* t, double strict_min_d, double
     return makePath(t);
 }
 
-/*
-infoPath dijkstraOptiCD_condCstarD_step(Node* s, Node* t, double strict_min_d, double strict_max_c) {
-    //cout<<"s = "<<s<<", t = "<<t<<endl;
-    s->c_to_s = 0;
-    s->d_to_S = inf;
-    s->step = strict_min_d;
-    arcNode* temp_s = s->pred;
-    s->pred = nullptr;
-    fibHeap<Node*>* heap = new fibHeap<Node*>(compC_to_sD);
-    s->tree = heap->insert(s);
-    Node* to_relax;
-    double newLength;
-    double newDist;
-    while (!heap->is_empty()) {
-        to_relax = heap->deleteMin();
-        if (to_relax == t) {break;}
-        for (list<arcNode>::iterator neighb = to_relax->l_adj.begin();
-        neighb != to_relax->l_adj.end(); neighb++) {
-            if (neighb->arc_d > strict_min_d) {
-                newLength = to_relax->c_to_s + neighb->arc_c;
-                if (neighb->step() < strict_min_d) {
-
-
-
-                    neighb->c_to_s() = newLength;
-                    neighb->d_to_S() = min(to_relax->d_to_S, neighb->arc_d);
-                    neighb->tree() = heap->insert(neighb->node);
-                    
-                    neighb->pred()->node = to_relax;
-                    neighb->pred()->arc_c = neighb->arc_c;
-                    neighb->pred()->arc_d = neighb->arc_d;
-
-                    neighb->step() = strict_min_d;
-                } else if (newLength + neighb->c_to_t() < strict_max_c && newLength < neighb->c_to_s()) {
-
-
-
-                    neighb->c_to_s() = newLength;
-                    neighb->d_to_S() = min(to_relax->d_to_S, neighb->arc_d);
-                    
-                    heap->decreasedKey( static_cast<markTree<Node*>*>(neighb->tree()) );
-                    
-                    neighb->pred()->node = to_relax;
-                    neighb->pred()->arc_c = neighb->arc_c;
-                    neighb->pred()->arc_d = neighb->arc_d;
-
-                } else if (newLength == neighb->c_to_s()) {
-                //No need for newLength + neighb->c_to_t() < strict_max_c because that's guaranteed by
-                //this condition already : newLength == neighb->c_to_s() with newLength != infinity
-                //So neighb->c_to_s() != infinity
-                //Meaning that previously the neighb->c_to_s() that has been set complied with
-                //neighb->c_to_s() + neighb->c_to_t() < strict_max_c
-                    newDist = min(to_relax->d_to_S, neighb->arc_d);
-                    if (newDist > neighb->d_to_S()) {
-
-
-                        neighb->c_to_s() = newLength;
-                        neighb->d_to_S() = newDist;
-                        heap->decreasedKey( static_cast<markTree<Node*>*>(neighb->tree()) );
-
-                        neighb->pred()->node = to_relax;
-                        neighb->pred()->arc_c = neighb->arc_c;
-                        neighb->pred()->arc_d = neighb->arc_d;
-                    }
-                }
-            }
-        }
-    }
-    delete heap;
-    if (to_relax != t) {
-        arcNode* temp = t->pred;
-        t->pred = nullptr;
-        infoPath to_return = makePath(t);
-        t->pred = temp;
-        return to_return;
-    } else {
-        infoPath to_return = makePath(t);
-        s->pred = temp_s;
-        return to_return;
-    }
-}
-*/
-
-
-
-/*
-infoPath revDijkstraOptiCD_condCstarD_step(Node* s, Node* t, double strict_min_d, double strict_max_c) {
-    //cout<<"s = "<<s<<", t = "<<t<<endl;
-    t->c_to_t = 0;
-    t->d_to_S = inf;
-    t->step = strict_min_d;
-    arcNode* temp_t = t->pred;
-    t->pred = nullptr;
-    fibHeap<Node*>* heap = new fibHeap<Node*>(compC_to_tD);
-    t->tree = heap->insert(t);
-    Node* to_relax;
-    double newLength;
-    double newDist;
-    while (!heap->is_empty()) {
-        to_relax = heap->deleteMin();
-        if (to_relax == s) {break;}
-        for (list<arcNode>::iterator neighb = to_relax->rev_adj.begin();
-        neighb != to_relax->rev_adj.end(); neighb++) {
-            if (neighb->arc_d > strict_min_d) {
-                newLength = to_relax->c_to_t + neighb->arc_c;
-                if (neighb->step() < strict_min_d) {
-
-
-
-
-                    neighb->c_to_t() = newLength;
-                    neighb->d_to_S() = min(to_relax->d_to_S, neighb->arc_d);
-                    neighb->tree() = heap->insert(neighb->node);
-                    
-                    neighb->pred()->node = to_relax;
-                    neighb->pred()->arc_c = neighb->arc_c;
-                    neighb->pred()->arc_d = neighb->arc_d;
-
-                    neighb->step() = strict_min_d;
-                } else if (newLength + neighb->c_to_s() < strict_max_c && newLength < neighb->c_to_t()) {
-
-
-
-
-                    neighb->c_to_t() = newLength;
-                    neighb->d_to_S() = min(to_relax->d_to_S, neighb->arc_d);
-                    
-                    heap->decreasedKey( static_cast<markTree<Node*>*>(neighb->tree()) );
-                    
-                    neighb->pred()->node = to_relax;
-                    neighb->pred()->arc_c = neighb->arc_c;
-                    neighb->pred()->arc_d = neighb->arc_d;
-
-                } else if (newLength == neighb->c_to_t()) {
-                //No need for newLength + neighb->c_to_t() < strict_max_c because that's guaranteed by
-                //this condition already : newLength == neighb->c_to_s() with newLength != infinity
-                //So neighb->c_to_s() != infinity
-                //Meaning that previously the neighb->c_to_s() that has been set complied with
-                //neighb->c_to_s() + neighb->c_to_t() < strict_max_c
-                    newDist = min(to_relax->d_to_S, neighb->arc_d);
-                    if (newDist > neighb->d_to_S()) {
-
-
-
-                        neighb->c_to_t() = newLength;
-                        neighb->d_to_S() = newDist;
-                        heap->decreasedKey( static_cast<markTree<Node*>*>(neighb->tree()) );
-
-                        neighb->pred()->node = to_relax;
-                        neighb->pred()->arc_c = neighb->arc_c;
-                        neighb->pred()->arc_d = neighb->arc_d;
-                    }
-                }
-            }
-        }
-    }
-    delete heap;
-    return makePath(t);
-    if (to_relax != s) {
-        arcNode* temp = s->pred;
-        s->pred = nullptr;
-        infoPath to_return = revMakePath(s);
-        s->pred = temp;
-        t->pred = temp_t;
-        return to_return;
-    } else {
-        infoPath to_return = revMakePath(s);
-        t->pred = temp_t;
-        return to_return;
-    }
-}
-*/
-
-
 
 infoPath labelUpdating_OptiCD_condD(list<Node*>& graph, Node* s, Node* t, double strict_min_d) {
     bool isSok = false;
@@ -811,7 +636,7 @@ infoPath labelUpdating_OptiCD_condD(list<Node*>& graph, Node* s, Node* t, double
     double newLength;
     double newDist;
 
-
+    /*
     long int temp_n_checks = n_checks;
     chrono::duration<double> elapsed;
     long int temp_n_labels = n_labels;
@@ -820,21 +645,22 @@ infoPath labelUpdating_OptiCD_condD(list<Node*>& graph, Node* s, Node* t, double
     chrono::duration<double> compTime = chrono::duration<double>(0.);
     auto compTest = chrono::system_clock::now();
     auto test = chrono::system_clock::now();
+    */
 
     for (list<Node*>::iterator it = graph.begin(); it != graph.end(); it++) {
         n_checks++;
-        takeTest++;
+        //takeTest++;
         if ((*it)->d_to_S <= strict_min_d && (*it)->c_to_s < inf) {
-            passTest++;
+            //passTest++;
             to_process = *it;
             to_process->c_to_s = inf;
             to_process->d_to_S = 0;
             for (list<arcNode>::iterator prev = to_process->rev_adj.begin();
             prev != to_process->rev_adj.end(); prev++) {
                 n_checks++;
-                compTest = chrono::system_clock::now();
+                //compTest = chrono::system_clock::now();
                 newDist = min(prev->d_to_S(), prev->arc_d);
-                compTime += chrono::system_clock::now() - compTest;
+                //compTime += chrono::system_clock::now() - compTest;
 
                 if (newDist > strict_min_d) {
                     newLength = prev->c_to_s() + prev->arc_c;
@@ -855,7 +681,7 @@ infoPath labelUpdating_OptiCD_condD(list<Node*>& graph, Node* s, Node* t, double
         }
     }
 
-
+    /*
     elapsed = chrono::system_clock::now()-test;
     cout<<"mean = "<<elapsed.count()/(n_checks-temp_n_checks)<<"\n";
     cout<<"update % = "<<100*((double) n_labels-temp_n_labels)/(n_checks-temp_n_checks)<<"\n";
@@ -866,6 +692,7 @@ infoPath labelUpdating_OptiCD_condD(list<Node*>& graph, Node* s, Node* t, double
     cout<<"n_checks = "<<n_checks-temp_n_checks<<", passTest = "<<passTest<<"\n\n\n";
     test = chrono::system_clock::now();
     temp_n_checks = n_checks;
+    */
 
 
 

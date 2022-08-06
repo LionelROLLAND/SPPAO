@@ -161,7 +161,7 @@ list<infoPath>* weirdSPPAO2(list<Node*>& graph, list<list<bunchOfArcs>>& arcsToA
 
     infoPath maxDpath = dijkstraOptiD_noCond(s, t);
     
-    resetTreePred(graph);
+    simpleResetGraph(graph);
 
     double d_max = maxDpath.d;
 
