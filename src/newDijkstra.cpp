@@ -44,12 +44,6 @@ bool compC_to_tD(const Node* i, const Node* j) {
     return ((i->c_to_t < j->c_to_t) || (i->c_to_t == j->c_to_t && i->d_to_S > j->d_to_S));
 }
 
-/*
-bool compDC(const Node* i, const Node* j) {
-    return ((i->d_to_S > j->d_to_S) || (i->d_to_S == j->d_to_S && i->c_to_s < j->c_to_s));
-}
-*/
-
 
 bool compC_to_s(const Node* i, const Node* j) {
     return i->c_to_s < j->c_to_s;

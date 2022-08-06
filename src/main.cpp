@@ -791,7 +791,8 @@ void statSS(string dir, list<int>& obstacles, ostream& out)
 
 			//list<infoPath>* SPPAOres = firstSPPAO(*l, node1, node2);
 			//list<infoPath>* SPPAOres = firstSPPAO_update(*l, node1, node2);
-			list<infoPath>* SPPAOres = weirdSPPAO(*arcsToAddLists, node1, node2);
+			//list<infoPath>* SPPAOres = weirdSPPAO(*arcsToAddLists, node1, node2);
+			list<infoPath>* SPPAOres = weirdSPPAO2(*l, *arcsToAddLists, node1, node2);
 			
 			elapsed1 = chrono::system_clock::now() - start_pb;
 
@@ -2550,7 +2551,7 @@ int main(int argc, char *argv[])
 	//testSPPAO1(P, Q, O, p_square, p_merge);
 	//testLoading();
 	//testPathMinD(P, Q, O, p_square, p_merge);
-	testSPPAO2(P, Q, O, p_square, p_merge);
+	//testSPPAO2(P, Q, O, p_square, p_merge);
 	//compareSPPAOs(P, Q, O, p_square, p_merge);
 	//testGraph2(2000, 1, 0);
 	//testDB();
@@ -2563,7 +2564,7 @@ int main(int argc, char *argv[])
 	//checkSPPAO();
 	//writeComparison("dataSPPAO_labelUpdate.txt", "dataSPPAO_addArcs.txt", "SPPAOcomparison_labUpdate_addaArcs.tex");
 	//writeCompareMethod("dataSPPAO_CstarD.txt", "methodsCompareCstar.tex");
-	//testEngine(BS, "newDB");
+	testEngine(SS, "completeDB");
 	//writeComparisonSS();
 	//writeComparisonBS();
 	//writeTimeComparison();
