@@ -2367,10 +2367,10 @@ int main(int argc, char *argv[])
 	cout<<p_square<<p_merge<<P<<Q<<O<<logs<<endl;
 
 	int seed = vm["seed"].as<int>();
-	seed = 0;
-	P = 20;
-	Q = 20;
-	O = 30;
+	//seed = 0;
+	//P = 20;
+	//Q = 20;
+	//O = 30;
 	//seed = 0;
 	//int seed = time(nullptr);
 	//int seed = 1654611373; ./output/main --P 30 --Q 30 --O 2 --seed 1654611373 > ./data/logs.log && cat ./data/logs.log | grep "Deleting path"
