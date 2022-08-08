@@ -73,9 +73,10 @@ double* t1, double* t2, list<logSPPAO2>* history) {
     //infoPath minCpath = computeCstar_andPathOptiCD_noCond(s, t);
     //infoPath minCpath = computeCstar_andPathOptiC_noCond(s, t);
 
-    //dijkstraOptiCD_noCond_noStop_lst(s, t);
-    //resetTreePredMarked(graph);
-    infoPath minCpath = dijkstraOptiCD_noCond_lts(s, t);
+    dijkstraOptiCD_noCond_noStop_lst(s, t);
+    resetTreePredMarked(graph);
+    infoPath minCpath = dijkstraOptiCD_noCond_noStop_lts(s, t);
+    //infoPath minCpath = dijkstraOptiCD_noCond_lts(s, t);
     bool way_st = true;
 
     //cout<<"\nAfter computeCstar"<<endl;

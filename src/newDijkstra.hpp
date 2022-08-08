@@ -88,7 +88,9 @@ infoPath dijkstraOptiCD_condEvoD_hst(Node* s, Node* t, double strict_min_d, doub
 
 infoPath dijkstraOptiCD_condEvoD_hts(Node* s, Node* t, double strict_min_d, double strict_max_c);
 
-//infoPath dijkstraOptiCD_noCond_noStop_lst(Node* s, Node* t);
+infoPath dijkstraOptiCD_noCond_noStop_lst(Node* s, Node* t);
+
+infoPath dijkstraOptiCD_noCond_noStop_lts(Node* s, Node* t);
 
 infoPath dijkstraOptiCD_noCond_lts(Node* s, Node* t);
 
