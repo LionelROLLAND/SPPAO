@@ -1297,7 +1297,7 @@ void begin_document(ostream& out) {
 
 string newColor() {
 	static int n = 0;
-	string colors[] = {"black", "olive", "red", "yellow", "blue", "green", "cyan"};
+	string colors[] = {"black", "olive", "red", "blue", "green", "cyan", "gray", "violet", "magenta"};
 	return colors[n++];
 }
 
@@ -2376,23 +2376,29 @@ void writeAllComparison() {
 	list<filesystem::path> ss_ads = list<filesystem::path>();
 	list<filesystem::path> ss_ads_rm = list<filesystem::path>();
 	list<filesystem::path> ss_add = list<filesystem::path>();
+	list<filesystem::path> ss_add_opt = list<filesystem::path>();
 
 	//filepath = filesystem::current_path()/"data";
-	filepath = filesystem::current_path()/"data"/"results VM"/"res1";
+	//filepath = filesystem::current_path()/"data"/"results VM"/"res1";
+	filepath = filesystem::current_path()/"data"/"Saved results 3";
 
 
 
-	//ss_cl.push_back(filepath/"SS-CL_newDB.txt");
-	ss_cl.push_back(filepath/"SS-CL_completeDB.txt");
+	ss_cl.push_back(filepath/"SS-CL_newDB.txt");
+	//ss_cl.push_back(filepath/"SS-CL_completeDB.txt");
 
-	//ss_ads.push_back(filepath/"SS-ST_newDB.txt");
-	ss_ads.push_back(filepath/"SS-ST_completeDB.txt");
+	ss_ads.push_back(filepath/"SS-ST_newDB.txt");
+	//ss_ads.push_back(filepath/"SS-ST_completeDB.txt");
 
-	//ss_ads_rm.push_back(filepath/"SS-DEL_newDB.txt");
-	ss_ads_rm.push_back(filepath/"SS-DEL_completeDB.txt");
+	ss_ads_rm.push_back(filepath/"SS-DEL_newDB.txt");
+	//ss_ads_rm.push_back(filepath/"SS-DEL_completeDB.txt");
 
-	//ss_add.push_back(filepath/"SS-ADD_newDB.txt");
-	ss_add.push_back(filepath/"SS-ADD_completeDB.txt");
+	ss_add.push_back(filepath/"SS-ADD_newDB.txt");
+	//ss_add.push_back(filepath/"SS-ADD_completeDB.txt");
+
+	ss_add_opt.push_back(filepath/"SS-ADD-OPT_newDB.txt");
+	//ss_add_opt.push_back(filepath/"SS-ADD-OPT_completeDB.txt");
+
 
 
 
@@ -2402,6 +2408,7 @@ void writeAllComparison() {
 	testsListSS.push_back(ss_ads);
 	testsListSS.push_back(ss_ads_rm);
 	testsListSS.push_back(ss_add);
+	testsListSS.push_back(ss_add_opt);
 
 	list<methodSS>* methodListSS = filesToResultSS(testsListSS);
 
@@ -2417,10 +2424,10 @@ void writeAllComparison() {
 
 
 
-	//string ID = "newDB";
+	string ID = "newDB";
 	//string ID = "completeDB";
 	//string ID = "newDBVM";
-	string ID = "completeDBVM";
+	//string ID = "completeDBVM";
 	filesystem::path outfilepath = filesystem::current_path();
 	outfilepath /= "data";
 	outfilepath /= "comparisonBS" + ID + ".tex";
@@ -2430,18 +2437,22 @@ void writeAllComparison() {
 	list<filesystem::path> bs_ads = list<filesystem::path>();
 	//list<filesystem::path> bs_cstar = list<filesystem::path>();
 	list<filesystem::path> bs_ads_cstar = list<filesystem::path>();
+	list<filesystem::path> bs_evo = list<filesystem::path>();
 
-	//bs_cl.push_back(filepath/"BS-CL_newDB.txt");
-	bs_cl.push_back(filepath/"BS-CL_completeDB.txt");
+	bs_cl.push_back(filepath/"BS-CL_newDB.txt");
+	//bs_cl.push_back(filepath/"BS-CL_completeDB.txt");
 
-	//bs_ads.push_back(filepath/"BS-ST_newDB.txt");
-	bs_ads.push_back(filepath/"BS-ST_completeDB.txt");
+	bs_ads.push_back(filepath/"BS-ST_newDB.txt");
+	//bs_ads.push_back(filepath/"BS-ST_completeDB.txt");
 
 	//bs_cstar.push_back(filepath/"BS-CSTAR_newDB.txt");
 	//bs_cstar.push_back(filepath/"BS-CSTAR_completeDB.txt");
 
-	//bs_ads_cstar.push_back(filepath/"BS-LB_-ADSnewDB.txt");
-	bs_ads_cstar.push_back(filepath/"BS-LB_-ADScompleteDB.txt");
+	bs_ads_cstar.push_back(filepath/"BS-LB_-ADSnewDB.txt");
+	//bs_ads_cstar.push_back(filepath/"BS-LB_-ADScompleteDB.txt");
+
+	bs_evo.push_back(filepath/"BS-EVO_newDB.txt");
+	//bs_evo.push_back(filepath/"BS-EVO_completeDB.txt");
 
 
 
@@ -2450,6 +2461,7 @@ void writeAllComparison() {
 	testsListBS.push_back(bs_ads);
 	//testsListBS.push_back(bs_cstar);
 	testsListBS.push_back(bs_ads_cstar);
+	testsListBS.push_back(bs_evo);
 
 	list<methodBS>* methodListBS = filesToResultBS(testsListBS);
 
@@ -2464,10 +2476,10 @@ void writeAllComparison() {
 
 
 
-	//ID = "newDB";
+	ID = "newDB";
 	//ID = "completeDB";
 	//ID = "newDBVM";
-	ID = "completeDBVM";
+	//ID = "completeDBVM";
 	outfilepath = filesystem::current_path();
 	outfilepath /= "data";
 	outfilepath /= "comparisonTime" + ID + ".tex";
@@ -2564,10 +2576,10 @@ int main(int argc, char *argv[])
 	//checkSPPAO();
 	//writeComparison("dataSPPAO_labelUpdate.txt", "dataSPPAO_addArcs.txt", "SPPAOcomparison_labUpdate_addaArcs.tex");
 	//writeCompareMethod("dataSPPAO_CstarD.txt", "methodsCompareCstar.tex");
-	testEngine(SS, "completeDB");
+	//testEngine(SS, "completeDB");
 	//writeComparisonSS();
 	//writeComparisonBS();
 	//writeTimeComparison();
-	//writeAllComparison();
+	writeAllComparison();
 }
 
