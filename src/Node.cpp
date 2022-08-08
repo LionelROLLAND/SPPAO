@@ -75,11 +75,11 @@ Node::Node(const Node& n) {
     marked = n.marked;
     
     lc_st = n.lc_st;
-    ld_S_st = n.ld_S_st;
     lc_ts = n.lc_ts;
-    ld_S_ts = n.ld_S_ts;
     hc = n.hc;
-    hd_S = n.hd_S;
+    d_S = n.d_S;
+    st_valid = n.st_valid;
+    ts_valid = n.ts_valid;
 
     pred = n.pred;
     tree = n.tree;
@@ -95,11 +95,11 @@ Node& Node::operator= (const Node& t) {
     marked = t.marked;
     
     lc_st = t.lc_st;
-    ld_S_st = t.ld_S_st;
     lc_ts = t.lc_ts;
-    ld_S_ts = t.ld_S_ts;
     hc = t.hc;
-    hd_S = t.hd_S;
+    d_S = t.d_S;
+    st_valid = t.st_valid;
+    ts_valid = t.ts_valid;
 
     pred = t.pred;
     tree = t.tree;

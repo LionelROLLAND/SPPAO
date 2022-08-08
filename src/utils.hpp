@@ -12,6 +12,7 @@ extern double min_inf;
 extern bool logs;
 
 extern int nb_rand_runs;
+extern double one_minus_eps;
 
 
 const auto inf_d = numeric_limits<double>::infinity;

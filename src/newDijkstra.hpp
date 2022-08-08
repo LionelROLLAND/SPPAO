@@ -34,11 +34,11 @@ infoPath makePath_lts(Node* s);
 
 infoPath makePath_h(Node* n);
 
-bool comp__lc_st__d_st(const Node* i, const Node* j);
+bool comp__lc_st__d_S(const Node* i, const Node* j);
 
-bool comp__lc_ts__d_ts(const Node* i, const Node* j);
+bool comp__lc_ts__d_S(const Node* i, const Node* j);
 
-bool comp__hc__hd_S(const Node* i, const Node* j);
+bool comp__hc__d_S(const Node* i, const Node* j);
 
 //bool compDC(const Node* i, const Node* j);
 
@@ -80,17 +80,17 @@ infoPath dijkstraOptiCD_noCond_noStop(Node* s, Node* t);
 
 infoPath dijkstraOptiCD_condD_noStop(Node* s, Node* t, double strict_min_d);
 
-infoPath dijkstraOptiCD_condEvoD_withoutInitCD_lst(Node* s, Node* t, double strict_min_d, double strict_max_c, double& c_warranty);
+infoPath dijkstraOptiCD_condEvoD_withoutInitCD_lst(Node* s, Node* t, double strict_min_d, double strict_max_c);
 
-infoPath dijkstraOptiCD_condEvoD_withoutInitCD_lts(Node* s, Node* t, double strict_min_d, double strict_max_c, double& c_warranty);
+infoPath dijkstraOptiCD_condEvoD_withoutInitCD_lts(Node* s, Node* t, double strict_min_d, double strict_max_c);
 
-infoPath dijkstraOptiCD_condEvoD_hst(Node* s, Node* t, double strict_min_d, double strict_max_c, double c_warranty);
+infoPath dijkstraOptiCD_condEvoD_hst(Node* s, Node* t, double strict_min_d, double strict_max_c);
 
-infoPath dijkstraOptiCD_condEvoD_hts(Node* s, Node* t, double strict_min_d, double strict_max_c, double c_warranty);
+infoPath dijkstraOptiCD_condEvoD_hts(Node* s, Node* t, double strict_min_d, double strict_max_c);
 
-infoPath dijkstraOptiCD_noCond_noStop_lst(Node* s, Node* t);
+//infoPath dijkstraOptiCD_noCond_noStop_lst(Node* s, Node* t);
 
-infoPath dijkstraOptiCD_noCond_noStop_lts(Node* s, Node* t);
+infoPath dijkstraOptiCD_noCond_lts(Node* s, Node* t);
 
 infoPath dijkstraOptiD_noCond_h(Node* s, Node* t);
 

@@ -391,11 +391,11 @@ void fullReset(list<Node*>& graph) {
         (*it)->tree = nullptr;
         (*it)->marked = false;
         (*it)->hc = inf;
-        (*it)->hd_S = 0;
+        (*it)->d_S = 0;
         (*it)->lc_st = inf;
         (*it)->lc_ts = inf;
-        (*it)->ld_S_st = 0;
-        (*it)->ld_S_ts = 0;
+        (*it)->st_valid = false;
+        (*it)->ts_valid = false;
     }
 }
 
@@ -416,7 +416,7 @@ void resetH(list<Node*>& graph) {
         (*it)->pred = nullptr;
         (*it)->tree = nullptr;
         (*it)->hc = inf;
-        (*it)->hd_S = 0;
+        (*it)->d_S = 0;
     }
 }
 

@@ -73,11 +73,10 @@ double* t1, double* t2, list<logSPPAO2>* history) {
     //infoPath minCpath = computeCstar_andPathOptiCD_noCond(s, t);
     //infoPath minCpath = computeCstar_andPathOptiC_noCond(s, t);
 
-    dijkstraOptiCD_noCond_noStop_lst(s, t);
-    resetTreePredMarked(graph);
-    infoPath minCpath = dijkstraOptiCD_noCond_noStop_lts(s, t);
+    //dijkstraOptiCD_noCond_noStop_lst(s, t);
+    //resetTreePredMarked(graph);
+    infoPath minCpath = dijkstraOptiCD_noCond_lts(s, t);
     bool way_st = true;
-    double c_warranty = inf;
 
     //cout<<"\nAfter computeCstar"<<endl;
 
@@ -142,9 +141,9 @@ double* t1, double* t2, list<logSPPAO2>* history) {
         //upper = dijkstraOptiC_condCstarD(s, t, d_bar, Irect.c_max);
 
         if (way_st) {
-            upper = dijkstraOptiCD_condEvoD_hst(s, t, d_bar, Irect.c_max, c_warranty);
+            upper = dijkstraOptiCD_condEvoD_hst(s, t, d_bar, one_minus_eps*Irect.c_max);
         } else {
-            upper = dijkstraOptiCD_condEvoD_hts(s, t, d_bar, Irect.c_max, c_warranty);
+            upper = dijkstraOptiCD_condEvoD_hts(s, t, d_bar, one_minus_eps*Irect.c_max);
         }
 
 
@@ -214,9 +213,9 @@ double* t1, double* t2, list<logSPPAO2>* history) {
                 //lower = dijkstraOptiC_condCstarD(s, t, Irect.pathMin->d, upper.c);
 
                 if (way_st) {
-                    lower = dijkstraOptiCD_condEvoD_withoutInitCD_lst(s, t, Irect.pathMin->d, upper.c, c_warranty);
+                    lower = dijkstraOptiCD_condEvoD_withoutInitCD_lst(s, t, Irect.pathMin->d, one_minus_eps*upper.c);
                 } else {
-                    lower = dijkstraOptiCD_condEvoD_withoutInitCD_lts(s, t, Irect.pathMin->d, upper.c, c_warranty);
+                    lower = dijkstraOptiCD_condEvoD_withoutInitCD_lts(s, t, Irect.pathMin->d, one_minus_eps*upper.c);
                 }
                 way_st = !way_st;
 
@@ -299,9 +298,9 @@ double* t1, double* t2, list<logSPPAO2>* history) {
             //lower = dijkstraOptiC_condCstarD(s, t, Irect.pathMin->d, Irect.c_max);
 
             if (way_st) {
-                lower = dijkstraOptiCD_condEvoD_withoutInitCD_lst(s, t, Irect.pathMin->d, Irect.c_max, c_warranty);
+                lower = dijkstraOptiCD_condEvoD_withoutInitCD_lst(s, t, Irect.pathMin->d, one_minus_eps*Irect.c_max);
             } else {
-                lower = dijkstraOptiCD_condEvoD_withoutInitCD_lts(s, t, Irect.pathMin->d, Irect.c_max, c_warranty);
+                lower = dijkstraOptiCD_condEvoD_withoutInitCD_lts(s, t, Irect.pathMin->d, one_minus_eps*Irect.c_max);
             }
             way_st = !way_st;
 
