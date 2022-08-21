@@ -771,6 +771,7 @@ void labelUpdating_add_OptiC_condD(list<bunchOfArcs>& arcsToAddLists, double min
     fibHeap<Node*>* heap = new fibHeap<Node*>(compC_to_s);
     Node* to_process;
     double newLength;
+    bool isImproved = false;
     for (list<bunchOfArcs>::iterator arcList = arcsToAddLists.begin(); arcList != arcsToAddLists.end(); arcList++) {
         to_process = arcList->node;
         for (list<arcNode>::iterator neighb = arcList->rev_adj.begin();
@@ -790,12 +791,13 @@ void labelUpdating_add_OptiC_condD(list<bunchOfArcs>& arcsToAddLists, double min
                         to_process->pred->arc_c = neighb->arc_c;
                         to_process->pred->arc_d = neighb->arc_d;
                     }
+                    isImproved = true;
                 }
             }
 
         }
         //Optimization : If to_process->c_to_s < inf
-        to_process->tree = heap->insert(to_process);
+        if (isImproved) {to_process->tree = heap->insert(to_process);}
     }
 
 

@@ -75,43 +75,8 @@ void writeFileCwd(list<Node*>& l, string filename) {
 	writing.close();
 }
 
-
-void writeDijSol(list<Node*>& graph, /* list<Node*>& */ infoPath& path, ofstream& w_stream) {
-	/*
-	list<cArc>* cPath = pathToCArc(graph, path);
-	list<cNode>* cGraph = graphToCNode(graph);
-	writeOptPath(*cGraph, *cPath, w_stream);
-	delete cPath;
-	delete cGraph;
-	*/
-
-	list<cNode>* cGraph = graphToCNode(graph);
-	list<cArc>* cArcGraph = graphToCArc(graph);
-
-	for (list<Node*>::iterator it = graph.begin(); it != graph.end(); it++) {
-		w_stream<<(*it)->no<<" "<<(*it)->x<<" "<<(*it)->y<<"\n";
-	}
-
-	w_stream<<"\n";
-	for (list<cArc>::iterator it = cArcGraph->begin(); it != cArcGraph->end(); it++) {
-		w_stream<<"arc 0 1 "<<*it<<"\n";
-	}
-
-
-	list<cArc>* currPath = simplePathToCArc(*(path.path));
-	for (list<cArc>::iterator arcPath = currPath->begin(); arcPath != currPath->end(); arcPath++) {
-		w_stream<<"arc 0 2 "<<*arcPath<<"\n";
-	}
-
-	for (list<cNode>::iterator it = cGraph->begin(); it != cGraph->end(); it++) {
-		w_stream<<"point 0 3 0.24 ";
-		printRCNode(w_stream, *it);
-		w_stream<<"\n";
-	}
-	w_stream<<"info 0 0 "<<path.c<<" "<<path.d<<"\n";
-}
-
-
+//From a graph, list of obstacles and list of resulting paths write something that can be seen with
+// View_graph.py myFile
 void writeSolSPPAO(list<Node*>& graph, list<Node*>& obstacles, list<infoPath>& optPaths, ofstream& w_stream, double scale=1) {
 	int mul = 5;
 	list<cNode>* cGraph = graphToCNode(graph);
@@ -184,6 +149,8 @@ void writeSolSPPAO(list<Node*>& graph, list<Node*>& obstacles, list<infoPath>& o
 }
 
 
+//From a graph, list of obstacles and list of logSPPAO2 write something that can be seen with
+// View_graph.py myFile
 void writeSolSPPAO2(list<Node*>& graph, list<Node*>& obstacles, list<logSPPAO2>& optPaths, ostream& w_stream, double scale=1) {
 	int mul = 5;
 	list<cNode>* cGraph = graphToCNode(graph);
@@ -253,42 +220,8 @@ void writeSolSPPAO2(list<Node*>& graph, list<Node*>& obstacles, list<logSPPAO2>&
 }
 
 
-void testSPPAO1(int P=10, int Q=10, int O=5, double prop_square=0.5, double prop_merge=0.5) {
-	list<Node*>* l = makeGraph(P, Q, prop_square, prop_merge);
-	naturalWeight(*l);
-	Node* node1;
-	Node* node2;
-	for (list<Node*>::iterator it = l->begin(); it != l->end(); it++) {
-		if ((*it)->x <= 2 && (*it)-> y <= 2) {
-			node1 = *it;
-			break;
-		}
-	}
-	for (list<Node*>::iterator it = l->begin(); it != l->end(); it++) {
-		if ((*it)->x >= Q-2 && (*it)-> y >= P-2) {
-			node2 = *it;
-			break;
-		}
-	}
-	list<Node*>* obstacles = createObstacles(1, 1, Q, P, P*Q+1, O);
-	computeArcD(*l, *obstacles);
-	list<infoPath>* res = firstSPPAO(*l, node1, node2);
-
-	filesystem::path filepath = filesystem::current_path();
-	filepath /= "data";
-	filepath /= "testSPPAO1.txt";
-	ofstream writing(filepath, ios::out);
-	writeSolSPPAO(*l, *obstacles, *res, writing);
-	writing.close();
-	for (list<infoPath>::iterator it = res->begin(); it != res->end(); it++) {
-		delete it->path;
-	}
-	delete res;
-	deleteGraph(obstacles);
-	deleteGraph(l);
-}
-
-
+//Tests methods of resolution, stores the results in files (which can be seen with View_graph.py)
+//Hard-coded settings, see function body
 void testSPPAO2(int P=10, int Q=10, int O=5, double prop_square=0.5, double prop_merge=0.5) {
 	cout<<P<<Q<<O<<prop_square<<prop_merge<<endl;
 	list<Node*>* l = makeGraph(P, Q, prop_square, prop_merge);
@@ -455,6 +388,10 @@ struct param
 	double prop_expand;
 };
 
+
+//Try to create a database of planar graphs
+//Different numbers of nodes to be considered : nbs_points
+//density in [densityInf, densityMax] with n_breaks levels
 void createDB(list<int>& nbs_points, int n_breaks=5, int n_samp=10, string pref="",
 string suff=".txt", double densityInf=3, double densityMax=5.8, int min_ind=0) {
 	int graphInd = min_ind;
@@ -505,7 +442,7 @@ string suff=".txt", double densityInf=3, double densityMax=5.8, int min_ind=0) {
 	}
 }
 
-
+//Creating a database (in the folder data/newDB)
 void realDB() {
 	list<int> point = list<int>();
 	point.push_back(500);
@@ -515,14 +452,7 @@ void realDB() {
 	createDB(point, 1, 30, "newDB/instance_", ".txt", 3.6, 3.6, 180);
 }
 
-
-void completingDB() {
-	list<int> point = list<int>();
-	point.push_back(2000);
-	createDB(point, 4, 30, "realDB/instance_", ".txt", 2.0, 2.6, 300);
-}
-
-
+//Trying to "help" manually the algorithms to generate some rare instances
 void manuallyCompletingDB(int n_points, double p_sq, double p_exp, int beginning,
 double density=1.8, int n_samp=10, string pref="", string suff=".txt") {
 	int graphInd = beginning;
@@ -541,46 +471,7 @@ double density=1.8, int n_samp=10, string pref="", string suff=".txt") {
 	}
 }
 
-
-void showDB(string dir, int n_arcs, double dens) {
-	cout<<n_arcs<<dens<<endl;
-	filesystem::path indirpath = filesystem::current_path();
-	indirpath /= "data";
-	indirpath /= dir;
-	for (const auto& file : filesystem::directory_iterator(indirpath)) {
-		filesystem::path infilepath = file.path();
-		ifstream reading(infilepath, ios::in);
-		list<Node*>* graph = new list<Node*>();
-		reading>>*graph;
-		reading.close();
-		int n = nbNodes(*graph);
-		double d = ((double) nbArcs(*graph))/n;
-		//long unsigned int nb_max_vois = 0;
-		long unsigned int sum_nisq = 0;
-		long unsigned int sq;
-		for (list<Node*>::iterator node = graph->begin(); node != graph->end(); node++) {
-			//if ((*node)->l_adj.size() > nb_max_vois) {nb_max_vois = (*node)->l_adj.size();}
-			sq = (*node)->l_adj.size();
-			sum_nisq += sq*sq;
-		}
-		/*
-		if (n == n_arcs && d == dens) {
-			cout<<infilepath<<endl;
-		}
-		*/
-		if ((double) sum_nisq/(d*d*n) > 1.25) {
-			cout<<infilepath<<endl;
-			cout<<"sum = "<<sum_nisq<<endl;
-			cout<<"a^2 n = "<<d*d*n<<endl;
-			cout<<"ratio = "<<(double) sum_nisq/(d*d*n)<<endl;
-			cout<<"6 a n = "<<6*d*n<<endl;
-			cout<<"ratio = "<<(double) sum_nisq/(6*d*n)<<endl;
-		}
-		deleteGraph(graph);
-	}
-}
-
-
+//Creates a database of complete graphs (if densityInf = densityMax = 1)
 void createDB_complete(list<int>& nb_points, int n_breaks=5, int n_samp=30, string pref="",
 string suff=".txt", double densityInf=1, double densityMax=1, int min_ind=0) {
 	int graphInd = min_ind;
@@ -604,7 +495,7 @@ string suff=".txt", double densityInf=1, double densityMax=1, int min_ind=0) {
 	}
 }
 
-
+//Creates a database of complete graphs, settings hard-coded
 void newCompleteDB() {
 	list<int> points = list<int>();
 	points.push_back(100);
@@ -615,7 +506,7 @@ void newCompleteDB() {
 }
 
 
-void checkSPPAO() {
+void checkSPPAO() { //Used to understand unexpected results 
 	int retrieving_rand_runs = 60;
 	int n_obs = 5;
 
@@ -731,8 +622,7 @@ struct resultBS
 };
 
 
-void statSS(string dir, list<int>& obstacles, ostream& out)
-{
+void statSS(string dir, list<int>& obstacles, ostream& out) { //Run the tests for any SS method
 	auto start_pb = chrono::system_clock::now();
 	chrono::duration<double> elapsed1;
 	list<resultSS> results = list<resultSS>();
@@ -782,17 +672,17 @@ void statSS(string dir, list<int>& obstacles, ostream& out)
 
 			list<Node*>* obsList = createObstacles(x_min, y_min, x_max, y_max, max_no+1, *n_obs);
 			computeArcD(*l, *obsList);
-			list<list<bunchOfArcs>>* arcsToAddLists = buildArcsToAdd(*l);
+			list<list<bunchOfArcs>>* arcsToAddLists = buildArcsToAdd(*l); //Needed for SS-ADD1 and SS-ADD2
 
 
 			n_labels = 0;
 			n_checks = 0;
 			start_pb = chrono::system_clock::now();
 
-			//list<infoPath>* SPPAOres = firstSPPAO(*l, node1, node2);
-			//list<infoPath>* SPPAOres = firstSPPAO_update(*l, node1, node2);
-			//list<infoPath>* SPPAOres = weirdSPPAO(*arcsToAddLists, node1, node2);
-			list<infoPath>* SPPAOres = weirdSPPAO2(*l, *arcsToAddLists, node1, node2);
+			//list<infoPath>* SPPAOres = firstSPPAO(*l, node1, node2); //SS-CL or SS-ST
+			//list<infoPath>* SPPAOres = firstSPPAO_update(*l, node1, node2); //SS-DEL
+			list<infoPath>* SPPAOres = weirdSPPAO(*arcsToAddLists, node1, node2); //SS-ADD1
+			//list<infoPath>* SPPAOres = weirdSPPAO2(*l, *arcsToAddLists, node1, node2); //SS-ADD2
 			
 			elapsed1 = chrono::system_clock::now() - start_pb;
 
@@ -825,7 +715,7 @@ void statSS(string dir, list<int>& obstacles, ostream& out)
 }
 
 
-void statBS(string dir, list<int>& obstacles, ostream& out) {
+void statBS(string dir, list<int>& obstacles, ostream& out) { //Run the tests for any BS method
 	int n1;
 	int n2;
 	double t1;
@@ -956,7 +846,7 @@ string next(string& toParse) {
 }
 
 
-list<resultSS>* to_resultSS(istream& in) {
+list<resultSS>* to_resultSS(istream& in) { //File -> list<resultSS>*
 	string line;
 	int n;
 	int m;
@@ -991,7 +881,7 @@ list<resultSS>* to_resultSS(istream& in) {
 }
 
 
-list<resultBS>* to_resultBS(istream& in) {
+list<resultBS>* to_resultBS(istream& in) { //File -> list<resultBS>*
 	string line;
 	int n;
 	int m;
@@ -1059,7 +949,7 @@ bool sortRes(T& r1, T& r2) {
 }
 
 
-list<meanResultSS>* to_mean(list<resultSS>& l) {
+list<meanResultSS>* to_mean(list<resultSS>& l) { //Sorts results by configuration and computes the means
 	l.sort(sortRes<resultSS>);
 	list<resultSS>::iterator beginning = l.begin();
 	int nb_nodes;
@@ -1110,7 +1000,7 @@ list<meanResultSS>* to_mean(list<resultSS>& l) {
 }
 
 
-list<meanResultBS>* to_mean(list<resultBS>& l) {
+list<meanResultBS>* to_mean(list<resultBS>& l) { //Sorts results by configuration and computes the means
 	l.sort(sortRes<resultBS>);
 	int nb_nodes;
 	int nb_arcs;
@@ -1229,48 +1119,8 @@ istream& operator>>(istream& in, list<meanResults>& l) {
     return in;
 }
 
-void testDijkstra(int P=100, int Q=100, double prop_square=0.5, double prop_merge=0.5) {
-	list<Node*>* l = makeGraph(P, Q, prop_square, prop_merge);
-	naturalWeight(*l);
-	Node* node1;
-	Node* node2;
-	for (list<Node*>::iterator it = l->begin(); it != l->end(); it++) {
-		if ((*it)->x <= 2 && (*it)-> y <= 2) {
-			node1 = *it;
-			break;
-		}
-	}
-	for (list<Node*>::iterator it = l->begin(); it != l->end(); it++) {
-		if ((*it)->x >= Q-2 && (*it)-> y >= P-2) {
-			node2 = *it;
-			break;
-		}
-	}
-	infoPath optPath = revDijkstraOptiC_noCond(node1, node2);
 
-	resetGraph(*l);
-	infoPath optPathRef = dijkstraOptiC_noCond(node1, node2);
-
-	filesystem::path filepath = filesystem::current_path();
-	filepath /= "data";
-	filepath /= "testRevDijkstra.txt";
-	ofstream writing(filepath, ios::out);
-	writeDijSol(*l, optPath, writing);
-	writing.close();
-
-	filepath = filesystem::current_path();
-	filepath /= "data";
-	filepath /= "testDijkstra.txt";
-	writing = ofstream(filepath, ios::out);
-	writeDijSol(*l, optPathRef, writing);
-
-	delete optPath.path;
-	delete optPathRef.path;
-	deleteGraph(l);
-}
-
-
-void begin_document(ostream& out) {
+void begin_document(ostream& out) { //Begin of the latex documents for the plots
 	out<<"\\documentclass[11pt,a4paper]{article}"
 	"\n\n\\voffset=-1.5cm"
 	"\n\\hoffset=-1.4cm"
@@ -1303,12 +1153,12 @@ string newColor() {
 
 string randomColor() {
 	static int n = 0;
-	string colors[] = {"black", "olive", "red", "yellow", "blue", "green", "cyan"};
-	return colors[(n++)%7];
+	string colors[] = {"black", "olive", "red", "blue", "green", "cyan", "gray", "violet", "magenta"};
+	return colors[(n++)%9];
 }
 
 
-string to_name(string toChange) {
+string to_name(string toChange) { //Name of the file for the results -> name that appears on the latex doc
 	long unsigned int cut = toChange.find_last_of("/");
 	if (cut < toChange.length()) {
 		toChange = toChange.substr(cut+1);
@@ -1344,7 +1194,7 @@ struct methodBS
 };
 
 template<typename T>
-string res_to_lab(T& mRes) {
+string res_to_lab(T& mRes) { //Configuration (T=meanResultSS/BS) -> name of the configuration in the latex doc
 	double density = ((double) mRes.nb_arcs)/mRes.nb_nodes;
 	if (density == (double) mRes.nb_nodes-1) {
 		return "$K_{" + to_string(mRes.nb_nodes) + "}$";
@@ -1356,7 +1206,7 @@ string res_to_lab(T& mRes) {
 }
 
 
-list<int>* makeObstacles(list<methodSS>& LSS, list<methodBS>& LBS) {
+list<int>* makeObstacles(list<methodSS>& LSS, list<methodBS>& LBS) { //Make a list with each number of obstacles used only once
 	list<int>* obstacles = new list<int>();
 	bool isIn;
 	for (list<methodSS>::iterator method = LSS.begin(); method != LSS.end(); method++) {
@@ -1391,7 +1241,7 @@ list<int>* makeObstacles(list<methodSS>& LSS, list<methodBS>& LBS) {
 }
 
 
-list<meanResultSS>* makeLabels(list<methodSS>& LSS, list<methodBS>& LBS, int obs) {
+list<meanResultSS>* makeLabels(list<methodSS>& LSS, list<methodBS>& LBS, int obs) { //Make the lists of all configurations used
 	bool isIn;
 	list<meanResultSS>* labels = new list<meanResultSS>();
 	for (list<methodSS>::iterator method = LSS.begin(); method != LSS.end(); method++) {
@@ -1401,7 +1251,10 @@ list<meanResultSS>* makeLabels(list<methodSS>& LSS, list<methodBS>& LBS, int obs
 				for (list<meanResultSS>::iterator it = labels->begin(); it != labels->end(); it++) {
 					if (it->nb_nodes == elt->nb_nodes && it->nb_arcs == elt->nb_arcs) {
 						isIn = true;
-						if (it->n_res != elt->n_res) {cerr<<"WARNING: different n_res for the same problem"<<endl;}
+						if (it->n_res != elt->n_res) {
+							cerr<<"WARNING: different n_res for the same problem : method = "<<method->name<<", n = ";
+							cerr<<it->nb_nodes<<", m = "<<it->nb_arcs<<", n_res1 = "<<elt->n_res<<", n_res2 = "<<it->n_res<<endl;
+						}
 						it->n_res = min(it->n_res, elt->n_res);
 						break;
 					}
@@ -1420,7 +1273,10 @@ list<meanResultSS>* makeLabels(list<methodSS>& LSS, list<methodBS>& LBS, int obs
 				for (list<meanResultSS>::iterator it = labels->begin(); it != labels->end(); it++) {
 					if (it->nb_nodes == elt->nb_nodes && it->nb_arcs == elt->nb_arcs) {
 						isIn = true;
-						if (it->n_res != elt->n_res) {cerr<<"WARNING: different n_res for the same problem"<<endl;}
+						if (it->n_res != elt->n_res) {
+							cerr<<"WARNING: different n_res for the same problem : method = "<<method->name<<", n = ";
+							cerr<<it->nb_nodes<<", m = "<<it->nb_arcs<<", n_res1 = "<<elt->n_res<<", n_res2 = "<<it->n_res<<endl;
+						}
 						it->n_res = min(it->n_res, elt->n_res);
 						break;
 					}
@@ -1435,7 +1291,7 @@ list<meanResultSS>* makeLabels(list<methodSS>& LSS, list<methodBS>& LBS, int obs
 	return labels;
 }
 
-
+//make a particular kind of plot (see examples in other functions like timeComparison and the results in the article)
 void printSub(list<methodSS>& LSS, list<methodBS>& LBS, ostream& out, int obs, string pref_Fig, string ylabel,
 function<double(const meanResultSS&)> pSS, function<double(const meanResultBS&)> pBS,
 function<string(const methodSS&)> plotOptionSS, function<string(const methodBS&)> plotOptionBS) {
@@ -1541,6 +1397,7 @@ function<string(const methodSS&)> plotOptionSS, function<string(const methodBS&)
 }
 
 
+//These functions are used as arguments in printSub
 template<typename T>
 double getLabels(const T& res) {
 	return res.n_labels;
@@ -1593,7 +1450,7 @@ double getChecks(const T& res) {
 }
 
 
-void T1T2comp(list<methodBS>& LBS, ostream& out, string pref_Fig="") {
+void T1T2comp(list<methodBS>& LBS, ostream& out, string pref_Fig="") { //Write the plots on T1 and T2
 	list<methodSS> emptyList = list<methodSS>();
 	list<int>* obstacles = makeObstacles(emptyList, LBS);
 
@@ -1707,7 +1564,7 @@ void T1T2comp(list<methodBS>& LBS, ostream& out, string pref_Fig="") {
 }
 
 
-void D1D2comp(list<methodBS>& LBS, ostream& out, string pref_Fig="") {
+void D1D2comp(list<methodBS>& LBS, ostream& out, string pref_Fig="") { //Write the plots on D1 and D2
 	list<methodSS> emptyList = list<methodSS>();
 	list<int>* obstacles = makeObstacles(emptyList, LBS);
 
@@ -1847,14 +1704,14 @@ void D1D2comp(list<methodBS>& LBS, ostream& out, string pref_Fig="") {
 }
 
 
-void superComparison(list<methodBS>& l, ostream& out, string pref_Fig="") {
+void superComparison(list<methodBS>& l, ostream& out, string pref_Fig="") { //Write the plots on T1 and T2 and D1 and D2
 
 	D1D2comp(l, out, pref_Fig);
 
 	T1T2comp(l, out, pref_Fig);
 }
 
-
+//Write all plots seen in the article except those on T1, T2, D1 or D2
 void timeComparison(list<methodSS>& LSS, list<methodBS>& LBS, ostream& out, string pref_Fig="") {
 
 	list<int>* obstacles = makeObstacles(LSS, LBS);
@@ -2033,7 +1890,8 @@ void timeComparison(list<methodSS>& LSS, list<methodBS>& LBS, ostream& out, stri
 		out<<" legend columns=3,";
 
         out<<"\nlegend style={fill opacity=0.8, draw opacity=1, text opacity=1, at={(0.5,1.35)}, "
-		"anchor=north, draw=white!80!black}, tick align=outside, ylabel={Runtime (ms)},";
+		//"anchor=north, draw=white!80!black}, tick align=outside, ylabel={Runtime (ms)},";
+		"anchor=north, draw=white!80!black}, tick align=outside, ylabel={Runtime (s)},";
 		out<<"\nxtick={";
 		list<meanResultSS>::iterator lab = labels->begin();
 		//out<<"$P_{"<<lab->nb_nodes<<","<<((double) lab->nb_arcs)/lab->nb_nodes<<"}$";
@@ -2077,7 +1935,8 @@ void timeComparison(list<methodSS>& LSS, list<methodBS>& LBS, ostream& out, stri
 				if (locRes->n_obs == *obs) {
 					//out<<"\n($P_{"<<locRes->nb_nodes<<","<<((double) locRes->nb_arcs)/locRes->nb_nodes<<"}$,";
 					out<<" ("<<res_to_lab<meanResultSS>(*locRes)<<",";
-					out<<1000*locRes->T<<")";
+					//out<<1000*locRes->T<<")";
+					out<<locRes->T<<")";
 				}
 			}
 			out<<"\n};";
@@ -2091,7 +1950,8 @@ void timeComparison(list<methodSS>& LSS, list<methodBS>& LBS, ostream& out, stri
 				if (locRes->n_obs == *obs) {
 					//out<<"\n($P_{"<<locRes->nb_nodes<<","<<((double) locRes->nb_arcs)/locRes->nb_nodes<<"}$,";
 					out<<" ("<<res_to_lab<meanResultSS>(*locRes)<<",";
-					out<<1000*(locRes->T-locRes->sdT)<<")";
+					//out<<1000*(locRes->T-locRes->sdT)<<")";
+					out<<locRes->T-locRes->sdT<<")";
 				}
 			}
 			out<<"\n};";
@@ -2104,7 +1964,8 @@ void timeComparison(list<methodSS>& LSS, list<methodBS>& LBS, ostream& out, stri
 				if (locRes->n_obs == *obs) {
 					//out<<"\n($P_{"<<locRes->nb_nodes<<","<<((double) locRes->nb_arcs)/locRes->nb_nodes<<"}$,";
 					out<<" ("<<res_to_lab<meanResultSS>(*locRes)<<",";
-					out<<1000*(locRes->T+locRes->sdT)<<")";
+					//out<<1000*(locRes->T+locRes->sdT)<<")";
+					out<<locRes->T+locRes->sdT<<")";
 				}
 			}
 			out<<"\n};";
@@ -2120,7 +1981,8 @@ void timeComparison(list<methodSS>& LSS, list<methodBS>& LBS, ostream& out, stri
 				if (locRes->n_obs == *obs) {
 					//out<<"\n($P_{"<<locRes->nb_nodes<<","<<((double) locRes->nb_arcs)/locRes->nb_nodes<<"}$,";
 					out<<" ("<<res_to_lab<meanResultBS>(*locRes)<<",";
-					out<<1000*locRes->T<<")";
+					//out<<1000*locRes->T<<")";
+					out<<locRes->T<<")";
 				}
 			}
 			out<<"\n};";
@@ -2134,7 +1996,8 @@ void timeComparison(list<methodSS>& LSS, list<methodBS>& LBS, ostream& out, stri
 				if (locRes->n_obs == *obs) {
 					//out<<"\n($P_{"<<locRes->nb_nodes<<","<<((double) locRes->nb_arcs)/locRes->nb_nodes<<"}$,";
 					out<<" ("<<res_to_lab<meanResultBS>(*locRes)<<",";
-					out<<1000*(locRes->T-locRes->sdT)<<")";
+					//out<<1000*(locRes->T-locRes->sdT)<<")";
+					out<<locRes->T-locRes->sdT<<")";
 				}
 			}
 			out<<"\n};";
@@ -2147,7 +2010,8 @@ void timeComparison(list<methodSS>& LSS, list<methodBS>& LBS, ostream& out, stri
 				if (locRes->n_obs == *obs) {
 					//out<<"\n($P_{"<<locRes->nb_nodes<<","<<((double) locRes->nb_arcs)/locRes->nb_nodes<<"}$,";
 					out<<" ("<<res_to_lab<meanResultBS>(*locRes)<<",";
-					out<<1000*(locRes->T+locRes->sdT)<<")";
+					//out<<1000*(locRes->T+locRes->sdT)<<")";
+					out<<locRes->T+locRes->sdT<<")";
 				}
 			}
 			out<<"\n};";
@@ -2174,7 +2038,7 @@ void timeComparison(list<methodSS>& LSS, list<methodBS>& LBS, ostream& out, stri
 
 enum meth {SS, BS};
 
-
+//Run tests for one method. Some settings (like the name of the resulting file) are hard-coded
 void testEngine(enum meth m=SS, string dir="testDB") {
 	list<int> obstacles = list<int>();
 	obstacles.push_back(5);
@@ -2197,7 +2061,7 @@ void testEngine(enum meth m=SS, string dir="testDB") {
 }
 
 
-list<methodSS>* filesToResultSS(list<list<filesystem::path>>& l) {
+list<methodSS>* filesToResultSS(list<list<filesystem::path>>& l) { //Resulting file from a test -> list<methodSS>*
 	list<methodSS>* res = new list<methodSS>();
 	for (list<list<filesystem::path>>::iterator method = l.begin(); method != l.end(); method++) {
 		methodSS meth;
@@ -2219,7 +2083,7 @@ list<methodSS>* filesToResultSS(list<list<filesystem::path>>& l) {
 }
 
 
-list<methodBS>* filesToResultBS(list<list<filesystem::path>>& l) {
+list<methodBS>* filesToResultBS(list<list<filesystem::path>>& l) { //Resulting file from a test -> list<methodBS>*
 	list<methodBS>* res = new list<methodBS>();
 	for (list<list<filesystem::path>>::iterator method = l.begin(); method != l.end(); method++) {
 		methodBS meth;
@@ -2239,129 +2103,8 @@ list<methodBS>* filesToResultBS(list<list<filesystem::path>>& l) {
 	}
 	return res;
 }
-//Templating meanResult and method to avoid this kind of multiple implementation
 
-
-void writeComparisonBS() {
-	string ID = "Test";
-	filesystem::path outfilepath = filesystem::current_path();
-	outfilepath /= "data";
-	outfilepath /= "comparisonBS" + ID + ".tex";
-
-	filesystem::path filepath;
-
-	list<filesystem::path> bs_cl = list<filesystem::path>();
-	list<filesystem::path> bs_ads = list<filesystem::path>();
-	list<filesystem::path> bs_cstar = list<filesystem::path>();
-	list<filesystem::path> bs_ads_cstar = list<filesystem::path>();
-
-	filepath = filesystem::current_path()/"data";
-	bs_cl.push_back(filepath/"BS-CL_newDB.txt");
-	filepath = filesystem::current_path()/"data";
-	bs_cl.push_back(filepath/"BS-CL_completeDB.txt");
-
-	filepath = filesystem::current_path()/"data";
-	bs_ads.push_back(filepath/"BS-ADS_newDB.txt");
-
-	filepath = filesystem::current_path()/"data";
-	bs_cstar.push_back(filepath/"BS-CSTAR_newDB.txt");
-	//filepath = filesystem::current_path()/"data";
-	//ss_cl.push_back(filepath/"ss_cl_completeDB.txt");
-
-	filepath = filesystem::current_path()/"data";
-	bs_ads_cstar.push_back(filepath/"BS-ADS-CSTAR_newDB.txt");
-	//filepath = filesystem::current_path()/"data";
-	//ss_ads.push_back(filepath/"ss_ads_completeDB.txt");
-
-
-
-	list<list<filesystem::path>> testsList = list<list<filesystem::path>>();
-	testsList.push_back(bs_cl);
-	testsList.push_back(bs_ads);
-	testsList.push_back(bs_cstar);
-	testsList.push_back(bs_ads_cstar);
-
-	list<methodBS>* methodList = filesToResultBS(testsList);
-
-
-
-
-
-	ofstream writing(outfilepath, ios::out);
-	begin_document(writing);
-	superComparison(*methodList, writing, ID);
-	writing<<"\n\\end{document}";
-	writing.close();
-	for (list<methodBS>::iterator it = methodList->begin(); it != methodList->end(); it++) {
-		delete it->data;
-	}
-	delete methodList;
-}
-
-
-void writeTimeComparison() {
-	string ID = "Test";
-	filesystem::path outfilepath = filesystem::current_path();
-	outfilepath /= "data";
-	outfilepath /= "comparisonTime" + ID + ".tex";
-
-	filesystem::path filepath;
-
-	list<filesystem::path> ss_cl = list<filesystem::path>();
-	list<filesystem::path> ss_ads = list<filesystem::path>();
-
-	filepath = filesystem::current_path()/"data";
-	ss_cl.push_back(filepath/"SS-CL_newDB.txt");
-	//filepath = filesystem::current_path()/"data";
-	//ss_cl.push_back(filepath/"ss_cl_completeDB.txt");
-
-	filepath = filesystem::current_path()/"data";
-	ss_ads.push_back(filepath/"SS-ADS_newDB.txt");
-	//filepath = filesystem::current_path()/"data";
-	//ss_ads.push_back(filepath/"ss_ads_completeDB.txt");
-
-	list<filesystem::path> bs_cstar = list<filesystem::path>();
-	list<filesystem::path> bs_ads_cstar = list<filesystem::path>();
-
-	filepath = filesystem::current_path()/"data";
-	bs_cstar.push_back(filepath/"BS-CSTAR_newDB.txt");
-
-	filepath = filesystem::current_path()/"data";
-	bs_ads_cstar.push_back(filepath/"BS-ADS-CSTAR_newDB.txt");
-
-
-
-	list<list<filesystem::path>> testsListSS = list<list<filesystem::path>>();
-	testsListSS.push_back(ss_cl);
-	testsListSS.push_back(ss_ads);
-
-	list<list<filesystem::path>> testsListBS = list<list<filesystem::path>>();
-	testsListBS.push_back(bs_cstar);
-	testsListBS.push_back(bs_ads_cstar);
-
-	list<methodSS>* methodListSS = filesToResultSS(testsListSS);
-	list<methodBS>* methodListBS = filesToResultBS(testsListBS);
-
-
-
-
-
-	ofstream writing(outfilepath, ios::out);
-	begin_document(writing);
-	timeComparison(*methodListSS, *methodListBS, writing, ID);
-	writing<<"\n\\end{document}";
-	writing.close();
-	for (list<methodSS>::iterator it = methodListSS->begin(); it != methodListSS->end(); it++) {
-		delete it->data;
-	}
-	delete methodListSS;
-	for (list<methodBS>::iterator it = methodListBS->begin(); it != methodListBS->end(); it++) {
-		delete it->data;
-	}
-	delete methodListBS;
-}
-
-
+//Write 2 latex documents, one for T1 and T2 and one for the other plots. Hard-coded settings, see the function body
 void writeAllComparison() {
 	/*
 	string ID = "completeDBbis";
@@ -2372,7 +2115,7 @@ void writeAllComparison() {
 
 	filesystem::path filepath;
 
-	list<filesystem::path> ss_cl = list<filesystem::path>();
+	//list<filesystem::path> ss_cl = list<filesystem::path>();
 	list<filesystem::path> ss_ads = list<filesystem::path>();
 	list<filesystem::path> ss_ads_rm = list<filesystem::path>();
 	list<filesystem::path> ss_add = list<filesystem::path>();
@@ -2384,20 +2127,20 @@ void writeAllComparison() {
 
 
 
-	ss_cl.push_back(filepath/"SS-CL_newDB.txt");
+	//ss_cl.push_back(filepath/"SS-CL_newDB.txt");
 	//ss_cl.push_back(filepath/"SS-CL_completeDB.txt");
 
-	ss_ads.push_back(filepath/"SS-ST_newDB.txt");
-	//ss_ads.push_back(filepath/"SS-ST_completeDB.txt");
+	//ss_ads.push_back(filepath/"SS-ST_newDB.txt");
+	ss_ads.push_back(filepath/"SS-ST_completeDB.txt");
 
-	ss_ads_rm.push_back(filepath/"SS-DEL_newDB.txt");
-	//ss_ads_rm.push_back(filepath/"SS-DEL_completeDB.txt");
+	//ss_ads_rm.push_back(filepath/"SS-DEL_newDB.txt");
+	ss_ads_rm.push_back(filepath/"SS-DEL_completeDB.txt");
 
-	ss_add.push_back(filepath/"SS-ADD_newDB.txt");
-	//ss_add.push_back(filepath/"SS-ADD_completeDB.txt");
+	//ss_add.push_back(filepath/"SS-ADD1_newDB.txt");
+	ss_add.push_back(filepath/"SS-ADD1_completeDB.txt");
 
-	ss_add_opt.push_back(filepath/"SS-ADD-OPT_newDB.txt");
-	//ss_add_opt.push_back(filepath/"SS-ADD-OPT_completeDB.txt");
+	//ss_add_opt.push_back(filepath/"SS-ADD2_newDB.txt");
+	ss_add_opt.push_back(filepath/"SS-ADD2_completeDB.txt");
 
 
 
@@ -2424,8 +2167,8 @@ void writeAllComparison() {
 
 
 
-	string ID = "newDB";
-	//string ID = "completeDB";
+	//string ID = "newDB";
+	string ID = "completeDB_s";
 	//string ID = "newDBVM";
 	//string ID = "completeDBVM";
 	filesystem::path outfilepath = filesystem::current_path();
@@ -2437,21 +2180,21 @@ void writeAllComparison() {
 	list<filesystem::path> bs_ads = list<filesystem::path>();
 	//list<filesystem::path> bs_cstar = list<filesystem::path>();
 	list<filesystem::path> bs_ads_cstar = list<filesystem::path>();
-	list<filesystem::path> bs_evo = list<filesystem::path>();
+	//list<filesystem::path> bs_evo = list<filesystem::path>();
 
-	bs_cl.push_back(filepath/"BS-CL_newDB.txt");
-	//bs_cl.push_back(filepath/"BS-CL_completeDB.txt");
+	//bs_cl.push_back(filepath/"BS-CL_newDB.txt");
+	bs_cl.push_back(filepath/"BS-CL_completeDB.txt");
 
-	bs_ads.push_back(filepath/"BS-ST_newDB.txt");
-	//bs_ads.push_back(filepath/"BS-ST_completeDB.txt");
+	//bs_ads.push_back(filepath/"BS-ST_newDB.txt");
+	bs_ads.push_back(filepath/"BS-ST_completeDB.txt");
 
 	//bs_cstar.push_back(filepath/"BS-CSTAR_newDB.txt");
 	//bs_cstar.push_back(filepath/"BS-CSTAR_completeDB.txt");
 
-	bs_ads_cstar.push_back(filepath/"BS-LB_-ADSnewDB.txt");
-	//bs_ads_cstar.push_back(filepath/"BS-LB_-ADScompleteDB.txt");
+	//bs_ads_cstar.push_back(filepath/"BS-LB_-ADSnewDB.txt");
+	bs_ads_cstar.push_back(filepath/"BS-LB_-ADScompleteDB.txt");
 
-	bs_evo.push_back(filepath/"BS-EVO_newDB.txt");
+	//bs_evo.push_back(filepath/"BS-EVO_newDB.txt");
 	//bs_evo.push_back(filepath/"BS-EVO_completeDB.txt");
 
 
@@ -2461,7 +2204,7 @@ void writeAllComparison() {
 	testsListBS.push_back(bs_ads);
 	//testsListBS.push_back(bs_cstar);
 	testsListBS.push_back(bs_ads_cstar);
-	testsListBS.push_back(bs_evo);
+	//testsListBS.push_back(bs_evo);
 
 	list<methodBS>* methodListBS = filesToResultBS(testsListBS);
 
@@ -2476,8 +2219,8 @@ void writeAllComparison() {
 
 
 
-	ID = "newDB";
-	//ID = "completeDB";
+	//ID = "newDB";
+	ID = "completeDB_s";
 	//ID = "newDBVM";
 	//ID = "completeDBVM";
 	outfilepath = filesystem::current_path();
@@ -2552,20 +2295,7 @@ int main(int argc, char *argv[])
 
 	srand(seed); //1652869031
 	cout<<"seed : "<<seed<<"\n\n"<<endl;
-	//breakTheReference();
-	//test_list();
-	//test_graph();
-	//stack_test();
-	//stack_test2();
-	//testMarkTree();
-	//testFibHeap();
-	//testDijkstra(P, Q, p_square, p_merge);
-	//testSPPAO1(P, Q, O, p_square, p_merge);
-	//testLoading();
-	//testPathMinD(P, Q, O, p_square, p_merge);
 	//testSPPAO2(P, Q, O, p_square, p_merge);
-	//compareSPPAOs(P, Q, O, p_square, p_merge);
-	//testGraph2(2000, 1, 0);
 	//testDB();
 	//realDB();
 	//newCompleteDB();
@@ -2576,10 +2306,7 @@ int main(int argc, char *argv[])
 	//checkSPPAO();
 	//writeComparison("dataSPPAO_labelUpdate.txt", "dataSPPAO_addArcs.txt", "SPPAOcomparison_labUpdate_addaArcs.tex");
 	//writeCompareMethod("dataSPPAO_CstarD.txt", "methodsCompareCstar.tex");
-	//testEngine(SS, "completeDB");
-	//writeComparisonSS();
-	//writeComparisonBS();
-	//writeTimeComparison();
-	writeAllComparison();
+	testEngine(SS, "completeDB");
+	//writeAllComparison();
 }
 
