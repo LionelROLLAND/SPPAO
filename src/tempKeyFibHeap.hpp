@@ -18,15 +18,15 @@ class Tree
     public:
         Tree<T>* parent;
         list<Tree<T>*> children;
-        T get;
+        T get; //Data stored in that node
         Tree(Tree<T>* par=nullptr, list<Tree<T>*> childr=list<Tree<T>*>(), T info=T()) :
                 parent(par), children(childr), get(info) {}
         Tree(const Tree<T>& Tr);
         //        parent(Tr.parent), children(Tr.children), get(Tr.get) {}
         ~Tree();
         Tree<T>& operator=(const Tree<T>& Tr);
-        list<Tree<T>*>::iterator addChild(Tree<T>* Tr);
-        Tree<T>* remChild(typename list<Tree<T>*>::iterator it);
+        list<Tree<T>*>::iterator addChild(Tree<T>* Tr); //add a child to that node
+        Tree<T>* remChild(typename list<Tree<T>*>::iterator it); //removes the child in argument from that node
 };
 
 
@@ -114,14 +114,14 @@ ostream& operator<<(ostream& out, Tree<T>* Tr) {
 
 
 
-
+//general class of data needed for the Fibonacci heaps
 template<typename T>
 class infoFib
 {
     public:
-        T data;
-        bool marked;
-        list<Tree<infoFib<T>>*>::iterator selfPointer;
+        T data; //The data of interest
+        bool marked; //Is that node already marked
+        list<Tree<infoFib<T>>*>::iterator selfPointer; //Pointer to the node to which it is connected
         infoFib(T info, bool m, list<Tree<infoFib<T>>*>::iterator point) :
         data(info), marked(m), selfPointer(point) {}
         infoFib(T info=T(), bool m=false) : data(info), marked(m) {}
@@ -153,6 +153,7 @@ ostream& operator<< (ostream& out, const infoFib<T>& iF) {
 }
 
 
+//Trees specific to the Fibonacci heaps
 template<typename T>
 class markTree : public Tree<infoFib<T>>
 {

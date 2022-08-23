@@ -2306,7 +2306,7 @@ int main(int argc, char *argv[])
 	//checkSPPAO();
 	//writeComparison("dataSPPAO_labelUpdate.txt", "dataSPPAO_addArcs.txt", "SPPAOcomparison_labUpdate_addaArcs.tex");
 	//writeCompareMethod("dataSPPAO_CstarD.txt", "methodsCompareCstar.tex");
-	testEngine(SS, "completeDB");
-	//writeAllComparison();
+	//testEngine(SS, "completeDB");
+	writeAllComparison();
 }
 
