@@ -16,7 +16,7 @@ unsigned char PNr = 143;
 unsigned char PNg = 0;
 unsigned char PNb = 155;
 
-
+//Compares path based on their distances to the obstacles, to sort the solutions at the end
 bool compare_d(infoPath p1, infoPath p2) {return p1.d < p2.d;}
 
 
@@ -44,35 +44,20 @@ double* t1, double* t2, list<logSPPAO2>* history) {
 
     if (logs) {cout<<"\nSPPAO2 -- path of max d\n";}
 
-    //infoPath maxDpath = pathOfMaxD(s, t);
-    //infoPath maxDpath = optiPathOfMaxD(s, t);
-
-    //infoPath maxDpath = superDijkstra(s, t, distComp, changeComplexKey,
-    //        newComplexKey, noCond);
-
     infoPath maxDpath = dijkstraOptiD_noCond(s, t);
-
-    //cout<<"\nAfter maxDpath"<<endl;
 
     if (logs) {cout<<"result : d = "<<maxDpath.d<<", c = "<<maxDpath.c<<"\n";}
     //resetGraph(graph);
     simpleResetGraph(graph);
     if (logs) {cout<<"\n#"<<++nbD1<<" SPPAO2 -- path of min c\n";}
 
-
-    //infoPath minCpath = genDijkstra(s, t);
-    //infoPath minCpath = simpleDijkstraDistCheck(s, t);
     
-    //infoPath minCpath = superDijkstra(s, t, compCD, changeComplexKey,
-    //        newComplexKey, noCond);
-    
-    //infoPath minCpath = dijkstraOptiCD_noCond(s, t);
-    //infoPath minCpath = dijkstraOptiC_noCond(s, t);
+    //infoPath minCpath = dijkstraOptiCD_noCond(s, t); //For BS-ST
+    //infoPath minCpath = dijkstraOptiC_noCond(s, t); //For BS-CL
 
-    infoPath minCpath = computeCstar_andPathOptiCD_noCond(s, t);
-    //infoPath minCpath = computeCstar_andPathOptiC_noCond(s, t);
+    infoPath minCpath = computeCstar_andPathOptiCD_noCond(s, t); //For BS-LB
+    //infoPath minCpath = computeCstar_andPathOptiC_noCond(s, t); //For BS-CL-LB (not studied)
 
-    //cout<<"\nAfter computeCstar"<<endl;
 
     if (logs) {cout<<"result : d = "<<minCpath.d<<", c = "<<minCpath.c<<"\n";}
     list<infoPath>* res = new list<infoPath>();
@@ -121,22 +106,15 @@ double* t1, double* t2, list<logSPPAO2>* history) {
         startSub = chrono::system_clock::now();
 
 
-        //upper = genDijkstra(s, t, d_bar, -1, Irect.c_max);
-        //upper = dijkstraCDDistCheck(s, t, d_bar, Irect.c_max);
-        
-        //upper = superDijkstra(s, t, compCD, changeComplexKey, newComplexKey, condCD,
-        //        d_bar, Irect.c_max);
+        //upper = dijkstraOptiCD_condCD(s, t, d_bar, Irect.c_max); //For BS-ST
+        //upper = dijkstraOptiC_condCD(s, t, d_bar, Irect.c_max); //For BS-CL
 
-        //upper = dijkstraOptiCD_condCD(s, t, d_bar, Irect.c_max);
-        //upper = dijkstraOptiC_condCD(s, t, d_bar, Irect.c_max);
-
-        upper = dijkstraOptiCD_condCstarD(s, t, d_bar, Irect.c_max);
-        //upper = dijkstraOptiC_condCstarD(s, t, d_bar, Irect.c_max);
+        upper = dijkstraOptiCD_condCstarD(s, t, d_bar, Irect.c_max); //For BS-LB
+        //upper = dijkstraOptiC_condCstarD(s, t, d_bar, Irect.c_max); //For BS-CL-LB
 
 
         elapsed = chrono::system_clock::now()-startSub;
 
-        //cout<<"\nAfter upper"<<endl;
 
         if (t1 != nullptr) {*t1 += elapsed.count();}
         if (n1 != nullptr) {(*n1)++;}
@@ -186,18 +164,12 @@ double* t1, double* t2, list<logSPPAO2>* history) {
 
                 startSub = chrono::system_clock::now();
 
-                
-                //lower = genDijkstra(s, t, Irect.pathMin->d, -1, upper.c);
-                //lower = dijkstraCDDistCheck(s, t, Irect.pathMin->d, upper.c);
-                
-                //lower = superDijkstra(s, t, compCD, changeComplexKey, newComplexKey,
-                //        condCD, Irect.pathMin->d, upper.c);
 
-                //lower = dijkstraOptiCD_condCD(s, t, Irect.pathMin->d, upper.c);
-                //lower = dijkstraOptiC_condCD(s, t, Irect.pathMin->d, upper.c);
+                //lower = dijkstraOptiCD_condCD(s, t, Irect.pathMin->d, upper.c); //For BS-ST
+                //lower = dijkstraOptiC_condCD(s, t, Irect.pathMin->d, upper.c); //For BS-CL
 
-                lower = dijkstraOptiCD_condCstarD(s, t, Irect.pathMin->d, upper.c);
-                //lower = dijkstraOptiC_condCstarD(s, t, Irect.pathMin->d, upper.c);
+                lower = dijkstraOptiCD_condCstarD(s, t, Irect.pathMin->d, upper.c); //For BS-LB
+                //lower = dijkstraOptiC_condCstarD(s, t, Irect.pathMin->d, upper.c); //For BS-CL-LB
 
 
                 elapsed = chrono::system_clock::now()-startSub;
@@ -265,17 +237,11 @@ double* t1, double* t2, list<logSPPAO2>* history) {
 
             startSub = chrono::system_clock::now();
 
-            //lower = genDijkstra(s, t, Irect.pathMin->d, -1, Irect.c_max);
-            //lower = dijkstraCDDistCheck(s, t, Irect.pathMin->d, Irect.c_max);
-            
-            //lower = superDijkstra(s, t, compCD, changeComplexKey, newComplexKey,
-            //        condCD, Irect.pathMin->d, Irect.c_max);
+            //lower = dijkstraOptiCD_condCD(s, t, Irect.pathMin->d, Irect.c_max); //For BS-ST
+            //lower = dijkstraOptiC_condCD(s, t, Irect.pathMin->d, Irect.c_max); //For BS-CL
 
-            //lower = dijkstraOptiCD_condCD(s, t, Irect.pathMin->d, Irect.c_max);
-            //lower = dijkstraOptiC_condCD(s, t, Irect.pathMin->d, Irect.c_max);
-
-            lower = dijkstraOptiCD_condCstarD(s, t, Irect.pathMin->d, Irect.c_max);
-            //lower = dijkstraOptiC_condCstarD(s, t, Irect.pathMin->d, Irect.c_max);
+            lower = dijkstraOptiCD_condCstarD(s, t, Irect.pathMin->d, Irect.c_max); //For BS-LB
+            //lower = dijkstraOptiC_condCstarD(s, t, Irect.pathMin->d, Irect.c_max); //For BS-CL-LB
 
             elapsed = chrono::system_clock::now()-startSub;
             if (t2 != nullptr) {*t2 += elapsed.count();}

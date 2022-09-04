@@ -61,7 +61,7 @@ Tree<T>::~Tree() {
 }
 
 
-template<typename T>
+template<typename T> //Add a child to that node
 typename list<Tree<T>*>::iterator Tree<T>::addChild(Tree<T>* Tr) {
     children.push_back(Tr);
     Tr->parent = this;
@@ -69,7 +69,7 @@ typename list<Tree<T>*>::iterator Tree<T>::addChild(Tree<T>* Tr) {
 }
 
 
-template<typename T>
+template<typename T> //Remove a child from that node
 Tree<T>* Tree<T>::remChild(typename list<Tree<T>*>::iterator it) {
     Tree<T>* to_return = *it;
     (*it)->parent = nullptr;
@@ -78,7 +78,7 @@ Tree<T>* Tree<T>::remChild(typename list<Tree<T>*>::iterator it) {
 }
 
 
-template<typename T>
+template<typename T> //Return the number of nodes in the tree whose root is that node
 int nb_nodes(const Tree<T>& Tr) {
     int S = 1;
     for (typename list<Tree<T>*>::const_iterator it = Tr.children.begin();
@@ -89,7 +89,7 @@ int nb_nodes(const Tree<T>& Tr) {
 }
 
 
-template<typename T>
+template<typename T> //Displays a list of trees
 ostream& printTree(ostream& out, list<Tree<T>*>& l) {
     if (l.empty()) {return out;}
     Tree<T>* to_print = l.front();
@@ -104,7 +104,7 @@ ostream& printTree(ostream& out, list<Tree<T>*>& l) {
 }
 
 
-template<typename T>
+template<typename T> //Displays a tree
 ostream& operator<<(ostream& out, Tree<T>* Tr) {
     if (Tr == nullptr) {return out;}
     list<Tree<T>*> l = list<Tree<T>*>();
@@ -141,7 +141,7 @@ infoFib<T>& infoFib<T>::operator= (const infoFib<T>& iF) {
 }
 
 
-template<typename T>
+template<typename T> //Displays an infoFib object
 ostream& operator<< (ostream& out, const infoFib<T>& iF) {
     out<<"data : "<<iF.data;
     if (iF.marked) {
@@ -189,14 +189,14 @@ Tree<infoFib<T>>::Tree(static_cast<Tree<infoFib<T>>>(Tr))
 }
 
 
-template<typename T>
+template<typename T> //Add a markTree child to this markTree node
 list<Tree<infoFib<T>>*>::iterator markTree<T>::addChild(Tree<infoFib<T>>* Tr) {
     Tr->get.selfPointer = Tree<infoFib<T>>::addChild(Tr);
     return Tr->get.selfPointer;
 }
 
 
-template<typename T>
+template<typename T> //Remove a markTree child from this markTree node
 Tree<infoFib<T>>* markTree<T>::remChild(typename list<Tree<infoFib<T>>*>::iterator it) {
     Tree<infoFib<T>>* to_return = Tree<infoFib<T>>::remChild(it);
     to_return->get.marked = false;
@@ -204,30 +204,30 @@ Tree<infoFib<T>>* markTree<T>::remChild(typename list<Tree<infoFib<T>>*>::iterat
 }
 
 
-template<typename T>
+template<typename T> //Fibonacci heap containing element of type T
 class fibHeap
 {
     public:
-        const function<bool(const T&, const T&)> lesser;
-        int n;
-        markTree<T>* min_root;
-        list<Tree<infoFib<T>>*> forest;
+        const function<bool(const T&, const T&)> lesser; //Comparison function
+        int n; //Number of nodes in the heap
+        markTree<T>* min_root; //Pointer to the node with the smallest key
+        list<Tree<infoFib<T>>*> forest; //List of the trees
         fibHeap(function<bool(const T&, const T&)> compareFun=operator<) :
         lesser(compareFun), n(0), min_root(nullptr), forest(list<Tree<infoFib<T>>*>()) {}
         fibHeap(function<bool(const T&, const T&)> compareFun, list<Tree<infoFib<T>>*>& l);
         fibHeap(const fibHeap<T>& fH);
         ~fibHeap();
-        bool is_empty() {return forest.empty();}
-        void orderTrees();
-        T deleteMin(); //Penser au cas ou le tas devient vide
+        bool is_empty() {return forest.empty();} //True iff the heap is empty
+        void orderTrees(); //Sort the trees after the min has been deleted
+        T deleteMin(); //Delete and return the element of smallest key
         void cutTree(Tree<infoFib<T>>* Tr);
         //-> cut the tree and put it as is in the forest (takes care of his parent too)
-        void decreasedKey(markTree<T>* Tr);
-        fibHeap<T>& takeAndMerge(fibHeap<T>& fH);
-        markTree<T>* insert(T con);
+        void decreasedKey(markTree<T>* Tr); //Sort the trees once the key of *Tr has been decreased
+        fibHeap<T>& takeAndMerge(fibHeap<T>& fH); //Merge 2 Fibonacci heaps
+        markTree<T>* insert(T con); //Insert an element in the heap
     private:
-        typename list<Tree<infoFib<T>>*>::iterator addToForest(Tree<infoFib<T>>* Tr);
-        markTree<T>* remOfForest(typename list<Tree<infoFib<T>>*>::iterator it);
+        typename list<Tree<infoFib<T>>*>::iterator addToForest(Tree<infoFib<T>>* Tr); //Add a tree to the list of trees
+        markTree<T>* remOfForest(typename list<Tree<infoFib<T>>*>::iterator it); //Remove a tree form the list of trees
 
 };
 
@@ -263,32 +263,14 @@ void fibHeap<T>::orderTrees() {
     min_root = static_cast<markTree<T>*>(forest.front());
     typename list<Tree<infoFib<T>>*>::iterator it = forest.begin();
     while (it != forest.end()) {
-        //cout<<*this<<endl;
-        //cout<<"expanding :: "<<(*((*it)->get.selfPointer))->get.data->no<<endl;
         tree2 = static_cast<markTree<T>*>(*it);
         deg = tree2->children.size();
-        /*
-        if (deg > max_deg) {
-            for (typename list<Tree<infoFib<T>>*>::iterator testTree = tree2->children.begin();
-            testTree != tree2->children.end(); testTree++) {
-                cout<<"+1 :"<<endl;
-                cout<<*testTree<<endl;
-            }
-            cout<<tree2<<endl;
-            cout<<*this<<endl;
-            cout<<"max_deg = "<<max_deg<<", deg = "<<deg<<endl;
-        }
-        */
         tree1 = rootVec[deg];
         if (tree1 == nullptr) {
             rootVec[deg] = tree2;
-            //cout<<"Go "<<(*(tree2->get.selfPointer))->get.data->no<<" in "<<deg<<endl;
             if (!lesser(min_root->get.data, tree2->get.data)) {min_root = tree2;}
             it++;
         } else {
-            //cout<<"deleting (1) :"<<(*(tree1->get.selfPointer))->get.data->no<<endl;
-            //cout<<"Before remOfForest"<<endl;
-            //cout<<tree1->get<<endl;
             remOfForest(tree1->get.selfPointer);
             rootVec[deg] = nullptr;
             if (lesser(tree1->get.data, tree2->get.data)) {
@@ -298,7 +280,6 @@ void fibHeap<T>::orderTrees() {
                 tree2->addChild(tree1);
                 addToForest(tree2);
             }
-            //cout<<"deleting (2) :"<<(*((*it)->get.selfPointer))->get.data->no<<endl;
             remOfForest(it++);
         }
     }
@@ -401,17 +382,6 @@ void fibHeap<T>::decreaseKey(markTree<T>* Tr, double newKey) {
 
 template<typename T>
 void fibHeap<T>::decreasedKey(markTree<T>* Tr) {
-    //if (is_empty()) {cout<<"EMPTY FIBHEAP"<<endl;}
-    //cout<<Tr->get.data<<endl;
-    //cout<<"    "<<min_root->get.data<<endl;
-    /*
-    if (Tr == nullptr) {
-        cerr<<"ERROR : Tr = nullptr"<<endl;
-    }
-    if (min_root == nullptr) {
-        cerr<<"ERROR : min_root = nullptr"<<endl;
-    }
-    */
     if (lesser(Tr->get.data, min_root->get.data)) {min_root = Tr;}
     Tree<infoFib<T>>* parInit = Tr->parent;
     markTree<T>* par = static_cast<markTree<T>*>(parInit);
@@ -449,7 +419,7 @@ markTree<T>* fibHeap<T>::insert(T content) {
 }
 
 
-template<typename T>
+template<typename T> //Displays a heap
 ostream& operator<<(ostream& out, fibHeap<T> fH) {
     for (typename list<Tree<infoFib<T>>*>::iterator tree = fH.forest.begin(); tree != fH.forest.end(); tree++) {
         out<<*tree<<"\n==========\n";
