@@ -235,7 +235,7 @@ void labelUpdating_add_OptiC_condCstarD(list<bunchOfArcs> &arcsToAddLists, doubl
     delete heap;
 }
 
-infoPath dijkstraOptiCD_condD_noStop(Node *s, Node *t, double strict_min_d)
+infoPath dijkstraOptiCD_condD(Node *s, Node *t, double strict_min_d)
 {
     s->c_to_s = 0;
     s->d_to_S = inf;
@@ -246,11 +246,30 @@ infoPath dijkstraOptiCD_condD_noStop(Node *s, Node *t, double strict_min_d)
     double newLength;
     double newDist;
 
+    /*
+    long int temp_n_checks = n_checks;
+
+
+    chrono::duration<double> elapsed;
+    auto test = chrono::system_clock::now();
+
+    long int n_delete = 0;
+    chrono::duration<double> elapsed1;
+    auto test1 = chrono::system_clock::now();
+    */
+
     while (!heap->is_empty())
     {
+        // test1 = chrono::system_clock::now();
         to_relax = heap->deleteMin();
-        to_relax->tree = nullptr;
+        // elapsed1 += chrono::system_clock::now()-test1;
+        // n_delete++;
 
+        to_relax->tree = nullptr;
+        if (to_relax == t)
+        {
+            break;
+        }
         for (list<arcNode>::iterator neighb = to_relax->l_adj.begin();
              neighb != to_relax->l_adj.end(); neighb++)
         {

@@ -49,6 +49,6 @@ infoPath computeCstar_andPathOptiC_noCond(Node *s, Node *t);
 // and c_i + c_ij + c*_j >= strict_max_c
 void labelUpdating_add_OptiC_condCstarD(list<bunchOfArcs> &arcsToAddLists, double strict_max_c, double min_d);
 
-infoPath dijkstraOptiCD_condD_noStop(Node *s, Node *t, double strict_min_d);
+infoPath dijkstraOptiCD_condD(Node *s, Node *t, double strict_min_d);
 
 #endif

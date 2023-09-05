@@ -31,10 +31,11 @@ list<infoPath> *SS_ADD_star(list<Node *> &graph, list<list<bunchOfArcs>> &arcsTo
         minD = startArcs->front().rev_adj.front().arc_d;
     }
 
-    infoPath optPath = dijkstraOptiCD_condD_noStop(s, t, minD);
+    infoPath optPath = dijkstraOptiCD_condD(s, t, minD);
 
     double optC = optPath.c;
-    double overall_c_max = optC;
+
+    simpleResetGraph(graph);
     double currD;
     list<infoPath> *res = new list<infoPath>();
     res->push_front(optPath);
@@ -49,7 +50,7 @@ list<infoPath> *SS_ADD_star(list<Node *> &graph, list<list<bunchOfArcs>> &arcsTo
             cout << "\nweirdSPPAO2 -- labelUpdate, strict_min_d = " << currD << "\n";
         }
 
-        labelUpdating_add_OptiC_condCstarD(*arcsLists, overall_c_max, currD);
+        labelUpdating_add_OptiC_condCstarD(*arcsLists, optC, currD);
         if (t->c_to_s < optC)
         {
             optPath = makePath(t);
