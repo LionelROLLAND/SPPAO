@@ -28,7 +28,7 @@ list<infoPath> *SS_DEL_star(list<Node *> &graph, Node *s, Node *t, int *n, doubl
 
     computeCstar_andPathOptiC_noCond(s, t);
 
-    infoPath maxDCpath = dijkstraOptiCD_condD(s, t, d_max);
+    infoPath maxDCpath = dijkstraOptiC_condD(s, t, d_max);
 
     double overall_c_max = maxDCpath.c;
     simpleResetGraph(graph);

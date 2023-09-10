@@ -47,7 +47,8 @@ infoPath computeCstar_andPathOptiC_noCond(Node *s, Node *t);
 
 infoPath labelUpdating_OptiCD_condCstarD(list<Node *> &graph, Node *s, Node *t, double strict_max_c, double strict_min_d);
 
-infoPath dijkstraOptiCD_condD(Node *s, Node *t, double min_d);
+// Dijkstra's algorithm avoiding the d_ij < strict_min_d
+infoPath dijkstraOptiC_condD(Node *s, Node *t, double strict_min_d);
 
 infoPath dijkstraOptiCD_noCond_noStop(Node *s, Node *t);
 
