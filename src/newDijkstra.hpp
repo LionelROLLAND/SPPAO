@@ -40,7 +40,8 @@ bool compD(const Node *i, const Node *j);
 
 infoPath dijkstraOptiD_noCond(Node *s, Node *t); // Finding path of max distance to the obstacles
 
-infoPath dijkstraOptiC_condD(Node *s, Node *t, double min_d); // Dijkstra's algorithm avoiding the d_ij <= strict_min_d
+// Dijkstra's algorithm avoiding the d_ij < strict_min_d
+infoPath dijkstraOptiC_condD(Node *s, Node *t, double min_d);
 
 // Dijkstra with $\prec$, avoiding d_ij <= strict_min_d and c_i + c_ij >= strict_max_c
 infoPath dijkstraOptiCD_noCond(Node *s, Node *t);
