@@ -142,10 +142,10 @@ list<infoPath> *BS_ST(list<Node *> &graph, Node *s, Node *t, int *n1, int *n2,
 
         startSub = chrono::system_clock::now();
 
-        // upper = dijkstraOptiCD_condCD(s, t, d_bar, Irect.c_max); //For BS-ST
+        upper = dijkstraOptiCD_condCD(s, t, d_bar, Irect.c_max); // For BS-ST
         // upper = dijkstraOptiC_condCD(s, t, d_bar, Irect.c_max); //For BS-CL
 
-        upper = dijkstraOptiCD_condCstarD(s, t, d_bar, Irect.c_max); // For BS-LB
+        // upper = dijkstraOptiCD_condCstarD(s, t, d_bar, Irect.c_max); // For BS-LB
         // upper = dijkstraOptiC_condCstarD(s, t, d_bar, Irect.c_max); //For BS-CL-LB
 
         elapsed = chrono::system_clock::now() - startSub;
