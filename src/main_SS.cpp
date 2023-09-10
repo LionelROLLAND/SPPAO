@@ -25,8 +25,9 @@
 
 #include "randomGraph.hpp"
 #include "utils.hpp"
+// #include "test.hpp"
 #include "newDijkstra.hpp"
-#include "secondSPPAO.hpp"
+#include "firstSPPAO.hpp"
 
 bool logs;
 int nb_rand_runs = 0;
@@ -246,11 +247,11 @@ void testSPPAO2(int P = 10, int Q = 10, int O = 5, double prop_square = 0.5, dou
 	list<Node *> *obstacles = createObstacles(x_min, y_min, x_max, y_max, max_no + 1, O);
 
 	computeArcD(*l, *obstacles);
-	list<list<bunchOfArcs>> *arcsToAddLists = buildArcsToAdd(*l);
+	// list<list<bunchOfArcs>> *arcsToAddLists = buildArcsToAdd(*l);
 
 	// list<logSPPAO2>* history = new list<logSPPAO2>();
 	// list<infoPath>* l_res = secondSPPAO(*l, node1, node2, nullptr, nullptr, nullptr, nullptr, history);
-	list<infoPath> *l_res = firstSPPAO_update(*l, node1, node2);
+	list<infoPath> *l_res = SS_ST(*l, node1, node2);
 
 	filesystem::path filepath = filesystem::current_path();
 	filepath /= "data";
@@ -287,7 +288,7 @@ void testSPPAO2(int P = 10, int Q = 10, int O = 5, double prop_square = 0.5, dou
 	// list<infoPath>* SPPAOres = weirdSPPAO(*arcsToAddLists, node1, node2);
 	// list<infoPath>* SPPAOres = firstSPPAO(*l, node1, node2);
 	// list<infoPath>* SPPAOres = firstSPPAO_update(*l, node1, node2);
-	list<infoPath> *SPPAOres = weirdSPPAO2(*l, *arcsToAddLists, node1, node2);
+	list<infoPath> *SPPAOres = SS_ST(*l, node1, node2);
 
 	filepath = filesystem::current_path();
 	filepath /= "data";
@@ -316,7 +317,7 @@ void testSPPAO2(int P = 10, int Q = 10, int O = 5, double prop_square = 0.5, dou
 
 	// delete pre_res.path;
 	// delete res.path;
-	delete arcsToAddLists;
+	// delete arcsToAddLists;
 	resetGraph(*l);
 	// deleteGraph(obstacles);
 	delete obstacles;
@@ -395,9 +396,10 @@ void checkSPPAO()
 
 	list<Node *> *obstacles = createObstacles(x_min, y_min, x_max, y_max, max_no + 1, n_obs);
 	computeArcD(*l, *obstacles);
+	// list<list<bunchOfArcs>> *arcsToAddLists = buildArcsToAdd(*l);
 	// list<infoPath>* res = secondSPPAO(*l, node1, node2);
 
-	list<infoPath> *res = firstSPPAO_update(*l, node1, node2);
+	list<infoPath> *res = SS_ST(*l, node1, node2);
 	cout << "nb res second : " << res->size() << endl;
 
 	/*
@@ -435,30 +437,22 @@ void checkSPPAO()
 	deleteGraph(l);
 }
 
-struct resultBS
+struct resultSS
 {
 	int nb_nodes;
 	int nb_arcs;
 	int n_obs;
 	int n_res;
-	int D1;
-	int D2;
-	double T1;
-	double T2;
 	long int n_labels;
 	double T;
 	long int n_checks;
 };
 
-void statBS(string dir, list<int> &obstacles, ostream &out)
-{ // Run the tests for any BS method
-	int n1;
-	int n2;
-	double t1;
-	double t2;
+void statSS(string dir, list<int> &obstacles, ostream &out)
+{ // Run the tests for any SS method
 	auto start_pb = chrono::system_clock::now();
 	chrono::duration<double> elapsed1;
-	list<resultBS> results = list<resultBS>();
+	list<resultSS> results = list<resultSS>();
 	for (const auto &file : filesystem::directory_iterator(dir))
 	{
 		filesystem::path infilepath = file.path();
@@ -526,19 +520,22 @@ void statBS(string dir, list<int> &obstacles, ostream &out)
 
 			list<Node *> *obsList = createObstacles(x_min, y_min, x_max, y_max, max_no + 1, *n_obs);
 			computeArcD(*l, *obsList);
-
-			// cout<<"\nJust before secondSPPAO"<<endl;
+			// list<list<bunchOfArcs>> *arcsToAddLists = buildArcsToAdd(*l); // Needed for SS-ADD1 and SS-ADD2
 
 			n_labels = 0;
 			n_checks = 0;
 			start_pb = chrono::system_clock::now();
 
-			list<infoPath> *SPPAOres = secondSPPAO(*l, node1, node2, &n1, &n2, &t1, nullptr);
+			// list<infoPath>* SPPAOres = firstSPPAO(*l, node1, node2); // SS-CL or SS-ST
+			// list<infoPath>* SPPAOres = firstSPPAO_update(*l, node1, node2); // SS-DEL
+			// list<infoPath> *SPPAOres = weirdSPPAO(*arcsToAddLists, node1, node2); // SS-ADD1
+			// list<infoPath>* SPPAOres = weirdSPPAO2(*l, *arcsToAddLists, node1, node2); // SS-ADD2
+			list<infoPath> *SPPAOres = SS_ST(*l, node1, node2); // SS-ADD*
 
 			elapsed1 = chrono::system_clock::now() - start_pb;
 
-			results.push_back(resultBS({n_nodes, n_arcs, *n_obs,
-										(int)SPPAOres->size(), n1, n2, t1, t2, n_labels, elapsed1.count(), n_checks}));
+			results.push_back(resultSS({n_nodes, n_arcs, *n_obs,
+										(int)SPPAOres->size(), n_labels, elapsed1.count(), n_checks}));
 
 			for (list<infoPath>::iterator it = SPPAOres->begin(); it != SPPAOres->end(); it++)
 			{
@@ -549,14 +546,14 @@ void statBS(string dir, list<int> &obstacles, ostream &out)
 			resetGraph(*l);
 
 			deleteGraph(obsList);
+			// delete arcsToAddLists;
 		}
 		deleteGraph(l);
 	}
-	for (list<resultBS>::iterator it = results.begin(); it != results.end(); it++)
+	for (list<resultSS>::iterator it = results.begin(); it != results.end(); it++)
 	{
 		out << setprecision(5);
-		out << it->nb_nodes << " " << it->nb_arcs << " " << it->n_obs << " " << it->n_res << " ";
-		out << it->D1 << " " << it->D2 << " " << it->T1 << " " << it->T2 << " " << it->n_labels << " " << it->T;
+		out << it->nb_nodes << " " << it->nb_arcs << " " << it->n_obs << " " << it->n_res << " " << it->n_labels << " " << it->T;
 		out << " " << it->n_checks << "\n";
 	}
 }
@@ -576,14 +573,16 @@ void testEngine(string dir = "testDB")
 	infilepath /= "data";
 	infilepath /= dir;
 	ofstream fout(outfilepath, ios::out);
-	statBS(infilepath, obstacles, fout);
+	statSS(infilepath, obstacles, fout);
 	fout.close();
 }
 
 int main(int argc, char *argv[])
 {
 	po::options_description desc("Allowed options");
-	desc.add_options()("help", "produce help message")("p_square", po::value<double>()->default_value(0.5), "proportion of hexagons to be turned into squares")("p_merge", po::value<double>()->default_value(0.5), "proportion of nodes to be merged")("P", po::value<int>()->default_value(10), "height of the initial grid")("Q", po::value<int>()->default_value(10), "width of the initial grid")("O", po::value<int>()->default_value(5), "number of obstacles")("seed", po::value<int>()->default_value(time(nullptr)), "seed of the random generator")("v", "verbosity mode + records the rectangles");
+	desc.add_options()(
+		"help", "produce help message")(
+		"v", "verbosity mode + records the rectangles");
 
 	po::variables_map vm;
 	po::store(po::parse_command_line(argc, argv, desc), vm);
@@ -597,16 +596,6 @@ int main(int argc, char *argv[])
 
 	logs = vm.count("v") ? true : false;
 
-	double p_square = vm["p_square"].as<double>();
-	double p_merge = vm["p_merge"].as<double>();
-	int P = vm["P"].as<int>();
-	int Q = vm["Q"].as<int>();
-	int O = vm["O"].as<int>();
-
-	cout << p_square << p_merge << P << Q << O << logs << endl;
-
-	int seed = vm["seed"].as<int>();
-	seed = 0;
 	// int seed = time(nullptr);
 	// int seed = 1654611373; ./output/main --P 30 --Q 30 --O 2 --seed 1654611373 > ./data/logs.log && cat ./data/logs.log | grep "Deleting path"
 	// int seed = 1654680670; ./output/main --P 100 --Q 100 --O 2 --p_merge 0 --p_square 1 --seed 1654680670 --v
@@ -614,9 +603,8 @@ int main(int argc, char *argv[])
 	// 1655724989;
 	// 1655748706;
 
-	srand(seed); // 1652869031
-	cout << "seed : " << seed << "\n\n"
-		 << endl;
+	// srand(seed); // 1652869031
+
 	// testSPPAO2(P, Q, O, p_square, p_merge);
 	// testDB();
 	// realDB();
@@ -629,4 +617,5 @@ int main(int argc, char *argv[])
 	// writeComparison("dataSPPAO_labelUpdate.txt", "dataSPPAO_addArcs.txt", "SPPAOcomparison_labUpdate_addaArcs.tex");
 	// writeCompareMethod("dataSPPAO_CstarD.txt", "methodsCompareCstar.tex");
 	testEngine("completeDB");
+	// writeAllComparison();
 }
