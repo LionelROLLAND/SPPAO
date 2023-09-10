@@ -50,7 +50,7 @@ list<infoPath> *SS_ADD_star(list<Node *> &graph, list<list<bunchOfArcs>> &arcsTo
             cout << "\nweirdSPPAO2 -- labelUpdate, strict_min_d = " << currD << "\n";
         }
 
-        labelUpdating_add_OptiC_condCstarD(*arcsLists, optC, currD);
+        labelUpdating_add_OptiC_condCstarD(*arcsLists, optC, currD, t);
         if (t->c_to_s < optC)
         {
             optPath = makePath(t);

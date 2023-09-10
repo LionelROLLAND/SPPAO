@@ -145,7 +145,7 @@ infoPath computeCstar_andPathOptiC_noCond(Node *s, Node *t)
     return revMakePath(s);
 }
 
-void labelUpdating_add_OptiC_condCstarD(list<bunchOfArcs> &arcsToAddLists, double strict_max_c, double min_d)
+void labelUpdating_add_OptiC_condCstarD(list<bunchOfArcs> &arcsToAddLists, double strict_max_c, double min_d, Node *t)
 {
     fibHeap<Node *> *heap = new fibHeap<Node *>(compC_to_s);
     Node *to_process;
@@ -194,39 +194,40 @@ void labelUpdating_add_OptiC_condCstarD(list<bunchOfArcs> &arcsToAddLists, doubl
     {
         to_relax = heap->deleteMin();
         to_relax->tree = nullptr;
-        if (to_relax->c_to_s < inf)
+        if (to_relax == t)
         {
-            for (list<arcNode>::iterator neighb = to_relax->l_adj.begin();
-                 neighb != to_relax->l_adj.end(); neighb++)
+            break;
+        }
+        for (list<arcNode>::iterator neighb = to_relax->l_adj.begin();
+             neighb != to_relax->l_adj.end(); neighb++)
+        {
+            n_checks++;
+            if (neighb->arc_d >= min_d)
             {
-                n_checks++;
-                if (neighb->arc_d >= min_d)
+                newLength = to_relax->c_to_s + neighb->arc_c;
+                if (newLength + neighb->c_to_t() < strict_max_c && newLength < neighb->c_to_s())
                 {
-                    newLength = to_relax->c_to_s + neighb->arc_c;
-                    if (newLength + neighb->c_to_t() <= strict_max_c && newLength < neighb->c_to_s())
+                    n_labels++;
+                    neighb->c_to_s() = newLength;
+                    neighb->d_to_S() = min(to_relax->d_to_S, neighb->arc_d);
+                    if (neighb->tree() != nullptr)
                     {
-                        n_labels++;
-                        neighb->c_to_s() = newLength;
-                        neighb->d_to_S() = min(to_relax->d_to_S, neighb->arc_d);
-                        if (neighb->tree() != nullptr)
-                        {
-                            heap->decreasedKey(static_cast<markTree<Node *> *>(neighb->tree()));
-                        }
-                        else
-                        {
-                            neighb->tree() = heap->insert(neighb->node);
-                        }
+                        heap->decreasedKey(static_cast<markTree<Node *> *>(neighb->tree()));
+                    }
+                    else
+                    {
+                        neighb->tree() = heap->insert(neighb->node);
+                    }
 
-                        if (neighb->pred() != nullptr)
-                        {
-                            neighb->pred()->node = to_relax;
-                            neighb->pred()->arc_c = neighb->arc_c;
-                            neighb->pred()->arc_d = neighb->arc_d;
-                        }
-                        else
-                        {
-                            neighb->pred() = new arcNode(to_relax, neighb->arc_c, neighb->arc_d);
-                        }
+                    if (neighb->pred() != nullptr)
+                    {
+                        neighb->pred()->node = to_relax;
+                        neighb->pred()->arc_c = neighb->arc_c;
+                        neighb->pred()->arc_d = neighb->arc_d;
+                    }
+                    else
+                    {
+                        neighb->pred() = new arcNode(to_relax, neighb->arc_c, neighb->arc_d);
                     }
                 }
             }
