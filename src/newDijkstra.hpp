@@ -50,6 +50,6 @@ infoPath labelUpdating_OptiCD_condCstarD(list<Node *> &graph, Node *s, Node *t, 
 // Dijkstra's algorithm avoiding the d_ij < strict_min_d
 infoPath dijkstraOptiC_condD(Node *s, Node *t, double strict_min_d);
 
-infoPath dijkstraOptiCD_noCond_noStop(Node *s, Node *t);
+infoPath dijkstraOptiCD_condCstar_noStop(Node *s, Node *t, double max_c);
 
 #endif

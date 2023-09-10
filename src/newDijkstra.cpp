@@ -375,7 +375,7 @@ infoPath dijkstraOptiC_condD(Node *s, Node *t, double min_d)
     return makePath(t);
 }
 
-infoPath dijkstraOptiCD_noCond_noStop(Node *s, Node *t)
+infoPath dijkstraOptiCD_condCstar_noStop(Node *s, Node *t, double max_c)
 {
     s->c_to_s = 0;
     s->d_to_S = inf;
@@ -392,9 +392,8 @@ infoPath dijkstraOptiCD_noCond_noStop(Node *s, Node *t)
         for (list<arcNode>::iterator neighb = to_relax->l_adj.begin();
              neighb != to_relax->l_adj.end(); neighb++)
         {
-            n_checks++;
             newLength = to_relax->c_to_s + neighb->arc_c;
-            if (newLength < neighb->c_to_s())
+            if (newLength + neighb->c_to_t() <= max_c && newLength < neighb->c_to_s())
             {
                 n_labels++;
                 neighb->c_to_s() = newLength;
@@ -414,6 +413,11 @@ infoPath dijkstraOptiCD_noCond_noStop(Node *s, Node *t)
             }
             else if (newLength == neighb->c_to_s())
             {
+                // No need for newLength + neighb->c_to_t() < strict_max_c because that's guaranteed by
+                // this condition already : newLength == neighb->c_to_s() with newLength != infinity
+                // So neighb->c_to_s() != infinity
+                // Meaning that previously the neighb->c_to_s() that has been set complied with
+                // neighb->c_to_s() + neighb->c_to_t() < strict_max_c
                 newDist = min(to_relax->d_to_S, neighb->arc_d);
                 if (newDist > neighb->d_to_S())
                 {
