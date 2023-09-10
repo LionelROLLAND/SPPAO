@@ -178,108 +178,75 @@ list<infoPath> *BS_ST(list<Node *> &graph, Node *s, Node *t, int *n1, int *n2,
                 list<Node *> *resPath = new list<Node *>(*(upper.path));
                 history->push_back(logSPPAO2({infoPath({resPath, upper.c, upper.d}), Irect.c_max, d_bar}));
             }
-            if (upper.d != Irect.d_max)
+            if (logs)
             {
-                if (logs)
-                {
-                    cout << "Adding rectangle : bottom = " << res->begin()->d << ", top = ";
-                    cout << Irect.d_max << ", left = " << res->begin()->c << ", right = " << Irect.c_max << "\n";
-                }
-                criteriaSpace.push_back(Rectangle({res->begin(), Irect.c_max, Irect.d_max, step + 1}));
+                cout << "Adding rectangle : bottom = " << res->begin()->d << ", top = ";
+                cout << Irect.d_max << ", left = " << res->begin()->c << ", right = " << Irect.c_max << "\n";
+            }
+            criteriaSpace.push_back(Rectangle({res->begin(), Irect.c_max, Irect.d_max, step + 1}));
+
+            // resetGraph(graph);
+            simpleResetGraph(graph);
+
+            if (logs)
+            {
+                cout << "#" << ++nbD1 << " SPPAO2 -- Dijkstra, lower, strict_min_d = " << Irect.pathMin->d;
+                cout << ", strict_max_c = " << upper.c << "\n";
             }
 
-            if (upper.c == Irect.pathMin->c)
-            {
+            startSub = chrono::system_clock::now();
 
+            lower = dijkstraOptiCD_condCD(s, t, Irect.pathMin->d, upper.c); // For BS-ST
+            // lower = dijkstraOptiC_condCD(s, t, Irect.pathMin->d, upper.c); //For BS-CL
+
+            // lower = dijkstraOptiCD_condCstarD(s, t, Irect.pathMin->d, upper.c); //For BS-LB
+            // lower = dijkstraOptiC_condCstarD(s, t, Irect.pathMin->d, upper.c); //For BS-CL-LB
+
+            elapsed = chrono::system_clock::now() - startSub;
+            if (t2 != nullptr)
+            {
+                *t2 += elapsed.count();
+            }
+            if (n2 != nullptr)
+            {
+                (*n2)++;
+            }
+            if (logs)
+            {
+                cout << "result : d = " << lower.d << ", c = " << lower.c << "\n";
+            }
+
+            if (lower.path->size() > 1)
+            {
                 if (logs)
                 {
-                    cout << "Deleting path : c = " << Irect.pathMin->c;
-                    cout << ", d = " << Irect.pathMin->d << "\n";
-                    logStream << "point " << step + 1 << " " << Irect.pathMin->c << " " << Irect.pathMin->d << " ";
-                    logStream << (int)PNr << " " << (int)PNg << " " << (int)PNb << "\n";
+                    cout << "Adding path : d = " << lower.d << ", c = " << lower.c << "\n";
+                    logStream << "point " << step + 1 << " " << lower.c << " " << lower.d << " ";
+                    logStream << (int)PSr << " " << (int)PSg << " " << (int)PSb << "\n";
                 }
-                delete Irect.pathMin->path;
-                res->erase(Irect.pathMin);
+                res->push_front(lower);
+                if (history != nullptr)
+                {
+                    list<Node *> *resPath = new list<Node *>(*(lower.path));
+                    history->push_back(logSPPAO2({infoPath({resPath, lower.c, lower.d}), upper.c, Irect.pathMin->d}));
+                }
+                if (lower.d != d_bar)
+                {
+                    if (logs)
+                    {
+                        cout << "Adding rectangle : bottom = " << res->begin()->d << ", top = ";
+                        cout << upper.d << ", left = " << res->begin()->c << ", right = " << upper.c << "\n";
+                    }
+                    criteriaSpace.push_back(Rectangle({res->begin(), upper.c, d_bar, step + 1}));
+                }
             }
             else
             {
-
-                // resetGraph(graph);
-                simpleResetGraph(graph);
-
                 if (logs)
                 {
-                    cout << "#" << ++nbD1 << " SPPAO2 -- Dijkstra, lower, strict_min_d = " << Irect.pathMin->d;
-                    cout << ", strict_max_c = " << upper.c << "\n";
-                }
-
-                startSub = chrono::system_clock::now();
-
-                lower = dijkstraOptiCD_condCD(s, t, Irect.pathMin->d, upper.c); // For BS-ST
-                // lower = dijkstraOptiC_condCD(s, t, Irect.pathMin->d, upper.c); //For BS-CL
-
-                // lower = dijkstraOptiCD_condCstarD(s, t, Irect.pathMin->d, upper.c); //For BS-LB
-                // lower = dijkstraOptiC_condCstarD(s, t, Irect.pathMin->d, upper.c); //For BS-CL-LB
-
-                elapsed = chrono::system_clock::now() - startSub;
-                if (t2 != nullptr)
-                {
-                    *t2 += elapsed.count();
-                }
-                if (n2 != nullptr)
-                {
-                    (*n2)++;
-                }
-                if (logs)
-                {
-                    cout << "result : d = " << lower.d << ", c = " << lower.c << "\n";
-                }
-
-                if (lower.path->size() > 1)
-                {
-                    if (logs)
-                    {
-                        cout << "Adding path : d = " << lower.d << ", c = " << lower.c << "\n";
-                        logStream << "point " << step + 1 << " " << lower.c << " " << lower.d << " ";
-                        logStream << (int)PSr << " " << (int)PSg << " " << (int)PSb << "\n";
-                    }
-                    res->push_front(lower);
-                    if (history != nullptr)
-                    {
-                        list<Node *> *resPath = new list<Node *>(*(lower.path));
-                        history->push_back(logSPPAO2({infoPath({resPath, lower.c, lower.d}), upper.c, Irect.pathMin->d}));
-                    }
-                    if (lower.d != d_bar)
-                    {
-                        if (logs)
-                        {
-                            cout << "Adding rectangle : bottom = " << res->begin()->d << ", top = ";
-                            cout << upper.d << ", left = " << res->begin()->c << ", right = " << upper.c << "\n";
-                        }
-                        criteriaSpace.push_back(Rectangle({res->begin(), upper.c, d_bar, step + 1}));
-                    }
-
-                    if (lower.c == Irect.pathMin->c)
-                    {
-                        if (logs)
-                        {
-                            cout << "Deleting path : c = " << Irect.pathMin->c;
-                            cout << ", d = " << Irect.pathMin->d << "\n";
-                            logStream << "point " << step + 1 << " " << Irect.pathMin->c << " " << Irect.pathMin->d << " ";
-                            logStream << (int)PNr << " " << (int)PNg << " " << (int)PNb << "\n";
-                        }
-                        delete Irect.pathMin->path;
-                        res->erase(Irect.pathMin);
-                    }
-                }
-                else
-                {
-                    if (logs)
-                    {
-                        logStream << "rect " << step + 1 << " " << step + 2 << " " << Irect.pathMin->d << " ";
-                        logStream << d_bar << " " << Irect.pathMin->c << " " << upper.c << " ";
-                        logStream << (int)RNr << " " << (int)RNg << " " << (int)RNb << "\n";
-                    }
+                    logStream << "rect " << step + 1 << " " << step + 2 << " " << Irect.pathMin->d << " ";
+                    logStream << d_bar << " " << Irect.pathMin->c << " " << upper.c << " ";
+                    logStream << (int)RNr << " " << (int)RNg << " " << (int)RNb << "\n";
                 }
             }
 
@@ -354,19 +321,6 @@ list<infoPath> *BS_ST(list<Node *> &graph, Node *s, Node *t, int *n1, int *n2,
                     logStream << "rect " << Irect.initStep << " " << step + 1 << " " << Irect.pathMin->d << " ";
                     logStream << Irect.d_max << " " << Irect.pathMin->c << " " << Irect.c_max << " ";
                     logStream << (int)RSr << " " << (int)RSg << " " << (int)RSb << "\n";
-                }
-
-                if (lower.c == Irect.pathMin->c)
-                {
-                    delete Irect.pathMin->path;
-                    if (logs)
-                    {
-                        cout << "Deleting path : c = " << Irect.pathMin->c;
-                        cout << ", d = " << Irect.pathMin->d << "\n";
-                        logStream << "point " << step + 1 << " " << Irect.pathMin->c << " " << Irect.pathMin->d << " ";
-                        logStream << (int)PNr << " " << (int)PNg << " " << (int)PNb << "\n";
-                    }
-                    res->erase(Irect.pathMin);
                 }
             }
             else
