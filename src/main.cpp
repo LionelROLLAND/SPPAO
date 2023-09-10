@@ -246,11 +246,10 @@ void testSPPAO2(int P = 10, int Q = 10, int O = 5, double prop_square = 0.5, dou
 	list<Node *> *obstacles = createObstacles(x_min, y_min, x_max, y_max, max_no + 1, O);
 
 	computeArcD(*l, *obstacles);
-	list<list<bunchOfArcs>> *arcsToAddLists = buildArcsToAdd(*l);
 
 	// list<logSPPAO2>* history = new list<logSPPAO2>();
 	// list<infoPath>* l_res = secondSPPAO(*l, node1, node2, nullptr, nullptr, nullptr, nullptr, history);
-	list<infoPath> *l_res = firstSPPAO_update(*l, node1, node2);
+	list<infoPath> *l_res = BS_ST(*l, node1, node2);
 
 	filesystem::path filepath = filesystem::current_path();
 	filepath /= "data";
@@ -280,43 +279,15 @@ void testSPPAO2(int P = 10, int Q = 10, int O = 5, double prop_square = 0.5, dou
 	delete history;
 	*/
 
-	resetGraph(*l);
-
-	cout << "\n\n\n\n\n\n";
-
 	// list<infoPath>* SPPAOres = weirdSPPAO(*arcsToAddLists, node1, node2);
 	// list<infoPath>* SPPAOres = firstSPPAO(*l, node1, node2);
 	// list<infoPath>* SPPAOres = firstSPPAO_update(*l, node1, node2);
-	list<infoPath> *SPPAOres = weirdSPPAO2(*l, *arcsToAddLists, node1, node2);
+	// list<infoPath> *SPPAOres = weirdSPPAO2(*l, *arcsToAddLists, node1, node2);
 
-	filepath = filesystem::current_path();
-	filepath /= "data";
-	filepath /= "testSPPAO4.txt";
-	writing = ofstream(filepath, ios::out);
-	if (n_arcs / n_points < 6)
-	{
-		writeSolSPPAO(*l, *obstacles, *SPPAOres, writing);
-	}
-	else
-	{
-		writeSolSPPAO(*l, *obstacles, *SPPAOres, writing, 0.1);
-	}
-	writing.close();
-
-	for (list<infoPath>::iterator it = SPPAOres->begin(); it != SPPAOres->end(); it++)
-	{
-		delete it->path;
-	}
-	for (list<infoPath>::iterator it = l_res->begin(); it != l_res->end(); it++)
-	{
-		delete it->path;
-	}
-	delete SPPAOres;
 	delete l_res;
 
 	// delete pre_res.path;
 	// delete res.path;
-	delete arcsToAddLists;
 	resetGraph(*l);
 	// deleteGraph(obstacles);
 	delete obstacles;
@@ -397,7 +368,7 @@ void checkSPPAO()
 	computeArcD(*l, *obstacles);
 	// list<infoPath>* res = secondSPPAO(*l, node1, node2);
 
-	list<infoPath> *res = firstSPPAO_update(*l, node1, node2);
+	list<infoPath> *res = BS_ST(*l, node1, node2);
 	cout << "nb res second : " << res->size() << endl;
 
 	/*
@@ -533,7 +504,7 @@ void statBS(string dir, list<int> &obstacles, ostream &out)
 			n_checks = 0;
 			start_pb = chrono::system_clock::now();
 
-			list<infoPath> *SPPAOres = secondSPPAO(*l, node1, node2, &n1, &n2, &t1, nullptr);
+			list<infoPath> *SPPAOres = BS_ST(*l, node1, node2, &n1, &n2, &t1, nullptr);
 
 			elapsed1 = chrono::system_clock::now() - start_pb;
 
