@@ -163,7 +163,7 @@ void writeSolSPPAO(list<Node *> &graph, list<Node *> &obstacles, list<infoPath> 
 
 // Tests methods of resolution, stores the results in files (which can be seen with View_graph.py)
 // Hard-coded settings, see function body
-void testSPPAO2(int P = 10, int Q = 10, int O = 5, double prop_square = 0.5, double prop_merge = 0.5)
+void testSPPAO2(string file, int P = 10, int Q = 10, int O = 5, double prop_square = 0.5, double prop_merge = 0.5)
 {
 	cout << P << Q << O << prop_square << prop_merge << endl;
 	list<Node *> *l = makeGraph(P, Q, prop_square, prop_merge);
@@ -253,7 +253,7 @@ void testSPPAO2(int P = 10, int Q = 10, int O = 5, double prop_square = 0.5, dou
 
 	filesystem::path filepath = filesystem::current_path();
 	filepath /= "data";
-	filepath /= "testSPPAO3.txt";
+	filepath /= file;
 	ofstream writing(filepath, ios::out);
 	if (n_arcs / n_points < 6)
 	{
@@ -284,6 +284,10 @@ void testSPPAO2(int P = 10, int Q = 10, int O = 5, double prop_square = 0.5, dou
 	// list<infoPath>* SPPAOres = firstSPPAO_update(*l, node1, node2);
 	// list<infoPath> *SPPAOres = weirdSPPAO2(*l, *arcsToAddLists, node1, node2);
 
+	for (list<infoPath>::iterator it = l_res->begin(); it != l_res->end(); it++)
+	{
+		delete it->path;
+	}
 	delete l_res;
 
 	// delete pre_res.path;
@@ -557,8 +561,13 @@ int main(int argc, char *argv[])
 	po::options_description desc("Allowed options");
 	desc.add_options()(
 		"help", "produce help message")(
-		"seed", po::value<int>()->default_value(time(nullptr)), "the random seed to place the obstacles")(
-		"db-dir", po::value<string>()->default_value("testDB"), "the directory containing the database on which to run the tests")(
+		"p_square", po::value<double>()->default_value(0.5), "proportion of hexagons to be turned into squares")(
+		"p_merge", po::value<double>()->default_value(0.5), "proportion of nodes to be merged")(
+		"P", po::value<int>()->default_value(10), "height of the initial grid")(
+		"Q", po::value<int>()->default_value(10), "width of the initial grid")(
+		"O", po::value<int>()->default_value(5), "number of obstacles")(
+		"output", po::value<string>()->default_value("TEST_TEST.txt"), "the file in which to put the result")(
+		"seed", po::value<int>()->default_value(time(nullptr)), "seed of the random generator")(
 		"v", "verbosity mode + records the rectangles");
 
 	po::variables_map vm;
@@ -576,7 +585,14 @@ int main(int argc, char *argv[])
 	int seed = vm["seed"].as<int>();
 	srand(seed);
 
-	cout << logs << endl;
+	double p_square = vm["p_square"].as<double>();
+	double p_merge = vm["p_merge"].as<double>();
+	int P = vm["P"].as<int>();
+	int Q = vm["Q"].as<int>();
+	int O = vm["O"].as<int>();
+	string filename = vm["output"].as<string>();
+
+	cout << p_square << p_merge << P << Q << O << logs << endl;
 
 	// int seed = time(nullptr);
 	// int seed = 1654611373; ./output/main --P 30 --Q 30 --O 2 --seed 1654611373 > ./data/logs.log && cat ./data/logs.log | grep "Deleting path"
@@ -585,7 +601,10 @@ int main(int argc, char *argv[])
 	// 1655724989;
 	// 1655748706;
 
-	// testSPPAO2(P, Q, O, p_square, p_merge);
+	cout << "seed : " << seed << "\n\n"
+		 << endl;
+
+	testSPPAO2(filename, P, Q, O, p_square, p_merge);
 	// testDB();
 	// realDB();
 	// newCompleteDB();
@@ -596,5 +615,6 @@ int main(int argc, char *argv[])
 	// checkSPPAO();
 	// writeComparison("dataSPPAO_labelUpdate.txt", "dataSPPAO_addArcs.txt", "SPPAOcomparison_labUpdate_addaArcs.tex");
 	// writeCompareMethod("dataSPPAO_CstarD.txt", "methodsCompareCstar.tex");
-	testEngine(directory);
+	// testEngine("completeDB");
+	// writeAllComparison();
 }
