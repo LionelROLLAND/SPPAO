@@ -162,22 +162,11 @@ void writeSolSPPAO(list<Node *> &graph, list<Node *> &obstacles, list<infoPath> 
 
 // Tests methods of resolution, stores the results in files (which can be seen with View_graph.py)
 // Hard-coded settings, see function body
-void testSPPAO2(int P = 10, int Q = 10, int O = 5, double prop_square = 0.5, double prop_merge = 0.5)
+void testSPPAO2(string file, int P = 10, int Q = 10, int O = 5, double prop_square = 0.5, double prop_merge = 0.5)
 {
 	cout << P << Q << O << prop_square << prop_merge << endl;
 	list<Node *> *l = makeGraph(P, Q, prop_square, prop_merge);
 	naturalWeight(*l);
-
-	/*
-	filesystem::path infilepath = filesystem::current_path();
-	infilepath /= "data";
-	infilepath /= "completeDB";
-	infilepath /= "instance_569.txt";
-	ifstream reading(infilepath, ios::in);
-	list<Node*>* l = new list<Node*>();
-	reading>>*l;
-	reading.close();
-	*/
 
 	double n_points = nbNodes(*l);
 	double n_arcs = nbArcs(*l);
@@ -229,31 +218,17 @@ void testSPPAO2(int P = 10, int Q = 10, int O = 5, double prop_square = 0.5, dou
 		}
 	}
 
-	/*
-	Node* node1;
-	Node* node2;
-	list<Node*>* obstacles = new list<Node*>();
-	for (list<Node*>::iterator it = l->begin(); it != l->end(); it++) {
-		if ((*it)->no == 1) {node1 = *it;}
-		if ((*it)->no == 100) {node2 = *it;}
-		if ((*it)->no == 31 || (*it)->no == 60) {obstacles->push_back(*it);}
-	}
-	*/
-
 	cout << "Node 1 : " << node1 << "\nNode 2 : " << node2 << endl;
 
 	list<Node *> *obstacles = createObstacles(x_min, y_min, x_max, y_max, max_no + 1, O);
 
 	computeArcD(*l, *obstacles);
-	// list<list<bunchOfArcs>> *arcsToAddLists = buildArcsToAdd(*l);
 
-	// list<logSPPAO2>* history = new list<logSPPAO2>();
-	// list<infoPath>* l_res = secondSPPAO(*l, node1, node2, nullptr, nullptr, nullptr, nullptr, history);
 	list<infoPath> *l_res = single_search(*l, node1, node2);
 
 	filesystem::path filepath = filesystem::current_path();
 	filepath /= "data";
-	filepath /= "testSPPAO3.txt";
+	filepath /= file;
 	ofstream writing(filepath, ios::out);
 	if (n_arcs / n_points < 6)
 	{
@@ -265,59 +240,13 @@ void testSPPAO2(int P = 10, int Q = 10, int O = 5, double prop_square = 0.5, dou
 	}
 	writing.close();
 
-	/*
-	filepath = filesystem::current_path();
-	filepath /= "data";
-	filepath /= "historySPPAO2.txt";
-
-	//writing = ofstream(filepath, ios::out);
-	//writeSolSPPAO2(*l, *obstacles, *history, writing);
-	//writing.close();
-	for (list<logSPPAO2>::iterator it = history->begin(); it != history->end(); it++) {
-		delete it->path.path;
-	}
-	delete history;
-	*/
-
-	resetGraph(*l);
-
-	cout << "\n\n\n\n\n\n";
-
-	// list<infoPath>* SPPAOres = weirdSPPAO(*arcsToAddLists, node1, node2);
-	// list<infoPath>* SPPAOres = firstSPPAO(*l, node1, node2);
-	// list<infoPath>* SPPAOres = firstSPPAO_update(*l, node1, node2);
-	list<infoPath> *SPPAOres = single_search(*l, node1, node2);
-
-	filepath = filesystem::current_path();
-	filepath /= "data";
-	filepath /= "testSPPAO4.txt";
-	writing = ofstream(filepath, ios::out);
-	if (n_arcs / n_points < 6)
-	{
-		writeSolSPPAO(*l, *obstacles, *SPPAOres, writing);
-	}
-	else
-	{
-		writeSolSPPAO(*l, *obstacles, *SPPAOres, writing, 0.1);
-	}
-	writing.close();
-
-	for (list<infoPath>::iterator it = SPPAOres->begin(); it != SPPAOres->end(); it++)
-	{
-		delete it->path;
-	}
 	for (list<infoPath>::iterator it = l_res->begin(); it != l_res->end(); it++)
 	{
 		delete it->path;
 	}
-	delete SPPAOres;
 	delete l_res;
 
-	// delete pre_res.path;
-	// delete res.path;
-	// delete arcsToAddLists;
 	resetGraph(*l);
-	// deleteGraph(obstacles);
 	delete obstacles;
 	deleteGraph(l);
 }
@@ -503,7 +432,13 @@ int main(int argc, char *argv[])
 	po::options_description desc("Allowed options");
 	desc.add_options()(
 		"help", "produce help message")(
-		"db-dir", po::value<string>()->default_value("testDB"), "the directory containing the database on which to run the tests")(
+		"p_square", po::value<double>()->default_value(0.5), "proportion of hexagons to be turned into squares")(
+		"p_merge", po::value<double>()->default_value(0.5), "proportion of nodes to be merged")(
+		"P", po::value<int>()->default_value(10), "height of the initial grid")(
+		"Q", po::value<int>()->default_value(10), "width of the initial grid")(
+		"O", po::value<int>()->default_value(5), "number of obstacles")(
+		"output", po::value<string>()->default_value("TEST_TEST.txt"), "the file in which to put the result")(
+		"seed", po::value<int>()->default_value(time(nullptr)), "seed of the random generator")(
 		"v", "verbosity mode + records the rectangles");
 
 	po::variables_map vm;
@@ -518,7 +453,16 @@ int main(int argc, char *argv[])
 
 	logs = vm.count("v") ? true : false;
 
-	string directory = vm["db-dir"].as<string>();
+	double p_square = vm["p_square"].as<double>();
+	double p_merge = vm["p_merge"].as<double>();
+	int P = vm["P"].as<int>();
+	int Q = vm["Q"].as<int>();
+	int O = vm["O"].as<int>();
+	string filename = vm["output"].as<string>();
+
+	cout << p_square << p_merge << P << Q << O << logs << endl;
+
+	int seed = vm["seed"].as<int>();
 
 	// int seed = time(nullptr);
 	// int seed = 1654611373; ./output/main --P 30 --Q 30 --O 2 --seed 1654611373 > ./data/logs.log && cat ./data/logs.log | grep "Deleting path"
@@ -527,9 +471,11 @@ int main(int argc, char *argv[])
 	// 1655724989;
 	// 1655748706;
 
-	// srand(seed); // 1652869031
+	srand(seed); // 1652869031
+	cout << "seed : " << seed << "\n\n"
+		 << endl;
 
-	// testSPPAO2(P, Q, O, p_square, p_merge);
+	testSPPAO2(filename, P, Q, O, p_square, p_merge);
 	// testDB();
 	// realDB();
 	// newCompleteDB();
@@ -540,6 +486,6 @@ int main(int argc, char *argv[])
 	// checkSPPAO();
 	// writeComparison("dataSPPAO_labelUpdate.txt", "dataSPPAO_addArcs.txt", "SPPAOcomparison_labUpdate_addaArcs.tex");
 	// writeCompareMethod("dataSPPAO_CstarD.txt", "methodsCompareCstar.tex");
-	testEngine(directory);
+	// testEngine("completeDB");
 	// writeAllComparison();
 }
