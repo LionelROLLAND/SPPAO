@@ -554,7 +554,10 @@ void testEngine(string dir = "testDB")
 int main(int argc, char *argv[])
 {
 	po::options_description desc("Allowed options");
-	desc.add_options()("help", "produce help message")("p_square", po::value<double>()->default_value(0.5), "proportion of hexagons to be turned into squares")("p_merge", po::value<double>()->default_value(0.5), "proportion of nodes to be merged")("P", po::value<int>()->default_value(10), "height of the initial grid")("Q", po::value<int>()->default_value(10), "width of the initial grid")("O", po::value<int>()->default_value(5), "number of obstacles")("seed", po::value<int>()->default_value(time(nullptr)), "seed of the random generator")("v", "verbosity mode + records the rectangles");
+	desc.add_options()(
+		"help", "produce help message")(
+		"seed", po::value<int>()->default_value(time(nullptr)), "seed of the random generator")(
+		"v", "verbosity mode + records the rectangles");
 
 	po::variables_map vm;
 	po::store(po::parse_command_line(argc, argv, desc), vm);
@@ -568,13 +571,7 @@ int main(int argc, char *argv[])
 
 	logs = vm.count("v") ? true : false;
 
-	double p_square = vm["p_square"].as<double>();
-	double p_merge = vm["p_merge"].as<double>();
-	int P = vm["P"].as<int>();
-	int Q = vm["Q"].as<int>();
-	int O = vm["O"].as<int>();
-
-	cout << p_square << p_merge << P << Q << O << logs << endl;
+	cout << logs << endl;
 
 	int seed = vm["seed"].as<int>();
 	seed = 0;
