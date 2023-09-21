@@ -12,11 +12,13 @@ list<infoPath> *SS_ADD_star(list<Node *> &graph, list<list<bunchOfArcs>> &arcsTo
 
     infoPath maxDpath = dijkstraOptiD_noCond(s, t);
 
-    simpleResetGraph(graph);
-
     double d_max = maxDpath.d;
 
+    simpleResetGraph(graph);
+
     computeCstar_andPathOptiC_noCond(s, t);
+
+    simpleResetGraph(graph);
 
     list<list<bunchOfArcs>>::iterator startArcs = arcsToAddLists.begin();
     while (startArcs->front().rev_adj.front().arc_d > d_max)
@@ -35,7 +37,6 @@ list<infoPath> *SS_ADD_star(list<Node *> &graph, list<list<bunchOfArcs>> &arcsTo
 
     double optC = optPath.c;
 
-    simpleResetGraph(graph);
     double currD;
     list<infoPath> *res = new list<infoPath>();
     res->push_front(optPath);

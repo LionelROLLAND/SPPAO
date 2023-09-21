@@ -1,5 +1,23 @@
 #include "newDijkstra.hpp"
 
+void treeCleanNodeToTreePtrs(markTree<Node *> *tree)
+{
+    tree->get.data->tree = nullptr;
+    for (typename list<Tree<infoFib<Node *>> *>::iterator child = tree->children.begin();
+         child != tree->children.end(); child++)
+    {
+        treeCleanNodeToTreePtrs(static_cast<markTree<Node *> *>(*child));
+    }
+}
+
+void heapCleanNodeToTreePtrs(fibHeap<Node *> *fH)
+{
+    for (typename list<Tree<infoFib<Node *>> *>::iterator tree = fH->forest.begin(); tree != fH->forest.end(); tree++)
+    {
+        treeCleanNodeToTreePtrs(static_cast<markTree<Node *> *>(*tree));
+    }
+}
+
 infoPath makePath(Node *t)
 {
     // cout<<"\n\n";
@@ -233,6 +251,7 @@ void labelUpdating_add_OptiC_condCstarD(list<bunchOfArcs> &arcsToAddLists, doubl
             }
         }
     }
+    heapCleanNodeToTreePtrs(heap);
     delete heap;
 }
 
@@ -322,6 +341,7 @@ infoPath dijkstraOptiCD_condD(Node *s, Node *t, double strict_min_d)
     cout<<"mean total = "<<elapsed.count()/n_delete<<"\n\n";
     */
 
+    heapCleanNodeToTreePtrs(heap);
     delete heap;
     return makePath(t);
 }
