@@ -24,11 +24,9 @@ list<infoPath> *SS_ST(list<Node *> &graph, Node *s, Node *t, int *n, double *t_c
     infoPath optPath = dijkstraOptiCD_noCond(s, t); // For SS-ST
     // infoPath optPath = dijkstraOptiC_noCond(s, t); //For SS-CL
 
-    double optC = 0;
     list<infoPath> *res = new list<infoPath>();
     while (optPath.path->size() > 1)
     {
-        optC = optPath.c;
         res->push_back(optPath);
         // resetGraph(graph);
         simpleResetGraph(graph);
