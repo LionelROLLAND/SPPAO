@@ -504,7 +504,7 @@ void statBS(string dir, list<int> &obstacles, ostream &out)
 			n_checks = 0;
 			start_pb = chrono::system_clock::now();
 
-			list<infoPath> *SPPAOres = BS_ST(*l, node1, node2, &n1, &n2, &t1, nullptr);
+			list<infoPath> *SPPAOres = BS_ST(*l, node1, node2, &n1, &n2, &t1, &t2);
 
 			elapsed1 = chrono::system_clock::now() - start_pb;
 

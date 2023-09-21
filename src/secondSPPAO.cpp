@@ -119,7 +119,6 @@ list<infoPath> *BS_ST(list<Node *> &graph, Node *s, Node *t, int *n1, int *n2,
     double d_bar;
     infoPath upper;
     infoPath lower;
-    bool is_dmax_reached = false;
     while (!criteriaSpace.empty())
     {
         Irect = criteriaSpace.front();
