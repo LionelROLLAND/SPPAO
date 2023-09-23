@@ -16,7 +16,8 @@ list<infoPath> *SS_ADD_star(list<Node *> &graph, list<list<bunchOfArcs>> &arcsTo
 
     simpleResetGraph(graph);
 
-    computeCstar_andPathOptiC_noCond(s, t);
+    infoPath minCpath = computeCstar_andPathOptiC_noCond(s, t);
+    double overallCmin = minCpath.c;
 
     simpleResetGraph(graph);
 
@@ -42,7 +43,7 @@ list<infoPath> *SS_ADD_star(list<Node *> &graph, list<list<bunchOfArcs>> &arcsTo
     res->push_front(optPath);
 
     for (list<list<bunchOfArcs>>::iterator arcsLists = startArcs;
-         arcsLists != arcsToAddLists.end(); arcsLists++)
+         arcsLists != arcsToAddLists.end() && optC > overallCmin; arcsLists++)
     {
         currD = arcsLists->front().rev_adj.front().arc_d;
 
