@@ -542,12 +542,13 @@ void testEngine(string dir = "testDB")
 	obstacles.push_back(100);
 	filesystem::path outfilepath = filesystem::current_path();
 	outfilepath /= "data";
-	outfilepath /= "res_" + dir + ".txt";
-	filesystem::path infilepath = filesystem::current_path();
-	infilepath /= "data";
-	infilepath /= dir;
+	outfilepath /= "last_results";
+	outfilepath /= "BS-ST_" + dir + ".txt";
+	filesystem::path indirpath = filesystem::current_path();
+	indirpath /= "data";
+	indirpath /= dir;
 	ofstream fout(outfilepath, ios::out);
-	statBS(infilepath, obstacles, fout);
+	statBS(indirpath, obstacles, fout);
 	fout.close();
 }
 
@@ -556,7 +557,7 @@ int main(int argc, char *argv[])
 	po::options_description desc("Allowed options");
 	desc.add_options()(
 		"help", "produce help message")(
-		"seed", po::value<int>()->default_value(time(nullptr)), "seed of the random generator")(
+		"db-dir", po::value<string>()->default_value("testDB"), "the directory containing the database on which to run the tests")(
 		"v", "verbosity mode + records the rectangles");
 
 	po::variables_map vm;
@@ -570,11 +571,10 @@ int main(int argc, char *argv[])
 	}
 
 	logs = vm.count("v") ? true : false;
+	string directory = vm["db-dir"].as<string>();
 
 	cout << logs << endl;
 
-	int seed = vm["seed"].as<int>();
-	seed = 0;
 	// int seed = time(nullptr);
 	// int seed = 1654611373; ./output/main --P 30 --Q 30 --O 2 --seed 1654611373 > ./data/logs.log && cat ./data/logs.log | grep "Deleting path"
 	// int seed = 1654680670; ./output/main --P 100 --Q 100 --O 2 --p_merge 0 --p_square 1 --seed 1654680670 --v
@@ -582,9 +582,6 @@ int main(int argc, char *argv[])
 	// 1655724989;
 	// 1655748706;
 
-	srand(seed); // 1652869031
-	cout << "seed : " << seed << "\n\n"
-		 << endl;
 	// testSPPAO2(P, Q, O, p_square, p_merge);
 	// testDB();
 	// realDB();
@@ -596,5 +593,5 @@ int main(int argc, char *argv[])
 	// checkSPPAO();
 	// writeComparison("dataSPPAO_labelUpdate.txt", "dataSPPAO_addArcs.txt", "SPPAOcomparison_labUpdate_addaArcs.tex");
 	// writeCompareMethod("dataSPPAO_CstarD.txt", "methodsCompareCstar.tex");
-	testEngine("completeDB");
+	testEngine(directory);
 }
