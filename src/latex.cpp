@@ -167,6 +167,26 @@ void printSub(list<methodSS> &LSS, list<methodBS> &LBS, ostream &out, int obs, s
     delete labels;
 }
 
+double getD1(const meanResultBS &res)
+{
+    return res.D1;
+}
+
+double getD2(const meanResultBS &res)
+{
+    return res.D2;
+}
+
+double getT1(const meanResultBS &res)
+{
+    return 1000 * res.T1;
+}
+
+double getT2(const meanResultBS &res)
+{
+    return 1000 * res.T2;
+}
+
 void T1T2comp(list<methodBS> &LBS, ostream &out, string pref_Fig)
 { // Write the plots on T1 and T2
     list<methodSS> emptyList = list<methodSS>();

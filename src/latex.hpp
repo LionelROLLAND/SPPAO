@@ -68,25 +68,13 @@ double getRuntimePlus(const T &res)
     return 1000 * (res.T + res.sdT);
 }
 
-double getD1(const meanResultBS &res)
-{
-    return res.D1;
-}
+double getD1(const meanResultBS &res);
 
-double getD2(const meanResultBS &res)
-{
-    return res.D2;
-}
+double getD2(const meanResultBS &res);
 
-double getT1(const meanResultBS &res)
-{
-    return 1000 * res.T1;
-}
+double getT1(const meanResultBS &res);
 
-double getT2(const meanResultBS &res)
-{
-    return 1000 * res.T2;
-}
+double getT2(const meanResultBS &res);
 
 template <typename T>
 double getChecks(const T &res)
