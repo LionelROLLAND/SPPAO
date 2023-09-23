@@ -167,7 +167,7 @@ void printSub(list<methodSS> &LSS, list<methodBS> &LBS, ostream &out, int obs, s
     delete labels;
 }
 
-void T1T2comp(list<methodBS> &LBS, ostream &out, string pref_Fig = "")
+void T1T2comp(list<methodBS> &LBS, ostream &out, string pref_Fig)
 { // Write the plots on T1 and T2
     list<methodSS> emptyList = list<methodSS>();
     list<int> *obstacles = makeObstacles(emptyList, LBS);
@@ -281,7 +281,7 @@ void T1T2comp(list<methodBS> &LBS, ostream &out, string pref_Fig = "")
     delete obstacles;
 }
 
-void D1D2comp(list<methodBS> &LBS, ostream &out, string pref_Fig = "")
+void D1D2comp(list<methodBS> &LBS, ostream &out, string pref_Fig)
 { // Write the plots on D1 and D2
     list<methodSS> emptyList = list<methodSS>();
     list<int> *obstacles = makeObstacles(emptyList, LBS);
@@ -430,7 +430,7 @@ void D1D2comp(list<methodBS> &LBS, ostream &out, string pref_Fig = "")
     delete globLabels;
 }
 
-void superComparison(list<methodBS> &l, ostream &out, string pref_Fig = "")
+void superComparison(list<methodBS> &l, ostream &out, string pref_Fig)
 { // Write the plots on T1 and T2 and D1 and D2
 
     D1D2comp(l, out, pref_Fig);
@@ -439,7 +439,7 @@ void superComparison(list<methodBS> &l, ostream &out, string pref_Fig = "")
 }
 
 // Write all plots seen in the article except those on T1, T2, D1 or D2
-void timeComparison(list<methodSS> &LSS, list<methodBS> &LBS, ostream &out, string pref_Fig = "")
+void timeComparison(list<methodSS> &LSS, list<methodBS> &LBS, ostream &out, string pref_Fig)
 {
 
     list<int> *obstacles = makeObstacles(LSS, LBS);
