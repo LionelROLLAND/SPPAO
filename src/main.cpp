@@ -583,6 +583,7 @@ int main(int argc, char *argv[])
 	po::options_description desc("Allowed options");
 	desc.add_options()(
 		"help", "produce help message")(
+		"seed", po::value<int>()->default_value(time(nullptr)), "the random seed to place the obstacles")(
 		"db-dir", po::value<string>()->default_value("testDB"), "the directory containing the database on which to run the tests")(
 		"v", "verbosity mode + records the rectangles");
 
@@ -599,6 +600,8 @@ int main(int argc, char *argv[])
 	logs = vm.count("v") ? true : false;
 
 	string directory = vm["db-dir"].as<string>();
+	int seed = vm["seed"].as<int>();
+	srand(seed);
 
 	// int seed = time(nullptr);
 	// int seed = 1654611373; ./output/main --P 30 --Q 30 --O 2 --seed 1654611373 > ./data/logs.log && cat ./data/logs.log | grep "Deleting path"
