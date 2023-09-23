@@ -98,30 +98,19 @@ void writeAllComparison(string db)
 	list<filesystem::path> ss_del_star = list<filesystem::path>();
 	list<filesystem::path> ss_add_star = list<filesystem::path>();
 
-	// filepath = filesystem::current_path()/"data";
-	// filepath = filesystem::current_path()/"data"/"results VM"/"res1";
 	filepath = filesystem::current_path() / "data" / "last_results";
 
-	// ss_cl.push_back(filepath/"SS-CL_newDB.txt");
-	// ss_cl.push_back(filepath/"SS-CL_completeDB.txt");
-
-	// ss_st.push_back(filepath/"SS-ST_newDB.txt");
 	ss_st.push_back(filepath / ("SS-ST_" + db + ".txt"));
 
-	// ss_del.push_back(filepath/"SS-DEL_newDB.txt");
 	ss_del.push_back(filepath / ("SS-DEL_" + db + ".txt"));
 
-	// ss_add.push_back(filepath/"SS-ADD_newDB.txt");
 	ss_add.push_back(filepath / ("SS-ADD_" + db + ".txt"));
 
-	// ss_del_star.push_back(filepath / "SS-DEL-STAR_newDB.txt");
 	ss_del_star.push_back(filepath / ("SS-DEL-STAR_" + db + ".txt"));
 
-	// ss_add_opt.push_back(filepath/"SS-ADD-STAR_newDB.txt");
 	ss_add_star.push_back(filepath / ("SS-ADD-STAR_" + db + ".txt"));
 
 	list<list<filesystem::path>> testsListSS = list<list<filesystem::path>>();
-	// testsListSS.push_back(ss_cl);
 	testsListSS.push_back(ss_st);
 	testsListSS.push_back(ss_del);
 	testsListSS.push_back(ss_add);
@@ -130,46 +119,21 @@ void writeAllComparison(string db)
 
 	list<methodSS> *methodListSS = filesToResultSS(testsListSS);
 
-	/*
-	ofstream writing(outfilepath, ios::out);
-	begin_document(writing);
-	superComparison(*methodListSS, writing, ID);
-	writing<<"\n\\end{document}";
-	writing.close();
-	*/
-
 	filesystem::path outfilepath = filesystem::current_path();
 	outfilepath /= "data";
 	outfilepath /= "last_results";
 	outfilepath /= "comparisonBS_" + db + ".tex";
 
-	// list<filesystem::path> bs_cl = list<filesystem::path>();
 	list<filesystem::path> bs_st = list<filesystem::path>();
-	// list<filesystem::path> bs_cstar = list<filesystem::path>();
 	list<filesystem::path> bs_lb = list<filesystem::path>();
-	// list<filesystem::path> bs_evo = list<filesystem::path>();
 
-	// bs_cl.push_back(filepath/"BS-CL_newDB.txt");
-	// bs_cl.push_back(filepath / "BS-CL_completeDB.txt");
-
-	// bs_st.push_back(filepath/"BS-ST_newDB.txt");
 	bs_st.push_back(filepath / ("BS-ST_" + db + ".txt"));
 
-	// bs_cstar.push_back(filepath/"BS-CSTAR_newDB.txt");
-	// bs_cstar.push_back(filepath/"BS-CSTAR_completeDB.txt");
-
-	// bs_lb.push_back(filepath/"BS-LB_newDB.txt");
 	bs_lb.push_back(filepath / ("BS-LB_" + db + ".txt"));
 
-	// bs_evo.push_back(filepath/"BS-EVO_newDB.txt");
-	// bs_evo.push_back(filepath/"BS-EVO_completeDB.txt");
-
 	list<list<filesystem::path>> testsListBS = list<list<filesystem::path>>();
-	// testsListBS.push_back(bs_cl);
 	testsListBS.push_back(bs_st);
-	// testsListBS.push_back(bs_cstar);
 	testsListBS.push_back(bs_lb);
-	// testsListBS.push_back(bs_evo);
 
 	list<methodBS> *methodListBS = filesToResultBS(testsListBS);
 
@@ -181,6 +145,7 @@ void writeAllComparison(string db)
 
 	outfilepath = filesystem::current_path();
 	outfilepath /= "data";
+	outfilepath /= "last_results";
 	outfilepath /= "comparisonTime_" + db + ".tex";
 
 	writing = ofstream(outfilepath, ios::out);
