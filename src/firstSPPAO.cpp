@@ -33,7 +33,7 @@ list<infoPath> *SS_ADD_star(list<Node *> &graph, list<list<bunchOfArcs>> &arcsTo
         minD = startArcs->front().rev_adj.front().arc_d;
     }
 
-    infoPath optPath = dijkstraOptiCD_condD(s, t, minD);
+    infoPath optPath = dijkstraOptiC_condD(s, t, minD);
 
     double optC = optPath.c;
 
