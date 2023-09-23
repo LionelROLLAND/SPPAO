@@ -60,14 +60,6 @@ struct meanResultBS
     double n_checks;
 };
 
-string next(string &toParse)
-{
-    int cut = min(toParse.find_first_of(" "), toParse.find_first_of("\n"));
-    string res = toParse.substr(0, cut);
-    toParse = toParse.substr(cut + 1);
-    return res;
-}
-
 struct meanResults
 {
     int nObs;
