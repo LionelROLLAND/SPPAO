@@ -80,7 +80,7 @@ list<methodBS> *filesToResultBS(list<list<filesystem::path>> &l)
 }
 
 // Write 2 latex documents, one for T1 and T2 and one for the other plots. Hard-coded settings, see the function body
-void writeAllComparison()
+void writeAllComparison(string db)
 {
 	/*
 	string ID = "completeDBbis";
@@ -106,19 +106,19 @@ void writeAllComparison()
 	// ss_cl.push_back(filepath/"SS-CL_completeDB.txt");
 
 	// ss_st.push_back(filepath/"SS-ST_newDB.txt");
-	ss_st.push_back(filepath / "SS-ST_completeDB.txt");
+	ss_st.push_back(filepath / ("SS-ST_" + db + ".txt"));
 
 	// ss_del.push_back(filepath/"SS-DEL_newDB.txt");
-	ss_del.push_back(filepath / "SS-DEL_completeDB.txt");
+	ss_del.push_back(filepath / ("SS-DEL_" + db + ".txt"));
 
 	// ss_add.push_back(filepath/"SS-ADD_newDB.txt");
-	ss_add.push_back(filepath / "SS-ADD_completeDB.txt");
+	ss_add.push_back(filepath / ("SS-ADD_" + db + ".txt"));
 
 	// ss_del_star.push_back(filepath / "SS-DEL-STAR_newDB.txt");
-	ss_del_star.push_back(filepath / "SS-DEL-STAR_completeDB.txt");
+	ss_del_star.push_back(filepath / ("SS-DEL-STAR_" + db + ".txt"));
 
 	// ss_add_opt.push_back(filepath/"SS-ADD-STAR_newDB.txt");
-	ss_add_star.push_back(filepath / "SS-ADD-STAR_completeDB.txt");
+	ss_add_star.push_back(filepath / ("SS-ADD-STAR_" + db + ".txt"));
 
 	list<list<filesystem::path>> testsListSS = list<list<filesystem::path>>();
 	// testsListSS.push_back(ss_cl);
@@ -138,14 +138,10 @@ void writeAllComparison()
 	writing.close();
 	*/
 
-	// string ID = "newDB";
-	// string ID = "completeDB_s";
-	// string ID = "newDBVM";
-	// string ID = "completeDBVM";
-	string ID = "_completeDB";
 	filesystem::path outfilepath = filesystem::current_path();
 	outfilepath /= "data";
-	outfilepath /= "comparisonBS" + ID + ".tex";
+	outfilepath /= "last_results";
+	outfilepath /= "comparisonBS_" + db + ".tex";
 
 	// list<filesystem::path> bs_cl = list<filesystem::path>();
 	list<filesystem::path> bs_st = list<filesystem::path>();
@@ -157,13 +153,13 @@ void writeAllComparison()
 	// bs_cl.push_back(filepath / "BS-CL_completeDB.txt");
 
 	// bs_st.push_back(filepath/"BS-ST_newDB.txt");
-	bs_st.push_back(filepath / "BS-ST_completeDB.txt");
+	bs_st.push_back(filepath / ("BS-ST_" + db + ".txt"));
 
 	// bs_cstar.push_back(filepath/"BS-CSTAR_newDB.txt");
 	// bs_cstar.push_back(filepath/"BS-CSTAR_completeDB.txt");
 
 	// bs_lb.push_back(filepath/"BS-LB_newDB.txt");
-	bs_lb.push_back(filepath / "BS-LB_completeDB.txt");
+	bs_lb.push_back(filepath / ("BS-LB_" + db + ".txt"));
 
 	// bs_evo.push_back(filepath/"BS-EVO_newDB.txt");
 	// bs_evo.push_back(filepath/"BS-EVO_completeDB.txt");
@@ -179,22 +175,17 @@ void writeAllComparison()
 
 	ofstream writing = ofstream(outfilepath, ios::out);
 	begin_document(writing);
-	superComparison(*methodListBS, writing, ID);
+	superComparison(*methodListBS, writing, db);
 	writing << "\n\\end{document}";
 	writing.close();
 
-	// ID = "newDB";
-	// ID = "completeDB_s";
-	// ID = "newDBVM";
-	// ID = "completeDBVM";
-	ID = "_completeDB";
 	outfilepath = filesystem::current_path();
 	outfilepath /= "data";
-	outfilepath /= "comparisonTime" + ID + ".tex";
+	outfilepath /= "comparisonTime_" + db + ".tex";
 
 	writing = ofstream(outfilepath, ios::out);
 	begin_document(writing);
-	timeComparison(*methodListSS, *methodListBS, writing, ID);
+	timeComparison(*methodListSS, *methodListBS, writing, db);
 	writing << "\n\\end{document}";
 	writing.close();
 
@@ -216,6 +207,7 @@ int main(int argc, char *argv[])
 	po::options_description desc("Allowed options");
 	desc.add_options()(
 		"help", "produce help message")(
+		"db", po::value<string>()->default_value("testDB"), "the database for which to compute the stats")(
 		"v", "verbosity mode + records the rectangles");
 
 	po::variables_map vm;
@@ -229,6 +221,7 @@ int main(int argc, char *argv[])
 	}
 
 	logs = vm.count("v") ? true : false;
+	string db = vm["db"].as<string>();
 
 	cout << logs << endl;
 	// seed = 0;
@@ -253,5 +246,5 @@ int main(int argc, char *argv[])
 	// writeComparison("dataSPPAO_labelUpdate.txt", "dataSPPAO_addArcs.txt", "SPPAOcomparison_labUpdate_addaArcs.tex");
 	// writeCompareMethod("dataSPPAO_CstarD.txt", "methodsCompareCstar.tex");
 	// testEngine(SS, "completeDB");
-	writeAllComparison();
+	writeAllComparison(db);
 }
