@@ -23,9 +23,9 @@ list<infoPath> *SS_ADD(list<Node *> &graph, list<list<bunchOfArcs>> &arcsToAddLi
     }
 
     double minD = -1;
-    if (startArcs != arcsToAddLists.end())
+
+    if (startArcs != arcsToAddLists.end() && (++startArcs) != arcsToAddLists.end())
     {
-        startArcs++;
         minD = startArcs->front().rev_adj.front().arc_d;
     }
 
