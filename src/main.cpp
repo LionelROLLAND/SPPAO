@@ -114,6 +114,9 @@ void writeAllComparison()
 	// ss_add.push_back(filepath/"SS-ADD_newDB.txt");
 	ss_add.push_back(filepath / "SS-ADD_completeDB.txt");
 
+	// ss_del_star.push_back(filepath / "SS-DEL-STAR_newDB.txt");
+	ss_del_star.push_back(filepath / "SS-DEL-STAR_completeDB.txt");
+
 	// ss_add_opt.push_back(filepath/"SS-ADD-STAR_newDB.txt");
 	ss_add_star.push_back(filepath / "SS-ADD-STAR_completeDB.txt");
 
@@ -122,6 +125,7 @@ void writeAllComparison()
 	testsListSS.push_back(ss_st);
 	testsListSS.push_back(ss_del);
 	testsListSS.push_back(ss_add);
+	testsListSS.push_back(ss_del_star);
 	testsListSS.push_back(ss_add_star);
 
 	list<methodSS> *methodListSS = filesToResultSS(testsListSS);
