@@ -557,6 +557,7 @@ int main(int argc, char *argv[])
 	po::options_description desc("Allowed options");
 	desc.add_options()(
 		"help", "produce help message")(
+		"seed", po::value<int>()->default_value(time(nullptr)), "the random seed to place the obstacles")(
 		"db-dir", po::value<string>()->default_value("testDB"), "the directory containing the database on which to run the tests")(
 		"v", "verbosity mode + records the rectangles");
 
@@ -572,6 +573,8 @@ int main(int argc, char *argv[])
 
 	logs = vm.count("v") ? true : false;
 	string directory = vm["db-dir"].as<string>();
+	int seed = vm["seed"].as<int>();
+	srand(seed);
 
 	cout << logs << endl;
 
