@@ -237,7 +237,7 @@ void T1T2comp(list<methodBS> &LBS, ostream &out, string pref_Fig)
         // Pour etre exact ca devrait etre le nb de methodes comportant des resultats a *obs obstacles
 
         out << "\nlegend style={fill opacity=0.8, draw opacity=1, text opacity=1, at={(0.5,1.35)}, "
-               "anchor=north, draw=white!80!black}, tick align=outside, ylabel={Runtime (ms)},";
+               "anchor=north, draw=white!80!black}, tick align=outside, ";
         out << "\nxtick={";
         list<meanResultSS>::iterator lab = labels->begin();
         // out<<"$P_{"<<lab->nb_nodes<<","<<((double) lab->nb_arcs)/lab->nb_nodes<<"}$";
@@ -391,7 +391,7 @@ void D1D2comp(list<methodBS> &LBS, ostream &out, string pref_Fig)
     out << " legend columns=4,";
 
     out << "\nlegend style={fill opacity=0.8, draw opacity=1, text opacity=1, at={(0.5,1.35)}, "
-           "anchor=north, draw=white!80!black}, tick align=outside, ylabel={Number of $D_1$ ($D_2$) rectangles},";
+           "anchor=north, draw=white!80!black}, tick align=outside, ylabel={Number of $D_U$ rectangles},";
 
     out << "\nxtick={";
     list<meanResultSS>::iterator lab = globLabels->begin();
@@ -464,7 +464,7 @@ void D1D2comp(list<methodBS> &LBS, ostream &out, string pref_Fig)
     out << "\n\\end{axis}"
            "\n\\end{tikzpicture}";
 
-    out << "\n\\caption{$D_1$ and $D_2$ for the binary search methods}";
+    out << "\n\\caption{Value of $D_U$ for the \\texttt{BS} methods}";
     out << " \\label{fig:D1D2-" << pref_Fig << "}";
     out << "\n\\end{figure}\n\n\n";
 
@@ -620,7 +620,7 @@ void timeComparison(list<methodSS> &LSS, list<methodBS> &LBS, ostream &out, stri
            "\n\\small\n";
     for (list<int>::iterator obs = obstacles->begin(); obs != obstacles->end(); obs++)
     {
-        printSub(LSS, LBS, out, *obs, "labSSBS-" + pref_Fig + to_string(*obs), "Number of label updates",
+        printSub(LSS, LBS, out, *obs, "labSSBS-" + pref_Fig + to_string(*obs), "",
                  getLabels<meanResultSS>, getLabels<meanResultBS>,
                  regularOp<methodSS>, regularOp<methodBS>);
     }
@@ -633,11 +633,11 @@ void timeComparison(list<methodSS> &LSS, list<methodBS> &LBS, ostream &out, stri
            "\n\\small\n";
     for (list<int>::iterator obs = obstacles->begin(); obs != obstacles->end(); obs++)
     {
-        printSub(LSS, LBS, out, *obs, "checksSSBS-" + pref_Fig + to_string(*obs), "Number of visited nodes",
+        printSub(LSS, LBS, out, *obs, "checksSSBS-" + pref_Fig + to_string(*obs), "",
                  getChecks<meanResultSS>, getChecks<meanResultBS>,
                  regularOp<methodSS>, regularOp<methodBS>);
     }
-    out << "\n\\caption{Number of visited nodes}";
+    out << "\n\\caption{Number of node visits}";
     out << " \\label{fig:checksSSBS-" << pref_Fig << "}\n";
     out << "\n\\end{figure}\n\n\n";
 
@@ -665,7 +665,7 @@ void timeComparison(list<methodSS> &LSS, list<methodBS> &LBS, ostream &out, stri
 
         out << "\nlegend style={fill opacity=0.8, draw opacity=1, text opacity=1, at={(0.5,1.35)}, "
                //"anchor=north, draw=white!80!black}, tick align=outside, ylabel={Runtime (ms)},";
-               "anchor=north, draw=white!80!black}, tick align=outside, ylabel={Runtime (s)},";
+               "anchor=north, draw=white!80!black}, tick align=outside, ";
         out << "\nxtick={";
         list<meanResultSS>::iterator lab = labels->begin();
         // out<<"$P_{"<<lab->nb_nodes<<","<<((double) lab->nb_arcs)/lab->nb_nodes<<"}$";
