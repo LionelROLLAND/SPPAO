@@ -106,9 +106,9 @@ void writeAllComparison(string db)
 
 	ss_add.push_back(filepath / ("SS-ADD_" + db + ".txt"));
 
-	ss_del_star.push_back(filepath / ("SS-DEL-STAR_" + db + ".txt"));
+	ss_del_star.push_back(filepath / ("SS-DEL-LB_" + db + ".txt"));
 
-	ss_add_star.push_back(filepath / ("SS-ADD-STAR_" + db + ".txt"));
+	ss_add_star.push_back(filepath / ("SS-ADD-LB_" + db + ".txt"));
 
 	list<list<filesystem::path>> testsListSS = list<list<filesystem::path>>();
 	testsListSS.push_back(ss_st);

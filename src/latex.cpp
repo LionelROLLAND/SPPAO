@@ -28,15 +28,35 @@ void begin_document(ostream &out)
 string newColor()
 {
     static int n = 0;
-    string colors[] = {"black", "olive", "red", "blue", "green", "cyan", "gray", "violet", "magenta"};
+    // string colors[] = {"black", "olive", "red", "blue", "green", "cyan", "gray", "violet", "magenta"};
+    static string colors[] = {"black", "green", "olive", "magenta", "blue", "cyan", "red", "violet", "gray"};
     return colors[n++];
 }
 
 string randomColor()
 {
     static int n = 0;
-    string colors[] = {"black", "olive", "red", "blue", "green", "cyan", "gray", "violet", "magenta"};
+    static string colors[] = {"black", "olive", "red", "blue", "green", "cyan", "gray", "violet", "magenta"};
     return colors[(n++) % 9];
+}
+
+string nbResColor(bool reset)
+{
+    static int n = 0;
+    static string colors[] = {"cyan", "green", "gray", "red", "black", "olive", "magenta", "blue", "violet"};
+    if (reset)
+    {
+        n = 0;
+        return "";
+    }
+    return colors[n++];
+}
+
+string d1d2Color()
+{
+    static int n = 0;
+    static string colors[] = {"cyan", "red", "black", "green", "olive", "magenta", "blue", "violet", "gray"};
+    return colors[n++];
 }
 
 string to_name(string toChange)
@@ -358,7 +378,7 @@ void D1D2comp(list<methodBS> &LBS, ostream &out, string pref_Fig)
            "\n\\centering"
            "\n\\small\n"
            "\n\\begin{tikzpicture}[xscale=0.8, yscale=0.8]";
-    out << "\n\\begin{semilogyaxis}["
+    out << "\n\\begin{axis}["
            " axis lines=left,"
            " grid style=dashed,";
     //"\ngrid=both,"
@@ -402,9 +422,11 @@ void D1D2comp(list<methodBS> &LBS, ostream &out, string pref_Fig)
     out << "x tick label style={rotate=45,anchor=east},"
            " minor y tick num = 1]";
 
+    nbResColor(true);
+
     for (list<int>::iterator obs = obstacles->begin(); obs != obstacles->end(); obs++)
     {
-        string colPlot = randomColor();
+        string colPlot = nbResColor();
 
         out << "\n\\addplot";
 
@@ -439,7 +461,7 @@ void D1D2comp(list<methodBS> &LBS, ostream &out, string pref_Fig)
         */
     }
 
-    out << "\n\\end{semilogyaxis}"
+    out << "\n\\end{axis}"
            "\n\\end{tikzpicture}";
 
     out << "\n\\caption{$D_1$ and $D_2$ for the binary search methods}";
@@ -511,7 +533,7 @@ void timeComparison(list<methodSS> &LSS, list<methodBS> &LBS, ostream &out, stri
            "\n\\centering"
            "\n\\small\n"
            "\n\\begin{tikzpicture}[xscale=0.8, yscale=0.8]";
-    out << "\n\\begin{semilogyaxis}["
+    out << "\n\\begin{axis}["
            " axis lines=left,"
            " grid style=dashed,";
     //"\ngrid=both,"
@@ -556,12 +578,14 @@ void timeComparison(list<methodSS> &LSS, list<methodBS> &LBS, ostream &out, stri
            " ymajorgrids=true,"
            " minor y tick num = 1]";
 
+    nbResColor(true);
+
     for (list<int>::iterator obs = obstacles->begin(); obs != obstacles->end(); obs++)
     {
 
         list<meanResultSS> *labels = makeLabels(LSS, LBS, *obs);
 
-        string colPlot = randomColor();
+        string colPlot = nbResColor();
 
         out << "\n\\addplot";
 
@@ -582,7 +606,7 @@ void timeComparison(list<methodSS> &LSS, list<methodBS> &LBS, ostream &out, stri
         delete labels;
     }
 
-    out << "\n\\end{semilogyaxis}"
+    out << "\n\\end{axis}"
            "\n\\end{tikzpicture}";
 
     out << "\n\\caption{Number of non-dominated points}";

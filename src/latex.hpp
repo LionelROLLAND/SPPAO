@@ -11,6 +11,10 @@ string newColor();
 
 string randomColor();
 
+string nbResColor(bool reset = false);
+
+string d1d2Color();
+
 string to_name(string toChange);
 
 template <typename T>
