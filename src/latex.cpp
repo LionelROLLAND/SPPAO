@@ -546,7 +546,7 @@ void timeComparison(list<methodSS> &LSS, list<methodBS> &LBS, ostream &out, stri
     out << " legend columns=4,";
 
     out << "\nlegend style={fill opacity=0.8, draw opacity=1, text opacity=1, at={(0.5,1.35)}, "
-           "anchor=north, draw=white!80!black}, tick align=outside, ylabel={$|X_E|$},";
+           "anchor=north, draw=white!80!black}, tick align=outside, ylabel={$|Y_N|$},";
 
     out << "\nxtick={";
     list<meanResultSS>::iterator lab = globLabels->begin();
