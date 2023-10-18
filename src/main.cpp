@@ -512,6 +512,8 @@ void statSS(string dir, list<int> &obstacles, ostream &out)
 				node2 = *it;
 			}
 		}
+		auto arc_list_start = chrono::system_clock::now();
+		chrono::duration<double> arc_list_time;
 		for (list<int>::iterator n_obs = obstacles.begin(); n_obs != obstacles.end(); n_obs++)
 		{
 			cout << "\t" << *n_obs << " obstacles\n";
@@ -520,7 +522,9 @@ void statSS(string dir, list<int> &obstacles, ostream &out)
 
 			list<Node *> *obsList = createObstacles(x_min, y_min, x_max, y_max, max_no + 1, *n_obs);
 			computeArcD(*l, *obsList);
+			arc_list_start = chrono::system_clock::now();
 			list<list<bunchOfArcs>> *arcsToAddLists = buildArcsToAdd(*l); // Needed for SS-ADD1 and SS-ADD2
+			arc_list_time = chrono::system_clock::now() - arc_list_start;
 
 			n_labels = 0;
 			n_checks = 0;
@@ -533,6 +537,10 @@ void statSS(string dir, list<int> &obstacles, ostream &out)
 			list<infoPath> *SPPAOres = SS_ADD_star(*l, *arcsToAddLists, node1, node2); // SS-ADD*
 
 			elapsed1 = chrono::system_clock::now() - start_pb;
+
+			cout << setprecision(3) << "The creation of the arc list represents "
+				 << 100. * arc_list_time.count() / (arc_list_time.count() + elapsed1.count())
+				 << " % of the total runtime.\n";
 
 			results.push_back(resultSS({n_nodes, n_arcs, *n_obs,
 										(int)SPPAOres->size(), n_labels, elapsed1.count(), n_checks}));
@@ -569,7 +577,7 @@ void testEngine(string dir = "testDB")
 	filesystem::path outfilepath = filesystem::current_path();
 	outfilepath /= "data";
 	outfilepath /= "last_results";
-	outfilepath /= "SS-ADD-STAR_" + dir + ".txt";
+	outfilepath /= "SS-ADD-STAR__TEST2_" + dir + ".txt";
 	filesystem::path indirpath = filesystem::current_path();
 	indirpath /= "data";
 	indirpath /= dir;
