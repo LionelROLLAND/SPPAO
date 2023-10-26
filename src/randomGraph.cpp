@@ -1,3 +1,5 @@
+#include <chrono>
+
 #include "randomGraph.hpp"
 #include "matrix.hpp"
 
@@ -685,43 +687,36 @@ void revResetGraph(list<Node *> &graph)
     }
 }
 
-bool compSimpleArc(const simpleArc &a1, const simpleArc &a2)
+bool compSimpleArc(simpleArc *a1, simpleArc *a2)
 {
-    return (a1.arc.arc_d > a2.arc.arc_d || (a1.arc.arc_d == a2.arc.arc_d && a1.node->no < a2.node->no));
+    return (
+        a1->arc->arc_d > a2->arc->arc_d ||
+        (a1->arc->arc_d == a2->arc->arc_d && a1->node->no < a2->node->no));
 }
 
-list<list<bunchOfArcs>> *buildArcsToAdd(list<Node *> &graph)
+list<simpleArc *> *buildArcsToAdd(list<Node *> &graph)
 {
-    list<simpleArc> arcs = list<simpleArc>();
+    list<simpleArc *> *arcs = new list<simpleArc *>();
+    simpleArc *new_s_arc;
+    auto allocation_start = chrono::system_clock::now();
     for (list<Node *>::iterator it = graph.begin(); it != graph.end(); it++)
     {
+
         for (list<arcNode>::iterator child = (*it)->rev_adj.begin(); child != (*it)->rev_adj.end(); child++)
         {
-            arcs.push_back(simpleArc({*it, *child}));
+            new_s_arc = (simpleArc *)malloc(sizeof(simpleArc));
+            *new_s_arc = simpleArc({*it, &(*child)});
+            arcs->push_back(new_s_arc);
         }
     }
-    arcs.sort(compSimpleArc);
-    list<simpleArc>::iterator sArc = arcs.begin();
-    list<list<bunchOfArcs>> *res = new list<list<bunchOfArcs>>();
-    Node *currNode;
-    double currD;
-    while (sArc != arcs.end())
-    {
-        currD = sArc->arc.arc_d;
-        res->push_back(list<bunchOfArcs>());
-        while (sArc != arcs.end() && sArc->arc.arc_d == currD)
-        {
-            currNode = sArc->node;
-            // res->push_front(bunchOfArcs({currNode, list<arcNode>()}));
-            res->back().push_back(bunchOfArcs({currNode, list<arcNode>()}));
-            while (sArc != arcs.end() && sArc->node == currNode && sArc->arc.arc_d == currD)
-            {
-                res->back().back().rev_adj.push_front(sArc->arc);
-                sArc++;
-            }
-        }
-    }
-    return res;
+    chrono::duration<double> allocation_time = chrono::system_clock::now() - allocation_start;
+    auto sort_start = chrono::system_clock::now();
+    arcs->sort(compSimpleArc);
+    chrono::duration<double> sort_time = chrono::system_clock::now() - sort_start;
+    cout << setprecision(3) << "The allocation of the arc list represents "
+         << 100. * allocation_time.count() / (allocation_time.count() + sort_time.count())
+         << " % of the total allocation + sorting time.\n";
+    return arcs;
 }
 
 list<Node *> *generalGraph(int n, double density)

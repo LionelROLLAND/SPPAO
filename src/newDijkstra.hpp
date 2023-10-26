@@ -47,7 +47,11 @@ infoPath computeCstar_andPathOptiC_noCond(Node *s, Node *t);
 
 // Updating the labels, adding the arcs in arcsToAddLists, avoiding d_ij <= strict_min_d
 // and c_i + c_ij + c*_j >= strict_max_c
-void labelUpdating_add_OptiC_condCstarD(list<bunchOfArcs> &arcsToAddLists, double strict_max_c, double min_d, Node *t);
+void labelUpdating_add_OptiC_condCstarD(
+    list<simpleArc *> &arcsList,
+    list<simpleArc *>::iterator &rev_arc_it,
+    double strict_max_c,
+    Node *t);
 
 infoPath dijkstraOptiC_condD(Node *s, Node *t, double strict_min_d);
 

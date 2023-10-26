@@ -163,47 +163,51 @@ infoPath computeCstar_andPathOptiC_noCond(Node *s, Node *t)
     return revMakePath(s);
 }
 
-void labelUpdating_add_OptiC_condCstarD(list<bunchOfArcs> &arcsToAddLists, double strict_max_c, double min_d, Node *t)
+void labelUpdating_add_OptiC_condCstarD(
+    list<simpleArc *> &arcsList, list<simpleArc *>::iterator &rev_arc_it,
+    double strict_max_c,
+    Node *t)
 {
     fibHeap<Node *> *heap = new fibHeap<Node *>(compC_to_s);
-    Node *to_process;
+    Node *destination;
     double newLength;
     bool isImproved = false;
-    for (list<bunchOfArcs>::iterator arcList = arcsToAddLists.begin(); arcList != arcsToAddLists.end(); arcList++)
+    double min_d = (*rev_arc_it)->arc->arc_d;
+    arcNode *rev_arc;
+    while (rev_arc_it != arcsList.end() && (*rev_arc_it)->arc->arc_d == min_d)
     {
-        to_process = arcList->node;
+        destination = (*rev_arc_it)->node;
         isImproved = false;
-        for (list<arcNode>::iterator neighb = arcList->rev_adj.begin();
-             neighb != arcList->rev_adj.end(); neighb++)
+        for (; rev_arc_it != arcsList.end() && (*rev_arc_it)->arc->arc_d == min_d && (*rev_arc_it)->node == destination; rev_arc_it++)
         {
             n_checks++;
-            if (neighb->c_to_s() < inf)
+            rev_arc = (*rev_arc_it)->arc;
+            if (rev_arc->c_to_s() < inf)
             {
-                newLength = neighb->c_to_s() + neighb->arc_c;
-                if (newLength + to_process->c_to_t < strict_max_c && newLength < to_process->c_to_s)
+                newLength = rev_arc->c_to_s() + rev_arc->arc_c;
+                if (newLength + destination->c_to_t < strict_max_c && newLength < destination->c_to_s)
                 {
                     n_labels++;
-                    to_process->c_to_s = newLength;
-                    to_process->d_to_S = min(neighb->d_to_S(), neighb->arc_d);
+                    destination->c_to_s = newLength;
+                    destination->d_to_S = min(rev_arc->d_to_S(), rev_arc->arc_d);
 
-                    if (to_process->pred == nullptr)
+                    if (destination->pred == nullptr)
                     {
-                        to_process->pred = new arcNode(neighb->node, neighb->arc_c, neighb->arc_d);
+                        destination->pred = new arcNode(rev_arc->node, rev_arc->arc_c, rev_arc->arc_d);
                     }
                     else
                     {
-                        to_process->pred->node = neighb->node;
-                        to_process->pred->arc_c = neighb->arc_c;
-                        to_process->pred->arc_d = neighb->arc_d;
+                        destination->pred->node = rev_arc->node;
+                        destination->pred->arc_c = rev_arc->arc_c;
+                        destination->pred->arc_d = rev_arc->arc_d;
                     }
                     isImproved = true;
                 }
             }
         }
-        // Optimization : If to_process->c_to_s < inf
         if (isImproved)
         {
-            to_process->tree = heap->insert(to_process);
+            destination->tree = heap->insert(destination);
         }
     }
 

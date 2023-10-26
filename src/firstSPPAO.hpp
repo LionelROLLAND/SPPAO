@@ -14,6 +14,6 @@
 using namespace std;
 
 // SS-ADD*
-list<infoPath> *SS_ADD_star(list<Node *> &graph, list<list<bunchOfArcs>> &arcsToAddLists, Node *s, Node *t);
+list<infoPath> *SS_ADD_star(list<Node *> &graph, list<simpleArc *> &arc_list, Node *s, Node *t);
 
 #endif
