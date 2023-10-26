@@ -41,7 +41,11 @@ bool compD(const Node *i, const Node *j);
 infoPath dijkstraOptiD_noCond(Node *s, Node *t); // Finding path of max distance to the obstacles
 
 // Updating the labels, adding the arcs in arcsToAddLists, avoiding d_ij <= strict_min_d
-void labelUpdating_add_OptiC_condD(list<bunchOfArcs> &arcsToAddLists, double strict_min_d, Node *t);
+// and c_i + c_ij + c*_j >= strict_max_c
+void labelUpdating_add_OptiC_condD(
+    list<simpleArc *> &arcsList,
+    list<simpleArc *>::iterator &rev_arc_it,
+    Node *t);
 
 infoPath dijkstraOptiC_condD(Node *s, Node *t, double strict_min_d);
 

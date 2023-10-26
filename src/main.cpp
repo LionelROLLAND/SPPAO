@@ -247,11 +247,11 @@ void testSPPAO2(int P = 10, int Q = 10, int O = 5, double prop_square = 0.5, dou
 	list<Node *> *obstacles = createObstacles(x_min, y_min, x_max, y_max, max_no + 1, O);
 
 	computeArcD(*l, *obstacles);
-	list<list<bunchOfArcs>> *arcsToAddLists = buildArcsToAdd(*l);
+	list<simpleArc *> *arc_list = buildArcsToAdd(*l);
 
 	// list<logSPPAO2>* history = new list<logSPPAO2>();
 	// list<infoPath>* l_res = secondSPPAO(*l, node1, node2, nullptr, nullptr, nullptr, nullptr, history);
-	list<infoPath> *l_res = SS_ADD(*l, *arcsToAddLists, node1, node2);
+	list<infoPath> *l_res = SS_ADD(*l, *arc_list, node1, node2);
 
 	filesystem::path filepath = filesystem::current_path();
 	filepath /= "data";
@@ -288,7 +288,7 @@ void testSPPAO2(int P = 10, int Q = 10, int O = 5, double prop_square = 0.5, dou
 	// list<infoPath>* SPPAOres = weirdSPPAO(*arcsToAddLists, node1, node2);
 	// list<infoPath>* SPPAOres = firstSPPAO(*l, node1, node2);
 	// list<infoPath>* SPPAOres = firstSPPAO_update(*l, node1, node2);
-	list<infoPath> *SPPAOres = SS_ADD(*l, *arcsToAddLists, node1, node2);
+	list<infoPath> *SPPAOres = SS_ADD(*l, *arc_list, node1, node2);
 
 	filepath = filesystem::current_path();
 	filepath /= "data";
@@ -317,7 +317,11 @@ void testSPPAO2(int P = 10, int Q = 10, int O = 5, double prop_square = 0.5, dou
 
 	// delete pre_res.path;
 	// delete res.path;
-	delete arcsToAddLists;
+	for (list<simpleArc *>::iterator arc_it = arc_list->begin(); arc_it != arc_list->end(); arc_it++)
+	{
+		free(*arc_it);
+	}
+	delete arc_list;
 	resetGraph(*l);
 	// deleteGraph(obstacles);
 	delete obstacles;
@@ -396,10 +400,10 @@ void checkSPPAO()
 
 	list<Node *> *obstacles = createObstacles(x_min, y_min, x_max, y_max, max_no + 1, n_obs);
 	computeArcD(*l, *obstacles);
-	list<list<bunchOfArcs>> *arcsToAddLists = buildArcsToAdd(*l);
+	list<simpleArc *> *arc_list = buildArcsToAdd(*l);
 	// list<infoPath>* res = secondSPPAO(*l, node1, node2);
 
-	list<infoPath> *res = SS_ADD(*l, *arcsToAddLists, node1, node2);
+	list<infoPath> *res = SS_ADD(*l, *arc_list, node1, node2);
 	cout << "nb res second : " << res->size() << endl;
 
 	/*
@@ -432,7 +436,11 @@ void checkSPPAO()
 	}
 	delete res;
 	*/
-
+	for (list<simpleArc *>::iterator arc_it = arc_list->begin(); arc_it != arc_list->end(); arc_it++)
+	{
+		free(*arc_it);
+	}
+	delete arc_list;
 	deleteGraph(obstacles);
 	deleteGraph(l);
 }
@@ -523,7 +531,7 @@ void statSS(string dir, list<int> &obstacles, ostream &out)
 			list<Node *> *obsList = createObstacles(x_min, y_min, x_max, y_max, max_no + 1, *n_obs);
 			computeArcD(*l, *obsList);
 			arc_list_start = chrono::system_clock::now();
-			list<list<bunchOfArcs>> *arcsToAddLists = buildArcsToAdd(*l); // Needed for SS-ADD1 and SS-ADD2
+			list<simpleArc *> *arc_list = buildArcsToAdd(*l); // Needed for SS-ADD
 			arc_list_time = chrono::system_clock::now() - arc_list_start;
 
 			n_labels = 0;
@@ -534,7 +542,7 @@ void statSS(string dir, list<int> &obstacles, ostream &out)
 			// list<infoPath>* SPPAOres = firstSPPAO_update(*l, node1, node2); // SS-DEL
 			// list<infoPath> *SPPAOres = weirdSPPAO(*arcsToAddLists, node1, node2); // SS-ADD1
 			// list<infoPath>* SPPAOres = weirdSPPAO2(*l, *arcsToAddLists, node1, node2); // SS-ADD2
-			list<infoPath> *SPPAOres = SS_ADD(*l, *arcsToAddLists, node1, node2); // SS-ADD*
+			list<infoPath> *SPPAOres = SS_ADD(*l, *arc_list, node1, node2); // SS-ADD*
 
 			elapsed1 = chrono::system_clock::now() - start_pb;
 
@@ -554,7 +562,11 @@ void statSS(string dir, list<int> &obstacles, ostream &out)
 			resetGraph(*l);
 
 			deleteGraph(obsList);
-			delete arcsToAddLists;
+			for (list<simpleArc *>::iterator arc_it = arc_list->begin(); arc_it != arc_list->end(); arc_it++)
+			{
+				free(*arc_it);
+			}
+			delete arc_list;
 		}
 		deleteGraph(l);
 	}

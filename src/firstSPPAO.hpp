@@ -13,7 +13,7 @@
 
 using namespace std;
 
-// SS-ADD
-list<infoPath> *SS_ADD(list<Node *> &graph, list<list<bunchOfArcs>> &arcsToAddLists, Node *s, Node *t);
+// SS-ADD*
+list<infoPath> *SS_ADD(list<Node *> &graph, list<simpleArc *> &arc_list, Node *s, Node *t);
 
 #endif

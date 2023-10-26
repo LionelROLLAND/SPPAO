@@ -32,10 +32,10 @@ void resetTreePred(list<Node *> &graph);
 void revResetGraph(list<Node *> &graph);
 
 // Compare (i, j) according to d_ij
-bool compSimpleArc(const simpleArc &a1, const simpleArc &a2);
+bool compSimpleArc(simpleArc *a1, simpleArc *a2);
 
 // Builds the (A_epsilon_k) sequence
-list<list<bunchOfArcs>> *buildArcsToAdd(list<Node *> &graph);
+list<simpleArc *> *buildArcsToAdd(list<Node *> &graph);
 
 // Generates random graphs (not planar)
 list<Node *> *generalGraph(int n, double density = 1);
