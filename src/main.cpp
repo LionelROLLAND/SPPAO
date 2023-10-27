@@ -247,7 +247,7 @@ void testSPPAO2(int P = 10, int Q = 10, int O = 5, double prop_square = 0.5, dou
 	list<Node *> *obstacles = createObstacles(x_min, y_min, x_max, y_max, max_no + 1, O);
 
 	computeArcD(*l, *obstacles);
-	list<simpleArc *> *arc_list = buildArcsToAdd(*l);
+	vector<simpleArc> *arc_list = buildArcsToAdd(*l);
 
 	// list<logSPPAO2>* history = new list<logSPPAO2>();
 	// list<infoPath>* l_res = secondSPPAO(*l, node1, node2, nullptr, nullptr, nullptr, nullptr, history);
@@ -317,10 +317,6 @@ void testSPPAO2(int P = 10, int Q = 10, int O = 5, double prop_square = 0.5, dou
 
 	// delete pre_res.path;
 	// delete res.path;
-	for (list<simpleArc *>::iterator arc_it = arc_list->begin(); arc_it != arc_list->end(); arc_it++)
-	{
-		free(*arc_it);
-	}
 	delete arc_list;
 	resetGraph(*l);
 	// deleteGraph(obstacles);
@@ -400,7 +396,7 @@ void checkSPPAO()
 
 	list<Node *> *obstacles = createObstacles(x_min, y_min, x_max, y_max, max_no + 1, n_obs);
 	computeArcD(*l, *obstacles);
-	list<simpleArc *> *arc_list = buildArcsToAdd(*l);
+	vector<simpleArc> *arc_list = buildArcsToAdd(*l);
 	// list<infoPath>* res = secondSPPAO(*l, node1, node2);
 
 	list<infoPath> *res = SS_ADD_star(*l, *arc_list, node1, node2);
@@ -436,10 +432,6 @@ void checkSPPAO()
 	}
 	delete res;
 	*/
-	for (list<simpleArc *>::iterator arc_it = arc_list->begin(); arc_it != arc_list->end(); arc_it++)
-	{
-		free(*arc_it);
-	}
 	delete arc_list;
 	deleteGraph(obstacles);
 	deleteGraph(l);
@@ -531,7 +523,7 @@ void statSS(string dir, list<int> &obstacles, ostream &out)
 			list<Node *> *obsList = createObstacles(x_min, y_min, x_max, y_max, max_no + 1, *n_obs);
 			computeArcD(*l, *obsList);
 			arc_list_start = chrono::system_clock::now();
-			list<simpleArc *> *arc_list = buildArcsToAdd(*l); // Needed for SS-ADD
+			vector<simpleArc> *arc_list = buildArcsToAdd(*l); // Needed for SS-ADD
 			arc_list_time = chrono::system_clock::now() - arc_list_start;
 
 			n_labels = 0;
@@ -562,10 +554,6 @@ void statSS(string dir, list<int> &obstacles, ostream &out)
 			resetGraph(*l);
 
 			deleteGraph(obsList);
-			for (list<simpleArc *>::iterator arc_it = arc_list->begin(); arc_it != arc_list->end(); arc_it++)
-			{
-				free(*arc_it);
-			}
 			delete arc_list;
 		}
 		deleteGraph(l);

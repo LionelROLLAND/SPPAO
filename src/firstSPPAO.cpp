@@ -2,7 +2,7 @@
 
 using namespace std;
 
-list<infoPath> *SS_ADD_star(list<Node *> &graph, list<simpleArc *> &arc_list, Node *s, Node *t)
+list<infoPath> *SS_ADD_star(list<Node *> &graph, vector<simpleArc> &arc_list, Node *s, Node *t)
 {
 
     if (logs)
@@ -21,17 +21,18 @@ list<infoPath> *SS_ADD_star(list<Node *> &graph, list<simpleArc *> &arc_list, No
 
     simpleResetGraph(graph);
 
-    list<simpleArc *>::iterator arc_start = arc_list.begin();
+    vector<simpleArc>::iterator arc_it = arc_list.begin();
+    vector<simpleArc>::iterator arc_end = arc_list.end();
 
-    while (arc_start != arc_list.end() && (*arc_start)->arc->arc_d >= d_max)
+    while (arc_it != arc_end && arc_it->d >= d_max)
     {
-        arc_start++;
+        arc_it++;
     }
 
     double minD = -1;
-    if (arc_start != arc_list.end())
+    if (arc_it != arc_end)
     {
-        minD = (*arc_start)->arc->arc_d;
+        minD = arc_it->d;
     }
 
     infoPath optPath = dijkstraOptiC_condD(s, t, minD);
@@ -42,15 +43,15 @@ list<infoPath> *SS_ADD_star(list<Node *> &graph, list<simpleArc *> &arc_list, No
     list<infoPath> *res = new list<infoPath>();
     res->push_front(optPath);
 
-    while (arc_start != arc_list.end() && optC > overallCmin)
+    while (arc_it != arc_end && optC > overallCmin)
     {
-        currD = (*arc_start)->arc->arc_d;
+        currD = arc_it->d;
 
         if (logs)
         {
             cout << "\nweirdSPPAO2 -- labelUpdate, strict_min_d = " << currD << "\n";
         }
-        labelUpdating_add_OptiC_condCstarD(arc_list, arc_start, optC, t);
+        labelUpdating_add_OptiC_condCstarD(arc_it, arc_end, optC, t);
         if (t->c_to_s < optC)
         {
             optPath = makePath(t);

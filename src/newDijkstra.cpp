@@ -164,7 +164,8 @@ infoPath computeCstar_andPathOptiC_noCond(Node *s, Node *t)
 }
 
 void labelUpdating_add_OptiC_condCstarD(
-    list<simpleArc *> &arcsList, list<simpleArc *>::iterator &rev_arc_it,
+    vector<simpleArc>::iterator &rev_arc_it,
+    vector<simpleArc>::iterator &arc_end,
     double strict_max_c,
     Node *t)
 {
@@ -172,16 +173,16 @@ void labelUpdating_add_OptiC_condCstarD(
     Node *destination;
     double newLength;
     bool isImproved = false;
-    double min_d = (*rev_arc_it)->arc->arc_d;
+    double min_d = rev_arc_it->d;
     arcNode *rev_arc;
-    while (rev_arc_it != arcsList.end() && (*rev_arc_it)->arc->arc_d == min_d)
+    while (rev_arc_it != arc_end && rev_arc_it->d == min_d)
     {
-        destination = (*rev_arc_it)->node;
+        destination = rev_arc_it->node;
         isImproved = false;
-        for (; rev_arc_it != arcsList.end() && (*rev_arc_it)->arc->arc_d == min_d && (*rev_arc_it)->node == destination; rev_arc_it++)
+        for (; rev_arc_it != arc_end && rev_arc_it->d == min_d && rev_arc_it->node == destination; rev_arc_it++)
         {
             n_checks++;
-            rev_arc = (*rev_arc_it)->arc;
+            rev_arc = rev_arc_it->arc;
             if (rev_arc->c_to_s() < inf)
             {
                 newLength = rev_arc->c_to_s() + rev_arc->arc_c;
