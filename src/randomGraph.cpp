@@ -687,35 +687,38 @@ void revResetGraph(list<Node *> &graph)
     }
 }
 
-bool compSimpleArc(simpleArc *a1, simpleArc *a2)
+bool compSimpleArc(const simpleArc &a1, const simpleArc &a2)
 {
-    return (
-        a1->arc->arc_d > a2->arc->arc_d ||
-        (a1->arc->arc_d == a2->arc->arc_d && a1->node->no < a2->node->no));
+    return (a1.d > a2.d || (a1.d == a2.d && a1.no < a2.no));
 }
 
-list<simpleArc *> *buildArcsToAdd(list<Node *> &graph)
+vector<simpleArc> *buildArcsToAdd(list<Node *> &graph)
 {
-    list<simpleArc *> *arcs = new list<simpleArc *>();
-    simpleArc *new_s_arc;
-    auto allocation_start = chrono::system_clock::now();
+    auto total_start = chrono::system_clock::now();
+    int n_arcs = nbArcs(graph);
+    // vector<simpleArc *> *arcs = new vector<simpleArc *>(n_arcs);
+    // vector<simpleArc *>::iterator vec_it = arcs->begin();
+    // simpleArc *space_it;
+    vector<simpleArc> *arcs = new vector<simpleArc>(n_arcs);
+    vector<simpleArc>::iterator arc_it = arcs->begin();
     for (list<Node *>::iterator it = graph.begin(); it != graph.end(); it++)
     {
 
-        for (list<arcNode>::iterator child = (*it)->rev_adj.begin(); child != (*it)->rev_adj.end(); child++)
+        for (
+            list<arcNode>::iterator child = (*it)->rev_adj.begin();
+            child != (*it)->rev_adj.end();
+            child++, arc_it++)
         {
-            new_s_arc = (simpleArc *)malloc(sizeof(simpleArc));
-            *new_s_arc = simpleArc({*it, &(*child)});
-            arcs->push_back(new_s_arc);
+            *arc_it = simpleArc({*it, &(*child), child->arc_c, child->arc_d, (*it)->no});
         }
     }
-    chrono::duration<double> allocation_time = chrono::system_clock::now() - allocation_start;
     auto sort_start = chrono::system_clock::now();
-    arcs->sort(compSimpleArc);
+    sort(arcs->begin(), arcs->end(), compSimpleArc);
     chrono::duration<double> sort_time = chrono::system_clock::now() - sort_start;
-    cout << setprecision(3) << "The allocation of the arc list represents "
-         << 100. * allocation_time.count() / (allocation_time.count() + sort_time.count())
-         << " % of the total allocation + sorting time.\n";
+    chrono::duration<double> total_time = chrono::system_clock::now() - total_start;
+    cout << setprecision(3) << "The arc sorting represents "
+         << 100. * sort_time.count() / total_time.count()
+         << " % of the building arcs time.\n";
     return arcs;
 }
 

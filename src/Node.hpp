@@ -119,6 +119,9 @@ struct simpleArc // To store the full info of (i,j) in a single object, not used
 {
     Node *node;
     arcNode *arc;
+    double c;
+    double d;
+    int no;
 };
 
 ostream &operator<<(ostream &out, cNode &cN);

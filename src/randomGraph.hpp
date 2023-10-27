@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <list>
+#include <vector>
 #include <random>
 #include <cmath>
 #include "Node.hpp"
@@ -32,10 +33,10 @@ void resetTreePred(list<Node *> &graph);
 void revResetGraph(list<Node *> &graph);
 
 // Compare (i, j) according to d_ij
-bool compSimpleArc(simpleArc *a1, simpleArc *a2);
+bool compSimpleArc(const simpleArc &a1, const simpleArc &a2);
 
 // Builds the (A_epsilon_k) sequence
-list<simpleArc *> *buildArcsToAdd(list<Node *> &graph);
+vector<simpleArc> *buildArcsToAdd(list<Node *> &graph);
 
 // Generates random graphs (not planar)
 list<Node *> *generalGraph(int n, double density = 1);

@@ -43,8 +43,8 @@ infoPath dijkstraOptiD_noCond(Node *s, Node *t); // Finding path of max distance
 // Updating the labels, adding the arcs in arcsToAddLists, avoiding d_ij <= strict_min_d
 // and c_i + c_ij + c*_j >= strict_max_c
 void labelUpdating_add_OptiC_condD(
-    list<simpleArc *> &arcsList,
-    list<simpleArc *>::iterator &rev_arc_it,
+    vector<simpleArc>::iterator &rev_arc_it,
+    vector<simpleArc>::iterator &arc_end,
     Node *t);
 
 infoPath dijkstraOptiC_condD(Node *s, Node *t, double strict_min_d);
