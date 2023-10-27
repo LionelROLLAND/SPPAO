@@ -522,13 +522,13 @@ void statSS(string dir, list<int> &obstacles, ostream &out)
 
 			list<Node *> *obsList = createObstacles(x_min, y_min, x_max, y_max, max_no + 1, *n_obs);
 			computeArcD(*l, *obsList);
+			start_pb = chrono::system_clock::now();
 			arc_list_start = chrono::system_clock::now();
 			vector<simpleArc> *arc_list = buildArcsToAdd(*l); // Needed for SS-ADD
 			arc_list_time = chrono::system_clock::now() - arc_list_start;
 
 			n_labels = 0;
 			n_checks = 0;
-			start_pb = chrono::system_clock::now();
 
 			// list<infoPath>* SPPAOres = firstSPPAO(*l, node1, node2); // SS-CL or SS-ST
 			// list<infoPath>* SPPAOres = firstSPPAO_update(*l, node1, node2); // SS-DEL
@@ -539,7 +539,7 @@ void statSS(string dir, list<int> &obstacles, ostream &out)
 			elapsed1 = chrono::system_clock::now() - start_pb;
 
 			cout << setprecision(3) << "The creation of the arc list represents "
-				 << 100. * arc_list_time.count() / (arc_list_time.count() + elapsed1.count())
+				 << 100. * arc_list_time.count() / elapsed1.count()
 				 << " % of the total runtime.\n";
 
 			results.push_back(resultSS({n_nodes, n_arcs, *n_obs,
@@ -577,7 +577,7 @@ void testEngine(string dir = "testDB")
 	filesystem::path outfilepath = filesystem::current_path();
 	outfilepath /= "data";
 	outfilepath /= "last_results";
-	outfilepath /= "SS-ADD-STAR_" + dir + ".txt";
+	outfilepath /= "SS-ADD-LB_" + dir + ".txt";
 	filesystem::path indirpath = filesystem::current_path();
 	indirpath /= "data";
 	indirpath /= dir;
