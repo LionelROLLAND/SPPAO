@@ -49,4 +49,6 @@ void labelUpdating_add_OptiC_condD(
 
 infoPath dijkstraOptiC_condD(Node *s, Node *t, double strict_min_d);
 
+double dijkstraOptiC_onlyVal(Node *s, Node *t);
+
 #endif

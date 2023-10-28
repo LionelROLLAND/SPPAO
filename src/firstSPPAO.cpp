@@ -16,6 +16,10 @@ list<infoPath> *SS_ADD(list<Node *> &graph, vector<simpleArc> &arc_list, Node *s
 
     double d_max = maxDpath.d;
 
+    double overall_c_min = dijkstraOptiC_onlyVal(s, t);
+
+    simpleResetGraph(graph);
+
     vector<simpleArc>::iterator arc_it = arc_list.begin();
     vector<simpleArc>::iterator arc_end = arc_list.end();
 
@@ -37,7 +41,7 @@ list<infoPath> *SS_ADD(list<Node *> &graph, vector<simpleArc> &arc_list, Node *s
     list<infoPath> *res = new list<infoPath>();
     res->push_front(optPath);
 
-    while (arc_it != arc_end)
+    while (arc_it != arc_end and optC > overall_c_min)
     {
         currD = arc_it->d;
 

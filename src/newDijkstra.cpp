@@ -261,3 +261,43 @@ infoPath dijkstraOptiC_condD(Node *s, Node *t, double strict_min_d)
     delete heap;
     return makePath(t);
 }
+
+double dijkstraOptiC_onlyVal(Node *s, Node *t)
+{
+    s->c_to_s = 0;
+    fibHeap<Node *> *heap = new fibHeap<Node *>(compC_to_s);
+    s->tree = heap->insert(s);
+    Node *to_relax;
+    double newLength;
+    while (!heap->is_empty())
+    {
+        to_relax = heap->deleteMin();
+        to_relax->tree = nullptr;
+        if (to_relax == t)
+        {
+            break;
+        }
+        for (list<arcNode>::iterator neighb = to_relax->l_adj.begin();
+             neighb != to_relax->l_adj.end(); neighb++)
+        {
+            n_checks++;
+            newLength = to_relax->c_to_s + neighb->arc_c;
+            if (newLength < neighb->c_to_s())
+            {
+                n_labels++;
+                neighb->c_to_s() = newLength;
+                if (neighb->tree() != nullptr)
+                {
+                    heap->decreasedKey(static_cast<markTree<Node *> *>(neighb->tree()));
+                }
+                else
+                {
+                    neighb->tree() = heap->insert(neighb->node);
+                }
+            }
+        }
+    }
+    heapCleanNodeToTreePtrs(heap);
+    delete heap;
+    return t->c_to_s;
+}
