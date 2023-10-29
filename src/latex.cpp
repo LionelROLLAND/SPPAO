@@ -709,8 +709,8 @@ void timeComparison(list<methodSS> &LSS, list<methodBS> &LBS, ostream &out, stri
                 {
                     // out<<"\n($P_{"<<locRes->nb_nodes<<","<<((double) locRes->nb_arcs)/locRes->nb_nodes<<"}$,";
                     out << " (" << res_to_lab<meanResultSS>(*locRes) << ",";
-                    // out<<1000*locRes->T<<")";
-                    out << locRes->T << ")";
+                    out << 1000 * locRes->T << ")";
+                    // out << locRes->T << ")";
                 }
             }
             out << "\n};";
@@ -726,8 +726,8 @@ void timeComparison(list<methodSS> &LSS, list<methodBS> &LBS, ostream &out, stri
                 {
                     // out<<"\n($P_{"<<locRes->nb_nodes<<","<<((double) locRes->nb_arcs)/locRes->nb_nodes<<"}$,";
                     out << " (" << res_to_lab<meanResultSS>(*locRes) << ",";
-                    // out<<1000*(locRes->T-locRes->sdT)<<")";
-                    out << locRes->T - locRes->sdT << ")";
+                    out << 1000 * (locRes->T - locRes->sdT) << ")";
+                    // out << locRes->T - locRes->sdT << ")";
                 }
             }
             out << "\n};";
@@ -742,8 +742,8 @@ void timeComparison(list<methodSS> &LSS, list<methodBS> &LBS, ostream &out, stri
                 {
                     // out<<"\n($P_{"<<locRes->nb_nodes<<","<<((double) locRes->nb_arcs)/locRes->nb_nodes<<"}$,";
                     out << " (" << res_to_lab<meanResultSS>(*locRes) << ",";
-                    // out<<1000*(locRes->T+locRes->sdT)<<")";
-                    out << locRes->T + locRes->sdT << ")";
+                    out << 1000 * (locRes->T + locRes->sdT) << ")";
+                    // out << locRes->T + locRes->sdT << ")";
                 }
             }
             out << "\n};";
@@ -761,8 +761,8 @@ void timeComparison(list<methodSS> &LSS, list<methodBS> &LBS, ostream &out, stri
                 {
                     // out<<"\n($P_{"<<locRes->nb_nodes<<","<<((double) locRes->nb_arcs)/locRes->nb_nodes<<"}$,";
                     out << " (" << res_to_lab<meanResultBS>(*locRes) << ",";
-                    // out<<1000*locRes->T<<")";
-                    out << locRes->T << ")";
+                    out << 1000 * locRes->T << ")";
+                    // out << locRes->T << ")";
                 }
             }
             out << "\n};";
@@ -778,8 +778,8 @@ void timeComparison(list<methodSS> &LSS, list<methodBS> &LBS, ostream &out, stri
                 {
                     // out<<"\n($P_{"<<locRes->nb_nodes<<","<<((double) locRes->nb_arcs)/locRes->nb_nodes<<"}$,";
                     out << " (" << res_to_lab<meanResultBS>(*locRes) << ",";
-                    // out<<1000*(locRes->T-locRes->sdT)<<")";
-                    out << locRes->T - locRes->sdT << ")";
+                    out << 1000 * (locRes->T - locRes->sdT) << ")";
+                    // out << locRes->T - locRes->sdT << ")";
                 }
             }
             out << "\n};";
@@ -794,8 +794,8 @@ void timeComparison(list<methodSS> &LSS, list<methodBS> &LBS, ostream &out, stri
                 {
                     // out<<"\n($P_{"<<locRes->nb_nodes<<","<<((double) locRes->nb_arcs)/locRes->nb_nodes<<"}$,";
                     out << " (" << res_to_lab<meanResultBS>(*locRes) << ",";
-                    // out<<1000*(locRes->T+locRes->sdT)<<")";
-                    out << locRes->T + locRes->sdT << ")";
+                    out << 1000 * (locRes->T + locRes->sdT) << ")";
+                    // out << locRes->T + locRes->sdT << ")";
                 }
             }
             out << "\n};";
@@ -810,7 +810,7 @@ void timeComparison(list<methodSS> &LSS, list<methodBS> &LBS, ostream &out, stri
 
         delete labels;
     }
-    out << "\n\\caption{Run times}";
+    out << "\n\\caption{Run times (ms)}";
     out << " \\label{fig:time-" << pref_Fig << "}";
     out << "\n\\end{figure}\n\n\n";
 
