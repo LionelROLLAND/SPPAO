@@ -29,7 +29,7 @@ string newColor()
 {
     static int n = 0;
     // string colors[] = {"black", "olive", "red", "blue", "green", "cyan", "gray", "violet", "magenta"};
-    static string colors[] = {"black", "green", "olive", "magenta", "blue", "cyan", "red", "violet", "gray"};
+    static string colors[] = {"black", "magenta", "olive", "green", "blue", "cyan", "red", "violet", "gray"};
     return colors[n++];
 }
 
