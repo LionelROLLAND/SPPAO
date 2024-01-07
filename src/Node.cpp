@@ -577,6 +577,38 @@ istream &operator>>(istream &in, list<Node *> &l)
     return in;
 }
 
+void jsonToGraph(istream &in, list<Node *> *l, list<Node *> *obstacles)
+{
+    json data;
+    in >> data;
+    int max_no = -1;
+    int no;
+
+    for (auto &node : data["nodes"])
+    {
+        no = node["no"];
+        if (no < 0)
+            cerr << "Negative no for the nodes are not allowed, got " << no << "." << endl;
+        if (no > max_no)
+            max_no = no;
+        l->push_back(new Node(no, node["x"], node["y"]));
+    }
+    vector<Node *> locations = vector<Node *>(max_no + 1, nullptr);
+    for (list<Node *>::iterator it = l->begin(); it != l->end(); it++)
+        locations[(*it)->no] = *it;
+
+    for (auto &arc : data["arcs"])
+        connect(locations[arc["src"]], locations[arc["dst"]], arc["weight"]);
+
+    for (auto &obs : data["obstacles"])
+    {
+        no = obs["no"];
+        if (no < 0)
+            cerr << "Negative no for the nodes are not allowed, got " << no << "." << endl;
+        obstacles->push_back(new Node(obs["no"], obs["x"], obs["y"]));
+    }
+}
+
 int nbNodes(const list<Node *> &l) { return l.size(); }
 
 int nbArcs(const list<Node *> &l)
