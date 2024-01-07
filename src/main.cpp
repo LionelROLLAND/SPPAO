@@ -448,7 +448,7 @@ struct resultSS
 	long int n_checks;
 };
 
-void statSS(string dir, list<int> &obstacles, ostream &out)
+void statSS(string dir, ostream &out)
 { // Run the tests for any SS method
 	auto start_pb = chrono::system_clock::now();
 	chrono::duration<double> elapsed1;
@@ -459,95 +459,52 @@ void statSS(string dir, list<int> &obstacles, ostream &out)
 		// cout<<"\n"<<infilepath<<endl;
 		ifstream reading(infilepath, ios::in);
 		list<Node *> *l = new list<Node *>();
-		reading >> *l;
+		list<Node *> *obsList = new list<Node *>();
+		jsonToGraph(reading, l, obsList);
+		// reading >> *l;
 		// cout<<"\nAfter reading"<<endl;
 		reading.close();
 		int n_nodes = nbNodes(*l);
 		int n_arcs = nbArcs(*l);
+		int n_obs = nbNodes(*obsList);
 		cout << infilepath << "\n";
 		cout << "Nb nodes : " << n_nodes << "\n";
-		cout << "Nb arcs : " << n_arcs << endl;
+		cout << "Nb arcs : " << n_arcs << "\n";
+		cout << "Nb obstacles : " << n_obs << endl;
 
-		double x_min = l->front()->x;
-		double x_max = l->front()->x;
-		double y_min = l->front()->y;
-		double y_max = l->front()->y;
-		int max_no = l->front()->no;
-		for (list<Node *>::iterator point = l->begin(); point != l->end(); point++)
-		{
-			if ((*point)->x < x_min)
-			{
-				x_min = (*point)->x;
-			}
-			if ((*point)->x > x_max)
-			{
-				x_max = (*point)->x;
-			}
-			if ((*point)->y < y_min)
-			{
-				y_min = (*point)->y;
-			}
-			if ((*point)->y > y_max)
-			{
-				y_max = (*point)->y;
-			}
-			if ((*point)->no > max_no)
-			{
-				max_no = (*point)->no;
-			}
-		}
-		Node *node1 = l->front();
-		Node *node2 = l->front();
+		Node *src = l->front();
+		Node *sink = l->front();
 		for (list<Node *>::iterator it = l->begin(); it != l->end(); it++)
-		{
-			if ((*it)->x + (*it)->y < node1->x + node1->y)
-			{
-				node1 = *it;
-			}
-		}
+			if ((*it)->x + (*it)->y < src->x + src->y)
+				src = *it;
 		for (list<Node *>::iterator it = l->begin(); it != l->end(); it++)
-		{
-			if ((*it)->x + (*it)->y > node2->x + node2->y)
-			{
-				node2 = *it;
-			}
-		}
-		for (list<int>::iterator n_obs = obstacles.begin(); n_obs != obstacles.end(); n_obs++)
-		{
-			cout << "\t" << *n_obs << " obstacles\n";
+			if ((*it)->x + (*it)->y > sink->x + sink->y)
+				sink = *it;
 
-			// cout<<"\nBefore obstacles and arc d"<<endl;
+		computeArcD(*l, *obsList);
+		// list<list<bunchOfArcs>> *arcsToAddLists = buildArcsToAdd(*l); // Needed for SS-ADD1 and SS-ADD2
 
-			list<Node *> *obsList = createObstacles(x_min, y_min, x_max, y_max, max_no + 1, *n_obs);
-			computeArcD(*l, *obsList);
-			// list<list<bunchOfArcs>> *arcsToAddLists = buildArcsToAdd(*l); // Needed for SS-ADD1 and SS-ADD2
+		n_labels = 0;
+		n_checks = 0;
+		start_pb = chrono::system_clock::now();
 
-			n_labels = 0;
-			n_checks = 0;
-			start_pb = chrono::system_clock::now();
+		// list<infoPath>* SPPAOres = firstSPPAO(*l, node1, node2); // SS-CL or SS-ST
+		// list<infoPath>* SPPAOres = firstSPPAO_update(*l, node1, node2); // SS-DEL
+		// list<infoPath> *SPPAOres = weirdSPPAO(*arcsToAddLists, node1, node2); // SS-ADD1
+		// list<infoPath>* SPPAOres = weirdSPPAO2(*l, *arcsToAddLists, node1, node2); // SS-ADD2
+		list<infoPath> *SPPAOres = SS_ST(*l, src, sink); // SS-ADD*
 
-			// list<infoPath>* SPPAOres = firstSPPAO(*l, node1, node2); // SS-CL or SS-ST
-			// list<infoPath>* SPPAOres = firstSPPAO_update(*l, node1, node2); // SS-DEL
-			// list<infoPath> *SPPAOres = weirdSPPAO(*arcsToAddLists, node1, node2); // SS-ADD1
-			// list<infoPath>* SPPAOres = weirdSPPAO2(*l, *arcsToAddLists, node1, node2); // SS-ADD2
-			list<infoPath> *SPPAOres = SS_ST(*l, node1, node2); // SS-ADD*
+		elapsed1 = chrono::system_clock::now() - start_pb;
 
-			elapsed1 = chrono::system_clock::now() - start_pb;
+		results.push_back(resultSS({n_nodes, n_arcs, n_obs,
+									(int)SPPAOres->size(), n_labels, elapsed1.count(), n_checks}));
 
-			results.push_back(resultSS({n_nodes, n_arcs, *n_obs,
-										(int)SPPAOres->size(), n_labels, elapsed1.count(), n_checks}));
-
-			for (list<infoPath>::iterator it = SPPAOres->begin(); it != SPPAOres->end(); it++)
-			{
-				delete it->path;
-			}
-			delete SPPAOres;
-
-			resetGraph(*l);
-
-			deleteGraph(obsList);
-			// delete arcsToAddLists;
-		}
+		for (list<infoPath>::iterator it = SPPAOres->begin(); it != SPPAOres->end(); it++)
+			delete it->path;
+		delete SPPAOres;
+		deleteGraph(obsList);
+		// delete arcsToAddLists;
+		resetGraph(*l);
 		deleteGraph(l);
 	}
 	for (list<resultSS>::iterator it = results.begin(); it != results.end(); it++)
@@ -561,11 +518,6 @@ void statSS(string dir, list<int> &obstacles, ostream &out)
 // Run tests for one method. Some settings (like the name of the resulting file) are hard-coded
 void testEngine(string dir = "testDB")
 {
-	list<int> obstacles = list<int>();
-	obstacles.push_back(5);
-	obstacles.push_back(20);
-	obstacles.push_back(60);
-	obstacles.push_back(100);
 	filesystem::path outfilepath = filesystem::current_path();
 	outfilepath /= "data";
 	outfilepath /= "last_results";
@@ -574,7 +526,7 @@ void testEngine(string dir = "testDB")
 	indirpath /= "data";
 	indirpath /= dir;
 	ofstream fout(outfilepath, ios::out);
-	statSS(indirpath, obstacles, fout);
+	statSS(indirpath, fout);
 	fout.close();
 }
 
