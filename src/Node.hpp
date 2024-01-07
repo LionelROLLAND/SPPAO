@@ -7,6 +7,8 @@
 #include <string>
 #include <functional>
 #include <iomanip>
+#include <nlohmann/json.hpp>
+using json = nlohmann::json;
 // #include "matrix.hpp"
 #include "utils.hpp"
 
@@ -195,7 +197,7 @@ double d(Node *n1, Node *n2, Node *obs);
 void deleteGraph(list<Node *> *l);
 
 // File -> graph
-istream &operator>>(istream &in, list<Node *> &l);
+void jsonToGraph(istream &in, list<Node *> *l, list<Node *> *obstacles);
 
 // Returns n
 int nbNodes(const list<Node *> &l);

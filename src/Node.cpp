@@ -480,92 +480,36 @@ void deleteGraph(list<Node *> *l)
     delete l;
 }
 
-istream &operator>>(istream &in, list<Node *> &l)
+void jsonToGraph(istream &in, list<Node *> *l, list<Node *> *obstacles)
 {
-    string line;
-    string number;
-    Node *newNode;
-    int no1;
-    int no2;
-    double x;
-    double y;
-    double d;
-    int cut;
+    json data;
+    in >> data;
     int max_no = -1;
-    istream &state = getline(in, line);
-    while (state && line.compare("") != 0)
+    int no;
+
+    for (auto &node : data["nodes"])
     {
-        cut = line.find_first_of(" ");
-        number = line.substr(0, cut);
-        line = line.substr(cut + 1);
-        // cout<<number<<endl;
-        no1 = stoi(number);
-
-        if (no1 <= 0)
-        {
-            cerr << "Error : negative no for the nodes are not allowed" << endl;
-            return in;
-        }
-        if (no1 > max_no)
-        {
-            max_no = no1;
-        }
-
-        cut = min(line.find_first_of(" "), line.find_first_of("\n"));
-        number = line.substr(0, cut);
-        line = line.substr(cut + 1);
-        // cout<<number<<endl;
-        x = stod(number);
-
-        cut = min(line.find_first_of(" "), line.find_first_of("\n"));
-        number = line.substr(0, cut);
-        line = line.substr(cut + 1);
-        // cout<<number<<endl;
-        y = stod(number);
-
-        newNode = new Node(no1, x, y);
-        l.push_back(newNode);
-        getline(in, line);
+        no = node["no"];
+        if (no < 0)
+            cerr << "Negative no for the nodes are not allowed, got " << no << "." << endl;
+        if (no > max_no)
+            max_no = no;
+        l->push_back(new Node(no, node["x"], node["y"]));
     }
-    if (l.empty())
-    {
-        return in;
-    }
-
-    // Matrix<double>* adjacency = new Matrix<double>(max_no, max_no, inf);
     vector<Node *> locations = vector<Node *>(max_no + 1, nullptr);
-    for (list<Node *>::iterator it = l.begin(); it != l.end(); it++)
-    {
+    for (list<Node *>::iterator it = l->begin(); it != l->end(); it++)
         locations[(*it)->no] = *it;
-        //(*it)->adj = adjacency;
-    }
-    // cout<<"\n"<<locations<<"\n"<<endl;
 
-    getline(in, line);
-    while (state)
+    for (auto &arc : data["arcs"])
+        connect(locations[arc["src"]], locations[arc["dst"]], arc["weight"]);
+
+    for (auto &obs : data["obstacles"])
     {
-        cut = line.find_first_of(" ");
-        number = line.substr(0, cut);
-        line = line.substr(cut + 1);
-        // cout<<number<<endl;
-        no1 = stoi(number);
-
-        cut = line.find_first_of(" ");
-        number = line.substr(0, cut);
-        line = line.substr(cut + 1);
-        // cout<<number<<endl;
-        no2 = stoi(number);
-
-        cut = line.find_first_of(" ");
-        number = line.substr(0, cut);
-        line = line.substr(cut + 1);
-        // cout<<number<<endl;
-        d = stod(number);
-
-        connect(locations[no1], locations[no2], d);
-        getline(in, line);
+        no = obs["no"];
+        if (no < 0)
+            cerr << "Negative no for the nodes are not allowed, got " << no << "." << endl;
+        obstacles->push_back(new Node(obs["no"], obs["x"], obs["y"]));
     }
-    return in;
 }
 
 int nbNodes(const list<Node *> &l) { return l.size(); }
