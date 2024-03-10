@@ -23,7 +23,7 @@ bool update(Node *n1, list<Breakpoint> &breaks_n1, arcNode &neighb)
         {
             if (n2_break->c >= n1_break->c + c_ij)
             {
-                breaks_n2.erase(++n2_break);
+                breaks_n2.erase(n2_break++);
             }
             else
             {
@@ -34,7 +34,7 @@ bool update(Node *n1, list<Breakpoint> &breaks_n1, arcNode &neighb)
         {
             if (n2_break->c > n1_break->c + c_ij)
             {
-                breaks_n2.erase(++n2_break);
+                breaks_n2.erase(n2_break++);
             }
             else
             {
@@ -68,7 +68,7 @@ bool update(Node *n1, list<Breakpoint> &breaks_n1, arcNode &neighb)
             {
                 if (n2_break->c >= n1_break->c + c_ij)
                 {
-                    breaks_n2.erase(++n2_break);
+                    breaks_n2.erase(n2_break++);
                 }
                 else
                 {
@@ -79,7 +79,7 @@ bool update(Node *n1, list<Breakpoint> &breaks_n1, arcNode &neighb)
             {
                 if (n2_break->c > n1_break->c + c_ij)
                 {
-                    breaks_n2.erase(++n2_break);
+                    breaks_n2.erase(n2_break++);
                 }
                 else
                 {
@@ -116,7 +116,7 @@ void remove_dominated_breaks(list<Breakpoint> &breaks)
 {
     if (breaks.size() >= 2)
     {
-        list<Breakpoint>::iterator head = breaks.begin()++;
+        list<Breakpoint>::iterator head = ++(breaks.begin());
         list<Breakpoint>::iterator tail = breaks.begin();
         while (head != breaks.end())
         {
@@ -124,11 +124,11 @@ void remove_dominated_breaks(list<Breakpoint> &breaks)
             {
                 if (tail != breaks.begin() && tail->c >= head->c)
                 {
-                    breaks.erase(--tail);
+                    breaks.erase(tail--);
                 }
                 else
                 {
-                    breaks.erase(++tail);
+                    breaks.erase(tail++);
                     head++;
                 }
             }
