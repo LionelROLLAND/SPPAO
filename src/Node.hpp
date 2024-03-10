@@ -9,15 +9,15 @@
 #include <iomanip>
 // #include "matrix.hpp"
 #include "utils.hpp"
-#include "tempKeyFibHeap.hpp"
+
+class Node;
 
 struct Breakpoint
 {
     double d;
     double c;
+    Node *pred;
 };
-
-class Node;
 
 class arcNode;
 
@@ -28,6 +28,7 @@ public:
     double x; // coordinates
     double y;
     list<Breakpoint> breakpoints;
+    list<Breakpoint> updating_candidates;
     list<arcNode> l_adj; // list of arcs (i,j) where i is this node
     // Matrix<double>* adj;
     bool marked; // Was used in some algorithms
@@ -37,12 +38,13 @@ public:
     // markTree<Node*>* tree; //corresponding tree in a Fibonacci heap
     list<arcNode> rev_adj; // list of arcs (j,i) where i is this node
     // double c_to_t; // $c*$, cost of the path from i to t
-    Node(int n = 0, double absc = 0., double ord = 0., bool is_s = false,
+    Node(int n = 0, double absc = 0., double ord = 0.,
          list<arcNode> l = list<arcNode>(), bool m = false,
          list<arcNode> rev_l = list<arcNode>()) : no(n),
                                                   x(absc),
                                                   y(ord),
                                                   breakpoints(list<Breakpoint>()),
+                                                  updating_candidates(list<Breakpoint>()),
                                                   l_adj(l),
                                                   marked(m),
                                                   rev_adj(rev_l) {}
@@ -128,6 +130,13 @@ struct bunchOfArcs // Stores j and a set {(i,j) / some i}
 {
     Node *node;
     list<arcNode> rev_adj;
+};
+
+struct infoPath
+{
+    list<Node *> *path;
+    double c;
+    double d;
 };
 
 ostream &operator<<(ostream &out, cNode &cN);

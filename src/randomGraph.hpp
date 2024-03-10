@@ -25,12 +25,6 @@ void computeArcD(list<Node *> &graph, list<Node *> &obstacles);
 // resets the labels and predecessors of the nodes
 void resetGraph(list<Node *> &graph);
 
-void simpleResetGraph(list<Node *> &graph);
-
-void resetTreePred(list<Node *> &graph);
-
-void revResetGraph(list<Node *> &graph);
-
 // Compare (i, j) according to d_ij
 bool compSimpleArc(const simpleArc &a1, const simpleArc &a2);
 

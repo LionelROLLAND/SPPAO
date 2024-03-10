@@ -1,3 +1,4 @@
+#include "utils.hpp"
 #include "randomGraph.hpp"
 #include "matrix.hpp"
 
@@ -54,7 +55,7 @@ list<Node *> *makeGraph(int P, int Q, double prop_square, double prop_merge)
     }
     list<Node *> *nodes = new list<Node *>();
     Matrix<Node *> hex(P, Q, nullptr);
-    Matrix<double> *adjacency = new Matrix<double>(P * Q, P * Q, inf_d());
+    Matrix<double> *adjacency = new Matrix<double>(P * Q, P * Q, inf);
     for (int i = 1; i <= P; i++)
     {
         for (int j = 1; j <= Q; j++)
@@ -625,63 +626,11 @@ void computeArcD(list<Node *> &graph, list<Node *> &obstacles)
 
 void resetGraph(list<Node *> &graph)
 {
-    for (list<Node *>::iterator it = graph.begin(); it != graph.end(); it++)
+    for (Node *node : graph)
     {
-        (*it)->marked = false;
-        (*it)->c_to_s = inf;
-        (*it)->c_to_t = inf;
-        (*it)->d_to_S = 0;
-        if ((*it)->pred != nullptr)
-        {
-            delete (*it)->pred;
-        }
-        (*it)->pred = nullptr;
-        (*it)->tree = nullptr;
-    }
-}
-
-void simpleResetGraph(list<Node *> &graph)
-{
-    for (list<Node *>::iterator it = graph.begin(); it != graph.end(); it++)
-    {
-        (*it)->marked = false;
-        (*it)->c_to_s = inf;
-        (*it)->d_to_S = 0;
-        if ((*it)->pred != nullptr)
-        {
-            delete (*it)->pred;
-        }
-        (*it)->pred = nullptr;
-        (*it)->tree = nullptr;
-    }
-}
-
-void resetTreePred(list<Node *> &graph)
-{
-    for (list<Node *>::iterator it = graph.begin(); it != graph.end(); it++)
-    {
-        if ((*it)->pred != nullptr)
-        {
-            delete (*it)->pred;
-        }
-        (*it)->pred = nullptr;
-        (*it)->tree = nullptr;
-    }
-}
-
-void revResetGraph(list<Node *> &graph)
-{
-    for (list<Node *>::iterator it = graph.begin(); it != graph.end(); it++)
-    {
-        (*it)->marked = false;
-        (*it)->c_to_t = inf;
-        (*it)->d_to_S = 0;
-        if ((*it)->pred != nullptr)
-        {
-            delete (*it)->pred;
-        }
-        (*it)->pred = nullptr;
-        (*it)->tree = nullptr;
+        node->marked = false;
+        node->breakpoints.clear();
+        node->updating_candidates.clear();
     }
 }
 

@@ -1,5 +1,4 @@
 #include "utils.hpp"
 
-
-double inf = inf_d();
-double min_inf = - inf;
+double inf = numeric_limits<double>::infinity();
+double min_inf = -inf;

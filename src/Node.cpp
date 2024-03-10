@@ -73,15 +73,11 @@ Node::Node(const Node &n)
     no = n.no;
     x = n.x;
     y = n.y;
+    breakpoints = n.breakpoints;
+    updating_candidates = n.updating_candidates;
     l_adj = n.l_adj;
-    // adj = n.adj;
     marked = n.marked;
-    c_to_s = n.c_to_s;
-    d_to_S = n.d_to_S;
-    pred = n.pred;
-    tree = n.tree;
     rev_adj = n.rev_adj;
-    c_to_t = n.c_to_t;
 }
 
 Node &Node::operator=(const Node &t)
@@ -89,15 +85,11 @@ Node &Node::operator=(const Node &t)
     no = t.no;
     x = t.x;
     y = t.y;
+    breakpoints = t.breakpoints;
+    updating_candidates = t.updating_candidates;
     l_adj = t.l_adj;
-    // adj = t.adj;
     marked = t.marked;
-    c_to_s = t.c_to_s;
-    d_to_S = t.d_to_S;
-    pred = t.pred;
-    tree = t.tree;
     rev_adj = t.rev_adj;
-    c_to_t = t.c_to_t;
     return *this;
 }
 
@@ -438,9 +430,8 @@ list<Node *> *graphCopy(list<Node *> &l)
     for (list<Node *>::const_iterator node = l.begin(); node != l.end(); node++)
     {
         oNode = *node;
-        // newNode = new Node(no, x, y, l_adj, adj, marked, d, pred, tree, rev_adj, c_to_t);
-        newNode = new Node(oNode->no, oNode->x, oNode->y, list<arcNode>(), /* newAdjacency, */
-                           false, inf, 0, nullptr, nullptr, list<arcNode>(), inf);
+        newNode = new Node(oNode->no, oNode->x, oNode->y, list<arcNode>(),
+                           false, list<arcNode>());
         locations[oNode->no] = newNode;
         res->push_back(newNode);
     }

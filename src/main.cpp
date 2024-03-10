@@ -25,9 +25,7 @@
 
 #include "randomGraph.hpp"
 #include "utils.hpp"
-// #include "test.hpp"
-#include "newDijkstra.hpp"
-#include "firstSPPAO.hpp"
+#include "single_search.hpp"
 
 bool logs;
 int nb_rand_runs = 0;
@@ -251,7 +249,7 @@ void testSPPAO2(int P = 10, int Q = 10, int O = 5, double prop_square = 0.5, dou
 
 	// list<logSPPAO2>* history = new list<logSPPAO2>();
 	// list<infoPath>* l_res = secondSPPAO(*l, node1, node2, nullptr, nullptr, nullptr, nullptr, history);
-	list<infoPath> *l_res = SS_ST(*l, node1, node2);
+	list<infoPath> *l_res = single_search(*l, node1, node2);
 
 	filesystem::path filepath = filesystem::current_path();
 	filepath /= "data";
@@ -288,7 +286,7 @@ void testSPPAO2(int P = 10, int Q = 10, int O = 5, double prop_square = 0.5, dou
 	// list<infoPath>* SPPAOres = weirdSPPAO(*arcsToAddLists, node1, node2);
 	// list<infoPath>* SPPAOres = firstSPPAO(*l, node1, node2);
 	// list<infoPath>* SPPAOres = firstSPPAO_update(*l, node1, node2);
-	list<infoPath> *SPPAOres = SS_ST(*l, node1, node2);
+	list<infoPath> *SPPAOres = single_search(*l, node1, node2);
 
 	filepath = filesystem::current_path();
 	filepath /= "data";
@@ -399,7 +397,7 @@ void checkSPPAO()
 	// list<list<bunchOfArcs>> *arcsToAddLists = buildArcsToAdd(*l);
 	// list<infoPath>* res = secondSPPAO(*l, node1, node2);
 
-	list<infoPath> *res = SS_ST(*l, node1, node2);
+	list<infoPath> *res = single_search(*l, node1, node2);
 	cout << "nb res second : " << res->size() << endl;
 
 	/*
@@ -530,7 +528,7 @@ void statSS(string dir, list<int> &obstacles, ostream &out)
 			// list<infoPath>* SPPAOres = firstSPPAO_update(*l, node1, node2); // SS-DEL
 			// list<infoPath> *SPPAOres = weirdSPPAO(*arcsToAddLists, node1, node2); // SS-ADD1
 			// list<infoPath>* SPPAOres = weirdSPPAO2(*l, *arcsToAddLists, node1, node2); // SS-ADD2
-			list<infoPath> *SPPAOres = SS_ST(*l, node1, node2); // SS-ADD*
+			list<infoPath> *SPPAOres = single_search(*l, node1, node2); // SS-ADD*
 
 			elapsed1 = chrono::system_clock::now() - start_pb;
 
