@@ -154,8 +154,10 @@ list<infoPath> *single_search(list<Node *> &graph, Node *s, Node *t)
     unordered_set<Node *> *updated = new unordered_set<Node *>();
 
     to_process->insert(s);
-    for (size_t i = 0; i < graph.size(); i++)
+    size_t i = 0;
+    while (!(to_process->empty()))
     {
+        i++;
         for (Node *node : *to_process)
         {
             node->updating_candidates.sort(breakpoints_sorting);
@@ -173,6 +175,16 @@ list<infoPath> *single_search(list<Node *> &graph, Node *s, Node *t)
     }
     delete to_process;
     delete updated;
+
+    if (logs)
+    {
+        cout << "\nThe algorithm did " << i << " iterations." << endl;
+    }
+
+    if (i > graph.size())
+    {
+        cerr << "\nMore iterations than nodes in the graph" << endl;
+    }
 
     list<infoPath> *results = new list<infoPath>();
     for (Breakpoint const &t_break : t->breakpoints)
