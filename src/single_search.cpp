@@ -143,6 +143,8 @@ void remove_dominated_breaks(list<Breakpoint> &breaks)
 
 list<infoPath> *single_search(list<Node *> &graph, Node *s, Node *t)
 {
+    n_labels = 1; // Temporary solution to not mess up the plots
+    n_checks = 1; // Temporary solution to not mess up the plots
     if (logs)
     {
         cout << "\n single search begin \n";

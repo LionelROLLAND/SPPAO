@@ -6,6 +6,9 @@
 
 using namespace std;
 
+extern long int n_labels;
+extern long int n_checks;
+
 bool update(Node *n1, list<Breakpoint> &breaks_n1, arcNode &neighb);
 
 bool breakpoints_sorting(const Breakpoint &b1, const Breakpoint &b2);
