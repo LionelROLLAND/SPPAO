@@ -97,6 +97,7 @@ void writeAllComparison(string db)
 	list<filesystem::path> ss_add = list<filesystem::path>();
 	list<filesystem::path> ss_del_star = list<filesystem::path>();
 	list<filesystem::path> ss_add_star = list<filesystem::path>();
+	list<filesystem::path> single_search = list<filesystem::path>();
 
 	filepath = filesystem::current_path() / "data" / "last_results";
 
@@ -110,12 +111,15 @@ void writeAllComparison(string db)
 
 	ss_add_star.push_back(filepath / ("SS-ADD-LB_" + db + ".txt"));
 
+	single_search.push_back(filepath / ("SingleSearch_" + db + ".txt"));
+
 	list<list<filesystem::path>> testsListSS = list<list<filesystem::path>>();
 	testsListSS.push_back(ss_st);
 	testsListSS.push_back(ss_del);
 	testsListSS.push_back(ss_add);
 	testsListSS.push_back(ss_del_star);
 	testsListSS.push_back(ss_add_star);
+	testsListSS.push_back(single_search);
 
 	list<methodSS> *methodListSS = filesToResultSS(testsListSS);
 
