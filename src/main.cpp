@@ -331,7 +331,6 @@ struct param
 void checkSPPAO()
 { // Used to understand unexpected results
 	int retrieving_rand_runs = 60;
-	int n_obs = 5;
 
 	for (int i = 0; i < retrieving_rand_runs; i++)
 	{
